@@ -14,7 +14,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String outputPrefix = null;
         String outputDir = null;
         String finalOutputDir = null;
-        
+        String fileName = null;
+        String o_file;
         
     @Override
     public Map<String, SqwFile> setupFiles() {
@@ -31,6 +32,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 outputDir : outputDir + "/";
 
         finalOutputDir = outputPrefix + outputDir ;
+       
         }
     	
         catch (Exception e)
@@ -52,19 +54,23 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         // registers an output file
         SqwFile file2 = this.createFile("file_out");
-        file2.setSourcePath(finalOutputDir);
-        file2.setType("application/bwa-sai");
+        file2.setSourcePath(o_file);
+        file2.setType("text/sam");
         file2.setIsOutput(true);
         file2.setForceCopy(true);
+        file2.setOutputPath(finalOutputDir);
+       
         
         // if output_file is set in the ini then use it to set the destination of this file
-        if (hasPropertyAndNotNull("output_file")) { file2.setOutputPath(getProperty("output_file")); }
-        return this.getFiles();
+        //if (hasPropertyAndNotNull("output_file")) { file2.setOutputPath(getProperty("output_file")); }
+        //return this.getFiles();
 
       } catch (Exception ex) {
         Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, ex);
         return(null);
       }
+      
+      return this.getFiles();
     }
     
     @Override
@@ -92,10 +98,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
            +(" aligned_1.sai")
            +(" aligned_2.sai")
            + input1_path
-           + input2_path);
+           + input2_path
+           + (" > o_file.sam"));
+        
         job03.addParent(job01);
         job03.addParent(job02);
-    
+        
     }
 
 }
