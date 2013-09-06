@@ -14,9 +14,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String outputPrefix = null;
         String outputDir = null;
         String finalOutputDir = null;
-        String fileName = null;
-        String o_file;
-        
+        //String filename; 
     @Override
     public Map<String, SqwFile> setupFiles() {
         
@@ -54,7 +52,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         // registers an output file
         SqwFile file2 = this.createFile("file_out");
-        file2.setSourcePath(o_file);
+        file2.setSourcePath("file_out.sam");
         file2.setType("text/sam");
         file2.setIsOutput(true);
         file2.setForceCopy(true);
@@ -84,22 +82,22 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         // a simple bash job to call mkdir
 
-	Job job01 = this.getWorkflow().createBashJob("bash_bwa aln");
+	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
 	job01.getCommand().addArgument("bwa aln "+reference_path+(" ") 
 	+this.getFiles().get("file_in_1").getProvisionedPath()+("> aligned_1.sai"));
 
-        Job job02 = this.getWorkflow().createBashJob("bash_bwa aln");
+        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job01.getCommand().addArgument("bwa aln "+ reference_path+(" ") 
         +this.getFiles().get("file_in_2").getProvisionedPath()+("> aligned_2.sai"));
 
         
-        Job job03 = this.getWorkflow().createBashJob("bash_bwa sampe");
+        Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
         job03.setCommand("bwa sampe " + reference_path 
            +(" aligned_1.sai")
-           +(" aligned_2.sai")
-           + input1_path
+           +(" aligned_2.sai ")
+           + input1_path +(" ")
            + input2_path
-           + (" > o_file.sam"));
+           + (" > file_out.sam"));
         
         job03.addParent(job01);
         job03.addParent(job02);
