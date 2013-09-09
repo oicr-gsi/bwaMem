@@ -26,18 +26,15 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         outputPrefix = getProperty("output_prefix");
         outputDir = getProperty("output_dir");
         
-        outputDir = outputDir.lastIndexOf("/") == (outputDir.length() - 1) ? 
-                outputDir : outputDir + "/";
-
-        finalOutputDir = outputPrefix + outputDir ;
-       
+        finalOutputDir = outputPrefix + outputDir + "/" ;
         }
     	
         catch (Exception e)
         {
-                //e.printStackTrace();
+               Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, e);
+               return(null);
         }
-      try {
+      
     	  
         // registers the first input file
         SqwFile file0 = this.createFile("file_in_1");
@@ -52,22 +49,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         // registers an output file
         SqwFile file2 = this.createFile("file_out");
-        file2.setSourcePath("file_out.sam");
-        file2.setType("text/sam");
+        file2.setSourcePath("finalOut.bam");
+        file2.setType("application/bam");
         file2.setIsOutput(true);
         file2.setForceCopy(true);
         file2.setOutputPath(finalOutputDir);
        
-        
-        // if output_file is set in the ini then use it to set the destination of this file
-        //if (hasPropertyAndNotNull("output_file")) { file2.setOutputPath(getProperty("output_file")); }
-        //return this.getFiles();
-
-      } catch (Exception ex) {
-        Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, ex);
-        return(null);
-      }
-      
       return this.getFiles();
     }
     
@@ -102,6 +89,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.addParent(job01);
         job03.addParent(job02);
         
+        Job job04 = this.getWorkflow().createBashJob("sam_job");
+        job04.getCommand().addArgument("samtools view -bS "
+                + "file_out.sam > finalOut.bam");
+        job04.addParent(job03);
     }
 
 }
