@@ -71,12 +71,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
 	job01.getCommand().addArgument("bwa aln "+reference_path+(" ") 
-	+this.getFiles().get("file_in_1").getProvisionedPath()+("> aligned_1.sai"));
+	+this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job02.getCommand().addArgument("bwa aln "+ reference_path+(" ") 
-        +this.getFiles().get("file_in_2").getProvisionedPath()+("> aligned_2.sai"));
+        +this.getFiles().get("file_in_2").getProvisionedPath()+(" > aligned_2.sai"));
         job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
