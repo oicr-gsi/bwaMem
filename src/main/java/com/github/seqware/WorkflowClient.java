@@ -72,11 +72,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
 	job01.getCommand().addArgument("bwa aln "+reference_path+(" ") 
 	+this.getFiles().get("file_in_1").getProvisionedPath()+("> aligned_1.sai"));
+        job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job01.getCommand().addArgument("bwa aln "+ reference_path+(" ") 
         +this.getFiles().get("file_in_2").getProvisionedPath()+("> aligned_2.sai"));
-
+        job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
         job03.setCommand("bwa sampe " + reference_path 
@@ -84,15 +85,18 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
            +(" aligned_2.sai ")
            + input1_path +(" ")
            + input2_path
-           + (" > file_out.sam"));
-        
+           + (" > file_out.sam")); 
         job03.addParent(job01);
         job03.addParent(job02);
-        
+        job03.setMaxMemory("16000");
+        //   bwa sampe /oicr/data/reference/genomes/homo_sapiens_mc/UCSC/hg19_random/Genomic/bwa/0.6.2/hg19_random.fa test2.sai test3.sai /.mounts/labs/PDE/data/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.cleaned.fixed.bam.R1.fastq.gz /.mounts/labs/PDE/data/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.cleaned.fixed.bam.R2.fastq.gz > aln_ne.sam
+
         Job job04 = this.getWorkflow().createBashJob("sam_job");
         job04.getCommand().addArgument("samtools view -bS "
                 + "file_out.sam > finalOut.bam");
         job04.addParent(job03);
+        job04.setMaxMemory("16000");
+        
     }
 
 }
