@@ -14,7 +14,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String outputPrefix = null;
         String outputDir = null;
         String finalOutputDir = null;
-        //String filename; 
+        
+        SqwFile file0;
+        SqwFile file1;
+        SqwFile file2;
+        
     @Override
     public Map<String, SqwFile> setupFiles() {
         
@@ -37,18 +41,18 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
       
     	  
         // registers the first input file
-        SqwFile file0 = this.createFile("file_in_1");
+        file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
         file0.setType("chemical/seq-na-fastq-gzip");
         file0.setIsInput(true);
         // registers the second input file 
-        SqwFile file1 = this.createFile("file_in_2");
+        file1 = this.createFile("file_in_2");
         file1.setSourcePath(input2_path);
         file1.setType("chemical/seq-na-fastq-gzip");
         file1.setIsInput(true);
 
         // registers an output file
-        SqwFile file2 = this.createFile("file_out");
+        file2 = this.createFile("file_out");
         file2.setSourcePath("finalOut.bam");
         file2.setType("application/bam");
         file2.setIsOutput(true);
@@ -60,30 +64,28 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     
     @Override
     public void setupDirectory() {
-        // creates a dir1 directory in the current working directory where the workflow runs
+        // creates the final output 
         this.addDirectory(finalOutputDir);
     }
     
     @Override
     public void buildWorkflow() {
 
-        // a simple bash job to call mkdir
-
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-	job01.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa aln "
+	job01.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa aln "
             +reference_path+(" ") 
             +this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-        job02.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa aln "
+        job02.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa aln "
             + reference_path+(" ") 
             +this.getFiles().get("file_in_2").getProvisionedPath()
             +(" > aligned_2.sai"));
         job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-        job03.setCommand("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa sampe " 
+        job03.setCommand(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa sampe " 
            + reference_path 
            +(" aligned_1.sai")
            +(" aligned_2.sai ")
@@ -95,9 +97,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.setMaxMemory("16000");
 
         Job job04 = this.getWorkflow().createBashJob("samToBam_job");
-        job04.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/samtools-0.1.19/samtools view -bS "
+        job04.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/samtools-0.1.19/samtools view -bS "
                 + "file_out.sam > finalOut.bam");
         job04.addParent(job03);
+        job04.addFile(file2);
         job04.setMaxMemory("16000");
         
     }
