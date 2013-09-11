@@ -72,20 +72,20 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     public void buildWorkflow() {
 
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-	job01.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa aln "
+	job01.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa aln "
             +reference_path+(" ") 
             +this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-        job02.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa aln "
+        job02.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa aln "
             + reference_path+(" ") 
             +this.getFiles().get("file_in_2").getProvisionedPath()
             +(" > aligned_2.sai"));
         job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-        job03.setCommand(this.getWorkflowBaseDir()+"/workflow/bin/bwa-0.6.2/bwa sampe " 
+        job03.setCommand(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa sampe " 
            + reference_path 
            +(" aligned_1.sai")
            +(" aligned_2.sai ")
@@ -97,7 +97,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.setMaxMemory("16000");
 
         Job job04 = this.getWorkflow().createBashJob("samToBam_job");
-        job04.getCommand().addArgument(this.getWorkflowBaseDir()+"/workflow/bin/samtools-0.1.19/samtools view -bS "
+        job04.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/samtools-0.1.19/samtools view -bS "
                 + "file_out.sam > finalOut.bam");
         job04.addParent(job03);
         job04.addFile(file2);
