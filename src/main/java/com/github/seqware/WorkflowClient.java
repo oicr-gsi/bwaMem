@@ -70,17 +70,21 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         // a simple bash job to call mkdir
 
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-	job01.getCommand().addArgument("bwa aln "+reference_path+(" ") 
-	+this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
+	job01.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa aln "
+            +reference_path+(" ") 
+            +this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-        job02.getCommand().addArgument("bwa aln "+ reference_path+(" ") 
-        +this.getFiles().get("file_in_2").getProvisionedPath()+(" > aligned_2.sai"));
+        job02.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa aln "
+            + reference_path+(" ") 
+            +this.getFiles().get("file_in_2").getProvisionedPath()
+            +(" > aligned_2.sai"));
         job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-        job03.setCommand("bwa sampe " + reference_path 
+        job03.setCommand("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/bwa-0.6.2/bwa sampe " 
+           + reference_path 
            +(" aligned_1.sai")
            +(" aligned_2.sai ")
            + input1_path +(" ")
