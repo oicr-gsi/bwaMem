@@ -93,10 +93,9 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
-        //   bwa sampe /oicr/data/reference/genomes/homo_sapiens_mc/UCSC/hg19_random/Genomic/bwa/0.6.2/hg19_random.fa test2.sai test3.sai /.mounts/labs/PDE/data/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.cleaned.fixed.bam.R1.fastq.gz /.mounts/labs/PDE/data/NA12878.chrom20.ILLUMINA.bwa.CEU.low_coverage.20121211.cleaned.fixed.bam.R2.fastq.gz > aln_ne.sam
 
-        Job job04 = this.getWorkflow().createBashJob("sam_job");
-        job04.getCommand().addArgument("samtools view -bS "
+        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
+        job04.getCommand().addArgument("/u/rtahir/seqware-development/flow/workflow-bwa/workflow/bin/samtools-0.1.19/samtools view -bS "
                 + "file_out.sam > finalOut.bam");
         job04.addParent(job03);
         job04.setMaxMemory("16000");
