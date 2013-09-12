@@ -15,6 +15,16 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String outputDir = null;
         String finalOutputDir = null;
         
+        //BWA parameters
+        int readTrimming; //aln
+        int numOfThreads; //aln 
+        int pairingAccuracy; //aln
+        int maxInsertSize; //sampe
+        String readGroup;//sampe
+        String bwa_aln_params;
+        String bwa_sampe_params;
+        String samtools_view_params;
+        
         SqwFile file0;
         SqwFile file1;
         SqwFile file2;
@@ -31,6 +41,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         outputDir = getProperty("output_dir");
         
         finalOutputDir = outputPrefix + outputDir + "/" ;
+
+        
         }
     	
         catch (Exception e)
@@ -38,8 +50,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, e);
                return(null);
         }
-      
-    	  
+
         // registers the first input file
         file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
@@ -73,20 +84,23 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
 	Job job01 = this.getWorkflow().createBashJob("bwa_align1");
 	job01.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa aln "
+            +(this.parameters("aln")==null ? " " :this.parameters("aln"))  
             +reference_path+(" ") 
             +this.getFiles().get("file_in_1").getProvisionedPath()+(" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job02.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa aln "
-            + reference_path+(" ") 
+            +(this.parameters("aln")==null ? " " :this.parameters("aln"))
+            + reference_path+(" ")
             +this.getFiles().get("file_in_2").getProvisionedPath()
             +(" > aligned_2.sai"));
         job02.setMaxMemory("16000");
         
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-        job03.setCommand(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa sampe " 
-           + reference_path 
+        job03.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/bwa-0.6.2/bwa sampe " 
+           +(this.parameters("sampe")==null ? " " :this.parameters("sampe")) 
+           +reference_path 
            +(" aligned_1.sai")
            +(" aligned_2.sai ")
            + input1_path +(" ")
@@ -98,11 +112,88 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         Job job04 = this.getWorkflow().createBashJob("samToBam_job");
         job04.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/samtools-0.1.19/samtools view -bS "
+                +(this.parameters("view")==null ? " " :this.parameters("view")) 
                 + "file_out.sam > finalOut.bam");
         job04.addParent(job03);
         job04.addFile(file2);
         job04.setMaxMemory("16000");
+    }
+        
+     public String parameters(String setup) {
+         
+         String paramCommand = null;
+         StringBuilder a = new StringBuilder();
+
+         try {  
+            if (setup.equals("aln")){
+             
+                if (getProperty("readTrimming")!= null) {
+                   readTrimming = Integer.parseInt(getProperty("readTrimming"));
+                   a.append(" -q ");
+                   a.append(readTrimming);
+                   }
+
+               if (getProperty("numOfThreads")!= null) {
+                   numOfThreads = Integer.parseInt(getProperty("numOfThreads"));
+                   a.append(" -t ");
+                   a.append(numOfThreads);
+                   }
+
+               if (getProperty("pairingAccuracy") != null){
+                   pairingAccuracy = Integer.parseInt(getProperty("pairingAccuracy"));
+                   a.append(" -R ");
+                   a.append(pairingAccuracy);
+                   }
+               if  (getProperty("other_params") != null){
+                   bwa_aln_params = getProperty("bwa_aln_params");
+                   a.append(" ");
+                   a.append(bwa_aln_params);
+                   } 
+
+                paramCommand = a.toString();
+                return paramCommand ;  
+                }
+            
+            if (setup.equals("sampe")){
+            
+               if (getProperty("maxInsertSize") != null){
+                   maxInsertSize = Integer.parseInt(getProperty("maxInsertSize"));
+                   a.append(" -a ");
+                   a.append(maxInsertSize);
+                   }
+               
+               if (getProperty("readGroup") != null){
+                   a.append(" -r ");
+                   a.append(readGroup); 
+               }
+ 
+               if  (getProperty("other_params") != null){
+                   bwa_sampe_params = getProperty("bwa_sampe_params");
+                   a.append(" ");
+                   a.append(bwa_sampe_params);
+                   } 
+                paramCommand = a.toString();
+                return paramCommand ;
+            }
+            
+            if (setup.equals("view")){
+                
+                if  (getProperty("samtools_view_params") != null){
+                   samtools_view_params = getProperty("samtools_view_params");
+                   a.append(" ");
+                   a.append(samtools_view_params);
+                   } 
+                paramCommand = a.toString();
+                return paramCommand ;
+            }
+         }
+         
+         catch (Exception e){
+            }
+            return paramCommand ;
+        }
+        
         
     }
 
-}
+
