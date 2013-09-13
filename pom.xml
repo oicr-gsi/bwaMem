@@ -53,6 +53,11 @@
             <artifactId>seqware-pipeline</artifactId>
             <version>${seqware-version}</version>
         </dependency>
+        <dependency>
+            <groupId>ca.on.oicr.pde</groupId>
+            <artifactId>workflow-utilities</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <repositories>

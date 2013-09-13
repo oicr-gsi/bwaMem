@@ -1,4 +1,5 @@
 package com.github.seqware;
+import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -6,7 +7,7 @@ import net.sourceforge.seqware.pipeline.workflowV2.AbstractWorkflowDataModel;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 
-public class WorkflowClient extends AbstractWorkflowDataModel {
+public class WorkflowClient extends OicrWorkflow {
 
         String input1_path = null;
         String input2_path = null;
@@ -14,6 +15,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String outputPrefix = null;
         String outputDir = null;
         String finalOutputDir = null;
+        String outputFileName = null;
+        boolean setManualpath;
         
         //BWA parameters
         int readTrimming; //aln
@@ -37,11 +40,35 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         input1_path = getProperty("input_file_1");
         input2_path = getProperty("input_file_2");
         reference_path = getProperty("input_reference");
-        outputPrefix = getProperty("output_prefix");
-        outputDir = getProperty("output_dir");
+        
+        
+        
+        if (getProperty("output_prefix") != null){
+            outputPrefix = getProperty("output_prefix");
+        }
+        else {
+            outputPrefix = this.getMetadata_output_file_prefix();
+        }
+        
+        if (getProperty("output_dir") != null){
+            outputDir = getProperty("output_dir");
+        }
+        else {
+            outputDir = 
+                     getMetadata_output_dir() + "/" + this.getName() + "_" 
+                    + this.getVersion() + "/" + this.getRandom();
+        }
         
         finalOutputDir = outputPrefix + outputDir + "/" ;
-
+        
+        if (getProperty("ouputFileName") != null){
+            outputFileName = getProperty("outputFileName");
+        }
+        else {
+            outputFileName = ((input1_path.substring(input1_path.lastIndexOf("/") + 1))
+                            +(input2_path.substring(input2_path.lastIndexOf("/") +1)))
+                            +(".bam");
+        }
         
         }
     	
@@ -54,17 +81,39 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         // registers the first input file
         file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
-        file0.setType("chemical/seq-na-fastq-gzip");
+        String[] filepath = input1_path.split(".");
+            if (filepath.length >=2){
+                for (int i = 0; i < filepath.length; i++){
+                    if (filepath[i].equals("fastq") && filepath[i+1].equals("gz")) {
+                        file0.setType("chemical/seq-na-fastq-gzip");
+                    }
+                    
+                    if (filepath[i].equals("fastq")) {
+                        file0.setType("chemical/seq-na-fastq");
+                    }                 
+                }
+            }
         file0.setIsInput(true);
+
         // registers the second input file 
         file1 = this.createFile("file_in_2");
         file1.setSourcePath(input2_path);
-        file1.setType("chemical/seq-na-fastq-gzip");
+        String[] filepath2 = input2_path.split(".");
+            if (filepath2.length >=2){
+                for (int i = 0; i < filepath2.length; i++){
+                    if (filepath2[i].equals("fastq") && filepath2[i+1].equals("gz")) {
+                        file1.setType("chemical/seq-na-fastq-gzip");
+                    }
+                    if (filepath2[i].equals("fastq")) {
+                        file1.setType("chemical/seq-na-fastq");
+                    }
+                }
+            }
         file1.setIsInput(true);
-
+        
         // registers an output file
         file2 = this.createFile("file_out");
-        file2.setSourcePath("finalOut.bam");
+        file2.setSourcePath(outputFileName);
         file2.setType("application/bam");
         file2.setIsOutput(true);
         file2.setForceCopy(true);
@@ -109,11 +158,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
-
+        
         Job job04 = this.getWorkflow().createBashJob("samToBam_job");
+        
         job04.getCommand().addArgument(this.getWorkflowBaseDir()+"/bin/samtools-0.1.19/samtools view -bS "
                 +(this.parameters("view")==null ? " " :this.parameters("view")) 
-                + "file_out.sam > finalOut.bam");
+                + "file_out.sam > "
+                +outputFileName);
         job04.addParent(job03);
         job04.addFile(file2);
         job04.setMaxMemory("16000");
