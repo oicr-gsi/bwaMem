@@ -40,25 +40,8 @@ public class WorkflowClient extends OicrWorkflow {
         input1_path = getProperty("input_file_1");
         input2_path = getProperty("input_file_2");
         reference_path = getProperty("input_reference");
-        
-        
-        
-        if (getProperty("output_prefix") != null){
-            outputPrefix = getProperty("output_prefix");
-        }
-        else {
-            outputPrefix = this.getMetadata_output_file_prefix();
-        }
-        
-        if (getProperty("output_dir") != null){
-            outputDir = getProperty("output_dir");
-        }
-        else {
-            outputDir = 
-                     getMetadata_output_dir() + "/" + this.getName() + "_" 
-                    + this.getVersion() + "/" + this.getRandom();
-        }
-        
+        outputPrefix = getProperty("output_prefix");
+        outputDir = getProperty("output_dir");        
         finalOutputDir = outputPrefix + outputDir + "/" ;
         
         if (getProperty("ouputFileName") != null){
@@ -110,6 +93,9 @@ public class WorkflowClient extends OicrWorkflow {
                 }
             }
         file1.setIsInput(true);
+        
+        
+        //file2 = createOutputFile(outputFileName, "application/bam", setManualpath);
         
         // registers an output file
         file2 = this.createFile("file_out");
@@ -168,7 +154,7 @@ public class WorkflowClient extends OicrWorkflow {
         job04.addParent(job03);
         job04.addFile(file2);
         job04.setMaxMemory("16000");
-    }
+    }   
         
      public String parameters(String setup) {
          
