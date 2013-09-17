@@ -1,5 +1,4 @@
 package com.github.seqware;
-import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,7 +6,7 @@ import net.sourceforge.seqware.pipeline.workflowV2.AbstractWorkflowDataModel;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 
-public class WorkflowClient extends OicrWorkflow {
+public class WorkflowClient extends AbstractWorkflowDataModel {
 
         String input1_path = null;
         String input2_path = null;
