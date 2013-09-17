@@ -67,7 +67,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 //for (int i = filepath.length; i > filepath.length -1; i--){
                     if (filepath[filepath.length-1].equals("gz") && filepath[filepath.length-2].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq-gzip");
-                    } else if (filepath[filepath.length].equals("fastq")) {
+                    } else if (filepath[filepath.length-1].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
                     } else {
                     System.exit(1);
@@ -84,7 +84,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             if (filepath2.length >=2){
                     if (filepath[filepath.length-1].equals("gz") && filepath[filepath.length-2].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq-gzip");
-                    } else if (filepath[filepath.length].equals("fastq")) {
+                    } else if (filepath[filepath.length-1].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
                     } else {
                     System.exit(1);
