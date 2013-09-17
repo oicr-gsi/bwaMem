@@ -69,10 +69,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         file0.setType("chemical/seq-na-fastq-gzip");
                     } else if (filepath[filepath.length-1].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
-                    } else {
-                    System.exit(1);
-     
-                    }                 
+                    }              
                 }
             
         file0.setIsInput(true);
@@ -86,10 +83,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         file0.setType("chemical/seq-na-fastq-gzip");
                     } else if (filepath[filepath.length-1].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
-                    } else {
-                    System.exit(1);
-     
-                    }              
+                    }          
             }
         file1.setIsInput(true);
 
