@@ -16,7 +16,7 @@ public class WorkflowClient extends OicrWorkflow {
         String outputDir = null;
         String finalOutputDir = null;
         String outputFileName = null;
-        boolean setManualpath;
+        
         
         //BWA parameters
         int readTrimming; //aln
@@ -49,8 +49,8 @@ public class WorkflowClient extends OicrWorkflow {
         }
         else {
             outputFileName = ((input1_path.substring(input1_path.lastIndexOf("/") + 1))
-                            +(input2_path.substring(input2_path.lastIndexOf("/") +1)))
-                            +(".bam");
+                            +(input2_path.substring(input2_path.lastIndexOf("/") +1))
+                            +(".bam"));
         }
         
         }
@@ -66,16 +66,17 @@ public class WorkflowClient extends OicrWorkflow {
         file0.setSourcePath(input1_path);
         String[] filepath = input1_path.split(".");
             if (filepath.length >=2){
-                for (int i = 0; i < filepath.length; i++){
-                    if (filepath[i].equals("fastq") && filepath[i+1].equals("gz")) {
+                //for (int i = filepath.length; i > filepath.length -1; i--){
+                    if (filepath[filepath.length].equals("gz") && filepath[filepath.length-1].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq-gzip");
-                    }
-                    
-                    if (filepath[i].equals("fastq")) {
+                    } else if (filepath[filepath.length].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
+                    } else {
+                    System.exit(1);
+     
                     }                 
                 }
-            }
+            
         file0.setIsInput(true);
 
         // registers the second input file 
@@ -83,18 +84,17 @@ public class WorkflowClient extends OicrWorkflow {
         file1.setSourcePath(input2_path);
         String[] filepath2 = input2_path.split(".");
             if (filepath2.length >=2){
-                for (int i = 0; i < filepath2.length; i++){
-                    if (filepath2[i].equals("fastq") && filepath2[i+1].equals("gz")) {
-                        file1.setType("chemical/seq-na-fastq-gzip");
-                    }
-                    if (filepath2[i].equals("fastq")) {
-                        file1.setType("chemical/seq-na-fastq");
-                    }
-                }
+                    if (filepath[filepath.length].equals("gz") && filepath[filepath.length-1].equals("fastq")) {
+                        file0.setType("chemical/seq-na-fastq-gzip");
+                    } else if (filepath[filepath.length].equals("fastq")) {
+                        file0.setType("chemical/seq-na-fastq");
+                    } else {
+                    System.exit(1);
+     
+                    }              
             }
         file1.setIsInput(true);
-        
-        
+
         //file2 = createOutputFile(outputFileName, "application/bam", setManualpath);
         
         // registers an output file
@@ -181,7 +181,7 @@ public class WorkflowClient extends OicrWorkflow {
                    a.append(" -R ");
                    a.append(pairingAccuracy);
                    }
-               if  (getProperty("other_params") != null){
+               if  (getProperty("bwa_aln_params") != null){
                    bwa_aln_params = getProperty("bwa_aln_params");
                    a.append(" ");
                    a.append(bwa_aln_params);
@@ -204,7 +204,7 @@ public class WorkflowClient extends OicrWorkflow {
                    a.append(readGroup); 
                }
  
-               if  (getProperty("other_params") != null){
+               if  (getProperty("bwa_sampe_params") != null){
                    bwa_sampe_params = getProperty("bwa_sampe_params");
                    a.append(" ");
                    a.append(bwa_sampe_params);
@@ -229,8 +229,7 @@ public class WorkflowClient extends OicrWorkflow {
             }
             return paramCommand ;
         }
-        
-        
+ 
     }
 
 
