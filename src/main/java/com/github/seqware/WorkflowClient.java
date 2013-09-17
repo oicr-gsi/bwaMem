@@ -16,7 +16,6 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String finalOutputDir = null;
         String outputFileName = null;
         
-        
         //BWA parameters
         int readTrimming; //aln
         int numOfThreads; //aln 
@@ -66,7 +65,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         String[] filepath = input1_path.split(".");
             if (filepath.length >=2){
                 //for (int i = filepath.length; i > filepath.length -1; i--){
-                    if (filepath[filepath.length].equals("gz") && filepath[filepath.length-1].equals("fastq")) {
+                    if (filepath[filepath.length-1].equals("gz") && filepath[filepath.length-2].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq-gzip");
                     } else if (filepath[filepath.length].equals("fastq")) {
                         file0.setType("chemical/seq-na-fastq");
