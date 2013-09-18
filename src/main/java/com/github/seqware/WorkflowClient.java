@@ -17,6 +17,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String finalOutputDir = null;
     String outputFileName = null;
     //BWA parameters
+   
     int readTrimming; //aln
     int numOfThreads; //aln 
     int pairingAccuracy; //aln
@@ -118,7 +119,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void setupDirectory() {
         // creates the final output 
-        //this.addDirectory(finalOutputDir);
+        this.addDirectory(finalOutputDir);
     }
 
     @Override
@@ -175,23 +176,27 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                     readTrimming = Integer.parseInt(getProperty("readTrimming"));
                     a.append(" -q ");
                     a.append(readTrimming);
+                    a.append(" ");
                 }
 
                 if (!getProperty("numOfThreads").isEmpty()) {
                     numOfThreads = Integer.parseInt(getProperty("numOfThreads"));
                     a.append(" -t ");
                     a.append(numOfThreads);
+                    a.append(" ");
                 }
 
                 if (!getProperty("pairingAccuracy").isEmpty()) {
                     pairingAccuracy = Integer.parseInt(getProperty("pairingAccuracy"));
                     a.append(" -R ");
                     a.append(pairingAccuracy);
+                    a.append(" ");
                 }
                 if (!getProperty("bwa_aln_params").isEmpty()) {
                     bwa_aln_params = getProperty("bwa_aln_params");
                     a.append(" ");
                     a.append(bwa_aln_params);
+                    a.append(" ");
                 }
                 paramCommand = a.toString();
                 return paramCommand;
@@ -203,17 +208,20 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                     maxInsertSize = Integer.parseInt(getProperty("maxInsertSize"));
                     a.append(" -a ");
                     a.append(maxInsertSize);
+                    a.append(" ");
                 }
 
                 if (!getProperty("readGroup").isEmpty()) {
                     a.append(" -r ");
                     a.append(readGroup);
+                    a.append(" ");
                 }
 
                 if (!getProperty("bwa_sampe_params").isEmpty()) {
                     bwa_sampe_params = getProperty("bwa_sampe_params");
                     a.append(" ");
                     a.append(bwa_sampe_params);
+                    a.append(" ");
                 }
                 paramCommand = a.toString();
                 return paramCommand;
@@ -225,6 +233,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                     samtools_view_params = getProperty("samtools_view_params");
                     a.append(" ");
                     a.append(samtools_view_params);
+                    a.append(" ");
                 }
                 paramCommand = a.toString();
                 return paramCommand;
