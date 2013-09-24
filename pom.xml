@@ -23,6 +23,12 @@
     </properties>
 
     <dependencies>
+	<dependency>
+    	 <groupId>bwa</groupId>
+   	 <artifactId>bwa</artifactId>
+   	 <version>0.6.2</version>
+   	 <type>tar</type>
+	</dependency>
         <dependency>
             <groupId>net.sourceforge.seqware</groupId>
             <artifactId>seqware-bin-linux-x86-64-jre-6.0.29</artifactId>

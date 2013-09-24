@@ -16,8 +16,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String outputDir = null;
     String finalOutputDir = null;
     String outputFileName = null;
+    
+    String read1_adapterTrim = null;
+    String read2_adapterTrim = null;
+    
     //BWA parameters
-   
     int readTrimming; //aln
     int numOfThreads; //aln 
     int pairingAccuracy; //aln
@@ -40,28 +43,25 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             reference_path = getProperty("input_reference");
             outputDir = this.getMetadata_output_dir();
             outputPrefix = this.getMetadata_output_file_prefix();
-            //finalOutputDir = outputPrefix + outputDir + "/";
+            read1_adapterTrim = getProperty("read1_adapterTrim");
+            read2_adapterTrim = getProperty("read2_adapterTrim");
             
             if (!getProperty("manualOutputPath").isEmpty()) {
                 finalOutputDir = outputPrefix
-                                +outputDir
-                                +("/")
-                                +getProperty("manualOutputPath");
+                        + outputDir
+                        + ("/")
+                        + getProperty("manualOutputPath");
+            } else {
+                finalOutputDir = outputPrefix
+                        + outputDir
+                        + ("/")
+                        + this.getName()
+                        + ("_")
+                        + this.getVersion()
+                        + ("/")
+                        + this.getRandom()
+                        + ("/");
             }
-                
-                else {
-                    finalOutputDir = outputPrefix
-                                    +outputDir
-                                    +("/")
-                                    +this.getName()
-                                    +("_")
-                                    +this.getVersion()
-                                    +("/")
-                                    +this.getRandom()
-                                    +("/");
-                     }
-             
-            
             if ((getProperty("outputFileName") != null) && (!getProperty("outputFileName").isEmpty())) {
                 outputFileName = getProperty("outputFileName");
             } else {
@@ -111,7 +111,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         file2.setType("application/bam");
         file2.setIsOutput(true);
         file2.setForceCopy(true);
-        file2.setOutputPath(finalOutputDir+outputFileName);
+        file2.setOutputPath(finalOutputDir + outputFileName);
 
         return this.getFiles();
     }
@@ -124,21 +124,40 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
     @Override
     public void buildWorkflow() {
-
+        
+        Job jobCutadapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+        jobCutadapt1.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/cutadapt-1.2.1/cutadapt " 
+                +("-a ")+read1_adapterTrim+(" ")
+                +this.getFiles().get("file_in_1").getProvisionedPath()
+                +" > "
+                +"adapterTrimmed"+input1_path.substring(input1_path.lastIndexOf("/") + 1));
+        jobCutadapt1.setMaxMemory("16000");
+        
+        Job jobCutadapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+        jobCutadapt2.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/cutadapt-1.2.1/cutadapt " 
+                +("-a ")+read2_adapterTrim+(" ")
+                +this.getFiles().get("file_in_2").getProvisionedPath()
+                +" > "
+                +"adapterTrimmed"+input2_path.substring(input2_path.lastIndexOf("/") + 1));
+        jobCutadapt2.setMaxMemory("16000");
+        
         Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + this.getFiles().get("file_in_1").getProvisionedPath() + (" > aligned_1.sai"));
+                + "adapterTrimmed"+input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
+        job01.addParent(jobCutadapt1);
 
         Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + this.getFiles().get("file_in_2").getProvisionedPath()
+                + "adapterTrimmed"+input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 + (" > aligned_2.sai"));
         job02.setMaxMemory("16000");
+        job02.addParent(jobCutadapt2);
 
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
         job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe "
@@ -146,8 +165,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + reference_path
                 + (" aligned_1.sai")
                 + (" aligned_2.sai ")
-                + input1_path + (" ")
-                + input2_path
+                + "adapterTrimmed"+input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
+                + "adapterTrimmed"+input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 + (" > file_out.sam"));
         job03.addParent(job01);
         job03.addParent(job02);
