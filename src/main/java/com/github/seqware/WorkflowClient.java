@@ -134,9 +134,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
             Job job01 = this.getWorkflow().createBashJob("cutadapt_1");
-            job01.getCommand().addArgument(this.getWorkflowBaseDir() 
-                    +"./bin/Python-2.7.5/python "
-                    +"/bin/cutadapt-1.2.1/cutadapt "
+            job01.getCommand().addArgument(
+                    ("./")
+                    +this.getWorkflowBaseDir() 
+                    +"/bin/Python-2.7.5/python "
+                    +this.getWorkflowBaseDir() 
+                    +"/bin/cutadapt-1.2.1/bin/cutadapt "
                     + ("-a ") + read1_adapterTrim + (" ")
                     + this.getFiles().get("file_in_1").getProvisionedPath()
                     + " > "
@@ -144,7 +147,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             job01.setMaxMemory("16000");
 
             Job job02 = this.getWorkflow().createBashJob("cutadapt_2");
-            job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/cutadapt-1.2.1/cutadapt "
+            job02.getCommand().addArgument(
+                     ("./")
+                    +this.getWorkflowBaseDir() 
+                    +"/bin/Python-2.7.5/python "
+                    +this.getWorkflowBaseDir() 
+                    +"/bin/cutadapt-1.2.1/bin/cutadapt "
                     + ("-a ") + read2_adapterTrim + (" ")
                     + this.getFiles().get("file_in_2").getProvisionedPath()
                     + " > "
