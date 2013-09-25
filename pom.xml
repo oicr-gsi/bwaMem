@@ -34,6 +34,13 @@
     		<groupId>Python</groupId>
     		<artifactId>Python</artifactId>
     		<version>2.7.5</version>
+    		<classifier>compiled</classifier>
+    		<type>tar.gz</type>
+	</dependency>
+	<dependency>
+    		<groupId>bwa</groupId>
+    		<artifactId>bwa</artifactId>
+    		<version>0.6.2</version>
     		<classifier>artifactory</classifier>
     		<type>tar.gz</type>
 	</dependency>
