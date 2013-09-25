@@ -19,6 +19,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String adapter_Trimming_activated = null;
     String read1_adapterTrim = null;
     String read2_adapterTrim = null;
+    
+    String trimmedFile_1;
+    String trimmedFile_2;
+    
     //BWA parameters
     int readTrimming; //aln
     int numOfThreads; //aln 
@@ -44,13 +48,15 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             outputPrefix = this.getMetadata_output_file_prefix();
 
             adapter_Trimming_activated = getProperty("adapter_Trimming_activated");
+            
+            
 
             if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
                 read1_adapterTrim = getProperty("read1_adapterTrim");
                 read2_adapterTrim = getProperty("read2_adapterTrim");
             }
 
-
+            
 
 
             if (!getProperty("manualOutputPath").isEmpty()) {
@@ -133,55 +139,54 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     public void buildWorkflow() {
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
-            Job job01 = this.getWorkflow().createBashJob("cutadapt_1");
-            job01.getCommand().addArgument(
+            Job jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+            jobCutAdapt1.getCommand().addArgument(
                     ("./")
                     +this.getWorkflowBaseDir() 
                     +"/bin/Python-2.7.5/python "
                     +this.getWorkflowBaseDir() 
                     +"/bin/cutadapt-1.2.1/bin/cutadapt "
                     + ("-a ") + read1_adapterTrim + (" ")
-                    + this.getFiles().get("file_in_1").getProvisionedPath()
-                    + " > "
-                    + "adapterTrimmed" + input1_path.substring(input1_path.lastIndexOf("/") + 1));
-            job01.setMaxMemory("16000");
+                    +((file0.getType().equals("chemical/seq-na-fastq-gzip")) ? 
+                        (" -o ")
+                        +input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                        +(" ")
+                        + this.getFiles().get("file_in_1").getProvisionedPath()
+                            :this.getFiles().get("file_in_1").getProvisionedPath()
+                            + " > "
+                            + input1_path.substring(input1_path.lastIndexOf("/") + 1)));      
+                    
+                    
+                    
+            jobCutAdapt1.setMaxMemory("16000");
 
-            Job job02 = this.getWorkflow().createBashJob("cutadapt_2");
-            job02.getCommand().addArgument(
+            Job jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+            jobCutAdapt2.getCommand().addArgument(
                      ("./")
                     +this.getWorkflowBaseDir() 
                     +"/bin/Python-2.7.5/python "
                     +this.getWorkflowBaseDir() 
                     +"/bin/cutadapt-1.2.1/bin/cutadapt "
                     + ("-a ") + read2_adapterTrim + (" ")
-                    + this.getFiles().get("file_in_2").getProvisionedPath()
-                    + " > "
-                    + "adapterTrimmed" + input2_path.substring(input2_path.lastIndexOf("/") + 1));
-            job02.setMaxMemory("16000");
+                    +((file1.getType().equals("chemical/seq-na-fastq-gzip")) ? 
+                        (" -o ")
+                        +input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                        +(" ")
+                        + this.getFiles().get("file_in_2").getProvisionedPath()
+                            :this.getFiles().get("file_in_2").getProvisionedPath()
+                            + " > "
+                            + input2_path.substring(input2_path.lastIndexOf("/") + 1)));
+            jobCutAdapt2.setMaxMemory("16000");
 
-        } else {
-
-            Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-            job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                    + (this.parameters("aln") == null ? " " : this.parameters("aln"))
-                    + reference_path + (" ")
-                    + this.getFiles().get("file_in_1").getProvisionedPath() + (" > aligned_1.sai"));
-            job01.setMaxMemory("16000");
-            Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-            job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                    + (this.parameters("aln") == null ? " " : this.parameters("aln"))
-                    + reference_path + (" ")
-                    + this.getFiles().get("file_in_2").getProvisionedPath()
-                    + (" > aligned_2.sai"));
-            job02.setMaxMemory("16000");
-
-        }
+        } 
 
         Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + "adapterTrimmed" + input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes")) ? 
+                input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                :  this.getFiles().get("file_in_1").getProvisionedPath())
                 + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
 
@@ -190,7 +195,9 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + "adapterTrimmed" + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes")) ? 
+                input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                :  this.getFiles().get("file_in_2").getProvisionedPath())
                 + (" > aligned_2.sai"));
         job02.setMaxMemory("16000");
 
@@ -201,8 +208,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + reference_path
                 + (" aligned_1.sai")
                 + (" aligned_2.sai ")
-                + "adapterTrimmed" + input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
-                + "adapterTrimmed" + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes")) ?
+                 input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
+                +input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                :input1_path + (" ") + input2_path)
                 + (" > file_out.sam"));
         job03.addParent(job01);
         job03.addParent(job02);
