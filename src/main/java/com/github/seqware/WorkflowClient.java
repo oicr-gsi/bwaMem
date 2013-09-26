@@ -137,6 +137,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
         
+        try{
+        
         Job jobCutAdapt1 ;
         Job jobCutAdapt2;
         
@@ -185,7 +187,6 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             job02.addParent(jobCutAdapt2);
 
         } 
-
        // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
@@ -231,6 +232,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job04.addParent(job03);
         job04.addFile(file2);
         job04.setMaxMemory("16000");
+        }
+        
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String parameters(final String setup) {
