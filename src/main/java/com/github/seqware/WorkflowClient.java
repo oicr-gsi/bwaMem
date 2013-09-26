@@ -88,28 +88,33 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         // registers the first input file
         file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
-        String[] filepath = input1_path.split(".");
-        if (filepath.length >= 2) {
-            //for (int i = filepath.length; i > filepath.length -1; i--){
-            if (filepath[filepath.length - 1].equals("gz") && filepath[filepath.length - 2].equals("fastq")) {
-                file0.setType("chemical/seq-na-fastq-gzip");
-            } else if (filepath[filepath.length - 1].equals("fastq")) {
-                file0.setType("chemical/seq-na-fastq");
-            }
+        //String[] filepath = input1_path.split(".");
+        int dotposition = input1_path.lastIndexOf(".");
+        String fileType = input1_path.substring(dotposition);
+        if ("gz".equals(fileType)) {file0.setType("chemical/seq-na-fastq-gzip"); } 
+        else if ("fastq".equals(fileType)){file0.setType("chemical/seq-na-fastq");
         }
+        
+//        
+//        if (filepath.length >= 2) {
+//            //for (int i = filepath.length; i > filepath.length -1; i--){
+//            if (filepath[filepath.length - 1].equals("gz") && filepath[filepath.length - 2].equals("fastq")) {
+//                file0.setType("chemical/seq-na-fastq-gzip");
+//            } else if (filepath[filepath.length - 1].equals("fastq")) {
+//                file0.setType("chemical/seq-na-fastq");
+//            }
+//        }
 
         file0.setIsInput(true);
 
         // registers the second input file 
         file1 = this.createFile("file_in_2");
         file1.setSourcePath(input2_path);
-        String[] filepath2 = input2_path.split(".");
-        if (filepath2.length >= 2) {
-            if (filepath[filepath.length - 1].equals("gz") && filepath[filepath.length - 2].equals("fastq")) {
-                file0.setType("chemical/seq-na-fastq-gzip");
-            } else if (filepath[filepath.length - 1].equals("fastq")) {
-                file0.setType("chemical/seq-na-fastq");
-            }
+        //String[] filepath = input1_path.split(".");
+        int dotposition2 = input2_path.lastIndexOf(".");
+        String fileType2 = input2_path.substring(dotposition2);
+        if ("gz".equals(fileType2)) {file0.setType("chemical/seq-na-fastq-gzip"); } 
+        else if ("fastq".equals(fileType2)){file0.setType("chemical/seq-na-fastq");
         }
         file1.setIsInput(true);
 
@@ -130,6 +135,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     public void setupDirectory() {
         // creates the final output 
         this.addDirectory(finalOutputDir);
+        
     }
 
     @Override
@@ -169,15 +175,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                     jobCutAdapt1.setMaxMemory("16000");
                     job01.addParent(jobCutAdapt1);
 
-
-
                     jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-                    jobCutAdapt1.getCommand().addArgument(
+                    jobCutAdapt2.getCommand().addArgument(
                         this.getWorkflowBaseDir()
                         + "/bin/Python-2.7.5/python "
                         + this.getWorkflowBaseDir()
                         + "/bin/cutadapt-1.2.1/bin/cutadapt ");
-                jobCutAdapt1.getCommand().addArgument(
+                jobCutAdapt2.getCommand().addArgument(
                         ("-a ") + read1_adapterTrim + (" "));
                 if (file1.getType().equals("chemical/seq-na-fastq-gzip")) {
                     jobCutAdapt1.getCommand().addArgument(
