@@ -89,10 +89,16 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
         //String[] filepath = input1_path.split(".");
-        int dotposition = input1_path.lastIndexOf(".");
+        int dotposition = input1_path.lastIndexOf(".")+1;
         String fileType = input1_path.substring(dotposition);
         if ("gz".equals(fileType)) {file0.setType("chemical/seq-na-fastq-gzip"); } 
         else if ("fastq".equals(fileType)){file0.setType("chemical/seq-na-fastq");
+        }
+        else {
+            System.out.println(fileType);
+            System.exit(1);
+            
+                    
         }
         
 //        
