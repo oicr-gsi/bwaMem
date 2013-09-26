@@ -137,11 +137,14 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
         
-        Job jobCutAdapt1;
+        Job jobCutAdapt1 ;
         Job jobCutAdapt2;
         
+        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
+   
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {  
-            
+    
             jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
             jobCutAdapt1.getCommand().addArgument(
                     this.getWorkflowBaseDir()
@@ -157,7 +160,9 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                             :this.getFiles().get("file_in_1").getProvisionedPath()
                             + " > "
                             + input1_path.substring(input1_path.lastIndexOf("/") + 1)));     
+            
             jobCutAdapt1.setMaxMemory("16000");
+            job01.addParent(jobCutAdapt1);
             
                     
 
@@ -177,10 +182,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                             + " > "
                             + input2_path.substring(input2_path.lastIndexOf("/") + 1)));
             jobCutAdapt2.setMaxMemory("16000");
+            job02.addParent(jobCutAdapt2);
 
         } 
 
-        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+       // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
@@ -189,10 +195,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 :  this.getFiles().get("file_in_1").getProvisionedPath())
                 + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
+        //if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
         
-
-
-        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
