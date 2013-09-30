@@ -53,9 +53,6 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 read2_adapterTrim = getProperty("read2_adapterTrim");
             }
 
-
-
-
             if (!getProperty("manualOutputPath").isEmpty()) {
                 finalOutputDir = outputPrefix
                         + outputDir
@@ -82,25 +79,25 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         } catch (Exception e) {
             Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, e);
-            return (null);
+            System.exit(1);
         }
 
         // registers the first input file
         file0 = this.createFile("file_in_1");
         file0.setSourcePath(input1_path);
         //String[] filepath = input1_path.split(".");
-        int dotposition = input1_path.lastIndexOf(".")+1;
+        int dotposition = input1_path.lastIndexOf(".") + 1;
         String fileType = input1_path.substring(dotposition);
-        if ("gz".equals(fileType)) {file0.setType("chemical/seq-na-fastq-gzip"); } 
-        else if ("fastq".equals(fileType)){file0.setType("chemical/seq-na-fastq");
-        }
-        else {
+        if ("gz".equals(fileType)) {
+            file0.setType("chemical/seq-na-fastq-gzip");
+        } else if ("fastq".equals(fileType)) {
+            file0.setType("chemical/seq-na-fastq");
+        } else {
             System.out.println(fileType);
             System.exit(1);
-            
-                    
+
         }
-        
+
 //        
 //        if (filepath.length >= 2) {
 //            //for (int i = filepath.length; i > filepath.length -1; i--){
@@ -117,10 +114,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         file1 = this.createFile("file_in_2");
         file1.setSourcePath(input2_path);
         //String[] filepath = input1_path.split(".");
-        int dotposition2 = input2_path.lastIndexOf(".");
+        int dotposition2 = input2_path.lastIndexOf(".") + 1;
         String fileType2 = input2_path.substring(dotposition2);
-        if ("gz".equals(fileType2)) {file0.setType("chemical/seq-na-fastq-gzip"); } 
-        else if ("fastq".equals(fileType2)){file0.setType("chemical/seq-na-fastq");
+        if ("gz".equals(fileType2)) {
+            file1.setType("chemical/seq-na-fastq-gzip");
+        } else if ("fastq".equals(fileType2)) {
+            file1.setType("chemical/seq-na-fastq");
         }
         file1.setIsInput(true);
 
@@ -141,121 +140,118 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     public void setupDirectory() {
         // creates the final output 
         this.addDirectory(finalOutputDir);
-        
     }
 
     @Override
     public void buildWorkflow() {
 
-        try {
+        Job jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+        jobCutAdapt1.getCommand().addArgument(" ");
+  
+        Job jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+        jobCutAdapt2.getCommand().addArgument(" ");
 
-            Job jobCutAdapt1;
-            Job jobCutAdapt2;
+        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
 
-            Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-            Job job02 = this.getWorkflow().createBashJob("bwa_align2");
+        if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
 
-            if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
-
-                jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+            //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+            jobCutAdapt1.getCommand().addArgument(
+                    this.getWorkflowBaseDir()
+                    + "/bin/Python-2.7.5/python "
+                    + this.getWorkflowBaseDir()
+                    + "/bin/cutadapt-1.2.1/bin/cutadapt ");
+            jobCutAdapt1.getCommand().addArgument(
+                    ("-a ") + read1_adapterTrim + (" "));
+            if (file0.getType().equals("chemical/seq-na-fastq-gzip")) {
                 jobCutAdapt1.getCommand().addArgument(
-                        this.getWorkflowBaseDir()
-                        + "/bin/Python-2.7.5/python "
-                        + this.getWorkflowBaseDir()
-                        + "/bin/cutadapt-1.2.1/bin/cutadapt ");
+                        (" -o ")
+                        + input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                        + (" ")
+                        + this.getFiles().get("file_in_1").getProvisionedPath());
+            } else {
                 jobCutAdapt1.getCommand().addArgument(
-                        ("-a ") + read1_adapterTrim + (" "));
-                if (file0.getType().equals("chemical/seq-na-fastq-gzip")) {
-                    jobCutAdapt1.getCommand().addArgument(
-                            (" -o ")
-                            + input1_path.substring(input1_path.lastIndexOf("/") + 1)
-                            + (" ")
-                            + this.getFiles().get("file_in_1").getProvisionedPath());
-                } else {
-                    jobCutAdapt1.getCommand().addArgument(
-                            this.getFiles().get("file_in_1").getProvisionedPath()
-                            + " > "
-                            + input1_path.substring(input1_path.lastIndexOf("/") + 1));
-                }
-
-                    jobCutAdapt1.setMaxMemory("16000");
-                    job01.addParent(jobCutAdapt1);
-
-                    jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-                    jobCutAdapt2.getCommand().addArgument(
-                        this.getWorkflowBaseDir()
-                        + "/bin/Python-2.7.5/python "
-                        + this.getWorkflowBaseDir()
-                        + "/bin/cutadapt-1.2.1/bin/cutadapt ");
-                jobCutAdapt2.getCommand().addArgument(
-                        ("-a ") + read1_adapterTrim + (" "));
-                if (file1.getType().equals("chemical/seq-na-fastq-gzip")) {
-                    jobCutAdapt1.getCommand().addArgument(
-                            (" -o ")
-                            + input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                            + (" ")
-                            + this.getFiles().get("file_in_2").getProvisionedPath());
-                } else {
-                    jobCutAdapt1.getCommand().addArgument(
-                            this.getFiles().get("file_in_2").getProvisionedPath()
-                            + " > "
-                            + input2_path.substring(input2_path.lastIndexOf("/") + 1));
-                }
-
-                    jobCutAdapt1.setMaxMemory("16000");
-                    job02.addParent(jobCutAdapt1);
-
-                }
-                // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-                job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                        + (this.parameters("aln") == null ? " " : this.parameters("aln"))
-                        + reference_path + (" ")
-                        + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                        ? input1_path.substring(input1_path.lastIndexOf("/") + 1)
-                        : this.getFiles().get("file_in_1").getProvisionedPath())
-                        + (" > aligned_1.sai"));
-                job01.setMaxMemory("16000");
-                //if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
-
-                job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                        + (this.parameters("aln") == null ? " " : this.parameters("aln"))
-                        + reference_path + (" ")
-                        + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                        ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                        : this.getFiles().get("file_in_2").getProvisionedPath())
-                        + (" > aligned_2.sai"));
-                job02.setMaxMemory("16000");
-
-
-                Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-                job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe "
-                        + (this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
-                        + reference_path
-                        + (" aligned_1.sai")
-                        + (" aligned_2.sai ")
-                        + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                        ? input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
-                        + input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                        : input1_path + (" ") + input2_path)
-                        + (" > file_out.sam"));
-                job03.addParent(job01);
-                job03.addParent(job02);
-                job03.setMaxMemory("16000");
-
-                Job job04 = this.getWorkflow().createBashJob("samToBam_job");
-
-                job04.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/samtools-0.1.19/samtools view -bS "
-                        + (this.parameters("view") == null ? " " : this.parameters("view"))
-                        + "file_out.sam > "
-                        + outputFileName);
-                job04.addParent(job03);
-                job04.addFile(file2);
-                job04.setMaxMemory("16000");
+                        this.getFiles().get("file_in_1").getProvisionedPath()
+                        + " > "
+                        + input1_path.substring(input1_path.lastIndexOf("/") + 1));
             }
-        
-         catch (Exception e) {
-            e.printStackTrace();
+
+            jobCutAdapt1.setMaxMemory("16000");
+            job01.addParent(jobCutAdapt1);
+
+            //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+            jobCutAdapt2.getCommand().addArgument(
+                    this.getWorkflowBaseDir()
+                    + "/bin/Python-2.7.5/python "
+                    + this.getWorkflowBaseDir()
+                    + "/bin/cutadapt-1.2.1/bin/cutadapt ");
+            jobCutAdapt2.getCommand().addArgument(
+                    ("-a ") + read1_adapterTrim + (" "));
+            if (file1.getType().equals("chemical/seq-na-fastq-gzip")) {
+                jobCutAdapt2.getCommand().addArgument(
+                        (" -o ")
+                        + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                        + (" ")
+                        + this.getFiles().get("file_in_2").getProvisionedPath());
+            } else {
+                jobCutAdapt2.getCommand().addArgument(
+                        this.getFiles().get("file_in_2").getProvisionedPath()
+                        + " > "
+                        + input2_path.substring(input2_path.lastIndexOf("/") + 1));
+            }
+
+            jobCutAdapt2.setMaxMemory("16000");
+            job02.addParent(jobCutAdapt2);
+
+
         }
+        // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+        job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
+                + (this.parameters("aln") == null ? " " : this.parameters("aln"))
+                + reference_path + (" ")
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
+                ? input1_path.substring(input1_path.lastIndexOf("/") + 1)
+                : this.getFiles().get("file_in_1").getProvisionedPath())
+                + (" > aligned_1.sai"));
+        job01.setMaxMemory("16000");
+        //if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
+
+        job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
+                + (this.parameters("aln") == null ? " " : this.parameters("aln"))
+                + reference_path + (" ")
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
+                ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                : this.getFiles().get("file_in_2").getProvisionedPath())
+                + (" > aligned_2.sai"));
+        job02.setMaxMemory("16000");
+
+
+        Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
+        job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe "
+                + (this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
+                + reference_path
+                + (" aligned_1.sai")
+                + (" aligned_2.sai ")
+                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
+                ? input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
+                + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                : input1_path + (" ") + input2_path)
+                + (" > file_out.sam"));
+        job03.addParent(job01);
+        job03.addParent(job02);
+        job03.setMaxMemory("16000");
+
+        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
+
+        job04.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/samtools-0.1.19/samtools view -bS "
+                + (this.parameters("view") == null ? " " : this.parameters("view"))
+                + "file_out.sam > "
+                + outputFileName);
+        job04.addParent(job03);
+        job04.addFile(file2);
+        job04.setMaxMemory("16000");
+
     }
 
     public String parameters(final String setup) {
