@@ -174,13 +174,15 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1)
                         + (" ")
                         + this.getFiles().get("file_in_1").getProvisionedPath());
+                        job01.addParent(jobCutAdapt1);
             } else {
                 jobCutAdapt1.getCommand().addArgument(
                         this.getFiles().get("file_in_1").getProvisionedPath()
                         + " > "
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1));
+                        job01.addParent(jobCutAdapt1);
             }
-            job01.addParent(jobCutAdapt1);
+            
 
             
             
@@ -199,15 +201,17 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                         + (" ")
                         + this.getFiles().get("file_in_2").getProvisionedPath());
+                 job02.addParent(jobCutAdapt2);
             } else {
                 jobCutAdapt2.getCommand().addArgument(
                         this.getFiles().get("file_in_2").getProvisionedPath()
                         + " > "
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1));
+                 job02.addParent(jobCutAdapt2);
             }
             
 
-            job02.addParent(jobCutAdapt2);
+            
             
 
 
