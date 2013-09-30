@@ -178,7 +178,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             }
 
             jobCutAdapt1.setMaxMemory("16000");
-            job01.addParent(jobCutAdapt1);
+            
 
             //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.getCommand().addArgument(
@@ -202,7 +202,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             }
 
             jobCutAdapt2.setMaxMemory("16000");
-            job02.addParent(jobCutAdapt2);
+            
 
 
         }
@@ -215,6 +215,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 : this.getFiles().get("file_in_1").getProvisionedPath())
                 + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
+        job01.addParent(jobCutAdapt1);
         //if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
 
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
@@ -225,6 +226,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 : this.getFiles().get("file_in_2").getProvisionedPath())
                 + (" > aligned_2.sai"));
         job02.setMaxMemory("16000");
+        job02.addParent(jobCutAdapt2);
 
 
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");

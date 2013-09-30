@@ -27,24 +27,28 @@
     		<groupId>cutadapt</groupId>
     		<artifactId>cutadapt</artifactId>
     		<version>1.2.1</version>
-    		<classifier>artifactory</classifier>
+    		<classifier>compiled</classifier>
     		<type>tar.gz</type>
 	</dependency>
 	<dependency>
-    		<groupId>Python</groupId>
-    		<artifactId>Python</artifactId>
-    		<version>2.7.5</version>
-    		<classifier>compiled</classifier>
-    		<type>tar.gz</type>
+    		<groupId>Python-artifactory.tar</groupId>
+    		<artifactId>Python-artifactory.tar</artifactId>
+    		<version>Python-artifactory.tar</version>
+    		<type>gz</type>
 	</dependency>
 	<dependency>
     		<groupId>bwa</groupId>
     		<artifactId>bwa</artifactId>
     		<version>0.6.2</version>
-    		<classifier>artifactory</classifier>
+    		<classifier>compiled</classifier>
     		<type>tar.gz</type>
 	</dependency>
-	
+	<dependency>
+    		<groupId>samtools</groupId>
+    		<artifactId>samtools</artifactId>
+    		<version>0.1.19</version>
+    		<type>zip</type>
+	</dependency>
         <dependency>
             <groupId>net.sourceforge.seqware</groupId>
             <artifactId>seqware-bin-linux-x86-64-jre-6.0.29</artifactId>
@@ -78,6 +82,11 @@
     </dependencies>
 
     <repositories>
+	<repository>
+        	<id>seqwaremaven.oicr.on.ca</id>
+        	<name>seqwaremaven.oicr.on.ca-releases</name>
+        	<url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
+    	</repository>
         <repository>
             <id>com.github.seqware</id>
             <name>SeqWare Maven Repository</name>
