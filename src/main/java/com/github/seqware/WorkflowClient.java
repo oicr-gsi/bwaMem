@@ -145,19 +145,20 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
 
-        Job jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-        jobCutAdapt1.getCommand().addArgument(" ");
-        jobCutAdapt1.setMaxMemory("16000");
-  
-        Job jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-        jobCutAdapt2.getCommand().addArgument(" ");
-        jobCutAdapt2.setMaxMemory("16000");
+       Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+       Job job02 = this.getWorkflow().createBashJob("bwa_align2");
 
-
-        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
+       
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
+            
+            Job jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+            jobCutAdapt1.getCommand().addArgument(" ");
+            jobCutAdapt1.setMaxMemory("16000");
+  
+            Job jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+            jobCutAdapt2.getCommand().addArgument(" ");
+            jobCutAdapt2.setMaxMemory("16000");
 
             //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
             jobCutAdapt1.getCommand().addArgument(
@@ -211,6 +212,8 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
 
         }
+        
+        
         // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
