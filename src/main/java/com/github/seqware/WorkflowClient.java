@@ -145,26 +145,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
 
-       Job jobCutAdapt1, jobCutAdapt2;
-       
-        
-       Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-       Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-
-       
+       Job jobCutAdapt1 = null;
+       Job jobCutAdapt2 = null;
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
             
             jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-            jobCutAdapt1.getCommand().addArgument(" ");
-            jobCutAdapt1.setMaxMemory("16000");
-  
-            jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-            jobCutAdapt2.getCommand().addArgument(" ");
-            jobCutAdapt2.setMaxMemory("16000");
-
-            //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-            jobCutAdapt1.getCommand().addArgument(
+             jobCutAdapt1.getCommand().addArgument(
                     this.getWorkflowBaseDir()
                     + "/bin/Python-2.7.5/python "
                     + this.getWorkflowBaseDir()
@@ -183,7 +170,14 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + " > "
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1));
             }
-            job01.addParent(jobCutAdapt1);
+           
+            jobCutAdapt1.setMaxMemory("16000");
+  
+            jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+            jobCutAdapt2.setMaxMemory("16000");
+
+            //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+           
 
             //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.getCommand().addArgument(
@@ -206,8 +200,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1));
             }
             
-            job02.addParent(jobCutAdapt2);
+           
         }
+        
+        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
+       Job job02 = this.getWorkflow().createBashJob("bwa_align2");
         
         
         // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
@@ -220,7 +217,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
         
-        //if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
+        if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
 
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
@@ -230,6 +227,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 : this.getFiles().get("file_in_2").getProvisionedPath())
                 + (" > aligned_2.sai"));
         job02.setMaxMemory("16000");
+        if(jobCutAdapt2 !=null) {job02.addParent(jobCutAdapt2);}
        
 
 
