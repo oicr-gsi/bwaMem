@@ -145,6 +145,9 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
 
+       Job jobCutAdapt1, jobCutAdapt2;
+       
+        
        Job job01 = this.getWorkflow().createBashJob("bwa_align1");
        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
 
@@ -152,11 +155,11 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
             
-            Job jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
+            jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
             jobCutAdapt1.getCommand().addArgument(" ");
             jobCutAdapt1.setMaxMemory("16000");
   
-            Job jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
+            jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.getCommand().addArgument(" ");
             jobCutAdapt2.setMaxMemory("16000");
 
@@ -174,18 +177,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1)
                         + (" ")
                         + this.getFiles().get("file_in_1").getProvisionedPath());
-                        job01.addParent(jobCutAdapt1);
             } else {
                 jobCutAdapt1.getCommand().addArgument(
                         this.getFiles().get("file_in_1").getProvisionedPath()
                         + " > "
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1));
-                        job01.addParent(jobCutAdapt1);
             }
-            
-
-            
-            
+            job01.addParent(jobCutAdapt1);
 
             //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.getCommand().addArgument(
@@ -201,20 +199,14 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                         + (" ")
                         + this.getFiles().get("file_in_2").getProvisionedPath());
-                 job02.addParent(jobCutAdapt2);
             } else {
                 jobCutAdapt2.getCommand().addArgument(
                         this.getFiles().get("file_in_2").getProvisionedPath()
                         + " > "
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1));
-                 job02.addParent(jobCutAdapt2);
             }
             
-
-            
-            
-
-
+            job02.addParent(jobCutAdapt2);
         }
         
         
