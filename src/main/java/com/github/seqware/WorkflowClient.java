@@ -269,6 +269,7 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
+        job03.addFile(file2);
 
 //        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
 //
