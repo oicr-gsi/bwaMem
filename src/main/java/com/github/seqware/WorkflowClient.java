@@ -259,12 +259,12 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 : input1_path + (" ") + input2_path)
                 + (" | java -Xmx2g -jar ")
-                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddorReplaceReadGroups.jar "
+                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar "
                 + "RGID=" + RGID
                 + " RGLB=" + RGLB
                 + " RGPL=" + RGPL
                 + " RGPU=" + RGPU
-                + " " + additionalPicardParams == null ? "" : additionalPicardParams
+                + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
                 + " -O=" + outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
