@@ -22,6 +22,16 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String trimmedFile_1;
     String trimmedFile_2;
     //BWA parameters
+    String RGID;
+    String RGLB;
+    String RGPL;
+    String RGPU;
+    String RGSM;
+    String additionalPicardParams;
+    
+    
+    
+    
     int readTrimming; //aln
     int numOfThreads; //aln 
     int pairingAccuracy; //aln
@@ -241,20 +251,27 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 ? input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
                 + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 : input1_path + (" ") + input2_path)
-                + (" > file_out.sam"));
+                + (" | java -Xmx2g -jar ")
+                +this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddorReplaceReadGroups.jar "
+                +"RGID="+RGID
+                +" RGLB="+RGLB
+                +" RGPL="+RGPL
+                +" RGPU="+RGPU
+                +" "+additionalPicardParams==null? "" : additionalPicardParams
+                +" -O="+outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
 
-        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
-
-        job04.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/samtools-0.1.19/samtools view -bS "
-                + (this.parameters("view") == null ? " " : this.parameters("view"))
-                + "file_out.sam > "
-                + outputFileName);
-        job04.addParent(job03);
-        job04.addFile(file2);
-        job04.setMaxMemory("16000");
+//        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
+//
+//        job04.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/samtools-0.1.19/samtools view -bS "
+//                + (this.parameters("view") == null ? " " : this.parameters("view"))
+//                + "file_out.sam > "
+//                + outputFileName);
+//        job04.addParent(job03);
+//        job04.addFile(file2);
+//        job04.setMaxMemory("16000");
 
     }
 
@@ -321,17 +338,17 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 return paramCommand;
             }
 
-            if (setup.equals("view")) {
-
-                if (!getProperty("samtools_view_params").isEmpty()) {
-                    samtools_view_params = getProperty("samtools_view_params");
-                    a.append(" ");
-                    a.append(samtools_view_params);
-                    a.append(" ");
-                }
-                paramCommand = a.toString();
-                return paramCommand;
-            }
+//            if (setup.equals("view")) {
+//
+//                if (!getProperty("samtools_view_params").isEmpty()) {
+//                    samtools_view_params = getProperty("samtools_view_params");
+//                    a.append(" ");
+//                    a.append(samtools_view_params);
+//                    a.append(" ");
+//                }
+//                paramCommand = a.toString();
+//                return paramCommand;
+//            }
         } catch (Exception e) {
         }
         return paramCommand;
