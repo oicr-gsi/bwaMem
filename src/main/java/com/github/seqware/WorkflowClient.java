@@ -28,10 +28,6 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String RGPU;
     String RGSM;
     String additionalPicardParams;
-    
-    
-    
-    
     int readTrimming; //aln
     int numOfThreads; //aln 
     int pairingAccuracy; //aln
@@ -55,6 +51,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             outputDir = this.getMetadata_output_dir();
             outputPrefix = this.getMetadata_output_file_prefix();
             adapter_Trimming_activated = getProperty("adapter_Trimming_activated");
+
+            RGID = getProperty("RGID");
+            RGLB = getProperty("RGLB");
+            RGPL = getProperty("RGPL");
+            RGPU = getProperty("RGPU");
+            RGSM = getProperty("RGSM");
+            additionalPicardParams = getProperty("additionalPicardParams"); 
 
 
 
@@ -155,13 +158,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     @Override
     public void buildWorkflow() {
 
-       Job jobCutAdapt1 = null;
-       Job jobCutAdapt2 = null;
+        Job jobCutAdapt1 = null;
+        Job jobCutAdapt2 = null;
 
         if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
-            
+
             jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-             jobCutAdapt1.getCommand().addArgument(
+            jobCutAdapt1.getCommand().addArgument(
                     this.getWorkflowBaseDir()
                     + "/bin/Python-2.7.5/python "
                     + this.getWorkflowBaseDir()
@@ -180,14 +183,14 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + " > "
                         + input1_path.substring(input1_path.lastIndexOf("/") + 1));
             }
-           
+
             jobCutAdapt1.setMaxMemory("16000");
-  
+
             jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.setMaxMemory("16000");
 
             //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-           
+
 
             //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.getCommand().addArgument(
@@ -209,14 +212,14 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                         + " > "
                         + input2_path.substring(input2_path.lastIndexOf("/") + 1));
             }
-            
-           
+
+
         }
-        
+
         Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-       Job job02 = this.getWorkflow().createBashJob("bwa_align2");
-        
-        
+        Job job02 = this.getWorkflow().createBashJob("bwa_align2");
+
+
         // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
         job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
@@ -226,8 +229,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 : this.getFiles().get("file_in_1").getProvisionedPath())
                 + (" > aligned_1.sai"));
         job01.setMaxMemory("16000");
-        
-        if(jobCutAdapt1 !=null) {job01.addParent(jobCutAdapt1);}
+
+        if (jobCutAdapt1 != null) {
+            job01.addParent(jobCutAdapt1);
+        }
 
         job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
                 + (this.parameters("aln") == null ? " " : this.parameters("aln"))
@@ -237,8 +242,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 : this.getFiles().get("file_in_2").getProvisionedPath())
                 + (" > aligned_2.sai"));
         job02.setMaxMemory("16000");
-        if(jobCutAdapt2 !=null) {job02.addParent(jobCutAdapt2);}
-       
+        if (jobCutAdapt2 != null) {
+            job02.addParent(jobCutAdapt2);
+        }
+
 
 
         Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
@@ -252,13 +259,13 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 : input1_path + (" ") + input2_path)
                 + (" | java -Xmx2g -jar ")
-                +this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddorReplaceReadGroups.jar "
-                +"RGID="+RGID
-                +" RGLB="+RGLB
-                +" RGPL="+RGPL
-                +" RGPU="+RGPU
-                +" "+additionalPicardParams==null? "" : additionalPicardParams
-                +" -O="+outputFileName);
+                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddorReplaceReadGroups.jar "
+                + "RGID=" + RGID
+                + " RGLB=" + RGLB
+                + " RGPL=" + RGPL
+                + " RGPU=" + RGPU
+                + " " + additionalPicardParams == null ? "" : additionalPicardParams
+                + " -O=" + outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
