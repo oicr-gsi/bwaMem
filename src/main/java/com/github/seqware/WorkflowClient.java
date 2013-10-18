@@ -264,8 +264,10 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 + " RGLB=" + RGLB
                 + " RGPL=" + RGPL
                 + " RGPU=" + RGPU
+                + " RGSM= "+ RGSM 
                 + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
-                + " -O=" + outputFileName);
+                + " I=/dev/stdin"
+                + " O=" + outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
