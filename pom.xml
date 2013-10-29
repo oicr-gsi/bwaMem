@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <seqware-version>0.13.6.5</seqware-version>
+        <seqware-version>0.13.6.11</seqware-version>
         <skipITs>true</skipITs>
     </properties>
 
@@ -287,8 +287,50 @@
                     </filesets>
                 </configuration>
             </plugin> 
-
+		<plugin>
+             <groupId>com.pyx4j</groupId>
+             <artifactId>maven-junction-plugin</artifactId>
+             <executions>
+              <execution>
+              <phase>package</phase>
+                <goals>
+                  <goal>link</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>unlink</id>
+                <phase>clean</phase>
+                <goals>
+                  <goal>unlink</goal>
+                </goals>
+            </execution>
+            </executions>
+            <configuration>
+            <links>
+             <link>
+                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read1.fastq.gz</dst>
+                 <src>${basedir}/links/testData/test.genome.read1.fastq.gz</src>
+             </link>
+             <link>
+                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read2.fastq.gz</dst>
+                 <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
+             </link>
+             <link>
+                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/hg19_random.fa</dst>
+                 <src>${basedir}/links/reference/0.6.2/hg19_random.fa</src>
+             </link>
+           </links>
+                  <packages>
+                    <package>
+                       <name>symlinks</name>
+                       <src>${basedir}/workflow/links</src>
+                    </package>
+                  </packages>
+            </configuration>
+          </plugin>
         </plugins>
+
+
     </build>
 
 </project>
