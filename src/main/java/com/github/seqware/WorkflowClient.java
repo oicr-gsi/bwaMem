@@ -1,13 +1,13 @@
 package com.github.seqware;
 
+import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sourceforge.seqware.pipeline.workflowV2.AbstractWorkflowDataModel;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 
-public class WorkflowClient extends AbstractWorkflowDataModel {
+public class WorkflowClient extends OicrWorkflow {
 
     String input1_path = null;
     String input2_path = null;
@@ -16,6 +16,9 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
     String outputDir = null;
     String finalOutputDir = null;
     String outputFileName = null;
+    boolean setManualpath;
+    
+    
     String adapter_Trimming_activated = null;
     String read1_adapterTrim = null;
     String read2_adapterTrim = null;
@@ -51,7 +54,17 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
             outputDir = this.getMetadata_output_dir();
             outputPrefix = this.getMetadata_output_file_prefix();
             adapter_Trimming_activated = getProperty("adapter_Trimming_activated");
-
+            
+            
+            if (getProperty("setManualpath").equals("true")){
+                setManualpath = true;
+            }
+            
+            else {
+                setManualpath = true;
+            }
+            
+            
             RGID = getProperty("RGID");
             RGLB = getProperty("RGLB");
             RGPL = getProperty("RGPL");
@@ -66,22 +79,22 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
                 read2_adapterTrim = getProperty("read2_adapterTrim");
             }
 
-            if (!getProperty("manualOutputPath").isEmpty()) {
-                finalOutputDir = outputPrefix
-                        + outputDir
-                        + ("/")
-                        + getProperty("manualOutputPath");
-            } else {
-                finalOutputDir = outputPrefix
-                        + outputDir
-                        + ("/")
-                        + this.getName()
-                        + ("_")
-                        + this.getVersion()
-                        + ("/")
-                        + this.getRandom()
-                        + ("/");
-            }
+//            if (!getProperty("manualOutputPath").isEmpty()) {
+//                finalOutputDir = outputPrefix
+//                        + outputDir
+//                        + ("/")
+//                        + getProperty("manualOutputPath");
+//            } else {
+//                finalOutputDir = outputPrefix
+//                        + outputDir
+//                        + ("/")
+//                        + this.getName()
+//                        + ("_")
+//                        + this.getVersion()
+//                        + ("/")
+//                        + this.getRandom()
+//                        + ("/");
+//            }
             if ((getProperty("outputFileName") != null) && (!getProperty("outputFileName").isEmpty())) {
                 outputFileName = getProperty("outputFileName");
             } else {
@@ -136,15 +149,15 @@ public class WorkflowClient extends AbstractWorkflowDataModel {
         }
         file1.setIsInput(true);
 
-        //file2 = createOutputFile(outputFileName, "application/bam", setManualpath);
+       file2 = createOutputFile(outputFileName, "application/bam", setManualpath);
 
         // registers an output file
-        file2 = this.createFile("file_out");
-        file2.setSourcePath(outputFileName);
-        file2.setType("application/bam");
-        file2.setIsOutput(true);
-        file2.setForceCopy(true);
-        file2.setOutputPath(finalOutputDir + outputFileName);
+//        file2 = this.createFile("file_out");
+//        file2.setSourcePath(outputFileName);
+//        file2.setType("application/bam");
+//        file2.setIsOutput(true);
+//        file2.setForceCopy(true);
+//        file2.setOutputPath(finalOutputDir + outputFileName);
 
         return this.getFiles();
     }

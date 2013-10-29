@@ -12,7 +12,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>seqware-workflow</name>
+    <name>workflow-bwa</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -84,6 +84,12 @@
             <groupId>com.github.seqware</groupId>
             <artifactId>seqware-pipeline</artifactId>
             <version>${seqware-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.on.oicr.pde</groupId>
+            <artifactId>workflow-utilities</artifactId>
+            <version>1.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
