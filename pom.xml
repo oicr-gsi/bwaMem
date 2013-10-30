@@ -89,7 +89,7 @@
         <dependency>
             <groupId>ca.on.oicr.pde</groupId>
             <artifactId>workflow-utilities</artifactId>
-            <version>1.2</version>
+            <version>1.3-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
     </dependencies>
@@ -337,8 +337,8 @@
                  <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
              </link>
              <link>
-                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/hg19_random.fa</dst>
-                 <src>${basedir}/links/reference/0.6.2/hg19_random.fa</src>
+                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/0.6.2/</dst>
+                 <src>${basedir}/links/reference/0.6.2/</src>
              </link>
            </links>
                   <packages>

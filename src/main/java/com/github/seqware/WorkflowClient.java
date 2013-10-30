@@ -61,7 +61,7 @@ public class WorkflowClient extends OicrWorkflow {
             }
             
             else {
-                setManualpath = true;
+                setManualpath = false;
             }
             
             
