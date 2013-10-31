@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ca.on.oicr.pde.deciders.BamQCDecider</mainClass>
+                            <mainClass>ca.on.oicr.pde.deciders.BWADecider</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Implementation-Version>${seqware-version}</Implementation-Version>
