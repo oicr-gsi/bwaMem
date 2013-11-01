@@ -1,5 +1,7 @@
 package com.github.seqware;
 
+import ca.on.oicr.pde.deciders.FileAttributes;
+import ca.on.oicr.pde.deciders.Lims;
 import ca.on.oicr.pde.deciders.OicrDecider;
 import java.util.*;
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles;
@@ -9,14 +11,14 @@ import net.sourceforge.seqware.common.util.Log;
 
 /**
  *
- * @author mtaschuk
+ * @author rtahir
  */
 public class BWADecider extends OicrDecider {
 
     private String [][] readMateFlags = {{"_R1_","1_sequence.txt",".1.fastq"},{"_R2_","2_sequence.txt",".2.fastq"}};    
     
     private String index = "${workflow_bundle_dir}/Workflow_Bundle_${workflow-directory-name}/${version}/data/0.6.2/hg19_random.fa";
-    private String run_ends;
+    private String run_ends = "2";
     private String output_prefix = "./";
     private String output_dir = "seqware-results";
     private String outputFileName = "";
@@ -52,7 +54,6 @@ public class BWADecider extends OicrDecider {
         parser.accepts("output-filename", "Optional: Template type for grouping samples.").withRequiredArg();
         parser.accepts("set-manual-path", "Optional: colorspace for Novoalign analysis, default 0.").withRequiredArg();
         parser.accepts("run-ends","Run ends will define if it is Single-End(1) or Paired-End(2) experiment, default 2.").withRequiredArg();
-        //parser.accepts("run-ends","Run ends will define if it is Single-End(1) or Paired-End(2) experiment, default 2.").withRequiredArg();
         //bwa aln
         parser.accepts("bwa-read-trimming", "Optional: Picard merge slots, default 1.").withRequiredArg();
         parser.accepts("bwa-threads", "Optional: Picard merge slots, default 1.").withRequiredArg();
@@ -94,7 +95,9 @@ public class BWADecider extends OicrDecider {
         }
         if (this.options.has("run-ends")) {
 	    String runEnds = options.valueOf("run-ends").toString();
-            if (!runEnds.equals("1")) {
+            //verifies that there are two input files
+            //verification must take place because BWA decider is not designed for single reads
+            if (!runEnds.equals("2")) {
 	        Log.error("You passed run-ends parameter " + runEnds + ", but this decider irecognizes only 1 (single reads) and 2 (paired-reads) options");
                 System.exit(1);
 	    }
@@ -201,24 +204,35 @@ public class BWADecider extends OicrDecider {
                 return false;
             }
         }
-        //Get additional metadata
-        if (null != this.ius_accession) {
-            this.ius_accession = this.ius_accession + "," + returnValue.getAttribute(FindAllTheFiles.Header.IUS_SWA.getTitle());
-        } else {
-            this.ius_accession = returnValue.getAttribute(FindAllTheFiles.Header.IUS_SWA.getTitle());
-        }
-
-        if (null != this.sequencer_run_name) {
-            this.sequencer_run_name = this.sequencer_run_name + "," + returnValue.getAttribute(FindAllTheFiles.Header.SEQUENCER_RUN_NAME.getTitle());
-        } else {
-            this.sequencer_run_name = returnValue.getAttribute(FindAllTheFiles.Header.SEQUENCER_RUN_NAME.getTitle());
-        }
-
-        if (null != this.lane) {
-            this.lane = this.lane + "," + returnValue.getAttribute(FindAllTheFiles.Header.LANE_NUM.getTitle());
-        } else {
-            this.lane = returnValue.getAttribute(FindAllTheFiles.Header.LANE_NUM.getTitle());
-        }
+        
+        FileAttributes rv = new  FileAttributes(returnValue, returnValue.getFiles().get(0));
+        this.RGID = rv.getLimsValue(Lims.GROUP_ID);
+        this.RGLB = rv.getLibrarySample() + rv.getLimsValue(Lims.GROUP_ID);
+        this.RGPL = "illumina";
+        this.RGPU = rv.getSequencerRun() 
+                                + "-" 
+                                + rv.getBarcode() 
+                                + "_" 
+                                + lane;
+        this.RGSM= rv.getDonor() + rv.getLimsValue(Lims.GROUP_ID);
+//        //Get additional metadata
+//        if (null != this.ius_accession) {
+//            this.ius_accession = this.ius_accession + "," + returnValue.getAttribute(FindAllTheFiles.Header.IUS_SWA.getTitle());
+//        } else {
+//            this.ius_accession = returnValue.getAttribute(FindAllTheFiles.Header.IUS_SWA.getTitle());
+//        }
+//
+//        if (null != this.sequencer_run_name) {
+//            this.sequencer_run_name = this.sequencer_run_name + "," + returnValue.getAttribute(FindAllTheFiles.Header.SEQUENCER_RUN_NAME.getTitle());
+//        } else {
+//            this.sequencer_run_name = returnValue.getAttribute(FindAllTheFiles.Header.SEQUENCER_RUN_NAME.getTitle());
+//        }
+//
+//        if (null != this.lane) {
+//            this.lane = this.lane + "," + returnValue.getAttribute(FindAllTheFiles.Header.LANE_NUM.getTitle());
+//        } else {
+//            this.lane = returnValue.getAttribute(FindAllTheFiles.Header.LANE_NUM.getTitle());
+//        }
 
         return super.checkFileDetails(returnValue, fm);
     }
@@ -276,7 +290,7 @@ public class BWADecider extends OicrDecider {
 	iniFileMap.put("output_dir", this.output_dir);
         iniFileMap.put("outputFileName", this.outputFileName);
         iniFileMap.put("setManualpath", this.setManualpath);
-        //For Novoalign
+        //For picard
         iniFileMap.put("RGID", this.RGID);
         iniFileMap.put("RGLB", this.RGLB);
         iniFileMap.put("RGPL", this.RGPL);

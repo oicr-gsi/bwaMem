@@ -5,7 +5,7 @@
 
     <groupId>com.github.seqware</groupId>
     <artifactId>decider-BWA</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>decider-bwa</name>
@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ca.on.oicr.pde.deciders.BWADecider</mainClass>
+                            <mainClass>com.github.seqware.BWADecider</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Implementation-Version>${seqware-version}</Implementation-Version>
