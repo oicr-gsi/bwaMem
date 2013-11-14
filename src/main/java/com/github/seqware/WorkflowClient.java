@@ -14,17 +14,16 @@ public class WorkflowClient extends OicrWorkflow {
     String reference_path = null;
     String outputPrefix = null;
     String outputDir = null;
-    String finalOutputDir = null;
+    String dataDir = "data/";
     String outputFileName = null;
-    boolean setManualpath;
-    
-    
+    boolean manualOutput;
     String adapter_Trimming_activated = null;
     String read1_adapterTrim = null;
     String read2_adapterTrim = null;
     String trimmedFile_1;
     String trimmedFile_2;
     //BWA parameters
+    String manual_bwa_path;
     String RGID;
     String RGLB;
     String RGPL;
@@ -54,23 +53,17 @@ public class WorkflowClient extends OicrWorkflow {
             outputDir = this.getMetadata_output_dir();
             outputPrefix = this.getMetadata_output_file_prefix();
             adapter_Trimming_activated = getProperty("adapter_Trimming_activated");
-            
-            
-            if (getProperty("setManualpath").equals("true")){
-                setManualpath = true;
-            }
-            
-            else {
-                setManualpath = false;
-            }
-            
-            
+
+            manual_bwa_path = getProperty("manual_bwa_path");
+
+            manualOutput = Boolean.valueOf(getProperty("manual_output"));
+
             RGID = getProperty("RGID");
             RGLB = getProperty("RGLB");
             RGPL = getProperty("RGPL");
             RGPU = getProperty("RGPU");
             RGSM = getProperty("RGSM");
-            additionalPicardParams = getProperty("additionalPicardParams"); 
+            additionalPicardParams = getProperty("additionalPicardParams");
 
 
 
@@ -149,7 +142,7 @@ public class WorkflowClient extends OicrWorkflow {
         }
         file1.setIsInput(true);
 
-       file2 = createOutputFile(outputFileName, "application/bam", setManualpath);
+        file2 = createOutputFile(this.dataDir + outputFileName, "application/bam", manualOutput);
 
         // registers an output file
 //        file2 = this.createFile("file_out");
@@ -165,7 +158,7 @@ public class WorkflowClient extends OicrWorkflow {
     @Override
     public void setupDirectory() {
         // creates the final output 
-        this.addDirectory(finalOutputDir);
+        this.addDirectory(dataDir);
     }
 
     @Override
@@ -194,7 +187,7 @@ public class WorkflowClient extends OicrWorkflow {
                 jobCutAdapt1.getCommand().addArgument(
                         this.getFiles().get("file_in_1").getProvisionedPath()
                         + " > "
-                        + input1_path.substring(input1_path.lastIndexOf("/") + 1));
+                        + this.dataDir + input1_path.substring(input1_path.lastIndexOf("/") + 1));
             }
 
             jobCutAdapt1.setMaxMemory("16000");
@@ -216,14 +209,14 @@ public class WorkflowClient extends OicrWorkflow {
             if (file1.getType().equals("chemical/seq-na-fastq-gzip")) {
                 jobCutAdapt2.getCommand().addArgument(
                         (" -o ")
-                        + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                        + this.dataDir + input2_path.substring(input2_path.lastIndexOf("/") + 1)
                         + (" ")
                         + this.getFiles().get("file_in_2").getProvisionedPath());
             } else {
                 jobCutAdapt2.getCommand().addArgument(
                         this.getFiles().get("file_in_2").getProvisionedPath()
                         + " > "
-                        + input2_path.substring(input2_path.lastIndexOf("/") + 1));
+                        + this.dataDir + input2_path.substring(input2_path.lastIndexOf("/") + 1));
             }
 
 
@@ -234,13 +227,17 @@ public class WorkflowClient extends OicrWorkflow {
 
 
         // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-        job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                + (this.parameters("aln") == null ? " " : this.parameters("aln"))
+        if (!getProperty("manual_bwa_path").isEmpty()) {
+            job01.getCommand().addArgument(manual_bwa_path + " aln ");
+        } else {
+            job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
+        }
+        job01.getCommand().addArgument((this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input1_path.substring(input1_path.lastIndexOf("/") + 1)
                 : this.getFiles().get("file_in_1").getProvisionedPath())
-                + (" > aligned_1.sai"));
+                + " > " + this.dataDir + "aligned_1.sai");
         job01.setMaxMemory("16000");
 
         if (jobCutAdapt1 != null) {
@@ -253,7 +250,7 @@ public class WorkflowClient extends OicrWorkflow {
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 : this.getFiles().get("file_in_2").getProvisionedPath())
-                + (" > aligned_2.sai"));
+                + (" > " + this.dataDir + "aligned_2.sai"));
         job02.setMaxMemory("16000");
         if (jobCutAdapt2 != null) {
             job02.addParent(jobCutAdapt2);
@@ -265,8 +262,8 @@ public class WorkflowClient extends OicrWorkflow {
         job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe "
                 + (this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
                 + reference_path
-                + (" aligned_1.sai")
-                + (" aligned_2.sai ")
+                + this.dataDir + (" aligned_1.sai")
+                + this.dataDir + (" aligned_2.sai ")
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
                 + input2_path.substring(input2_path.lastIndexOf("/") + 1)
@@ -277,10 +274,10 @@ public class WorkflowClient extends OicrWorkflow {
                 + " RGLB=" + RGLB
                 + " RGPL=" + RGPL
                 + " RGPU=" + RGPU
-                + " RGSM= "+ RGSM 
+                + " RGSM= " + RGSM
                 + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
                 + " I=/dev/stdin"
-                + " O=" + outputFileName);
+                + " O=" + this.dataDir + outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
         job03.setMaxMemory("16000");
