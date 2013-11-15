@@ -244,8 +244,12 @@ public class WorkflowClient extends OicrWorkflow {
             job01.addParent(jobCutAdapt1);
         }
 
-        job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln "
-                + (this.parameters("aln") == null ? " " : this.parameters("aln"))
+        if (!getProperty("manual_bwa_path").isEmpty()) {
+            job02.getCommand().addArgument(manual_bwa_path + " aln ");
+        } else {
+            job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
+        }
+        job02.getCommand().addArgument((this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
@@ -258,9 +262,14 @@ public class WorkflowClient extends OicrWorkflow {
 
 
 
-        Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
-        job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe "
-                + (this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
+        Job job03 = this.getWorkflow().createBashJob("bwa_sam_bam");
+        if (!getProperty("manual_bwa_path").isEmpty()) {
+            job03.getCommand().addArgument(manual_bwa_path + " aln ");
+        } else {
+            job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
+        }
+        
+        job03.getCommand().addArgument((this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
                 + reference_path
                 + this.dataDir + (" aligned_1.sai")
                 + this.dataDir + (" aligned_2.sai ")
