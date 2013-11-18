@@ -37,7 +37,6 @@ public class WorkflowClient extends OicrWorkflow {
     String readGroup;//sampe
     String bwa_aln_params;
     String bwa_sampe_params;
-    String samtools_view_params;
     SqwFile file0;
     SqwFile file1;
     SqwFile file2;
