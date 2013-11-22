@@ -41,6 +41,8 @@ public class WorkflowClient extends OicrWorkflow {
     SqwFile file1;
     SqwFile file2;
 
+    String queue; 
+    
     @Override
     public Map<String, SqwFile> setupFiles() {
 
@@ -64,7 +66,7 @@ public class WorkflowClient extends OicrWorkflow {
             RGSM = getProperty("RGSM");
             additionalPicardParams = getProperty("additionalPicardParams");
 
-
+            queue = getOptionalProperty("queue", "");
 
             if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
                 read1_adapterTrim = getProperty("read1_adapterTrim");
@@ -190,9 +192,11 @@ public class WorkflowClient extends OicrWorkflow {
             }
 
             jobCutAdapt1.setMaxMemory("16000");
+            jobCutAdapt1.setQueue(queue);
 
             jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
             jobCutAdapt2.setMaxMemory("16000");
+            jobCutAdapt2.setQueue(queue);
 
             //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
 
@@ -238,6 +242,7 @@ public class WorkflowClient extends OicrWorkflow {
                 : this.getFiles().get("file_in_1").getProvisionedPath())
                 + " > " + this.dataDir + "aligned_1.sai");
         job01.setMaxMemory("16000");
+        job01.setQueue(queue);
 
         if (jobCutAdapt1 != null) {
             job01.addParent(jobCutAdapt1);
@@ -255,6 +260,7 @@ public class WorkflowClient extends OicrWorkflow {
                 : this.getFiles().get("file_in_2").getProvisionedPath())
                 + (" > " + this.dataDir + "aligned_2.sai"));
         job02.setMaxMemory("16000");
+        job02.setQueue(queue);
         if (jobCutAdapt2 != null) {
             job02.addParent(jobCutAdapt2);
         }
@@ -288,6 +294,7 @@ public class WorkflowClient extends OicrWorkflow {
                 + " O=" + this.dataDir + outputFileName);
         job03.addParent(job01);
         job03.addParent(job02);
+        job03.setQueue(queue);
         job03.setMaxMemory("16000");
         job03.addFile(file2);
 
