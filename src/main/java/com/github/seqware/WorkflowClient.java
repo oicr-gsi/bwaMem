@@ -240,7 +240,7 @@ public class WorkflowClient extends OicrWorkflow {
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input1_path.substring(input1_path.lastIndexOf("/") + 1)
                 : this.getFiles().get("file_in_1").getProvisionedPath())
-                + " > " + this.dataDir + "aligned_1.sai");
+                + " > " + this.dataDir + "aligned_1.sai 2> aligned_1.err");
         job01.setMaxMemory("16000");
         job01.setQueue(queue);
 
@@ -258,7 +258,7 @@ public class WorkflowClient extends OicrWorkflow {
                 + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
                 ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
                 : this.getFiles().get("file_in_2").getProvisionedPath())
-                + (" > " + this.dataDir + "aligned_2.sai"));
+                + (" > " + this.dataDir + "aligned_2.sai  2> aligned_2.err"));
         job02.setMaxMemory("16000");
         job02.setQueue(queue);
         if (jobCutAdapt2 != null) {
@@ -269,34 +269,42 @@ public class WorkflowClient extends OicrWorkflow {
 
         Job job03 = this.getWorkflow().createBashJob("bwa_sam_bam");
         if (!getProperty("manual_bwa_path").isEmpty()) {
-            job03.getCommand().addArgument(manual_bwa_path + " aln ");
+            job03.getCommand().addArgument(manual_bwa_path + " sampe ");
         } else {
-            job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
+            job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe ");
         }
         
-        job03.getCommand().addArgument((this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"))
-                + reference_path
-                + this.dataDir + (" aligned_1.sai")
-                + this.dataDir + (" aligned_2.sai ")
-                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                ? input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ")
-                + input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                : input1_path + (" ") + input2_path)
-                + (" | java -Xmx2g -jar ")
-                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar "
-                + "RGID=" + RGID
-                + " RGLB=" + RGLB
-                + " RGPL=" + RGPL
-                + " RGPU=" + RGPU
-                + " RGSM= " + RGSM
-                + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
-                + " I=/dev/stdin"
-                + " O=" + this.dataDir + outputFileName);
-        job03.addParent(job01);
+        job03.getCommand().addArgument(this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"));
+	job03.getCommand().addArgument(reference_path);
+	job03.getCommand().addArgument(this.dataDir + "aligned_1.sai");
+	job03.getCommand().addArgument(this.dataDir + "aligned_2.sai");
+	job03.getCommand().addArgument((adapter_Trimming_activated.equalsIgnoreCase("yes") ? 
+		input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ") + input2_path.substring(input2_path.lastIndexOf("/") + 1)
+                : input1_path + (" ") + input2_path));
+	job03.getCommand().addArgument(" > " + this.dataDir + outputFileName + ".norg 2> " +this.dataDir + outputFileName + ".norg.log");
+
+       job03.addParent(job01);
         job03.addParent(job02);
         job03.setQueue(queue);
         job03.setMaxMemory("16000");
-        job03.addFile(file2);
+       
+	Job job04 = this.getWorkflow().createBashJob("addReadGroups");
+	job04.getCommand().addArgument("java -Xmx2g -jar "
+                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar "
+                + " RGID=" + RGID
+                + " RGLB=" + RGLB
+                + " RGPL=" + RGPL
+                + " RGPU=" + RGPU
+                + " RGSM=" + RGSM
+                + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
+                + " I=" + this.dataDir + outputFileName + ".norg"
+                + " O=" + this.dataDir + outputFileName + " >> "+this.dataDir+outputFileName + ".out 2>> "+this.dataDir+outputFileName +".err");
+	job04.addParent(job03);
+	job04.setQueue(queue);
+	job04.setMaxMemory("4000");
+	job04.addFile(file2);
+ 
+
 
 //        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
 //
