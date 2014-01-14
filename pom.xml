@@ -23,8 +23,7 @@
         <skipBundleTest>true</skipBundleTest>
         <skipITs>true</skipITs>
         <bundleDirectory>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}</bundleDirectory>
-        <workingDir>/u/sqwci/_working</workingDir>
-        <seqwareDir>/u/sqwci/_seqware</seqwareDir>
+        <workingDirectory>${user.home}/_testing/</workingDirectory>
         <webserviceUrl>https://host_url/seqware-webservice-seqware_version</webserviceUrl>
         <schedulingSystem>pegasus</schedulingSystem>
         <schedulingHost>sqwuser.hpc.oicr.on.ca</schedulingHost>
@@ -32,38 +31,38 @@
     </properties>
 
     <dependencies>
-	<dependency>
-    		<groupId>cutadapt</groupId>
-    		<artifactId>cutadapt</artifactId>
-    		<version>1.2.1</version>
-    		<classifier>compiled</classifier>
-    		<type>tar.gz</type>
-	</dependency>
-	<dependency>
-    		<groupId>Python-artifactory.tar</groupId>
-    		<artifactId>Python-artifactory.tar</artifactId>
-    		<version>Python-artifactory.tar</version>
-    		<type>gz</type>
-	</dependency>
-	<dependency>
-    		<groupId>bwa</groupId>
-    		<artifactId>bwa</artifactId>
-    		<version>0.6.2</version>
-    		<classifier>compiled</classifier>
-    		<type>tar.gz</type>
-	</dependency>
-	<dependency>
-    		<groupId>samtools</groupId>
-    		<artifactId>samtools</artifactId>
-    		<version>0.1.19</version>
-    		<type>zip</type>
-	</dependency>
-	<dependency>
-    		<groupId>picard</groupId>
-    		<artifactId>picard-tools</artifactId>
-    		<version>1.89</version>
-    		<type>zip</type>
-	</dependency>
+        <dependency>
+            <groupId>cutadapt</groupId>
+            <artifactId>cutadapt</artifactId>
+            <version>1.2.1</version>
+            <classifier>compiled</classifier>
+            <type>tar.gz</type>
+        </dependency>
+        <dependency>
+            <groupId>Python-artifactory.tar</groupId>
+            <artifactId>Python-artifactory.tar</artifactId>
+            <version>Python-artifactory.tar</version>
+            <type>gz</type>
+        </dependency>
+        <dependency>
+            <groupId>bwa</groupId>
+            <artifactId>bwa</artifactId>
+            <version>0.6.2</version>
+            <classifier>compiled</classifier>
+            <type>tar.gz</type>
+        </dependency>
+        <dependency>
+            <groupId>samtools</groupId>
+            <artifactId>samtools</artifactId>
+            <version>0.1.19</version>
+            <type>zip</type>
+        </dependency>
+        <dependency>
+            <groupId>picard</groupId>
+            <artifactId>picard-tools</artifactId>
+            <version>1.89</version>
+            <type>zip</type>
+        </dependency>
         <dependency>
             <groupId>net.sourceforge.seqware</groupId>
             <artifactId>seqware-bin-linux-x86-64-jre-6.0.29</artifactId>
@@ -117,11 +116,11 @@
     </dependencies>
 
     <repositories>
-	<repository>
-        	<id>seqwaremaven.oicr.on.ca</id>
-        	<name>seqwaremaven.oicr.on.ca-releases</name>
-        	<url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
-    	</repository>
+        <repository>
+            <id>seqwaremaven.oicr.on.ca</id>
+            <name>seqwaremaven.oicr.on.ca-releases</name>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
+        </repository>
         <repository>
             <id>com.github.seqware</id>
             <name>SeqWare Maven Repository</name>
@@ -169,13 +168,11 @@
                     <skip>${skipITs}</skip>
                     <systemPropertyVariables>                   
                         <bundledJava>${bundleDirectory}/bin/jre1.6.0_29/bin/java</bundledJava>
-                        <!--Rename bundledSeqware to seqwareDistribution once refactored in workflow run test-->
-                        <bundledSeqware>${seqwareDistribution}</bundledSeqware>
+                        <seqwareDistribution>${seqwareDistribution}</seqwareDistribution>
                         <bundledWorkflow>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}/</bundledWorkflow>
                         <workflowName>${workflow-directory-name}</workflowName>
                         <workflowVersion>${project.version}</workflowVersion>
-                        <workingDirectory>${workingDir}</workingDirectory>
-                        <seqwareDirectory>${seqwareDir}</seqwareDirectory>
+                        <workingDirectory>${workingDirectory}</workingDirectory>
                         <webserviceUrl>${webserviceUrl}</webserviceUrl>
                         <schedulingSystem>${schedulingSystem}</schedulingSystem>
                         <schedulingHost>${schedulingHost}</schedulingHost>
@@ -298,11 +295,11 @@
                             <outputDirectory>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/bin</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
-			    <excludeScope>provided</excludeScope>
-			    <excludeArtifactIds>workflow-utilities</excludeArtifactIds>
+                            <excludeScope>provided</excludeScope>
+                            <excludeArtifactIds>workflow-utilities</excludeArtifactIds>
                         </configuration>
                     </execution>
-		     <execution>
+                    <execution>
                         <id>unpack-oicr-dependencies</id>
                         <phase>package</phase>
                         <goals>
@@ -363,47 +360,47 @@
                     </filesets>
                 </configuration>
             </plugin> 
-		<plugin>
-             <groupId>com.pyx4j</groupId>
-             <artifactId>maven-junction-plugin</artifactId>
-             <executions>
-              <execution>
-              <phase>package</phase>
-                <goals>
-                  <goal>link</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>unlink</id>
-                <phase>clean</phase>
-                <goals>
-                  <goal>unlink</goal>
-                </goals>
-            </execution>
-            </executions>
-            <configuration>
-            <links>
-             <link>
-                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read1.fastq.gz</dst>
-                 <src>${basedir}/links/testData/test.genome.read1.fastq.gz</src>
-             </link>
-             <link>
-                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read2.fastq.gz</dst>
-                 <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
-             </link>
-             <link>
-                 <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/0.6.2/</dst>
-                 <src>${basedir}/links/reference/0.6.2/</src>
-             </link>
-           </links>
-                  <packages>
-                    <package>
-                       <name>symlinks</name>
-                       <src>${basedir}/workflow/links</src>
-                    </package>
-                  </packages>
-            </configuration>
-          </plugin>
+            <plugin>
+                <groupId>com.pyx4j</groupId>
+                <artifactId>maven-junction-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>link</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>unlink</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>unlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <links>
+                        <link>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read1.fastq.gz</dst>
+                            <src>${basedir}/links/testData/test.genome.read1.fastq.gz</src>
+                        </link>
+                        <link>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read2.fastq.gz</dst>
+                            <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
+                        </link>
+                        <link>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/0.6.2/</dst>
+                            <src>${basedir}/links/reference/0.6.2/</src>
+                        </link>
+                    </links>
+                    <packages>
+                        <package>
+                            <name>symlinks</name>
+                            <src>${basedir}/workflow/links</src>
+                        </package>
+                    </packages>
+                </configuration>
+            </plugin>
         </plugins>
 
 
