@@ -371,16 +371,8 @@
                 <configuration>
                     <links>
                         <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read1.fastq.gz</dst>
-                            <src>${basedir}/links/testData/test.genome.read1.fastq.gz</src>
-                        </link>
-                        <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read2.fastq.gz</dst>
-                            <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
-                        </link>
-                        <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/0.6.2/</dst>
-                            <src>${basedir}/links/reference/bwa-0.6.2/</src>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data</dst>
+                            <src>${basedir}/links</src>
                         </link>
                     </links>
                     <packages>
