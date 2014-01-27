@@ -107,14 +107,19 @@
 
     <repositories>
         <repository>
-            <id>seqwaremaven.oicr.on.ca</id>
-            <name>seqwaremaven.oicr.on.ca-releases</name>
+            <id>seqwaremaven.oicr.on.ca-seqware-dependencies</id>
+            <name>seqwaremaven.oicr.on.ca-seqware-dependencies</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
+        </repository>
+         <repository>
+            <id>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</id>
+            <name>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</name>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies-snapshot</url>
         </repository>
         <repository>
             <id>com.github.seqware</id>
             <name>SeqWare Maven Repository</name>
-            <url>http://206.108.121.137/artifactory/seqware-release</url>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -125,7 +130,7 @@
         <repository>
             <id>snapshot.com.github.seqware</id>
             <name>SeqWare Snapshot Maven Repository</name>
-            <url>http://206.108.121.137/artifactory/seqware-snapshot</url>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-snapshot</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
