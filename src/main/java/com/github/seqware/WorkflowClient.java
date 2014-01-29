@@ -301,7 +301,7 @@ public class WorkflowClient extends OicrWorkflow {
                 + " O=" + this.dataDir + outputFileName + " >> "+this.dataDir+outputFileName + ".out 2>> "+this.dataDir+outputFileName +".err");
 	job04.addParent(job03);
 	job04.setQueue(queue);
-	job04.setMaxMemory("4000");
+	job04.setMaxMemory("8000");
 	job04.addFile(file2);
  
 
