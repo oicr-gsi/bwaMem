@@ -85,17 +85,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ca.on.oicr.pde</groupId>
-            <artifactId>workflow-utilities</artifactId>
-            <version>1.3-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>ca.on.oicr.pde</groupId>
-            <artifactId>workflow-utilities</artifactId>
-            <version>1.3-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
+          <groupId>ca.on.oicr.pde</groupId>
+          <artifactId>workflow-utilities</artifactId>
+          <version>1.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -304,7 +296,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!--plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
@@ -329,11 +321,11 @@
                         <configuration>
                             <skip>${skipITs}</skip>
                             <executable>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/bin/jre1.6.0_29/bin/java</executable>
-                            <commandlineArgs>-jar ${project.build.directory}/Workflow_Bundle_${project.artifactId}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/lib/seqware-distribution-${seqware-version}-full.jar --plugin net.sourceforge.seqware.pipeline.plugins.BundleManager -- -t -b ${project.build.directory}/Workflow_Bundle_${project.artifactId}_${project.version}_SeqWare_${seqware-version}/ </commandlineArgs>
+                            <commandlineArgs>-jar ${project.build.directory}/Workflow_Bundle_${project.artifactId}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/lib/seqware-distribution-${seqware-version}-full.jar - -plugin net.sourceforge.seqware.pipeline.plugins.BundleManager - - -t -b ${project.build.directory}/Workflow_Bundle_${project.artifactId}_${project.version}_SeqWare_${seqware-version}/ </commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
@@ -379,7 +371,7 @@
                             <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
                         </link>
                         <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/0.6.2/</dst>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/reference/bwa-0.6.2/</dst>
                             <src>${basedir}/links/reference/bwa-0.6.2/</src>
                         </link>
                     </links>
