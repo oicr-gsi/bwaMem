@@ -99,14 +99,19 @@
 
     <repositories>
         <repository>
-            <id>seqwaremaven.oicr.on.ca</id>
-            <name>seqwaremaven.oicr.on.ca-releases</name>
+            <id>seqwaremaven.oicr.on.ca-seqware-dependencies</id>
+            <name>seqwaremaven.oicr.on.ca-seqware-dependencies</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
+        </repository>
+         <repository>
+            <id>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</id>
+            <name>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</name>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies-snapshot</url>
         </repository>
         <repository>
             <id>com.github.seqware</id>
             <name>SeqWare Maven Repository</name>
-            <url>http://206.108.121.137/artifactory/seqware-release</url>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -117,7 +122,7 @@
         <repository>
             <id>snapshot.com.github.seqware</id>
             <name>SeqWare Snapshot Maven Repository</name>
-            <url>http://206.108.121.137/artifactory/seqware-snapshot</url>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-snapshot</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -363,16 +368,8 @@
                 <configuration>
                     <links>
                         <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read1.fastq.gz</dst>
-                            <src>${basedir}/links/testData/test.genome.read1.fastq.gz</src>
-                        </link>
-                        <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/test.genome.read2.fastq.gz</dst>
-                            <src>${basedir}/links/testData/test.genome.read2.fastq.gz</src>
-                        </link>
-                        <link>
-                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data/reference/bwa-0.6.2/</dst>
-                            <src>${basedir}/links/reference/bwa-0.6.2/</src>
+                            <dst>${project.build.directory}/Workflow_Bundle_${workflow-name}_${project.version}_SeqWare_${seqware-version}/Workflow_Bundle_${workflow-directory-name}/${project.version}/data</dst>
+                            <src>${basedir}/links</src>
                         </link>
                     </links>
                     <packages>
