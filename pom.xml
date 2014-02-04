@@ -28,6 +28,7 @@
         <schedulingSystem>pegasus</schedulingSystem>
         <schedulingHost>sqwuser.hpc.oicr.on.ca</schedulingHost>
         <seqwareDistribution>${bundleDirectory}/lib/seqware-distribution-${seqware-version}-full.jar</seqwareDistribution>
+	<samtools-version>0.1.19</samtools-version>
     </properties>
 
     <dependencies>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>samtools</groupId>
             <artifactId>samtools</artifactId>
-            <version>0.1.19</version>
+            <version>${samtools-version}</version>
             <type>zip</type>
         </dependency>
         <dependency>
@@ -141,7 +142,12 @@
     </repositories>
 
     <build>
-
+	<testResources>
+		<testResource>
+		  <directory>src/test/resources</directory>
+		  <filtering>true</filtering>
+		</testResource>
+	    </testResources>
         <filters>
             <filter>workflow.properties</filter>
         </filters>
@@ -231,7 +237,8 @@
                                     </excludes>
                                     <filtering>true</filtering>
                                 </resource>
-                            </resources>
+			    </resources>
+			    
                         </configuration>
                     </execution>
                     <execution>
@@ -253,7 +260,6 @@
                             </resources>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
             <plugin>
