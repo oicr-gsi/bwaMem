@@ -86,9 +86,17 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>ca.on.oicr.pde</groupId>
-          <artifactId>workflow-utilities</artifactId>
-          <version>1.3-SNAPSHOT</version>
+            <groupId>ca.on.oicr.pde</groupId>
+            <artifactId>workflow-utilities</artifactId>
+            <version>${utilities-version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>ca.on.oicr.pde</groupId>
+            <artifactId>workflow-utilities</artifactId>
+            <version>${utilities-version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -161,6 +169,7 @@
                     <skip>${skipITs}</skip>
                     <systemPropertyVariables>                   
                         <bundledJava>${bundleDirectory}/bin/jre1.6.0_29/bin/java</bundledJava>
+                        <bundledBinPath>${bundleDirectory}/bin</bundledBinPath>
                         <seqwareDistribution>${seqwareDistribution}</seqwareDistribution>
                         <bundledWorkflow>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}/</bundledWorkflow>
                         <workflowName>${workflow-directory-name}</workflowName>
