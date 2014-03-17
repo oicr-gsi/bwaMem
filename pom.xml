@@ -28,7 +28,7 @@
         <schedulingSystem>pegasus</schedulingSystem>
         <schedulingHost>sqwuser.hpc.oicr.on.ca</schedulingHost>
         <seqwareDistribution>${bundleDirectory}/lib/seqware-distribution-${seqware-version}-full.jar</seqwareDistribution>
-	<samtools-version>0.1.19</samtools-version>
+        <samtools-version>0.1.19</samtools-version>
     </properties>
 
     <dependencies>
@@ -112,7 +112,7 @@
             <name>seqwaremaven.oicr.on.ca-seqware-dependencies</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
         </repository>
-         <repository>
+        <repository>
             <id>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</id>
             <name>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies-snapshot</url>
@@ -142,12 +142,12 @@
     </repositories>
 
     <build>
-	<testResources>
-		<testResource>
-		  <directory>src/test/resources</directory>
-		  <filtering>true</filtering>
-		</testResource>
-	    </testResources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <filters>
             <filter>workflow.properties</filter>
         </filters>
@@ -238,7 +238,7 @@
                                     </excludes>
                                     <filtering>true</filtering>
                                 </resource>
-			    </resources>
+                            </resources>
 			    
                         </configuration>
                     </execution>
@@ -393,6 +393,18 @@
                             <src>${basedir}/workflow/links</src>
                         </package>
                     </packages>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Workflow-Bundle-Path>${project.build.directory}/Workflow_Bundle_${workflow-directory-name}_${project.version}_SeqWare_${seqware-version}</Workflow-Bundle-Path>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
