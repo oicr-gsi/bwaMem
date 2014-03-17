@@ -15,10 +15,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <seqware-version>0.13.6.11</seqware-version>
+        <workflow-version>1.2</workflow-version>
     </properties>
     
     <build>
-       <plugins>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -45,7 +46,7 @@
                     </execution>
                 </executions>
             </plugin>
-                        <plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
@@ -87,6 +88,11 @@
             <artifactId>decider-utilities</artifactId>
             <version>1.4.3</version>
         </dependency>
+        <dependency>
+            <groupId>ca.on.oicr.pde.workflows</groupId>
+            <artifactId>BWA</artifactId>
+            <version>${workflow-version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -112,7 +118,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-         <repository>
+        <repository>
             <id>seqwaremaven.oicr.on.ca</id>
             <name>seqwaremaven.oicr.on.ca-dependencies</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
