@@ -1,4 +1,4 @@
-package com.github.seqware;
+package ca.on.oicr.pde.workflows;
 
 import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 import java.util.Map;

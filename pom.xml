@@ -7,7 +7,7 @@
         <maven>2.2.1</maven>
     </prerequisites>
 
-    <groupId>com.github.seqware</groupId>
+    <groupId>ca.on.oicr.pde.workflows</groupId>
     <artifactId>BWA</artifactId>
     <version>1.2</version>
     <packaging>jar</packaging>
