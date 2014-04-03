@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+   <ListPreference
+        android:dependency="pref_hostName"
+        android:key="pref_syncFreq"
+        android:title="@string/pref_automaticUpdates"
+        android:dialogTitle="@string/pref_automaticUpdates"
+        android:entries="@array/pref_automaticUpdates_entries"
+        android:entryValues="@array/pref_automaticUpdates_entries"
+        android:summary="@string/pref_automaticUpdates_default"
+        android:defaultValue="@string/pref_automaticUpdates_default" />   
+   <ListPreference
+        android:dependency="pref_hostName"
+        android:key="pref_summaryScope"
+        android:title="@string/pref_summaryScope"
+        android:dialogTitle="@string/pref_summaryScope"
+        android:entries="@array/pref_summaryScope_entries"
+        android:entryValues="@array/pref_summaryScope_entries"
+        android:defaultValue="@string/pref_summaryScope_default"
+        android:summary="@string/pref_summaryScope_default" />
+   <EditTextPreference
+       android:key="pref_hostName"
+       android:title="Host Url:"
+       android:summary="Specify host name for updates"
+       android:dialogTitle="Enter host address in the box" />
+</PreferenceScreen>
