@@ -20,7 +20,7 @@
         android:summary="@string/pref_summaryScope_default" />
    <EditTextPreference
        android:key="pref_hostName"
-       android:title="Host Url:"
+       android:title="@string/pref_hostName"
        android:summary="Specify host name for updates"
        android:dialogTitle="Enter host address in the box" />
 </PreferenceScreen>

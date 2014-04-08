@@ -8,7 +8,8 @@ public class Report {
     private String rLastmodTime;
     private String rProgress;
 
-	
+	//TODO we need a boolean that would flag the state of a Report (set it to true depending on rLastmodTime)
+    //Later we can use this boolean flag for highlighting updated Reports
 	public Report(String sname, String wname, String wversion, String ctime, String ltime) {
 		rSampleName   = sname;
 		rWorkflowName = wname;

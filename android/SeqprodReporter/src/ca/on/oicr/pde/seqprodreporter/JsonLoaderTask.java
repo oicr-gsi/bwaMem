@@ -18,14 +18,12 @@ import android.os.AsyncTask;
 
 public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 
-	// Change to false if you don't have network access
-
-    private WeakReference<RunListFragment> mParent;
+    private WeakReference<ReportListFragment> mParent;
     private String TYPE;
     
-	public JsonLoaderTask(RunListFragment parent, String type) {
+	public JsonLoaderTask(ReportListFragment parent, String type) {
 		super();
-		mParent = new WeakReference<RunListFragment>(parent);
+		mParent = new WeakReference<ReportListFragment>(parent);
 		TYPE = type;
 	}
 
@@ -54,6 +52,7 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 
 		Resources r = mParent.get().getResources();
+		//TODO we need to change this so that we read from a designated file
 		InputStream fis =  r.openRawResource(R.raw.test);
 		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 

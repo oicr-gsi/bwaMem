@@ -13,7 +13,7 @@
         <item>year</item>
         <item>decade</item>
     </string-array>
-    <string name="pref_summaryScope_default">week</string>
+    <string name="pref_summaryScope_default">Define the time range for the report</string>
     <string name="title_pref_activity">Pereferences</string>
     <string name="pref_automaticUpdates">Automatic Updates</string>
     <string-array name="pref_automaticUpdates_entries">
@@ -23,4 +23,5 @@
         <item>60 min</item>
     </string-array>
     <string name="pref_automaticUpdates_default">Off</string>
+    <string name="pref_hostName">Host URL</string>
 </resources>
