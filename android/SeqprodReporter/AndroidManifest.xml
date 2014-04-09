@@ -26,13 +26,11 @@
             android:label="@string/title_pref_activity" >
         </activity>
         <receiver 
-            android:name=".PreferenceUpdateReceiver"
-            android:exported="false" >
-        </receiver>
-        <receiver 
-            android:name=".AlarmReceiver"
-            android:exported="false">
+            android:name=".ReportAlarmReceiver"
+            android:exported="false"
+            android:enabled="true">
         </receiver>
     </application>
+    
 
 </manifest>

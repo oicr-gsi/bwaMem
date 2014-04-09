@@ -3,16 +3,15 @@ package ca.on.oicr.pde.seqprodreporter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,7 +23,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class ReporterActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
@@ -38,7 +36,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	private final PreferenceUpdateReceiver prefUpdateReceiver = new PreferenceUpdateReceiver();
-    private final AlarmReceiver alarmReceiver = new AlarmReceiver();
+
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -47,48 +45,36 @@ public class ReporterActivity extends ActionBarActivity implements
     protected static String[] types = {"completed","failed","pending"};
     protected static String SYNC_OFF;
     public static final String TAG = "Seqprodbio Reporter";
+    public static final String TIMER_NAME = "Seqprodbio Timer";
     public static final String PREFERENCE_FILE = "seqprod.conf";
     public static final String DATA_FILE = "seqprod_data.json";
+    private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
     
     static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
-    static final String TIMER_INTENT = "ca.on.oicr.pde.seqprodreporter.timerElapsed";
-    
+      
     private String updateHost;
-    private int updateFrequency; // in minutes
     private String updateRange;
-    private boolean alarmScheduled = false;
+    private int updateFrequency; // in minutes
+    private boolean timerScheduled = false;
     
     private SharedPreferences sp;
-    private AlarmManager alarmManager;
-    private Intent httpUpdateRequest;
-    private PendingIntent httpUpdateWrapper;
- 
+    private Timer timer;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
-		//this.OFF2ON = false; // initially, we have updates set to off
 		
 		setContentView(R.layout.activity_reporter);
-		//Set up alarm components for regular updates
-		this.alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		this.httpUpdateRequest = new Intent(ReporterActivity.this,
-				AlarmReceiver.class);
-		this.httpUpdateRequest.setType(TIMER_INTENT);
-		this.httpUpdateWrapper =  PendingIntent.getBroadcast(
-				ReporterActivity.this, 0, httpUpdateRequest, 0);
-		
+		//Set up timer for regular updates
+		//this.timer = new Timer(TIMER_NAME);
 		//Register receiver for preference updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
-		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		
-		//Register receiver for Alarm Updates
-		IntentFilter timerchangeFilter = new IntentFilter(TIMER_INTENT);
-		lmb.registerReceiver(alarmReceiver, timerchangeFilter);
-		
+		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		//Read preferences
 		this.updateActivityPrefs();
 		
@@ -128,16 +114,21 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 	
+	@Override
+	protected void onStop() {
+		// TODO Switch From showing toaster messages to Notifications
+		super.onStop();
+	}
+	
+	@Override
 	public void onDestroy() {
-		if (this.alarmScheduled)
-			this.alarmManager.cancel(httpUpdateWrapper);
+		this.timer.cancel();
 		super.onDestroy();
 	}
 	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reporter, menu);
 		return true;
@@ -206,24 +197,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		public CharSequence getPageTitle(int position) {
 			Locale l = Locale.getDefault();
 			if (position >= 0 && position < types.length)
-			 //TODO append the time of the latest update
-			 return types[position].toUpperCase(l);
-			
+				return types[position].toUpperCase(l);
 			return null;
 		}
-		
-
 	}
-
-	/*@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		// TODO Handle preference changes here
-		Log.v(TAG, "Entered on SharedPreferenceChanged");
-		this.updateActivityPrefs();
-		this.scheduleUpdate();
-		
-	} */
 
 	
 	/*
@@ -234,27 +211,30 @@ public class ReporterActivity extends ActionBarActivity implements
 		//TODO read shared preferences, May check validity of server Url here
 		// Update data range here as well
 		Log.v(TAG, "Entered sheduleUpdates");
-		//Start update ONLY if host URL is valid
+		//Start update ONLY if host URL is valid //TODO remove Url checking
 		if (null == this.updateRange || null == this.updateHost 
 			|| this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default))
 			|| this.updateFrequency == 0) {
-			this.alarmManager.cancel(this.httpUpdateWrapper);
-			this.alarmScheduled = false;
+			if (null != this.timer) {
+			    this.timer.cancel();
+			    Log.d(TAG, "Http Updates Canceled");
+			}
+			this.timerScheduled = false;
 			this.updateFrequency = 0;
 			return;
 		}
-		Log.d(TAG, "Will schedule an Alarm to trigger updates from " + this.updateHost);
+		Log.d(TAG, "Will schedule Timer to trigger updates from " + this.updateHost);
 		//Schedule Alert here
-		//FOR DEBUGGING ONLY:
+		//DEBUG ONLY
 		this.updateFrequency = 1;
-		long INTERVAL = this.updateFrequency * 10 * 1000L;
-		if (this.alarmScheduled)
-			this.alarmManager.cancel(httpUpdateWrapper);
-		this.alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,
-				                       SystemClock.elapsedRealtime(),
-				                       INTERVAL,
-				                       httpUpdateWrapper);
-		this.alarmScheduled = true;
+		long INTERVAL = this.updateFrequency * 15 * 1000L;
+		if (this.timerScheduled) {
+			this.timer.cancel();
+		    Log.d(TAG, "Http Updates Canceled");	
+		}
+		this.timer = new Timer();
+		this.timer.schedule(new TimedHttpTask(), INITIAL_TIMER_DELAY, INTERVAL);
+		this.timerScheduled = true;
 	}
 	
 	/*
@@ -265,10 +245,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.v(TAG, "Entered updateActivityPrefs");
 		if (null == this.sp) // This check may be not needed
 			return;
-		//boolean stateBefore = (null != this.updateHost && !this.updateHost.isEmpty() 
-		//		            && this.updateFrequency > 0 
-		//		            && null != this.updateRange 
-		//		            && !this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default)));
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
 		
@@ -280,24 +256,9 @@ public class ReporterActivity extends ActionBarActivity implements
 				Log.e(TAG, "Malformed value for update frequency, will not update");
 				this.updateFrequency = 0;
 			}
+		} else {
+			this.updateFrequency = 0;
 		}
-		//TODO analyze state change, set OFF2ON boolean if necessary
-		//boolean stateAfter = (null != this.updateHost && !this.updateHost.isEmpty() 
-	    //                   && this.updateFrequency > 0 
-	     //                  && null != this.updateRange 
-	     //                  && !this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default)));
-		/* this TODO may not be needed, the updates start
-		//TODO if alarm gets set from OFF to ON, start a HTTP request immediately
-		this.OFF2ON = !stateBefore && stateAfter;
-		if (this.OFF2ON) {
-			// launch HTTP task, we need this b/c otherwise the next update will be in updateFrequency minutes
-			Log.d(TAG, "Updates going from OFF to ON state");
-			if (!this.updateHost.isEmpty() && URLUtil.isValidUrl(this.updateHost)) {
-				//TODO launch Http task if the host is valid only
-				Log.d(TAG, "Would launch Http task from updateActivityPrefs");
-			}
-			this.OFF2ON = false;
-		}*/
 		scheduleUpdate();
 	}
 	
@@ -314,18 +275,14 @@ public class ReporterActivity extends ActionBarActivity implements
 	}
 	
 	/*
-	 * Broadcast Receiver for scheduled updates, the place to launch the atual update task 
+	 * Task used by the Timer to launch Http requests
 	 */
-	class AlarmReceiver extends BroadcastReceiver {
-		@Override 
-		public void onReceive(Context context, Intent intent) {
-			// TODO Receive broadcast from alarm and launch getreportHTTP task
-			Log.d(TAG, "Entered onReceive for Alarm, here we need to launch HTTP task");
-			// TODO Launch Http task, the function that processes results should launch Json loading task
-			// if we have updated data (check timestamp)
-			Toast.makeText(getApplicationContext(), 
-					"Fake Http Request sent", Toast.LENGTH_SHORT).show();
+	class TimedHttpTask extends TimerTask {
+		@Override
+		public void run() {
+			Log.d(TAG, "Entered TimedHttpTask, here we need to launch HTTP request");
+			// TODO Launch Http task, the function that processes results should launch Json loading task		
 		}
 	}
-	
+
 }

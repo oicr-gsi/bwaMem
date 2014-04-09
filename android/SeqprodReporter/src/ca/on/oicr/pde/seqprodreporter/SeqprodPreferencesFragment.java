@@ -1,11 +1,15 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.webkit.URLUtil;
 
 public class SeqprodPreferencesFragment extends PreferenceFragment 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -23,7 +27,6 @@ public class SeqprodPreferencesFragment extends PreferenceFragment
 		if (this.prefsChanged)
 			LocalBroadcastManager.getInstance(getActivity().getApplicationContext())
 			 .sendBroadcast(new Intent(ReporterActivity.PREFCHANGE_INTENT));
-			//getActivity().getApplicationContext().sendBroadcast(new Intent(ReporterActivity.PREFCHANGE_INTENT));
 		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 		super.onStop();
 	}
@@ -63,12 +66,33 @@ public class SeqprodPreferencesFragment extends PreferenceFragment
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
+		//TODO URL-checking code:
+		if (key.equals("pref_hostName")) {
+		  String newUrl = getPreferenceManager().getSharedPreferences().getString(key, "NA");
+		  if (null != newUrl && !newUrl.isEmpty() && !newUrl.equals("NA")) {
+			if (!URLUtil.isValidUrl(newUrl))  {
+				
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				builder.setMessage(R.string.url_invalid).setTitle("Error");
+				builder.setNegativeButton("Close", new OnClickListener() {
+
+	         		@Override
+					public void onClick(DialogInterface dialog, int which) {
+	         			getPreferenceManager().getSharedPreferences()
+	         			    .edit().remove("pref_hostName").commit();
+					}});
+				builder.create().show();
+				return;
+			}
+		  } 
+		}
+				
 		this.prefsChanged = true;
 		Preference p = getPreferenceScreen().findPreference(key);
 		if (null != p) {
 		 String updatedValue = getPreferenceManager().getSharedPreferences().getString(key, "NA");
-		 if (!updatedValue.equals("NA"))
+		 if (null != updatedValue && !updatedValue.equals("NA"))
 			 p.setSummary(updatedValue);
-		}
+		} 
 	}
 }
