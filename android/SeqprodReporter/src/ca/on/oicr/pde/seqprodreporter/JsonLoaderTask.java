@@ -64,12 +64,15 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 		}
 
 		br.close();
+		return getRecordsFromJSON(jsonLine, this.TYPE);
+	}
+	
+	public static List<Report> getRecordsFromJSON (String JsonString, String type) {
 		List<Report> result = new ArrayList<Report>();
-		String JSONResponse = jsonLine; // read from file
 		try {
-			JSONObject object = (JSONObject) new JSONTokener(JSONResponse)
+			JSONObject object = (JSONObject) new JSONTokener(JsonString)
 					.nextValue();
-			JSONArray Reports = object.getJSONArray(this.TYPE);
+			JSONArray Reports = object.getJSONArray(type);
 			for (int i = 0; i < Reports.length(); i++) {
 				JSONObject tmp = (JSONObject) Reports.get(i);
 				Report newReport = new Report(
@@ -78,7 +81,7 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 						tmp.getString("version"),
 						tmp.getString("crtime"),
 						tmp.getString("lmtime"));
-				if (this.TYPE.equals(ReporterActivity.types[2])) {
+				if (type.equals(ReporterActivity.types[2])) {
 					String p = tmp.getString("progress");
 					if (null !=p && !p.isEmpty())
 						newReport.setrProgress(p);
