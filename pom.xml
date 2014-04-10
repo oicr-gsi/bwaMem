@@ -108,16 +108,6 @@
 
     <repositories>
         <repository>
-            <id>seqwaremaven.oicr.on.ca-seqware-dependencies</id>
-            <name>seqwaremaven.oicr.on.ca-seqware-dependencies</name>
-            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
-        </repository>
-        <repository>
-            <id>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</id>
-            <name>seqwaremaven.oicr.on.ca-seqware-dependencies-snapshot</name>
-            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies-snapshot</url>
-        </repository>
-        <repository>
             <id>com.github.seqware</id>
             <name>SeqWare Maven Repository</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-release</url>
@@ -129,9 +119,31 @@
             </snapshots>
         </repository>
         <repository>
-            <id>snapshot.com.github.seqware</id>
-            <name>SeqWare Snapshot Maven Repository</name>
+            <id>snapshots.com.github.seqware</id>
+            <name>SeqWare Maven Snapshot Repository</name>
             <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>dependencies.com.github.seqware</id>
+            <name>SeqWare Dependencies Maven Repository</name>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>     
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots.dependencies.com.github.seqware</id>
+            <name>SeqWare Dependencies Maven Snapshot Repository</name>
+            <url>http://seqwaremaven.oicr.on.ca/artifactory/seqware-dependencies-snapshot</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
