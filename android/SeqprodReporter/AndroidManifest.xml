@@ -25,11 +25,6 @@
             android:name=".SeqprodPreferencesActivity"
             android:label="@string/title_pref_activity" >
         </activity>
-        <receiver 
-            android:name=".ReportAlarmReceiver"
-            android:exported="false"
-            android:enabled="true">
-        </receiver>
     </application>
     
 

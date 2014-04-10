@@ -15,6 +15,9 @@ import org.json.JSONTokener;
 
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.text.format.Time;
+import android.util.Log;
+import android.util.TimeFormatException;
 
 public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 
@@ -75,6 +78,18 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 			JSONArray Reports = object.getJSONArray(type);
 			for (int i = 0; i < Reports.length(); i++) {
 				JSONObject tmp = (JSONObject) Reports.get(i);
+
+				String lmTime = tmp.getString("lmtime").replaceAll("-", ":").replaceAll(":","");
+				//2014-03-21 14:32:23.729
+				try {
+				  String parsable = lmTime.substring(0, lmTime.lastIndexOf(".")).replace(" ", "T");
+				  Time recordTime = new Time();
+				  recordTime.parse(parsable);
+				  //TODO compare to the time of the last update
+				} catch (TimeFormatException tfe) {
+				  Log.e(ReporterActivity.TAG,"");
+				}
+				
 				Report newReport = new Report(
 						tmp.getString("sample"),
 						tmp.getString("workflow"),

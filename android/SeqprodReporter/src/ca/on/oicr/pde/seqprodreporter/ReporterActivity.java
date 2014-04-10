@@ -204,8 +204,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	
 	/*
-	 * This function schedules the Alarm, but DOES NOT launches Http task
-	 * Broadcast Receiver for Alarm will launch the actual update
+	 * This function sets the Timer, but DOES NOT launches Http task
 	 */
 	private void scheduleUpdate() {
 		//TODO read shared preferences, May check validity of server Url here
