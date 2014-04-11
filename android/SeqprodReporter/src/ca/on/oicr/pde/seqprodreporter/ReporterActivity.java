@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +26,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ReporterActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
@@ -36,7 +40,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	private final PreferenceUpdateReceiver prefUpdateReceiver = new PreferenceUpdateReceiver();
-
+	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -47,15 +51,17 @@ public class ReporterActivity extends ActionBarActivity implements
     public static final String TAG = "Seqprodbio Reporter";
     public static final String TIMER_NAME = "Seqprodbio Timer";
     public static final String PREFERENCE_FILE = "seqprod.conf";
-    public static final String DATA_FILE = "seqprod_data.json";
+    public static final String DATA_FILE = "seqprod_data_RANGE.json";
     private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
     
     static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
+    static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
       
     private String updateHost;
     private String updateRange;
     private int updateFrequency; // in minutes
     private boolean timerScheduled = false;
+    private boolean isVisible;
     
     private SharedPreferences sp;
     private Timer timer;
@@ -67,12 +73,13 @@ public class ReporterActivity extends ActionBarActivity implements
 				R.string.pref_automaticUpdates_default);
 		
 		setContentView(R.layout.activity_reporter);
-		//Set up timer for regular updates
-		//this.timer = new Timer(TIMER_NAME);
-		//Register receiver for preference updates
+
+		//Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
+		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
+		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
 		
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		//Read preferences
@@ -115,17 +122,20 @@ public class ReporterActivity extends ActionBarActivity implements
 	}
 	
 	@Override
-	protected void onStop() {
-		// TODO Switch From showing toaster messages to Notifications
-		super.onStop();
+	protected void onPause() {
+		// TODO Switch on Notifications - may do it in onPause()
+		this.isVisible = false;
+		super.onPause();
 	}
 	
 	@Override
-	public void onDestroy() {
-		this.timer.cancel();
-		super.onDestroy();
+	protected void onResume() {
+		// TODO Switch on Notifications - may do it in onPause()
+		this.isVisible = true;
+		super.onResume();
 	}
 	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,7 +192,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			if (position >= this.fragments.size() || null == this.fragments.get(position)) { 
+			if (position >= this.fragments.size() || this.fragments.size() == 0  || null == this.fragments.get(position)) { 
 			  fragments.add(position, ReportListFragment.newInstance(position + 1));
 			}
 			return fragments.get(position);
@@ -207,10 +217,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * This function sets the Timer, but DOES NOT launches Http task
 	 */
 	private void scheduleUpdate() {
-		//TODO read shared preferences, May check validity of server Url here
 		// Update data range here as well
 		Log.v(TAG, "Entered sheduleUpdates");
-		//Start update ONLY if host URL is valid //TODO remove Url checking
+		//Start update ONLY if host URL is valid
 		if (null == this.updateRange || null == this.updateHost 
 			|| this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default))
 			|| this.updateFrequency == 0) {
@@ -225,8 +234,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.d(TAG, "Will schedule Timer to trigger updates from " + this.updateHost);
 		//Schedule Alert here
 		//DEBUG ONLY
-		this.updateFrequency = 1;
-		long INTERVAL = this.updateFrequency * 15 * 1000L;
+		//this.updateFrequency = 1;
+		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
 		    Log.d(TAG, "Http Updates Canceled");	
@@ -273,6 +282,37 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 	}
 	
+	@SuppressLint("NewApi")
+	/*
+	 * Broadcast Receiver for Data Update Broadcast
+	 */
+	class DataUpdateReceiver extends BroadcastReceiver {
+		@Override 
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
+			//TODO update fragments properly? Notification
+			if (ReporterActivity.this.isVisible) {
+				Toast.makeText(ReporterActivity.this, "Update Received", Toast.LENGTH_SHORT).show();
+			} else {
+				Intent mNIntent = new Intent(context, ReporterActivity.class);
+				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
+						mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+				Notification.Builder notificationBuilder = new Notification.Builder(context)
+				        .setTicker("Update Received")
+						.setSmallIcon(android.R.drawable.stat_sys_warning)
+						.setAutoCancel(true).setContentTitle("Seqprod Reporter")
+						.setContentText("Update Received").setContentIntent(mCIntent);
+
+				// Pass the Notification to the NotificationManager:
+				NotificationManager mNotificationManager = (NotificationManager) context
+						.getSystemService(Context.NOTIFICATION_SERVICE);
+				mNotificationManager.notify(0,notificationBuilder.build());
+			}
+			mSectionsPagerAdapter.notifyDataSetChanged();
+		}
+		
+	}
+	
 	/*
 	 * Task used by the Timer to launch Http requests
 	 */
@@ -280,7 +320,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		@Override
 		public void run() {
 			Log.d(TAG, "Entered TimedHttpTask, here we need to launch HTTP request");
-			// TODO Launch Http task, the function that processes results should launch Json loading task		
+			new getreportHTTP(getApplicationContext(), sp).execute();
 		}
 	}
 

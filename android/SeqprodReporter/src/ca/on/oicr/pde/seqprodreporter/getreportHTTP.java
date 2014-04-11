@@ -1,40 +1,45 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
-public class getreportHTTP extends AsyncTask <String, Void, List<Report>> {
+public class getreportHTTP extends AsyncTask <String, Void, Boolean> {
 	private final String URL;
 	private final String Range;
-	
-	// TODO get these values from shared preferences
-	public getreportHTTP(SharedPreferences sp) {
-		//TODO append missing portion of the string to URL, if needed
-	  	this.URL = sp.getString("pref_hostName", null);
-	  	this.Range = sp.getString("prefs_Scope","week");
-	}
-	
+	private static final String SCRIPT = "/getReport.pl?range=";
+	private Context mContext;
 	AndroidHttpClient mClient = AndroidHttpClient.newInstance(ReporterActivity.TAG);
 	
+	public getreportHTTP(Context context, SharedPreferences sp) {
+
+		this.URL = sp.getString("pref_hostName", null);
+	  	this.Range = sp.getString("prefs_Scope","week");
+	  	this.mContext = context;
+	}
+	
+	
+	
 	@Override
-	protected List<Report> doInBackground(String... params) {
-		// TODO Auto-generated method stub
-		HttpGet request = new HttpGet(URL);
+	protected Boolean doInBackground(String... params) {
+
+		Boolean result = Boolean.valueOf(false);
+		String fullURL = URL + SCRIPT + this.Range;
+		HttpGet request = new HttpGet(fullURL);
 		JSONResponseHandler responseHandler = new JSONResponseHandler();
 		try {
 			return mClient.execute(request, responseHandler);
@@ -42,48 +47,40 @@ public class getreportHTTP extends AsyncTask <String, Void, List<Report>> {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 	
-	private class JSONResponseHandler implements ResponseHandler<List<Report>> {
-
-		private static final String LONGITUDE_TAG = "lng";
-		private static final String LATITUDE_TAG = "lat";
-		private static final String MAGNITUDE_TAG = "magnitude";
-		private static final String EARTHQUAKE_TAG = "earthquakes";
+	private class JSONResponseHandler implements ResponseHandler<Boolean> {
 
 		@Override
-		public List<Report> handleResponse(HttpResponse response)
+		public Boolean handleResponse(HttpResponse response)
 				throws ClientProtocolException, IOException {
-			List<Report> result = new ArrayList<Report>();
+			Boolean result = Boolean.valueOf(false);
 			String JSONResponse = new BasicResponseHandler()
 					.handleResponse(response);
+			String FILENAME = ReporterActivity.DATA_FILE.replace("RANGE", Range);
 			try {
-
-				// Get top-level JSON Object - a Map
-				JSONObject responseObject = (JSONObject) new JSONTokener(
-						JSONResponse).nextValue();
-
-				// Extract value of "earthquakes" key -- a List
-				JSONArray earthquakes = responseObject
-						.getJSONArray(EARTHQUAKE_TAG);
-
-				// Iterate over earthquakes list
-				for (int idx = 0; idx < earthquakes.length(); idx++) {
-
-					// Get single earthquake data - a Map
-					JSONObject earthquake = (JSONObject) earthquakes.get(idx);
-
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+				FileOutputStream fos =  mContext.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+				fos.write(JSONResponse.getBytes());
+				fos.close();			
+				Log.d(ReporterActivity.TAG, "Saved data to File " + FILENAME);
+				return Boolean.TRUE; 
+				
+			} catch (FileNotFoundException e) {
+				Log.e(ReporterActivity.TAG, "Could not save to File " + FILENAME);
 			}
 			return result;
 		}
 	}
-
-
 	
+	@Override
+	protected void onPostExecute(Boolean result) {
+        // TODO if result is true, send a Broadcast to notify ReporterActivity
+		LocalBroadcastManager.getInstance(mContext)
+		 .sendBroadcast(new Intent(ReporterActivity.DATACHANGE_INTENT));
+	}
 	
 }

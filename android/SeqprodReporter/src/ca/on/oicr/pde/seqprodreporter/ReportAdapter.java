@@ -2,6 +2,7 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import java.util.ArrayList;
 
+import android.R.color;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ public class ReportAdapter extends BaseAdapter {
 	//This parameter may be local to this adapter
 	private ArrayList<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
-	
+	private final int UPDATE_COLOR = color.holo_orange_light;
 		
 	public ReportAdapter(Context c) {
 		this.mContext = c;
@@ -54,7 +55,6 @@ public class ReportAdapter extends BaseAdapter {
 			holder.lmtime = (TextView) newView.findViewById(R.id.report_lmtime);
 			holder.pbar   = (ProgressBar) newView.findViewById(R.id.report_pbar);
 			newView.setTag(holder);
-			
 		} else {
 			holder = (ReportHolder) newView.getTag();
 		}
@@ -67,6 +67,8 @@ public class ReportAdapter extends BaseAdapter {
 			holder.pbar.setProgress(curr.progressValue());
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);	
 		}
+		if (curr.getrUpdated())
+			holder.samplename.setBackgroundColor(UPDATE_COLOR);
 
 		return newView;
 	}

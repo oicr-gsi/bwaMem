@@ -6,22 +6,22 @@ use DBI;
 use JSON;
 use Data::Dumper;
 use Time::Local;
-use constant DEBUG=>1;
+use constant DEBUG=>0;
 my $STATUSTAG = "pegasus";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
 # query the seqware metadb
-#my $username = 'seqware';
-my $username = 'pruzanov';
-#my $password = 'seqware7420';
-my $password = 'metaPHP';
-#my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
+my $username = 'sqwread';
+#my $username = 'pruzanov';
+my $password = 'Seqware8513';
+#my $password = 'metaPHP';
+my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
 #my $dbhost = '10.2.0.56';
 #my $dbhost = '10.2.0.44';
-my $dbhost = 'localhost';
-my $dbname = 'meta_db';
-my $wrkey  = '~/cron/flyking-rsync-key';
+#my $dbhost = 'localhost';
+my $dbname = 'seqware_meta_db';
+my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
 my $wruser = 'seqware';
 my $wrhost = 'pipedev.hpc.oicr.on.ca';
 
@@ -118,7 +118,7 @@ while(my @row = $sth->fetchrow_array) {
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
         
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
-        $statusCmd = $' if $statusCmd=~/^\W*/; #'
+        $statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; #'
         warn "Status command:".$statusCmd."\n" if DEBUG;
         push(@{$results{$currentStatus}},{sample    => $sampleName,
                                           workflow  => $workflowName,
@@ -148,12 +148,16 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
     warn "About to check for ".$STATUSTAG if DEBUG;
     if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
 	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
-	  my @statusOutput = split(/\n/, `ssh -i $wrkey $wruser\@$wrhost $run->{stcommand}`);
-	  if (defined $statusOutput[5] && $statusOutput[5] =~ /.*\( (.*%) \).*/) {
-	    $run->{progress} = $1;
-	  } else {
-            $run->{progress} = "NA";
-          }
+
+	  #my @statusOutput = split(/\n/, `ssh -i $wrkey $wruser\@$wrhost $run->{stcommand}`);
+	  #if (defined $statusOutput[5] && $statusOutput[5] =~ /.*\( (.*%) \).*/) {
+	  #  $run->{progress} = $1;
+	  #} else {
+          #  $run->{progress} = "NA";
+          #}
+          # TEMPORARY, FAKE STATUS TODO : get these values from a webserver
+          $run->{progress} = "".int rand(100);
+
 	 }
    }
 }

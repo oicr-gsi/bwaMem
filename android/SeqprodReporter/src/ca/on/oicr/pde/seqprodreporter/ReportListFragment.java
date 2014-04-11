@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class ReportListFragment extends Fragment {
 	 */
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private ReportAdapter mAdapter;
+	private Time lastUpdateTime;
 
 	/**
 	 * Returns a new instance of this fragment for the given section number.
@@ -38,9 +40,8 @@ public class ReportListFragment extends Fragment {
 				.findViewById(R.id.section_list);
 		this.mAdapter = new ReportAdapter(container.getContext());
 		int index = this.getSectionNumber() - 1;
-		//TODO Need to either load internal file with data or send Http request to get the new json
-		new JsonLoaderTask(this, ReporterActivity.types[index]).execute();
-		// need to initialize and set the adapter here
+		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute();
+
 		listView.setAdapter(mAdapter);
 		return rootView;
 	}
@@ -54,10 +55,13 @@ public class ReportListFragment extends Fragment {
 		mAdapter.notifyDataSetChanged();
 	}
 	
-	//TODO may need another addRemoteReports function to load data from http
 	
 	public int getSectionNumber() {
         return getArguments().getInt(ARG_SECTION_NUMBER, 0);
     }
+	
+	public void setLastUpdateTime(Time t) {
+		this.lastUpdateTime = t;
+	}
 
 }
