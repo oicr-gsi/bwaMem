@@ -73,7 +73,8 @@ public class ReporterActivity extends ActionBarActivity implements
 				R.string.pref_automaticUpdates_default);
 		
 		setContentView(R.layout.activity_reporter);
-
+        // FIXME To implement it correctly, we need a set of Fragments
+		// Application should switch b/w them instead of having multiple Activities
 		//Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
@@ -290,7 +291,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		@Override 
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
-			//TODO update fragments properly? Notification
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received", Toast.LENGTH_SHORT).show();
 			} else {
