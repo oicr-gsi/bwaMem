@@ -68,6 +68,8 @@ public class ReportAdapter extends BaseAdapter {
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);	
 		}
 		if (curr.getrUpdated())
+			//TODO this doesn't have any effect at the moment, need to debug
+			// perhaps, invalidate the corresponding View?
 			holder.samplename.setBackgroundColor(UPDATE_COLOR);
 
 		return newView;
