@@ -59,7 +59,7 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 
 		Resources r = mParent.get().getResources();
-		//TODO  TEMPORARY - read only from week' file
+		//TODO  TEMPORARY - read only from week' file, implement other time ranges
 		String jsonLine = "";
 		String jString = "";
 		String FNAME = ReporterActivity.DATA_FILE.replace("RANGE", "week");

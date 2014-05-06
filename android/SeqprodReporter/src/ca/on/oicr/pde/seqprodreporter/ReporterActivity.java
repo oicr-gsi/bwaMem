@@ -73,9 +73,9 @@ public class ReporterActivity extends ActionBarActivity implements
 				R.string.pref_automaticUpdates_default);
 		
 		setContentView(R.layout.activity_reporter);
-        // FIXME To implement it correctly, we need a set of Fragments
-		// Application should switch b/w them instead of having multiple Activities
-		//Register receivers for preference and data updates
+        // TODO This Activity eventually will not be the LAUNCHER Activity
+		// Perhaps we need to move the Http request - sending code into new activity (SummaryStatsActivity)
+		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
@@ -124,14 +124,14 @@ public class ReporterActivity extends ActionBarActivity implements
 	
 	@Override
 	protected void onPause() {
-		// TODO Switch on Notifications - may do it in onPause()
+		// Switch on Notifications - may do it in onPause()
 		this.isVisible = false;
 		super.onPause();
 	}
 	
 	@Override
 	protected void onResume() {
-		// TODO Switch on Notifications - may do it in onPause()
+		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
 		super.onResume();
 	}

@@ -78,7 +78,7 @@ public class getreportHTTP extends AsyncTask <String, Void, Boolean> {
 	
 	@Override
 	protected void onPostExecute(Boolean result) {
-        // TODO if result is true, send a Broadcast to notify ReporterActivity
+        // If result is true, send a Broadcast to notify ReporterActivity
 		LocalBroadcastManager.getInstance(mContext)
 		 .sendBroadcast(new Intent(ReporterActivity.DATACHANGE_INTENT));
 	}
