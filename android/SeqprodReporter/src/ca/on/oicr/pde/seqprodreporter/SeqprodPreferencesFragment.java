@@ -61,12 +61,11 @@ public class SeqprodPreferencesFragment extends PreferenceFragment
 	/*
 	 * (non-Javadoc)
 	 * * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
-	 * Here we update summay text inside preference fragment and send a broadcast (to the receiver in ReporterActivity)
+	 * Here we update summary text inside preference fragment and send a broadcast (to the receiver in ReporterActivity)
 	 */
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		//TODO URL-checking code:
 		if (key.equals("pref_hostName")) {
 		  String newUrl = getPreferenceManager().getSharedPreferences().getString(key, "NA");
 		  if (null != newUrl && !newUrl.isEmpty() && !newUrl.equals("NA")) {
