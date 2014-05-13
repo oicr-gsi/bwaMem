@@ -122,6 +122,7 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 				boolean updated = false;
 
 				// 2014-03-21 14:32:23.729
+				//TODO (PDE-577) - make sure this code is marking updated items correctly
 				try {
 					String parsable = lmTime.substring(0,
 							lmTime.lastIndexOf(".")).replace(" ", "T");

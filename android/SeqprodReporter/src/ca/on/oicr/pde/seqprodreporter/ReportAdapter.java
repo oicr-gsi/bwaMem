@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class ReportAdapter extends BaseAdapter {
 	private Context mContext;
-	//TODO need to flag updated reports, for this we need to extract time and compare it to the time of the last update
+	//TODO (PDE-577) need to flag updated reports, for this we need to extract time and compare it to the time of the last update
 	//This parameter may be local to this adapter
 	private ArrayList<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
@@ -68,7 +68,7 @@ public class ReportAdapter extends BaseAdapter {
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);	
 		}
 		if (curr.getrUpdated())
-			//TODO this doesn't have any effect at the moment, need to debug
+			//TODO (PDE-577) this doesn't have any effect at the moment, need to debug
 			// perhaps, invalidate the corresponding View?
 			holder.samplename.setBackgroundColor(UPDATE_COLOR);
 

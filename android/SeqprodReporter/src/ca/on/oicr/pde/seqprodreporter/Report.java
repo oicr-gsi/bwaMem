@@ -7,7 +7,7 @@ public class Report {
     private String rCreateTime;
     private String rLastmodTime;
     private String rProgress;
-    //TODO we need a boolean that would flag the state of a Report (set it to true depending on rLastmodTime)
+    //TODO (PDE-577) we need a boolean that would flag the state of a Report (set it to true depending on rLastmodTime)
     //Later we can use this boolean flag for highlighting updated Reports
     private boolean rUpSinceLastTime;
 
