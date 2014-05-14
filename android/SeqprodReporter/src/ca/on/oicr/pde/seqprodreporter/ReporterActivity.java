@@ -293,6 +293,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received", Toast.LENGTH_SHORT).show();
+				mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem()).getView().invalidate();
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
