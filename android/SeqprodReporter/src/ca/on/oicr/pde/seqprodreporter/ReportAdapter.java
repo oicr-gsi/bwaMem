@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.R.color;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class ReportAdapter extends BaseAdapter {
 	private ArrayList<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
 	private final int UPDATE_COLOR = color.holo_orange_light;
+	private final int DEFAULT_COLOR = color.white;
+	
 		
 	public ReportAdapter(Context c) {
 		this.mContext = c;
@@ -67,10 +70,13 @@ public class ReportAdapter extends BaseAdapter {
 			holder.pbar.setProgress(curr.progressValue());
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);	
 		}
-		if (curr.getrUpdated())
-			//TODO (PDE-577) this doesn't have any effect at the moment, need to debug
-			// perhaps, invalidate the corresponding View?
-			holder.samplename.setBackgroundColor(UPDATE_COLOR);
+		if (curr.getrUpdated()){
+			Log.d(ReporterActivity.TAG, curr.getrWorkflowName());
+			newView.setBackgroundResource(UPDATE_COLOR);
+		}
+		else{
+			newView.setBackgroundResource(DEFAULT_COLOR);
+			} 
 
 		return newView;
 	}

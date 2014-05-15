@@ -151,7 +151,11 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 				result.add(newReport);
 			}
 			if (null == lastUpdated || lastUpdated.before(newLatest))
+				
+				//TODO: Call only when the corressponding fragment is visible
+				if (this.mParent.get().isVisible()){
 				this.mParent.get().setLastUpdateTime(newLatest);
+				}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
