@@ -1,6 +1,8 @@
 package ca.on.oicr.pde.seqprodreporter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import android.R.color;
 import android.content.Context;
@@ -16,7 +18,7 @@ public class ReportAdapter extends BaseAdapter {
 	private Context mContext;
 	//TODO (PDE-577) need to flag updated reports, for this we need to extract time and compare it to the time of the last update
 	//This parameter may be local to this adapter
-	private ArrayList<Report> list = new ArrayList<Report>();
+	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
 	private final int UPDATE_COLOR = color.holo_orange_light;
 	private final int DEFAULT_COLOR = color.white;
@@ -96,7 +98,9 @@ public class ReportAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 	
-	public ArrayList<Report> getList(){
+	public List<Report> getList(){
+        //TODO we may use this point to control sorting, also see Report.java code for Comparators
+		Collections.sort(list, Report.ReportTimeComparator);
 		return list;
 	}
 	
