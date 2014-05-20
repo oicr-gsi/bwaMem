@@ -94,7 +94,8 @@ public class Report {
 	private void setTimeStamp(Time rLastModTime) {
 		this.rLastModTime = rLastModTime;
 	}
-
+	//TODO PDE-588 need to make these comparators capable of sorting both ways (New->Old, Old->New, A-Z and Z-A)
+	//A variable (boolean flag or int may be used to set the options)
 	public static Comparator<Report> ReportNameComparator = new Comparator<Report>() {
 
 		public int compare(Report report1, Report report2) {

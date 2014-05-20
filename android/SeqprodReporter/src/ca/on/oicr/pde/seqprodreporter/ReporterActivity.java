@@ -151,6 +151,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
+		//TODO PDE-588 need to add 'Sort By' handling here, after option changes the UI should update
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
