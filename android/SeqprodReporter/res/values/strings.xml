@@ -18,7 +18,7 @@
     <string name="pref_automaticUpdates">Automatic Updates</string>
     <string-array name="pref_automaticUpdates_entries">
         <item>Off</item>
-        <item>1 min</item>
+        <item>5 min</item>
         <item>15 min</item>
         <item>60 min</item>
     </string-array>

@@ -41,7 +41,7 @@ public class ReportListFragment extends Fragment {
 		this.mAdapter = new ReportAdapter(container.getContext());
 		int index = this.getSectionNumber() - 1;
 		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute();
-
+		
 		listView.setAdapter(mAdapter);
 		return rootView;
 	}

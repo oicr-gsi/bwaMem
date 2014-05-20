@@ -236,7 +236,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		//Schedule Alert here
 		//DEBUG ONLY
 		//this.updateFrequency = 1;
-		long INTERVAL = this.updateFrequency * 20 * 1000L;
+		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
 		    Log.d(TAG, "Http Updates Canceled");	
