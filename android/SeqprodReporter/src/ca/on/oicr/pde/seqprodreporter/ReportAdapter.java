@@ -97,7 +97,6 @@ public class ReportAdapter extends BaseAdapter {
 	
 	public List<Report> getList(){
         //TODO we may use this point to control sorting, also see Report.java code for Comparators
-		Collections.sort(list, Report.ReportTimeComparator);
 		return list;
 	}
 	

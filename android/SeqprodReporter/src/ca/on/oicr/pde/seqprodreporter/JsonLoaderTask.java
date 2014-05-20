@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -52,6 +53,7 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 
 		if (null != result && null != mParent.get()) {
 			Log.d(ReporterActivity.TAG,"Loaded " + result.size() + " records for " + TYPE);
+			Collections.sort(result);
 			mParent.get().addLocalReports(result);
 		}
 	}

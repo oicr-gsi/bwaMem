@@ -7,7 +7,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
-public class Report {
+public class Report implements Comparable<Report>{
 	private String rSampleName;
 	private String rWorkflowName;
 	private String rWorkflowVersion;
@@ -96,7 +96,7 @@ public class Report {
 	}
 	//TODO PDE-588 need to make these comparators capable of sorting both ways (New->Old, Old->New, A-Z and Z-A)
 	//A variable (boolean flag or int may be used to set the options)
-	public static Comparator<Report> ReportNameComparator = new Comparator<Report>() {
+	/*public static Comparator<Report> ReportNameComparator = new Comparator<Report>() {
 
 		public int compare(Report report1, Report report2) {
 
@@ -108,19 +108,26 @@ public class Report {
 
 		}
 
-	};
+	};/*
 
-	public static Comparator<Report> ReportTimeComparator = new Comparator<Report>() {
+	/*public static Comparator<Report> ReportTimeComparator = new Comparator<Report>() {
 
 		public int compare(Report report1, Report report2) {
 
 			Time repTime1 = report1.getTimeStamp();
 			Time repTime2 = report2.getTimeStamp();
 
-			return repTime1.after(repTime2) ? 1 : -1;
+			return Time.compare(repTime1, repTime2)>0 ? 1 : Time.compare(repTime1,repTime2)< 0 ? -1 : 0;
 
 		}
 
-	};
+	};*/
+
+	@Override
+	public int compareTo(Report other ) {
+		Time repTime1 = this.getTimeStamp();
+		Time repTime2 = other.getTimeStamp();
+		return Time.compare(repTime2, repTime1);
+	}
 
 }
