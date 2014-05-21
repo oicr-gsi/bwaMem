@@ -21,7 +21,9 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
-	private final int UPDATE_COLOR = color.holo_orange_light;
+	private final int UPDATE_COLOR = color.holo_green_dark;
+	private final int DEFAULT_COLOR = color.white;
+	
 
 	public ReportAdapter(Context context, int resource) {
 		super(context, resource);
@@ -74,11 +76,14 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.pbar.setProgress(curr.progressValue());
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);
 		}
-		if (curr.getrUpdated())
-			// TODO (PDE-577) this doesn't have any effect at the moment, need
-			// to debug
-			// perhaps, invalidate the corresponding View?
-			holder.samplename.setBackgroundColor(UPDATE_COLOR);
+
+		
+		if (curr.getrUpdated()){
+			newView.setBackgroundResource(UPDATE_COLOR);	
+		}	
+		else {
+			newView.setBackgroundResource(DEFAULT_COLOR);
+		} 
 
 		return newView;
 	}
@@ -98,7 +103,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 
 	public void sortList(Comparator<Report> comp) {
 		Collections.sort(list, comp);
-	}
+    }
 
 	public void removeAllViews() {
 		list.clear();

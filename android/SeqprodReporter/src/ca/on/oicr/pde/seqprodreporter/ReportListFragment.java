@@ -23,9 +23,9 @@ public class ReportListFragment extends Fragment {
 	private Time lastUpdateTime;
 	private int sectionNumber;
 
-	public final Comparator<Report> TIMECOMPARATOR   = new ReportTimeComparator();
+	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
-	public final Comparator<Report> NAMECOMPARATOR   = new ReportWorkflowComparator();
+	public final Comparator<Report> NAMECOMPARATOR = new ReportWorkflowComparator();
 
 	/**
 	 * Returns a new instance of this fragment for the given section number.
@@ -39,6 +39,7 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View rootView = inflater.inflate(R.layout.fragment_reporter, container,
 				false);
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
@@ -46,11 +47,10 @@ public class ReportListFragment extends Fragment {
 		int index = this.getSectionNumber() - 1;
 		Log.d(ReporterActivity.TAG, "onCreateView called for "
 				+ ReporterActivity.types[index]);
-		this.mAdapter = new ReportAdapter(container.getContext(),
-				R.layout.fragment_reporter);
+		this.mAdapter = new ReportAdapter(container.getContext(), R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
-		new JsonLoaderTask(this, ReporterActivity.types[index],
-				this.lastUpdateTime).execute();
+		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute();
+
 		listView.setAdapter(mAdapter);
 		return rootView;
 	}
@@ -63,8 +63,9 @@ public class ReportListFragment extends Fragment {
 		mAdapter.sortList(TIMECOMPARATOR);
 		mAdapter.notifyDataSetChanged();
 	}
+
 	// TODO PDE-588 need to switch between these comparators
-	
+
 	public int getSectionNumber() {
 		return this.sectionNumber;
 	}
