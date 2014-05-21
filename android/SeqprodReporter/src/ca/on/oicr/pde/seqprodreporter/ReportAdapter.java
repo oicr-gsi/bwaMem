@@ -2,27 +2,30 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
 import android.R.color;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ReportAdapter extends BaseAdapter {
+public class ReportAdapter extends ArrayAdapter<Report> {
+
 	private Context mContext;
-	//TODO (PDE-577) need to flag updated reports, for this we need to extract time and compare it to the time of the last update
-	//This parameter may be local to this adapter
+	// TODO (PDE-577) need to flag updated reports, for this we need to extract
+	// time and compare it to the time of the last update
+	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
 	private final int UPDATE_COLOR = color.holo_orange_light;
-		
-	public ReportAdapter(Context c) {
-		this.mContext = c;
+
+	public ReportAdapter(Context context, int resource) {
+		super(context, resource);
+		this.mContext = context;
 		inflater = LayoutInflater.from(mContext);
 	}
 
@@ -32,7 +35,7 @@ public class ReportAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Report getItem(int position) {
 		return this.list.get(position);
 	}
 
@@ -43,7 +46,7 @@ public class ReportAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
+
 		View newView = convertView;
 		ReportHolder holder;
 		Report curr = list.get(position);
@@ -51,56 +54,54 @@ public class ReportAdapter extends BaseAdapter {
 		if (null == convertView) {
 			holder = new ReportHolder();
 			newView = inflater.inflate(R.layout.report, null);
-			holder.samplename = (TextView) newView.findViewById(R.id.report_samplename);
+			holder.samplename = (TextView) newView
+					.findViewById(R.id.report_samplename);
 			holder.wfname = (TextView) newView.findViewById(R.id.report_wfname);
-			holder.ctime  = (TextView) newView.findViewById(R.id.report_ctime);
+			holder.ctime = (TextView) newView.findViewById(R.id.report_ctime);
 			holder.lmtime = (TextView) newView.findViewById(R.id.report_lmtime);
-			holder.pbar   = (ProgressBar) newView.findViewById(R.id.report_pbar);
+			holder.pbar = (ProgressBar) newView.findViewById(R.id.report_pbar);
 			newView.setTag(holder);
 		} else {
 			holder = (ReportHolder) newView.getTag();
 		}
 
 		holder.samplename.setText("Sample: " + curr.getrSampleName());
-		holder.wfname.setText(curr.getrWorkflowName() + " " + curr.getrWorkflowVersion());
+		holder.wfname.setText(curr.getrWorkflowName() + " "
+				+ curr.getrWorkflowVersion());
 		holder.ctime.setText("Created: " + curr.getrCreateTime());
 		holder.lmtime.setText("Modified: " + curr.getrLastmodTime());
 		if (null != curr.getrProgress()) {
 			holder.pbar.setProgress(curr.progressValue());
-			holder.pbar.setVisibility(ProgressBar.VISIBLE);	
+			holder.pbar.setVisibility(ProgressBar.VISIBLE);
 		}
 		if (curr.getrUpdated())
-			//TODO (PDE-577) this doesn't have any effect at the moment, need to debug
+			// TODO (PDE-577) this doesn't have any effect at the moment, need
+			// to debug
 			// perhaps, invalidate the corresponding View?
 			holder.samplename.setBackgroundColor(UPDATE_COLOR);
 
 		return newView;
 	}
-	
-	
+
 	static class ReportHolder {
 		TextView samplename;
 		TextView wfname;
 		TextView ctime;
 		TextView lmtime;
 		ProgressBar pbar;
-		
+
 	}
-	
+
 	public void add(Report listItem) {
 		list.add(listItem);
-		notifyDataSetChanged();
 	}
-	
-	public List<Report> getList(){
-        //TODO we may use this point to control sorting, also see Report.java code for Comparators
-		Collections.sort(list, Report.ReportTimeComparator);
-		return list;
+
+	public void sortList(Comparator<Report> comp) {
+		Collections.sort(list, comp);
 	}
-	
-	public void removeAllViews(){
+
+	public void removeAllViews() {
 		list.clear();
-		this.notifyDataSetChanged();
 	}
 
 }

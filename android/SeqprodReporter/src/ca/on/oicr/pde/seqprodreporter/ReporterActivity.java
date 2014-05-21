@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -45,51 +46,56 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-    
-    protected static String[] types = {"completed","failed","pending"};
-    protected static String SYNC_OFF;
-    public static final String TAG = "Seqprodbio Reporter";
-    public static final String TIMER_NAME = "Seqprodbio Timer";
-    public static final String PREFERENCE_FILE = "seqprod.conf";
-    public static final String DATA_FILE = "seqprod_data_RANGE.json";
-    private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
-    
-    static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
-    static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
-      
-    private String updateHost;
-    private String updateRange;
-    private int updateFrequency; // in minutes
-    private boolean timerScheduled = false;
-    private boolean isVisible;
-    
-    private SharedPreferences sp;
-    private Timer timer;
+
+	protected static String[] types = { "completed", "failed", "pending" };
+	protected static String SYNC_OFF;
+	public static final String TAG = "Seqprodbio Reporter";
+	public static final String TIMER_NAME = "Seqprodbio Timer";
+	public static final String PREFERENCE_FILE = "seqprod.conf";
+	public static final String DATA_FILE = "seqprod_data_RANGE.json";
+	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
+
+	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
+	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	// TODO PDE-588 need to use the below integers for switching b/w comparators
+    static final int SORT_BY_SAMPLE   = 0;
+    static final int SORT_BY_WORKFLOW = 1;
+    static final int SORT_BY_MODTIME  = 2;
+	
+	private String updateHost;
+	private String updateRange;
+	private int updateFrequency; // in minutes
+	private boolean timerScheduled = false;
+	private boolean isVisible;
+
+	private SharedPreferences sp;
+	private Timer timer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
-		
+
 		setContentView(R.layout.activity_reporter);
-        // TODO This Activity eventually will not be the LAUNCHER Activity
-		// Perhaps we need to move the Http request - sending code into new activity (SummaryStatsActivity)
+		// TODO This Activity eventually will not be the LAUNCHER Activity
+		// Perhaps we need to move the Http request - sending code into new
+		// activity (SummaryStatsActivity)
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
-		
+
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
-		//Read preferences
+		// Read preferences
 		this.updateActivityPrefs();
-		
+
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
+
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -121,22 +127,20 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setTabListener(this));
 		}
 	}
-	
+
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = false;
 		super.onPause();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
 		super.onResume();
 	}
-	
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,18 +149,18 @@ public class ReporterActivity extends ActionBarActivity implements
 		return true;
 	}
 
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		//TODO PDE-588 need to add 'Sort By' handling here, after option changes the UI should update
+		// TODO PDE-588 need to add 'Sort By' handling here, after option
+		// changes the UI should update
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
 			startActivity(setPrefs);
-			return true;			
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -185,7 +189,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		private List<ReportListFragment> fragments;
-		
+
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
 			fragments = new ArrayList<ReportListFragment>();
@@ -194,8 +198,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			if (position >= this.fragments.size() || this.fragments.size() == 0  || null == this.fragments.get(position)) { 
-			  fragments.add(position, ReportListFragment.newInstance(position + 1));
+			if (position >= this.fragments.size() || this.fragments.size() == 0
+					|| null == this.fragments.get(position)) {
+				fragments.add(position,
+						ReportListFragment.newInstance(position + 1));
 			}
 			return fragments.get(position);
 		}
@@ -214,39 +220,41 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 
-	
 	/*
 	 * This function sets the Timer, but DOES NOT launches Http task
 	 */
 	private void scheduleUpdate() {
 		// Update data range here as well
 		Log.v(TAG, "Entered sheduleUpdates");
-		//Start update ONLY if host URL is valid
-		if (null == this.updateRange || null == this.updateHost 
-			|| this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default))
-			|| this.updateFrequency == 0) {
+		// Start update ONLY if host URL is valid
+		if (null == this.updateRange
+				|| null == this.updateHost
+				|| this.updateRange.equals(getResources().getString(
+						R.string.pref_summaryScope_default))
+				|| this.updateFrequency == 0) {
 			if (null != this.timer) {
-			    this.timer.cancel();
-			    Log.d(TAG, "Http Updates Canceled");
+				this.timer.cancel();
+				Log.d(TAG, "Http Updates Canceled");
 			}
 			this.timerScheduled = false;
 			this.updateFrequency = 0;
 			return;
 		}
-		Log.d(TAG, "Will schedule Timer to trigger updates from " + this.updateHost);
-		//Schedule Alert here
-		//DEBUG ONLY
-		//this.updateFrequency = 1;
+		Log.d(TAG, "Will schedule Timer to trigger updates from "
+				+ this.updateHost);
+		// Schedule Alert here
+		// DEBUG ONLY
+		// this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
-		    Log.d(TAG, "Http Updates Canceled");	
+			Log.d(TAG, "Http Updates Canceled");
 		}
 		this.timer = new Timer();
 		this.timer.schedule(new TimedHttpTask(), INITIAL_TIMER_DELAY, INTERVAL);
 		this.timerScheduled = true;
 	}
-	
+
 	/*
 	 * Update Activity's variables with new values from SharedPreferences,
 	 * launch Http task if going from OFF to ON state
@@ -257,13 +265,15 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-		
+
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
-				this.updateFrequency = Integer.parseInt(uf.substring(0, uf.lastIndexOf(" ")));
+				this.updateFrequency = Integer.parseInt(uf.substring(0,
+						uf.lastIndexOf(" ")));
 			} catch (NumberFormatException ne) {
-				Log.e(TAG, "Malformed value for update frequency, will not update");
+				Log.e(TAG,
+						"Malformed value for update frequency, will not update");
 				this.updateFrequency = 0;
 			}
 		} else {
@@ -271,57 +281,64 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		scheduleUpdate();
 	}
-	
+
 	/*
-	 * Broadcast Receiver for Preference Update Broadcast, updates variables with preference values
+	 * Broadcast Receiver for Preference Update Broadcast, updates variables
+	 * with preference values
 	 */
 	class PreferenceUpdateReceiver extends BroadcastReceiver {
-		@Override 
+		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "Entered onReceive for PreferenceUpdate, Broadcast received");	
+			Log.d(TAG,
+					"Entered onReceive for PreferenceUpdate, Broadcast received");
 			updateActivityPrefs();
 		}
-		
+
 	}
-	
+
 	@SuppressLint("NewApi")
 	/*
 	 * Broadcast Receiver for Data Update Broadcast
 	 */
 	class DataUpdateReceiver extends BroadcastReceiver {
-		@Override 
+		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
 			if (ReporterActivity.this.isVisible) {
-				Toast.makeText(ReporterActivity.this, "Update Received", Toast.LENGTH_SHORT).show();
-				mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem()).getView().invalidate();
+				Toast.makeText(ReporterActivity.this, "Update Received",
+						Toast.LENGTH_SHORT).show();
+				mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())
+						.getView().invalidate();
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
 						mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-				Notification.Builder notificationBuilder = new Notification.Builder(context)
-				        .setTicker("Update Received")
+				Notification.Builder notificationBuilder = new Notification.Builder(
+						context).setTicker("Update Received")
 						.setSmallIcon(android.R.drawable.stat_sys_warning)
-						.setAutoCancel(true).setContentTitle("Seqprod Reporter")
-						.setContentText("Update Received").setContentIntent(mCIntent);
+						.setAutoCancel(true)
+						.setContentTitle("Seqprod Reporter")
+						.setContentText("Update Received")
+						.setContentIntent(mCIntent);
 
 				// Pass the Notification to the NotificationManager:
 				NotificationManager mNotificationManager = (NotificationManager) context
 						.getSystemService(Context.NOTIFICATION_SERVICE);
-				mNotificationManager.notify(0,notificationBuilder.build());
+				mNotificationManager.notify(0, notificationBuilder.build());
 			}
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		}
-		
+
 	}
-	
+
 	/*
 	 * Task used by the Timer to launch Http requests
 	 */
 	class TimedHttpTask extends TimerTask {
 		@Override
 		public void run() {
-			Log.d(TAG, "Entered TimedHttpTask, here we need to launch HTTP request");
+			Log.d(TAG,
+					"Entered TimedHttpTask, here we need to launch HTTP request");
 			new getreportHTTP(getApplicationContext(), sp).execute();
 		}
 	}

@@ -1,8 +1,5 @@
 package ca.on.oicr.pde.seqprodreporter;
 
-import java.util.Comparator;
-import java.util.Locale;
-
 import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
@@ -86,41 +83,20 @@ public class Report {
 		}
 		return progress;
 	}
+	
+	public String toString() {
+		return "Report for " + this.getrSampleName();
+	}
 
-	private Time getTimeStamp() {
+	public Time getTimeStamp() {
 		return rLastModTime;
 	}
 
 	private void setTimeStamp(Time rLastModTime) {
 		this.rLastModTime = rLastModTime;
 	}
-	//TODO PDE-588 need to make these comparators capable of sorting both ways (New->Old, Old->New, A-Z and Z-A)
-	//A variable (boolean flag or int may be used to set the options)
-	public static Comparator<Report> ReportNameComparator = new Comparator<Report>() {
-
-		public int compare(Report report1, Report report2) {
-
-			String repWName1 = report1.getrWorkflowName().toUpperCase(Locale.getDefault());
-			String repWName2 = report2.getrWorkflowName().toUpperCase(Locale.getDefault());
-
-			// ascending order
-			return repWName1.compareTo(repWName2);
-
-		}
-
-	};
-
-	public static Comparator<Report> ReportTimeComparator = new Comparator<Report>() {
-
-		public int compare(Report report1, Report report2) {
-
-			Time repTime1 = report1.getTimeStamp();
-			Time repTime2 = report2.getTimeStamp();
-
-			return repTime1.after(repTime2) ? 1 : -1;
-
-		}
-
-	};
+	
+	
+	
 
 }
