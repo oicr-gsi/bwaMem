@@ -57,6 +57,7 @@ public class ReportListFragment extends Fragment {
 
 	public void addLocalReports(List<Report> newReports) {
 		this.mAdapter.removeAllViews();
+		//TODO PDE-604 If newReports is empty, add one Report with a TextView text set to "No [type] workflow runs available at this time"
 		for (Report r : newReports) {
 			this.mAdapter.add(r);
 		}
@@ -114,7 +115,7 @@ public class ReportListFragment extends Fragment {
 
 			Time repTime1 = report1.getTimeStamp();
 			Time repTime2 = report2.getTimeStamp();
-			// accending order
+			// ascending order
 			return Time.compare(repTime1, repTime2);
 
 		}
