@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import android.R.color;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,6 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
-	private final int UPDATE_COLOR = color.holo_green_dark;
-	private final int DEFAULT_COLOR = color.white;
 	
 
 	public ReportAdapter(Context context, int resource) {
@@ -77,12 +74,11 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.pbar.setVisibility(ProgressBar.VISIBLE);
 		}
 
-		
 		if (curr.getrUpdated()){
-			newView.setBackgroundResource(UPDATE_COLOR);	
+			newView.setBackgroundColor(0xFFCCFF99);
 		}	
 		else {
-			newView.setBackgroundResource(DEFAULT_COLOR);
+			newView.setBackgroundColor(0xFFFFFFFF);
 		} 
 
 		return newView;

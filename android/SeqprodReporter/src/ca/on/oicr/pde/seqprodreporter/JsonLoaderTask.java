@@ -153,11 +153,15 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 				result.add(newReport);
 			}
 			if (null == lastUpdated || lastUpdated.before(newLatest))
-
-				// Call only when the corresponding fragment is visible
-				if (this.mParent.get().isVisible())
-					this.mParent.get().setLastUpdateTime(newLatest);
-
+				
+				// Called only when the corresponding fragment's tab is selected
+				if (this.mParent.get().getSectionNumber()-1 == 
+					this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){
+					
+						this.mParent.get().setLastUpdateTime(newLatest);
+						Log.d(ReporterActivity.TAG, "Updated last update time for " + TYPE);
+				}
+			
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

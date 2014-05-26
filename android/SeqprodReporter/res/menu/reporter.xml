@@ -9,4 +9,8 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
+    <item 
+        android:id="@+id/sort_by"
+        android:title="@string/sort_by"
+        app:showAsAction="never"/>
 </menu>

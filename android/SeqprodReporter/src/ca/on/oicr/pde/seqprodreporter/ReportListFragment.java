@@ -22,7 +22,13 @@ public class ReportListFragment extends Fragment {
 	private ReportAdapter mAdapter;
 	private Time lastUpdateTime;
 	private int sectionNumber;
+	
+	private int sortingType;
 
+    static final int SORT_BY_MODTIME   = 0;
+    static final int SORT_BY_WORKFLOW = 1;
+    static final int SORT_BY_SAMPLE  = 2;
+    
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
 	public final Comparator<Report> NAMECOMPARATOR = new ReportWorkflowComparator();
@@ -39,11 +45,11 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		
 		View rootView = inflater.inflate(R.layout.fragment_reporter, container,
 				false);
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
-
+		
 		int index = this.getSectionNumber() - 1;
 		Log.d(ReporterActivity.TAG, "onCreateView called for "
 				+ ReporterActivity.types[index]);
@@ -61,8 +67,22 @@ public class ReportListFragment extends Fragment {
 		for (Report r : newReports) {
 			this.mAdapter.add(r);
 		}
-		mAdapter.sortList(TIMECOMPARATOR);
+		sortFragment();
 		mAdapter.notifyDataSetChanged();
+	}
+
+	//Invokes the correct comparator to sort a fragment's list
+	//based on the 'sortingType' member variable that is set by the user
+	public void sortFragment(){
+		if (this.sortingType== 1){
+			mAdapter.sortList(NAMECOMPARATOR);
+		}
+		else if (this.sortingType == 2) {
+			mAdapter.sortList(SAMPLECOMPARATOR);
+		}
+		else {
+			mAdapter.sortList(TIMECOMPARATOR);
+		}
 	}
 
 	// TODO PDE-588 need to switch between these comparators
@@ -70,7 +90,14 @@ public class ReportListFragment extends Fragment {
 	public int getSectionNumber() {
 		return this.sectionNumber;
 	}
-
+	
+	public ReportAdapter getAdapter(){
+		return this.mAdapter;
+	}
+	
+	public void setSortIndex(int index){
+		this.sortingType = index;
+	}
 	public void setLastUpdateTime(Time t) {
 		this.lastUpdateTime = t;
 	}
@@ -115,8 +142,9 @@ public class ReportListFragment extends Fragment {
 
 			Time repTime1 = report1.getTimeStamp();
 			Time repTime2 = report2.getTimeStamp();
-			// ascending order
-			return Time.compare(repTime1, repTime2);
+
+			// accending order
+			return Time.compare(repTime2, repTime1);
 
 		}
 

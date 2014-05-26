@@ -4,6 +4,13 @@
     tools:ignore="MissingTranslation" >
 
     <string name="app_name">SeqprodReporter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="sort_dialog">Sort By:</string>
+    <string-array name= "sorting_method_types">
+        <item>By Date</item>
+        <item>By Workflow</item>
+        <item>By Sample</item>
+    </string-array>
     <string name="action_settings">Settings</string>
     <string name="action_update">Update</string>
     <string name="pref_summaryScope">Time Span</string>

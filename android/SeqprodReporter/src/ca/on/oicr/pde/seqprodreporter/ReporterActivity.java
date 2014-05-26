@@ -7,11 +7,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -57,11 +59,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
-	// TODO PDE-588 need to use the below integers for switching b/w comparators
-    static final int SORT_BY_SAMPLE   = 0;
-    static final int SORT_BY_WORKFLOW = 1;
-    static final int SORT_BY_MODTIME  = 2;
-	
+ 	
 	private String updateHost;
 	private String updateRange;
 	private int updateFrequency; // in minutes
@@ -87,11 +85,11 @@ public class ReporterActivity extends ActionBarActivity implements
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
-
+		
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
-
+	
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -104,6 +102,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
+		// Allows the 2 other tab's fragments that are in idle state to be loaded 
+		// alongside the current selected tab's fragment 
+		mViewPager.setOffscreenPageLimit(2);
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -162,6 +164,25 @@ public class ReporterActivity extends ActionBarActivity implements
 			startActivity(setPrefs);
 			return true;
 		}
+		// An alert dialog is invoked for the user to select the sorting method 
+		// to apply on the list of each fragment
+		else {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		    builder.setTitle(R.string.sort_dialog)
+		           .setItems(R.array.sorting_method_types, new DialogInterface.OnClickListener() {
+		               public void onClick(DialogInterface dialog, int selected) {
+		            		List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+
+		            		for (int i =0 ; i< fragments.size(); ++i){
+		            			ReportListFragment tmp = fragments.get(i);
+		            			tmp.setSortIndex(selected);
+		            			tmp.sortFragment();
+		            			tmp.getAdapter().notifyDataSetChanged();
+		            		}
+		               }
+		});
+		    builder.show();
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -182,7 +203,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
-
+	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -194,7 +215,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			super(fm);
 			fragments = new ArrayList<ReportListFragment>();
 		}
-
+		
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
@@ -217,6 +238,12 @@ public class ReporterActivity extends ActionBarActivity implements
 			if (position >= 0 && position < types.length)
 				return types[position].toUpperCase(l);
 			return null;
+		}
+		
+		// Forces each Item in the list to be re-created which allows the lists to be updated dynamically
+		@Override 
+		public int getItemPosition(Object object){
+			return POSITION_NONE;
 		}
 	}
 
@@ -307,8 +334,6 @@ public class ReporterActivity extends ActionBarActivity implements
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
-				mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())
-						.getView().invalidate();
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
