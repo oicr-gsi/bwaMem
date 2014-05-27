@@ -69,7 +69,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 		}
 		// For the case where there are no reports in the corresponding list
 		// an empty report is created with a message indicating this; the text is set here
-		if (list.size() == 1 && curr.getrWorkflowName() == Report.EMPTY_REPORT) {
+		if (list.size() == 1 && curr.getrWorkflowName().equals(Report.EMPTY_REPORT)) {
 			holder.samplename.setText(curr.getrSampleName());
 			holder.samplename.setGravity(Gravity.CENTER);
 		}

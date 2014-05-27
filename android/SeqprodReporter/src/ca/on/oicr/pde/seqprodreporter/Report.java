@@ -12,9 +12,6 @@ public class Report {
 	private String rLastmodTime;
 	private String rProgress;
 	private Time   rLastModTime;
-	// TODO (PDE-577) we need a boolean that would flag the state of a Report
-	// (set it to true depending on rLastmodTime)
-	// Later we can use this boolean flag for highlighting updated Reports
 	private boolean rUpSinceLastTime;
 	
 	public static final String EMPTY_REPORT = "Empty Report";
@@ -30,7 +27,7 @@ public class Report {
 		rUpSinceLastTime = updated;
 		setTimeStamp(new Time());
 		
-		if (rWorkflowName!= EMPTY_REPORT){
+		if (!rWorkflowName.equals(EMPTY_REPORT)){
 			String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":", "");
 			try {
 				String parsable = lmTime.substring(0, lmTime.lastIndexOf("."))
