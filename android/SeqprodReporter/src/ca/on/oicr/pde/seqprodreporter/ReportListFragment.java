@@ -81,10 +81,10 @@ public class ReportListFragment extends Fragment {
 	//Invokes the correct comparator to sort a fragment's list
 	//based on the 'sortingType' member variable that is set by the user
 	public void sortFragment(){
-		if (this.sortingType == 1){
+		if (this.sortingType == SORT_BY_WORKFLOW){
 			mAdapter.sortList(NAMECOMPARATOR);
 		}
-		else if (this.sortingType == 2) {
+		else if (this.sortingType == SORT_BY_SAMPLE) {
 			mAdapter.sortList(SAMPLECOMPARATOR);
 		}
 		else {

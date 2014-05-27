@@ -106,7 +106,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Allows the 2 other tab's fragments that are in idle state to be loaded 
 		// alongside the current selected tab's fragment 
 		//TODO: instead of 2 use number of elements in tab type array
-		mViewPager.setOffscreenPageLimit(2);
+		mViewPager.setOffscreenPageLimit(types.length-1);
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have

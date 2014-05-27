@@ -21,6 +21,8 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
+	private final int UPDATE_COLOR = 0xFFCCFF99;
+	private final int DEFAULT_COLOR = 0xFFFFFFFF;
 	
 
 	public ReportAdapter(Context context, int resource) {
@@ -85,10 +87,10 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			//TODO: Set color values as static values
 	
 			if (curr.getrUpdated()){
-				newView.setBackgroundColor(0xFFCCFF99);
+				newView.setBackgroundColor(UPDATE_COLOR);
 			}	
 			else {
-				newView.setBackgroundColor(0xFFFFFFFF);
+				newView.setBackgroundColor(DEFAULT_COLOR);
 			} 
 		}
 		
