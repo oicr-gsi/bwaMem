@@ -105,6 +105,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 		// Allows the 2 other tab's fragments that are in idle state to be loaded 
 		// alongside the current selected tab's fragment 
+		//TODO: instead of 2 use number of elements in tab type array
 		mViewPager.setOffscreenPageLimit(2);
 
 		// When swiping between different sections, select the corresponding
@@ -166,6 +167,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		// An alert dialog is invoked for the user to select the sorting method 
 		// to apply on the list of each fragment
+		// TODO: Condition on ID
 		else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setTitle(R.string.sort_dialog)
@@ -204,6 +206,9 @@ public class ReporterActivity extends ActionBarActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 	
+	public static String getType(int index){
+		return types[index];
+	}
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -226,7 +231,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			return fragments.get(position);
 		}
-
+		
 		@Override
 		public int getCount() {
 			return types.length;

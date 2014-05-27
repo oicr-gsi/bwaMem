@@ -6,6 +6,7 @@
     <string name="app_name">SeqprodReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
+    <string name="empty_message">There are currently no workflows that are</string>
     <string-array name= "sorting_method_types">
         <item>By Date</item>
         <item>By Workflow</item>

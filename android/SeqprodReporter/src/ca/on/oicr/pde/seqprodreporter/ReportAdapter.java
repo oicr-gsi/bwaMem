@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,26 +61,37 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.lmtime = (TextView) newView.findViewById(R.id.report_lmtime);
 			holder.pbar = (ProgressBar) newView.findViewById(R.id.report_pbar);
 			newView.setTag(holder);
-		} else {
+		} 
+		else {
 			holder = (ReportHolder) newView.getTag();
 		}
-
-		holder.samplename.setText("Sample: " + curr.getrSampleName());
-		holder.wfname.setText(curr.getrWorkflowName() + " "
-				+ curr.getrWorkflowVersion());
-		holder.ctime.setText("Created: " + curr.getrCreateTime());
-		holder.lmtime.setText("Modified: " + curr.getrLastmodTime());
-		if (null != curr.getrProgress()) {
-			holder.pbar.setProgress(curr.progressValue());
-			holder.pbar.setVisibility(ProgressBar.VISIBLE);
+		// For the case where there are no reports in the corresponding list
+		// an empty report is created with a message indicating this; the text is set here
+		if (list.size() == 1 && curr.getrWorkflowName() == Report.EMPTY_REPORT) {
+			holder.samplename.setText(curr.getrSampleName());
+			holder.samplename.setGravity(Gravity.CENTER);
 		}
-
-		if (curr.getrUpdated()){
-			newView.setBackgroundColor(0xFFCCFF99);
-		}	
+		
 		else {
-			newView.setBackgroundColor(0xFFFFFFFF);
-		} 
+			holder.samplename.setText("Sample: " + curr.getrSampleName());
+			holder.wfname.setText(curr.getrWorkflowName() + " "
+					+ curr.getrWorkflowVersion());
+			holder.ctime.setText("Created: " + curr.getrCreateTime());
+			holder.lmtime.setText("Modified: " + curr.getrLastmodTime());
+			if (null != curr.getrProgress()) {
+				holder.pbar.setProgress(curr.progressValue());
+				holder.pbar.setVisibility(ProgressBar.VISIBLE);
+			}
+			//TODO: Set color values as static values
+	
+			if (curr.getrUpdated()){
+				newView.setBackgroundColor(0xFFCCFF99);
+			}	
+			else {
+				newView.setBackgroundColor(0xFFFFFFFF);
+			} 
+		}
+		
 
 		return newView;
 	}

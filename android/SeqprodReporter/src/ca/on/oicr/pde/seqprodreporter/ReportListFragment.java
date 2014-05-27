@@ -28,6 +28,8 @@ public class ReportListFragment extends Fragment {
     static final int SORT_BY_MODTIME   = 0;
     static final int SORT_BY_WORKFLOW = 1;
     static final int SORT_BY_SAMPLE  = 2;
+        
+   static final int EMPTY_MESSAGE = R.string.empty_message;
     
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
@@ -64,17 +66,24 @@ public class ReportListFragment extends Fragment {
 	public void addLocalReports(List<Report> newReports) {
 		this.mAdapter.removeAllViews();
 		//TODO PDE-604 If newReports is empty, add one Report with a TextView text set to "No [type] workflow runs available at this time"
-		for (Report r : newReports) {
-			this.mAdapter.add(r);
+		if (newReports.size() != 0){
+			for (Report r : newReports) {
+				this.mAdapter.add(r);
+			}
+			sortFragment();
 		}
-		sortFragment();
+		else {
+			String type = ReporterActivity.getType(this.sectionNumber-1);
+			Report emptyReport = new Report(getString(EMPTY_MESSAGE) + " " + type ,Report.EMPTY_REPORT,"","","",false);
+			this.mAdapter.add(emptyReport);
+		}
 		mAdapter.notifyDataSetChanged();
 	}
 
 	//Invokes the correct comparator to sort a fragment's list
 	//based on the 'sortingType' member variable that is set by the user
 	public void sortFragment(){
-		if (this.sortingType== 1){
+		if (this.sortingType == 1){
 			mAdapter.sortList(NAMECOMPARATOR);
 		}
 		else if (this.sortingType == 2) {

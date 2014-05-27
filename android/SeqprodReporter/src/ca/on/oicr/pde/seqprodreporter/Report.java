@@ -16,6 +16,8 @@ public class Report {
 	// (set it to true depending on rLastmodTime)
 	// Later we can use this boolean flag for highlighting updated Reports
 	private boolean rUpSinceLastTime;
+	
+	public static final String EMPTY_REPORT = "Empty Report";
 
 	public Report(String sname, String wname, String wversion, String ctime,
 			String ltime, boolean updated) {
@@ -27,15 +29,17 @@ public class Report {
 		rProgress = null;
 		rUpSinceLastTime = updated;
 		setTimeStamp(new Time());
-
-		String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":", "");
-		try {
-			String parsable = lmTime.substring(0, lmTime.lastIndexOf("."))
-					.replace(" ", "T");
-			getTimeStamp().parse(parsable);
-		} catch (TimeFormatException tfe) {
-			getTimeStamp().setToNow();
-			Log.e(ReporterActivity.TAG, "An error with Parsing Report Time occured");
+		
+		if (rWorkflowName!= EMPTY_REPORT){
+			String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":", "");
+			try {
+				String parsable = lmTime.substring(0, lmTime.lastIndexOf("."))
+						.replace(" ", "T");
+				getTimeStamp().parse(parsable);
+			} catch (TimeFormatException tfe) {
+				getTimeStamp().setToNow();
+				Log.e(ReporterActivity.TAG, "An error with Parsing Report Time occured");
+			}
 		}
 	}
 
