@@ -65,6 +65,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private int updateFrequency; // in minutes
 	private boolean timerScheduled = false;
 	private boolean isVisible;
+	private int sortIndex;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -89,7 +90,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
-	
+			
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -171,16 +172,17 @@ public class ReporterActivity extends ActionBarActivity implements
 		else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setTitle(R.string.sort_dialog)
-		           .setItems(R.array.sorting_method_types, new DialogInterface.OnClickListener() {
+		           .setSingleChoiceItems(R.array.sorting_method_types, sortIndex, new DialogInterface.OnClickListener() {
 		               public void onClick(DialogInterface dialog, int selected) {
 		            		List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-
+		            		sortIndex = selected;
 		            		for (int i =0 ; i< fragments.size(); ++i){
 		            			ReportListFragment tmp = fragments.get(i);
 		            			tmp.setSortIndex(selected);
 		            			tmp.sortFragment();
 		            			tmp.getAdapter().notifyDataSetChanged();
 		            		}
+		            		dialog.dismiss();
 		               }
 		});
 		    builder.show();
