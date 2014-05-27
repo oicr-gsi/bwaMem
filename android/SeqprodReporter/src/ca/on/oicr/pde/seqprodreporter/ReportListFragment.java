@@ -28,9 +28,7 @@ public class ReportListFragment extends Fragment {
     static final int SORT_BY_MODTIME   = 0;
     static final int SORT_BY_WORKFLOW = 1;
     static final int SORT_BY_SAMPLE  = 2;
-        
-   static final int EMPTY_MESSAGE = R.string.empty_message;
-    
+            
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
 	public final Comparator<Report> NAMECOMPARATOR = new ReportWorkflowComparator();
@@ -74,7 +72,7 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(EMPTY_MESSAGE) + " " + type ,Report.EMPTY_REPORT,"","","",false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","",false);
 			this.mAdapter.add(emptyReport);
 		}
 		mAdapter.notifyDataSetChanged();
