@@ -23,8 +23,7 @@ public class getreportHTTP extends AsyncTask<String, Void, Boolean> {
 	private final String Range;
 	private static final String SCRIPT = "/getReport.pl?range=";
 	private Context mContext;
-	AndroidHttpClient mClient = AndroidHttpClient
-			.newInstance(ReporterActivity.TAG);
+	private AndroidHttpClient mClient;
 
 	public getreportHTTP(Context context, SharedPreferences sp) {
 
@@ -38,6 +37,9 @@ public class getreportHTTP extends AsyncTask<String, Void, Boolean> {
 
 		Boolean result = Boolean.valueOf(false);
 		String fullURL = URL + SCRIPT + this.Range;
+		this.mClient = AndroidHttpClient
+				.newInstance(ReporterActivity.TAG);
+		
 		HttpGet request = new HttpGet(fullURL);
 		JSONResponseHandler responseHandler = new JSONResponseHandler();
 		try {
@@ -48,6 +50,8 @@ public class getreportHTTP extends AsyncTask<String, Void, Boolean> {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
+		} finally {
+		  mClient.close();
 		}
 		return result;
 	}
