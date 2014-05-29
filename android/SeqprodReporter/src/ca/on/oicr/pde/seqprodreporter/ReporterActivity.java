@@ -262,7 +262,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.v(TAG, "Entered sheduleUpdates");
 		// Start update ONLY if host URL is valid
 		if (null == this.updateRange
-				|| null == this.updateHost
+				|| null == this.updateHost || this.updateHost.isEmpty() 
 				|| this.updateRange.equals(getResources().getString(
 						R.string.pref_summaryScope_default))
 				|| this.updateFrequency == 0) {
