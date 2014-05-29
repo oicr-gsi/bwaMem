@@ -150,7 +150,7 @@ public class ReportListFragment extends Fragment {
 			Time repTime1 = report1.getTimeStamp();
 			Time repTime2 = report2.getTimeStamp();
 
-			// accending order
+			// ascending order
 			return Time.compare(repTime2, repTime1);
 
 		}
