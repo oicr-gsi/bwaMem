@@ -5,6 +5,7 @@ import android.util.Log;
 import android.util.TimeFormatException;
 
 public class Report {
+	//TODO PDE-621 add sequencer run name, study name and the Seqware accession to workflow items
 	private String rSampleName;
 	private String rWorkflowName;
 	private String rWorkflowVersion;
@@ -39,7 +40,7 @@ public class Report {
 			}
 		}
 	}
-
+	//TODO PDE-621 Need to add getters for new data items
 	public String getrSampleName() {
 		return rSampleName;
 	}

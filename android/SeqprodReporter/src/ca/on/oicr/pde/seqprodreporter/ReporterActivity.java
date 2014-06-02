@@ -106,7 +106,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 		// Allows the 2 other tab's fragments that are in idle state to be loaded 
 		// alongside the current selected tab's fragment 
-		//TODO: instead of 2 use number of elements in tab type array
 		mViewPager.setOffscreenPageLimit(types.length-1);
 
 		// When swiping between different sections, select the corresponding
@@ -314,6 +313,16 @@ public class ReporterActivity extends ActionBarActivity implements
 			this.updateFrequency = 0;
 		}
 		scheduleUpdate();
+	}
+	
+	/*
+	 * A function for updating Last Update Time (text should replace the app title) 
+	 */
+	//TODO PDE-622
+	private void updateLUT() {
+		//get newTitle from the data currently downloaded, 
+		String newTitle = null;
+		this.getActionBar().setTitle(newTitle);
 	}
 
 	/*
