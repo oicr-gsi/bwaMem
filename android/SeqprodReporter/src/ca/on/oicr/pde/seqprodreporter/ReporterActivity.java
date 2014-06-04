@@ -335,6 +335,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime.format("%Y-%m-%d, %H:%M:%S"); ;
 		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
 		updateView.setText(newTitle);
+		updateView.invalidate();
 	}
 
 	/*
@@ -381,7 +382,6 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			
 			updateLUT();
-			mSectionsPagerAdapter.notifyDataSetChanged();
 		}
 
 	}
