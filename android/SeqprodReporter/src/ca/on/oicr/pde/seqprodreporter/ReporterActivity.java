@@ -367,7 +367,7 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			mSectionsPagerAdapter.notifyDataSetChanged();
+			//mSectionsPagerAdapter.notifyDataSetChanged();
 		}
 
 	}
