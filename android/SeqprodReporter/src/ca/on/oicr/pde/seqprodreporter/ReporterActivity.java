@@ -26,9 +26,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ReporterActivity extends ActionBarActivity implements
@@ -66,6 +69,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private int sortIndex;
+	private static Time mostRecentWorkflowUpdateTime;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -94,7 +98,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -131,6 +134,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 
+	
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
@@ -209,6 +213,13 @@ public class ReporterActivity extends ActionBarActivity implements
 	
 	public static String getType(int index){
 		return types[index];
+	}
+	public Time getWorkflowUpdateTime(){
+		return this.mostRecentWorkflowUpdateTime;
+	}
+	
+	public void setWorkflowUpdateTime(Time updateTime){
+		this.mostRecentWorkflowUpdateTime = updateTime;
 	}
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -321,8 +332,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	//TODO PDE-622
 	private void updateLUT() {
 		//get newTitle from the data currently downloaded, 
-		String newTitle = null;
-		this.getActionBar().setTitle(newTitle);
+		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime.format("%Y-%m-%d, %H:%M:%S"); ;
+		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
+		updateView.setText(newTitle);
 	}
 
 	/*
@@ -367,6 +379,8 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
+			
+			updateLUT();
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		}
 

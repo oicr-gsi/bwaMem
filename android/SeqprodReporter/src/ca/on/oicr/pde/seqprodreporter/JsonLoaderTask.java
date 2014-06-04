@@ -152,6 +152,12 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 
 				result.add(newReport);
 			}
+			
+			ReporterActivity activity = (ReporterActivity) this.mParent.get().getActivity();
+			if(null == activity.getWorkflowUpdateTime() || activity.getWorkflowUpdateTime().before(newLatest)){
+				activity.setWorkflowUpdateTime(newLatest);
+			}
+			
 			if (null == lastUpdated || lastUpdated.before(newLatest))
 				
 				// Called only when the corresponding fragment's tab is selected

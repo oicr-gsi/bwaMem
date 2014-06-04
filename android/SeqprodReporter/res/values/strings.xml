@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation" >
 
-    <string name="app_name">SeqprodReporter</string>
+    <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
     <string name="empty_message">There are currently no workflows that are</string>
@@ -26,7 +26,7 @@
     <string name="pref_automaticUpdates">Automatic Updates</string>
     <string-array name="pref_automaticUpdates_entries">
         <item>Off</item>
-        <item>5 min</item>
+        <item>1 min</item>
         <item>15 min</item>
         <item>60 min</item>
     </string-array>
