@@ -154,8 +154,8 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 			}
 			
 			ReporterActivity activity = (ReporterActivity) this.mParent.get().getActivity();
-			if(null == activity.getWorkflowUpdateTime() || activity.getWorkflowUpdateTime().before(newLatest)){
-				activity.setWorkflowUpdateTime(newLatest);
+			if(null == activity.getRecordUpdateTime() || activity.getRecordUpdateTime().before(newLatest)){
+				activity.setMostRecentWorkflowUpdateTime(newLatest);
 			}
 			
 			if (null == lastUpdated || lastUpdated.before(newLatest))

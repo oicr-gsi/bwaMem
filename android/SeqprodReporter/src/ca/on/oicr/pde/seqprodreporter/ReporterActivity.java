@@ -69,7 +69,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private int sortIndex;
-	private static Time mostRecentWorkflowUpdateTime;
+	private static String mostRecentWorkflowUpdateTime;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -90,6 +90,9 @@ public class ReporterActivity extends ActionBarActivity implements
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
+		
+		if (null!=savedInstanceState && null!=savedInstanceState.getString("updateTime"))
+			mostRecentWorkflowUpdateTime = savedInstanceState.getString("updateTime");
 		
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
@@ -133,7 +136,13 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setTabListener(this));
 		}
 	}
-
+	
+	@Override 
+	protected void onSaveInstanceState(Bundle savedInstanceState){
+		savedInstanceState.putString("updateTime", mostRecentWorkflowUpdateTime);
+		
+		super.onSaveInstanceState(savedInstanceState);
+	}
 	
 	@Override
 	protected void onPause() {
@@ -214,12 +223,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static String getType(int index){
 		return types[index];
 	}
-	public Time getWorkflowUpdateTime(){
-		return this.mostRecentWorkflowUpdateTime;
+	public Time getRecordUpdateTime(){
+		String tmp =  mostRecentWorkflowUpdateTime.replaceAll("-", ":").replaceAll(":", "")
+				.replace(" ","T");
+		Time recordUpdateTime = new Time();
+		recordUpdateTime.parse(tmp);
+		return recordUpdateTime;
 	}
 	
-	public void setWorkflowUpdateTime(Time updateTime){
-		this.mostRecentWorkflowUpdateTime = updateTime;
+	public void setMostRecentWorkflowUpdateTime(Time updateTime){
+		this.mostRecentWorkflowUpdateTime = updateTime.format("%Y-%m-%d %H:%M:%S");
 	}
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -332,7 +345,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	//TODO PDE-622
 	private void updateLUT() {
 		//get newTitle from the data currently downloaded, 
-		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime.format("%Y-%m-%d, %H:%M:%S"); ;
+		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime;
 		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
 		updateView.setText(newTitle);
 		updateView.invalidate();
