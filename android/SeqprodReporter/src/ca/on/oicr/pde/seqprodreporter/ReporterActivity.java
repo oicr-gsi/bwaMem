@@ -157,8 +157,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		// TODO PDE-588 need to add 'Sort By' handling here, after option
-		// changes the UI should update
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
@@ -167,8 +165,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		// An alert dialog is invoked for the user to select the sorting method 
 		// to apply on the list of each fragment
-		// TODO: Condition on ID
-		else {
+		else if (id == R.id.sort_by) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setTitle(R.string.sort_dialog)
 		           .setSingleChoiceItems(R.array.sorting_method_types, sortIndex, new DialogInterface.OnClickListener() {
@@ -367,7 +364,6 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			mSectionsPagerAdapter.notifyDataSetChanged();
 		}
 
 	}
