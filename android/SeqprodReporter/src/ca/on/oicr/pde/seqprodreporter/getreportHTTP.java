@@ -64,6 +64,8 @@ public class getreportHTTP extends AsyncTask<String, Void, Boolean> {
 			Boolean result = Boolean.valueOf(false);
 			String JSONResponse = new BasicResponseHandler()
 					.handleResponse(response);
+			//TODO Here we need to update database, no files anymore
+			//ContentResolver cr =  mContext.getApplicationContext().getContentResolver();
 			String FILENAME = ReporterActivity.DATA_FILE
 					.replace("RANGE", Range);
 			try {

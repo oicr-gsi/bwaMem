@@ -6,14 +6,19 @@ import android.net.Uri;
 public final class DataContract {
 
 	public static final String SAMPLE = "sample_name";
+	public static final String SEQRUN_NAME = "seqrun_name";
+	public static final String STUDY_NAME = "study_name";
+	public static final String SQW_ACCESSION = "seqware_accession";
 	public static final String WORKFLOW = "workflow_name";
 	public static final String WF_VERSION = "workflow_version";
+	public static final String STATUS  = "status";
 	public static final String CR_TIME = "create_time";
 	public static final String LM_TIME = "lm_time";
 	public static final String PROGRESS = "progress";
+	// DB parameters
 	public static final String DATA_TABLE = "report_table";
 	public static final String DATABASE = "reports";
-
+	
 	private static final Uri BASE_URI = Uri
 			.parse("content://ca.on.oicr.pde.seqprodprovider/");
 
@@ -36,12 +41,14 @@ public final class DataContract {
 	public static final String REPORT_DB_CREATE = "CREATE TABLE " +
 			DATA_TABLE +                    // Table's name
 		    "(" +                           // The columns in the table
-		    " WR TEXT PRIMARY KEY, " +
-		    " SAMPLE TEXT" +
-		    " WORKFLOW TEXT" +
-		    " WF_VERSION TEXT" +
-		    " CR_TIME TEXT" +
-		    " LM_TIME TEXT" +
- 		    " PROGRESS INTEGER)";
-
-}
+		    " _ID INTEGER PRIMARY KEY AUTOINCREMENT" +
+		    WORKFLOW + " TEXT," +
+		    SAMPLE + " TEXT," +
+		    SEQRUN_NAME + " TEXT," +
+		    WORKFLOW + " TEXT," +
+		    WF_VERSION + " TEXT," +
+		    STATUS + " TEXT," +
+		    CR_TIME + " TEXT," +
+		    LM_TIME + " TEXT," +
+ 		    PROGRESS + " INTEGER)";
+    }
