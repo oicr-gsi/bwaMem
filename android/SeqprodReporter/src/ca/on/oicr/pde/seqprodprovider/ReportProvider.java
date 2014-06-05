@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 public class ReportProvider extends ContentProvider {
-	// Helper class for creating/deleting databse
+	// Helper class for creating/deleting database
 	private MainDatabaseHelper mReportHelper;
 
 	@Override
@@ -56,17 +56,15 @@ public class ReportProvider extends ContentProvider {
 	}
 
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Make thread-safe
+	public synchronized int delete(Uri uri, String selection, String[] selectionArgs) {
 		SQLiteDatabase db = mReportHelper.getWritableDatabase();
-		db.delete(DataContract.DATA_TABLE, selection, selectionArgs);
-		return 0;
+		return db.delete(DataContract.DATA_TABLE, selection, selectionArgs);
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Make thread-safe
+		// TODO update things that change (lastmod time, progress, status)
 		return 0;
 	}
 
@@ -92,15 +90,16 @@ public class ReportProvider extends ContentProvider {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
-
+			// Drops than creates main table
+			db.execSQL("DROP TABLE IF EXISTS " + DataContract.DATA_TABLE);
+			onCreate(db);
 		}
 	}
 
 	// Does last segment of the Uri match a string of digits?
-	private boolean isItemUri(Uri uri) {
+	/*private boolean isItemUri(Uri uri) {
 		return uri.getLastPathSegment().matches("\\d+");
-	}
+	}*/
 
 	// Is the last segment of the Uri the name of the data table?
 	private boolean isTableUri(Uri uri) {
