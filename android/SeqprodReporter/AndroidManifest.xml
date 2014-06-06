@@ -32,7 +32,7 @@
         <provider
             android:name="ca.on.oicr.pde.seqprodprovider.ReportProvider"
             android:authorities="ca.on.oicr.pde.seqprodprovider"
-            android:exported="true" >
+            android:exported="false" >
         </provider>
     </application>
 

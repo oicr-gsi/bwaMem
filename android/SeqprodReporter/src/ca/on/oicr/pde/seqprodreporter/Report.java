@@ -14,6 +14,7 @@ public class Report {
 	private String rSeqwareAccession;
 	private String rWorkflowName;
 	private String rWorkflowVersion;
+	private String rWorkflowRunId;
 	private String rCreateTime;
 	private String rLastmodTime;
 	private String rProgress;
@@ -36,10 +37,11 @@ public class Report {
 	
 	//TODO Need to update constructor once back end of app is modified
 	public Report(String sname, String wname, String wversion, String ctime,
-			String ltime, boolean updated) {
+			String ltime, String wrun_id, boolean updated) {
 		rSampleName = sname;
 		rWorkflowName = wname;
 		rWorkflowVersion = wversion;
+		rWorkflowRunId = wrun_id;
 		rCreateTime = ctime;
 		rLastmodTime = ltime;
 		rProgress = null;
@@ -63,6 +65,7 @@ public class Report {
 		rSampleName = value.getAsString(DataContract.SAMPLE);
 		rWorkflowName = value.getAsString(DataContract.WORKFLOW);
 		rWorkflowVersion = value.getAsString(DataContract.WF_VERSION);
+		rWorkflowRunId = value.getAsString(DataContract.WR_ID);
 		rCreateTime = value.getAsString(DataContract.CR_TIME);
 		rLastmodTime = value.getAsString(DataContract.LM_TIME);
 		rProgress = value.getAsString(DataContract.PROGRESS);
@@ -105,6 +108,10 @@ public class Report {
 
 	public String getrWorkflowVersion() {
 		return rWorkflowVersion;
+	}
+	
+	public String getrWorkflowRunId() {
+		return rWorkflowRunId;
 	}
 
 	public String getrCreateTime() {
@@ -149,6 +156,19 @@ public class Report {
 	}
 	
 	
-	
+	public static ContentValues convertToCV(Report report) {
+		if (null != report) {
+			ContentValues values = new ContentValues();
+			values.put(DataContract.SAMPLE, report.getrSampleName());
+			values.put(DataContract.WORKFLOW, report.getrWorkflowName());
+			values.put(DataContract.WF_VERSION, report.getrWorkflowVersion());
+			values.put(DataContract.WR_ID, report.getrWorkflowRunId());
+			values.put(DataContract.CR_TIME, report.getrCreateTime());
+			values.put(DataContract.LM_TIME,report.getrLastmodTime());
+			values.put(DataContract.PROGRESS,report.getrProgress());
+			return values;
+		}
+		return null;
+	}
 
 }

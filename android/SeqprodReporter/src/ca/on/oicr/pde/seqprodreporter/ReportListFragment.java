@@ -55,7 +55,7 @@ public class ReportListFragment extends Fragment {
 				+ ReporterActivity.types[index]);
 		this.mAdapter = new ReportAdapter(container.getContext(), R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
-		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute();
+		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute(Boolean.FALSE);
 
 		listView.setAdapter(mAdapter);
 		return rootView;
@@ -71,7 +71,7 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","",false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","",false);
 			this.mAdapter.add(emptyReport);
 		}
 		mAdapter.notifyDataSetChanged();

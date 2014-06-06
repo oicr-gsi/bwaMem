@@ -8,7 +8,7 @@ public final class DataContract {
 	public static final String SAMPLE = "sample_name";
 	public static final String SEQRUN_NAME = "seqrun_name";
 	public static final String STUDY_NAME = "study_name";
-	public static final String SQW_ACCESSION = "seqware_accession";
+	public static final String WR_ID = "workflow_run_id";
 	public static final String WORKFLOW = "workflow_name";
 	public static final String WF_VERSION = "workflow_version";
 	public static final String STATUS  = "status";
@@ -41,14 +41,14 @@ public final class DataContract {
 	public static final String REPORT_DB_CREATE = "CREATE TABLE " +
 			DATA_TABLE +                    // Table's name
 		    "(" +                           // The columns in the table
-		    " _ID INTEGER PRIMARY KEY AUTOINCREMENT" +
-		    WORKFLOW + " TEXT," +
-		    SAMPLE + " TEXT," +
-		    SEQRUN_NAME + " TEXT," +
-		    WORKFLOW + " TEXT," +
-		    WF_VERSION + " TEXT," +
-		    STATUS + " TEXT," +
-		    CR_TIME + " TEXT," +
-		    LM_TIME + " TEXT," +
+		    " _ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+		    SAMPLE + " TEXT, " +
+		    SEQRUN_NAME + " TEXT, " +
+		    WORKFLOW + " TEXT, " +
+		    WF_VERSION + " TEXT, " +
+		    WR_ID  + " TEXT, " +
+		    STATUS + " TEXT, " +
+		    CR_TIME + " TEXT, " +
+		    LM_TIME + " TEXT, " +
  		    PROGRESS + " INTEGER)";
     }

@@ -1,8 +1,6 @@
 package ca.on.oicr.pde.seqprodreporter;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,18 +8,15 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
+import android.content.ContentResolver;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
-import android.util.TimeFormatException;
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 
-public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
+public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 
 	private WeakReference<ReportListFragment> mParent;
 	private String TYPE;
@@ -36,14 +31,17 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 	}
 
 	@Override
-	protected List<Report> doInBackground(Void... params) {
-		List<Report> report = null;
+	protected List<Report> doInBackground(Boolean... params) {
+		List<Report> reports = null;
 		try {
-			report = getReportsFromFile();
-		} catch (IOException ie) {
-			ie.printStackTrace();
+			reports = params[0].booleanValue() == Boolean.TRUE ? getReportsFromFile()
+					: getReportsFromDB();
+		} catch (NullPointerException npe) { // TODO fix later
+			npe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
-		return report;
+		return reports;
 
 	}
 
@@ -57,115 +55,92 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 		}
 	}
 
+	private List<Report> getReportsFromDB(Void... params)
+			throws NullPointerException {
+		List<Report> results = this.queryReportData();
+		return results;
+	}
+
+	// Functions for getting data from cursor
+	private ArrayList<Report> queryReportData() {
+		Cursor result = mParent.get().getActivity().getApplication()
+				.getContentResolver()
+				.query(DataContract.CONTENT_URI, null, null, null, null);
+		ArrayList<Report> rValue = new ArrayList<Report>();
+
+		if (result != null) {
+			if (result.moveToFirst()) {
+				do {
+					rValue.add(getReportDataFromCursor(result));
+				} while (result.moveToNext() == true);
+			}
+			result.close();
+		}
+		return rValue;
+	}
+
+	private Report getReportDataFromCursor(Cursor cursor) {
+		String sname = cursor.getString(cursor
+				.getColumnIndex(DataContract.SAMPLE));
+		String wname = cursor.getString(cursor
+				.getColumnIndex(DataContract.WORKFLOW));
+		String wversion = cursor.getString(cursor
+				.getColumnIndex(DataContract.WF_VERSION));
+		String ctime = cursor.getString(cursor
+				.getColumnIndex(DataContract.CR_TIME));
+		String ltime = cursor.getString(cursor
+				.getColumnIndex(DataContract.LM_TIME));
+		String wrunid = cursor.getString(cursor
+				.getColumnIndex(DataContract.WR_ID));
+		// construct the returned object, consolidate date checking code
+		return new Report(sname, wname, wversion, ctime, ltime, wrunid, false);
+	}
+
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 
-		Resources r = mParent.get().getResources();
-		// TODO TEMPORARY - read only from week' file, implement other time ranges
+		Resources res = mParent.get().getResources();
+
 		String jsonLine = "";
 		String jString = "";
-		String FNAME = ReporterActivity.DATA_FILE.replace("RANGE", "week");
 
-		boolean localFileOk = false;
-		BufferedReader buf = null;
+		Log.d(ReporterActivity.TAG, "Will Load the data from static test.json");
+		InputStream fis = res.openRawResource(R.raw.test);
+		BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
-		if (mParent.get().getActivity().getApplicationContext()
-				.getFileStreamPath(FNAME).exists()) {
-			// First, try to read from locally stored file (previous update)
-			try {
-				FileInputStream fis = mParent.get().getActivity()
-						.getApplicationContext().openFileInput(FNAME);
-				buf = new BufferedReader(new InputStreamReader(fis));
-				do {
-					jString = jString.concat(jsonLine);
-					jsonLine = buf.readLine();
-				} while (null != jsonLine && !jsonLine.isEmpty());
-				buf.close();
-				localFileOk = !jString.isEmpty();
-			} catch (FileNotFoundException fnfe) {
-				Log.d(ReporterActivity.TAG, "Could not find cached data in "
-						+ FNAME);
-			} finally {
-				if (null != buf)
-					buf.close();
+		while (null != (jsonLine = br.readLine())) {
+			jString = jString.concat(jsonLine);
+		}
+		br.close();
+		List<Report> results = getRecordsFromJSON(jString, this.TYPE);
+		// Insert data into db
+		if (null != results) {
+			ContentResolver cr = mParent.get().getActivity().getApplication()
+					.getContentResolver();
+			for (Report rep : results) {
+				cr.insert(DataContract.CONTENT_URI, Report.convertToCV(rep));
 			}
 		}
 
-		// If we don't have update data, read from static file (may be really old)
-		if (!localFileOk) {
-			Log.d(ReporterActivity.TAG,
-					"Will Load the data from static test.json");
-			InputStream fis = r.openRawResource(R.raw.test);
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-
-			while (null != (jsonLine = br.readLine())) {
-				jString = jString.concat(jsonLine);
-			}
-			br.close();
-		} else {
-			Log.d(ReporterActivity.TAG, "Loaded cached data");
-		}
-
-		return getRecordsFromJSON(jString, this.TYPE);
+		return results;
 	}
 
 	public List<Report> getRecordsFromJSON(String JsonString, String type) {
-		List<Report> result = new ArrayList<Report>();
-		try {
-			JSONObject object = (JSONObject) new JSONTokener(JsonString)
-					.nextValue();
-			JSONArray Reports = object.getJSONArray(type);
-			Time newLatest = new Time();
-			for (int i = 0; i < Reports.length(); i++) {
-				JSONObject tmp = (JSONObject) Reports.get(i);
 
-				String lmTime = tmp.getString("lmtime").replaceAll("-", ":")
-						.replaceAll(":", "");
-				boolean updated = false;
+		String [] types = {type};
+		JsonParser jp = new JsonParser(JsonString, types, this.lastUpdated);
+		List<Report> result = jp.getParsedJSON();
+		Time newLatest = jp.getNewUpdateTime();
 
-				// 2014-03-21 14:32:23.729
-				try {
-					String parsable = lmTime.substring(0,
-							lmTime.lastIndexOf(".")).replace(" ", "T");
-					Time recordTime = new Time();
-					recordTime.parse(parsable);
-					if (null != this.lastUpdated
-							&& recordTime.after(this.lastUpdated))
-						updated = true;
-					if (null == newLatest || newLatest.before(recordTime))
-						newLatest = recordTime;
+		if (null == lastUpdated || lastUpdated.before(newLatest))
 
-				} catch (TimeFormatException tfe) {
-					Log.e(ReporterActivity.TAG,
-							"An error with Parsing Time occured");
-				}
-				
-				//TODO Need to use new data field entries once back end is modifed
-				Report newReport = new Report(tmp.getString("sample"),
-						tmp.getString("workflow"), tmp.getString("version"),
-						tmp.getString("crtime"), tmp.getString("lmtime"),
-						updated);
-				if (type.equals(ReporterActivity.types[2])
-						&& tmp.has("progress")) {
-					String p = tmp.getString("progress");
-					if (null != p && !p.isEmpty())
-						newReport.setrProgress(p);
-				}
+			// Called only when the corresponding fragment's tab is selected
+			if (this.mParent.get().getSectionNumber() - 1 == this.mParent.get()
+					.getActivity().getActionBar().getSelectedNavigationIndex()) {
 
-				result.add(newReport);
+				this.mParent.get().setLastUpdateTime(newLatest);
+				Log.d(ReporterActivity.TAG, "Updated last update time for "	+ TYPE);
 			}
-			if (null == lastUpdated || lastUpdated.before(newLatest))
-				
-				// Called only when the corresponding fragment's tab is selected
-				if (this.mParent.get().getSectionNumber()-1 == 
-					this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){
-					
-						this.mParent.get().setLastUpdateTime(newLatest);
-						Log.d(ReporterActivity.TAG, "Updated last update time for " + TYPE);
-				}
-			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+
 		return result;
 	}
 

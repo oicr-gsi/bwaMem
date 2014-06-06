@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
+import ca.on.oicr.pde.seqprodreporter.ReporterActivity;
 import ca.on.oicr.pde.seqprodreporter.Report;
 
 public class ReportProvider extends ContentProvider {
@@ -21,7 +23,7 @@ public class ReportProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		mReportHelper = new MainDatabaseHelper(getContext());
-		//TODO this may be not such a good place for this container
+		// TODO this may be not such a good place for this container
 		cachedWorkflowRuns = new HashMap<String, Integer>();
 		return true;
 	}
@@ -31,53 +33,46 @@ public class ReportProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder qBuilder = new SQLiteQueryBuilder();
 
-		// Set the table we're querying.
 		qBuilder.setTables(DataContract.DATA_TABLE);
-		SQLiteDatabase db = mReportHelper.getReadableDatabase();
-		// Make the query.
+		SQLiteDatabase db = this.mReportHelper.getReadableDatabase();
 		Cursor c = qBuilder.query(db, projection, selection, selectionArgs,
 				null, // groupBy
 				null, // having
 				sortOrder);
 		// TODO need to return cursor with 0 rows if there's no data
 		c.setNotificationUri(getContext().getContentResolver(), uri);
-		db.close();
 		return c;
 	}
 
 	@Override
 	public synchronized String getType(Uri uri) {
-
 		String contentType = DataContract.CONTENT_ITEM_TYPE;
-
 		if (isTableUri(uri)) {
 			contentType = DataContract.CONTENT_DIR_TYPE;
 		}
-
 		return contentType;
 	}
 
 	@Override
 	public synchronized Uri insert(Uri uri, ContentValues value) {
-
-		if (value.containsKey(DataContract.SQW_ACCESSION)) {
-
+        // This is a 'smart' insert, if it finds that SWID exists already,
+		// the record will be updated
+		if (null != value && value.containsKey(DataContract.WR_ID)) {
 			Report report = new Report(value);
-			if (cachedWorkflowRuns.containsKey(report
-					.getrSeqwareAccession())) {
-				// TODO update record
-				update(uri, value, "WHERE " + DataContract.SQW_ACCESSION + "="
-						+ report.getrSeqwareAccession(), null);
+			if (cachedWorkflowRuns.containsKey(report.getrWorkflowRunId())) {
+				String[] wrids = new String[1];
+				wrids[0] = report.getrWorkflowRunId();
+				//Log.d(ReporterActivity.TAG,"Will update sample " + report.getrSampleName());
+				update(uri, value, DataContract.WR_ID + "=?", wrids);
 			} else {
 				SQLiteDatabase db = this.mReportHelper.getWritableDatabase();
 				long rowId = db.insert(DataContract.DATA_TABLE, null, value);
 				if (rowId > 0) {
 					// row inserted, update cached SQW ACCESSION hashmap
-					cachedWorkflowRuns.put(report.getrSeqwareAccession(), 1);
-					// return Uri associated with newly-added data item
+					cachedWorkflowRuns.put(report.getrWorkflowRunId(), 1);
 					return Uri.withAppendedPath(DataContract.CONTENT_URI,
-						String.valueOf(rowId));
-		        }
+							String.valueOf(rowId));
+				}
 			}
 		}
 		return null;
@@ -93,16 +88,22 @@ public class ReportProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// Update Only things that change (lastmod time, progress, status)
+		// Update Only things that change (lm time, progress, status)
 		SQLiteDatabase db = mReportHelper.getWritableDatabase();
 		ContentValues selectedValues = new ContentValues();
-		
-		selectedValues.put(DataContract.LM_TIME, values.getAsString(DataContract.LM_TIME));
-		selectedValues.put(DataContract.STATUS, values.getAsString(DataContract.STATUS));
-		selectedValues.put(DataContract.PROGRESS, values.getAsString(DataContract.PROGRESS));
-		
-		return db.update(DataContract.DATA_TABLE, values, "WHERE " + DataContract.SQW_ACCESSION + "="
-				+ values.getAsString(DataContract.SQW_ACCESSION), null);
+
+		selectedValues.put(DataContract.LM_TIME,
+				values.getAsString(DataContract.LM_TIME));
+		selectedValues.put(DataContract.STATUS,
+				values.getAsString(DataContract.STATUS));
+		selectedValues.put(DataContract.PROGRESS,
+				values.getAsString(DataContract.PROGRESS));
+
+		return db.update(
+				DataContract.DATA_TABLE,
+				values,
+				selection,
+				selectionArgs);
 	}
 
 	protected static final class MainDatabaseHelper extends SQLiteOpenHelper {
@@ -121,9 +122,8 @@ public class ReportProvider extends ContentProvider {
 		 * exist.
 		 */
 		public void onCreate(SQLiteDatabase db) {
-			// TODO if db exists, populate the cachedWorkflowRuns set with
-			// SQW_ACCESSIONS (maybe not here)
-			// Creates the main table
+
+			Log.d(ReporterActivity.TAG, "Database does not exist, Creating " + DataContract.DATABASE);
 			db.execSQL(DataContract.REPORT_DB_CREATE);
 		}
 

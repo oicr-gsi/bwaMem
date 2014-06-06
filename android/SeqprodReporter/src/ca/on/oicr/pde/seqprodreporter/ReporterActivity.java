@@ -274,7 +274,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				+ this.updateHost);
 		// Schedule Alert here
 		// DEBUG ONLY
-		// this.updateFrequency = 1;
+		//this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -316,11 +316,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A function for updating Last Update Time (text should replace the app title) 
 	 */
 	//TODO PDE-622
-	private void updateLUT() {
+	/*private void updateLUT() {
 		//get newTitle from the data currently downloaded, 
 		String newTitle = null;
 		this.getActionBar().setTitle(newTitle);
-	}
+	}*/
 
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
@@ -364,7 +364,9 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
+			mSectionsPagerAdapter.notifyDataSetChanged();
 		}
+		
 
 	}
 
