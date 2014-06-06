@@ -23,6 +23,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	private static LayoutInflater inflater = null;
 	private final int UPDATE_COLOR = 0xFFCCFF99;
 	private final int DEFAULT_COLOR = 0xFFFFFFFF;
+	private static final String ESTIMATED_TIME_REMAINING_FILLER = "HH:MM";
 	
 
 	public ReportAdapter(Context context, int resource) {
@@ -62,6 +63,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.ctime = (TextView) newView.findViewById(R.id.report_ctime);
 			holder.lmtime = (TextView) newView.findViewById(R.id.report_lmtime);
 			holder.pbar = (ProgressBar) newView.findViewById(R.id.report_pbar);
+			holder.estimatedTimeRemaining = (TextView) newView.findViewById(R.id.estimated_time_remaining);
 			newView.setTag(holder);
 		} 
 		else {
@@ -83,9 +85,9 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			if (null != curr.getrProgress()) {
 				holder.pbar.setProgress(curr.progressValue());
 				holder.pbar.setVisibility(ProgressBar.VISIBLE);
+				holder.estimatedTimeRemaining.setText("ETR: " + ESTIMATED_TIME_REMAINING_FILLER );
 			}
-			//TODO: Set color values as static values
-	
+			
 			if (curr.getrUpdated()){
 				newView.setBackgroundColor(UPDATE_COLOR);
 			}	
@@ -104,7 +106,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 		TextView ctime;
 		TextView lmtime;
 		ProgressBar pbar;
-
+		TextView estimatedTimeRemaining;
 	}
 
 	public void add(Report listItem) {
