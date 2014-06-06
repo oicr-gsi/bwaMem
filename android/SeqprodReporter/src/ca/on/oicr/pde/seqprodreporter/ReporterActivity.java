@@ -56,12 +56,19 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static final String PREFERENCE_FILE = "seqprod.conf";
 	public static final String DATA_FILE = "seqprod_data_RANGE.json";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
+	
+	private static final String NOTIFICATIONS_OFF = "Off";
+	private static final String NOTIFICATIONS_WEB_UPDATES = "Web Updates";
+	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
+	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound"; 
+	
 
 	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
  	
 	private String updateHost;
 	private String updateRange;
+	private String notificationSetting;
 	private int updateFrequency; // in minutes
 	private boolean timerScheduled = false;
 	private boolean isVisible;
@@ -298,7 +305,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-
+		this.notificationSetting = sp.getString("pref_notificationSettings", NOTIFICATIONS_WEB_UPDATES);
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -354,20 +361,37 @@ public class ReporterActivity extends ActionBarActivity implements
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
 						mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-				Notification.Builder notificationBuilder = new Notification.Builder(
-						context).setTicker("Update Received")
-						.setSmallIcon(android.R.drawable.stat_sys_warning)
-						.setAutoCancel(true)
-						.setContentTitle("Seqprod Reporter")
-						.setContentText("Update Received")
-						.setContentIntent(mCIntent);
+				
+				// Send a certain notification based on which shared preference selected 
+				Notification.Builder notificationBuilder = new Notification.Builder(context);
+						if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
+							notificationBuilder.setTicker("Update Received")
+							.setSmallIcon(android.R.drawable.stat_sys_warning)
+							.setAutoCancel(true)
+							.setContentTitle("Seqprod Reporter")
+							.setContentText("Update Received")
+							.setContentIntent(mCIntent);
+						}
+						else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES)){// and call a function which checks if failed item updated
+								
+							
+						}
+						
+						else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){ // and call a function which checks if failed item updates
+							
+						}
+						
 
 				// Pass the Notification to the NotificationManager:
 				NotificationManager mNotificationManager = (NotificationManager) context
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			mSectionsPagerAdapter.notifyDataSetChanged();
+			// Only dynamically update the corresponding views when the app is either paused or active
+			// Not when the app is killed but an data update is received
+			if (!isDestroyed()){
+				mSectionsPagerAdapter.notifyDataSetChanged();
+			}
 		}
 
 	}
