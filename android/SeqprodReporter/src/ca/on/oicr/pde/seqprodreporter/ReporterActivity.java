@@ -17,6 +17,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -357,6 +359,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
+				//TODO isVisible is being set to false when on preference page, do we want this?
 			} else {
 				if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
 					Intent mNIntent = new Intent(context, ReporterActivity.class);
@@ -365,24 +368,27 @@ public class ReporterActivity extends ActionBarActivity implements
 					
 					// Send a certain notification based on which shared preference selected 
 					Notification.Builder notificationBuilder = new Notification.Builder(context);
+					notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+					.setAutoCancel(true)
+					.setContentTitle("Seqprod Reporter")
+					.setContentIntent(mCIntent);
 							if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
 								notificationBuilder.setTicker("Update Received")
-								.setSmallIcon(android.R.drawable.stat_sys_warning)
-								.setAutoCancel(true)
-								.setContentTitle("Seqprod Reporter")
-								.setContentText("Update Received")
-								.setContentIntent(mCIntent);
-							}
-							else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES)){// and call a function which checks if failed item updated
-									
+								.setContentText("Update Received");
 								
 							}
-							
-							else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){ // and call a function which checks if failed item updates
-								
+							else {// if (function which checks if failed items are updated)
+								notificationBuilder
+								.setTicker("Critical Update Received")
+								.setContentText("Critical Update Received")
+								.setLights(Color.RED, 500, 1000);
+								if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
+									//May need to change the notification sound type
+									notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+								}
 							}
+								
 							
-	
 					// Pass the Notification to the NotificationManager:
 					NotificationManager mNotificationManager = (NotificationManager) context
 							.getSystemService(Context.NOTIFICATION_SERVICE);
