@@ -42,7 +42,10 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 			report = getReportsFromFile();
 		} catch (IOException ie) {
 			ie.printStackTrace();
+		} catch (RuntimeException kos){
+			Log.d(ReporterActivity.TAG, "Caught exception");
 		}
+		
 		return report;
 
 	}

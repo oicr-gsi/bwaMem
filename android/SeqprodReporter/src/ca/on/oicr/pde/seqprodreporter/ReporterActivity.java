@@ -358,35 +358,37 @@ public class ReporterActivity extends ActionBarActivity implements
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				Intent mNIntent = new Intent(context, ReporterActivity.class);
-				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
-						mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-				
-				// Send a certain notification based on which shared preference selected 
-				Notification.Builder notificationBuilder = new Notification.Builder(context);
-						if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
-							notificationBuilder.setTicker("Update Received")
-							.setSmallIcon(android.R.drawable.stat_sys_warning)
-							.setAutoCancel(true)
-							.setContentTitle("Seqprod Reporter")
-							.setContentText("Update Received")
-							.setContentIntent(mCIntent);
-						}
-						else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES)){// and call a function which checks if failed item updated
+				if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
+					Intent mNIntent = new Intent(context, ReporterActivity.class);
+					PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
+							mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+					
+					// Send a certain notification based on which shared preference selected 
+					Notification.Builder notificationBuilder = new Notification.Builder(context);
+							if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
+								notificationBuilder.setTicker("Update Received")
+								.setSmallIcon(android.R.drawable.stat_sys_warning)
+								.setAutoCancel(true)
+								.setContentTitle("Seqprod Reporter")
+								.setContentText("Update Received")
+								.setContentIntent(mCIntent);
+							}
+							else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES)){// and call a function which checks if failed item updated
+									
 								
+							}
 							
-						}
-						
-						else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){ // and call a function which checks if failed item updates
+							else if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){ // and call a function which checks if failed item updates
+								
+							}
 							
-						}
-						
-
-				// Pass the Notification to the NotificationManager:
-				NotificationManager mNotificationManager = (NotificationManager) context
-						.getSystemService(Context.NOTIFICATION_SERVICE);
-				mNotificationManager.notify(0, notificationBuilder.build());
-			}
+	
+					// Pass the Notification to the NotificationManager:
+					NotificationManager mNotificationManager = (NotificationManager) context
+							.getSystemService(Context.NOTIFICATION_SERVICE);
+					mNotificationManager.notify(0, notificationBuilder.build());
+				}
+			}	
 			// Only dynamically update the corresponding views when the app is either paused or active
 			// Not when the app is killed but an data update is received
 			if (!isDestroyed()){
