@@ -141,7 +141,8 @@ public class JsonLoaderTask extends AsyncTask<Void, Void, List<Report>> {
 					Log.e(ReporterActivity.TAG,
 							"An error with Parsing Time occured");
 				}
-
+				
+				//TODO Need to use new data field entries once back end is modifed
 				Report newReport = new Report(tmp.getString("sample"),
 						tmp.getString("workflow"), tmp.getString("version"),
 						tmp.getString("crtime"), tmp.getString("lmtime"),
