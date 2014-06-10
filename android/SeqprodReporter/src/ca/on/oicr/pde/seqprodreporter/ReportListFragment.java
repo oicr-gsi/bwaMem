@@ -63,7 +63,6 @@ public class ReportListFragment extends Fragment {
 
 	public void addLocalReports(List<Report> newReports) {
 		this.mAdapter.removeAllViews();
-		//TODO PDE-604 If newReports is empty, add one Report with a TextView text set to "No [type] workflow runs available at this time"
 		if (newReports.size() != 0){
 			for (Report r : newReports) {
 				this.mAdapter.add(r);
@@ -91,8 +90,6 @@ public class ReportListFragment extends Fragment {
 			mAdapter.sortList(TIMECOMPARATOR);
 		}
 	}
-
-	// TODO PDE-588 need to switch between these comparators
 
 	public int getSectionNumber() {
 		return this.sectionNumber;

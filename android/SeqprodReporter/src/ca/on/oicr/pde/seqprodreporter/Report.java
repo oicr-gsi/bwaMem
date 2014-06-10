@@ -5,8 +5,10 @@ import android.util.Log;
 import android.util.TimeFormatException;
 
 public class Report {
-	//TODO PDE-621 add sequencer run name, study name and the Seqware accession to workflow items
-	private String rSampleName;
+	private String rSampleName; 
+	private String rSequencerRunName;
+	private String rStudyName;
+	private String rSeqwareAccession;
 	private String rWorkflowName;
 	private String rWorkflowVersion;
 	private String rCreateTime;
@@ -16,7 +18,8 @@ public class Report {
 	private boolean rUpSinceLastTime;
 	
 	public static final String EMPTY_REPORT = "Empty Report";
-
+	
+	//TODO Need to update constructor once back end of app is modified
 	public Report(String sname, String wname, String wversion, String ctime,
 			String ltime, boolean updated) {
 		rSampleName = sname;
@@ -40,7 +43,18 @@ public class Report {
 			}
 		}
 	}
-	//TODO PDE-621 Need to add getters for new data items
+	public String getrSequencerRunName(){
+		return rSequencerRunName;
+	}
+	
+	public String getrStudyName(){
+		return rStudyName;
+	}
+	
+	public String getrSeqwareAccession(){
+		return rSeqwareAccession;
+	}
+	
 	public String getrSampleName() {
 		return rSampleName;
 	}
