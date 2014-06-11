@@ -1,8 +1,5 @@
 package ca.on.oicr.pde.seqprodprovider;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,18 +10,15 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 import ca.on.oicr.pde.seqprodreporter.ReporterActivity;
-import ca.on.oicr.pde.seqprodreporter.Report;
 
 public class ReportProvider extends ContentProvider {
+
 	// Helper class for creating/deleting database
 	private MainDatabaseHelper mReportHelper;
-	private static Map<String, Integer> cachedWorkflowRuns;
 
 	@Override
 	public boolean onCreate() {
 		mReportHelper = new MainDatabaseHelper(getContext());
-		// TODO this may be not such a good place for this container
-		cachedWorkflowRuns = new HashMap<String, Integer>();
 		return true;
 	}
 
@@ -39,7 +33,8 @@ public class ReportProvider extends ContentProvider {
 				null, // groupBy
 				null, // having
 				sortOrder);
-		// TODO need to return cursor with 0 rows if there's no data
+		// TODO need to return cursor with 0 rows if there's no data (although
+		// it seems functional regardless)
 		c.setNotificationUri(getContext().getContentResolver(), uri);
 		return c;
 	}
@@ -55,24 +50,12 @@ public class ReportProvider extends ContentProvider {
 
 	@Override
 	public synchronized Uri insert(Uri uri, ContentValues value) {
-        // This is a 'smart' insert, if it finds that SWID exists already,
-		// the record will be updated
 		if (null != value && value.containsKey(DataContract.WR_ID)) {
-			Report report = new Report(value);
-			if (cachedWorkflowRuns.containsKey(report.getrWorkflowRunId())) {
-				String[] wrids = new String[1];
-				wrids[0] = report.getrWorkflowRunId();
-				//Log.d(ReporterActivity.TAG,"Will update sample " + report.getrSampleName());
-				update(uri, value, DataContract.WR_ID + "=?", wrids);
-			} else {
-				SQLiteDatabase db = this.mReportHelper.getWritableDatabase();
-				long rowId = db.insert(DataContract.DATA_TABLE, null, value);
-				if (rowId > 0) {
-					// row inserted, update cached SQW ACCESSION hashmap
-					cachedWorkflowRuns.put(report.getrWorkflowRunId(), 1);
-					return Uri.withAppendedPath(DataContract.CONTENT_URI,
-							String.valueOf(rowId));
-				}
+			SQLiteDatabase db = this.mReportHelper.getWritableDatabase();
+			long rowId = db.insert(DataContract.DATA_TABLE, null, value);
+			if (rowId > 0) {
+				return Uri.withAppendedPath(DataContract.CONTENT_URI,
+						String.valueOf(rowId));
 			}
 		}
 		return null;
@@ -89,6 +72,7 @@ public class ReportProvider extends ContentProvider {
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		// Update Only things that change (lm time, progress, status)
+		// This method is implemented but NOT IN USE at this point
 		SQLiteDatabase db = mReportHelper.getWritableDatabase();
 		ContentValues selectedValues = new ContentValues();
 
@@ -99,10 +83,7 @@ public class ReportProvider extends ContentProvider {
 		selectedValues.put(DataContract.PROGRESS,
 				values.getAsString(DataContract.PROGRESS));
 
-		return db.update(
-				DataContract.DATA_TABLE,
-				values,
-				selection,
+		return db.update(DataContract.DATA_TABLE, selectedValues, selection,
 				selectionArgs);
 	}
 
@@ -123,7 +104,8 @@ public class ReportProvider extends ContentProvider {
 		 */
 		public void onCreate(SQLiteDatabase db) {
 
-			Log.d(ReporterActivity.TAG, "Database does not exist, Creating " + DataContract.DATABASE);
+			Log.d(ReporterActivity.TAG, "Database does not exist, Creating "
+					+ DataContract.DATABASE);
 			db.execSQL(DataContract.REPORT_DB_CREATE);
 		}
 
@@ -134,12 +116,6 @@ public class ReportProvider extends ContentProvider {
 			onCreate(db);
 		}
 	}
-
-	// Does last segment of the Uri match a string of digits?
-	/*
-	 * private boolean isItemUri(Uri uri) { return
-	 * uri.getLastPathSegment().matches("\\d+"); }
-	 */
 
 	// Is the last segment of the Uri the name of the data table?
 	private boolean isTableUri(Uri uri) {

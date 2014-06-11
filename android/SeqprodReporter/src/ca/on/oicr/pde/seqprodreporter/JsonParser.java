@@ -12,6 +12,9 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
+/*
+ * Helper class for parsing JSON strings
+ */
 public class JsonParser {
 
 	private Time newUpdateTime;
@@ -25,7 +28,6 @@ public class JsonParser {
 					.nextValue();
 			for (int t = 0; t < types.length; t++) {
 			JSONArray jsonRecords = object.getJSONArray(types[t]);
-			//Time newLatest = new Time();
 			for (int i = 0; i < jsonRecords.length(); i++) {
 				JSONObject tmp = (JSONObject) jsonRecords.get(i);
 
@@ -34,6 +36,7 @@ public class JsonParser {
 				boolean updated = false;
 
 				// 2014-03-21 14:32:23.729
+				// TODO Need to use timestamps in db so that we can do easy filtering by time range
 				try {
 					String parsable = lmTime.substring(0,
 							lmTime.lastIndexOf(".")).replace(" ", "T");
@@ -52,9 +55,14 @@ public class JsonParser {
 
 				// TODO Need to use new data field entries once back end is modified
 				Report newReport = new Report(tmp.getString("sample"),
-						tmp.getString("workflow"), tmp.getString("version"),
-						tmp.getString("crtime"), tmp.getString("lmtime"),
-						tmp.getString("wrun_id"), updated);
+											  tmp.getString("workflow"),
+											  tmp.getString("version"),
+											  tmp.getString("crtime"),
+											  tmp.getString("lmtime"),
+											  tmp.getString("wrun_id"),
+											  tmp.getString("status"),
+											  types[t],
+											  updated);
 				if (types[t].equals(ReporterActivity.types[2])
 						&& tmp.has("progress")) {
 					String p = tmp.getString("progress");

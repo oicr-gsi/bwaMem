@@ -9,6 +9,7 @@ public final class DataContract {
 	public static final String SEQRUN_NAME = "seqrun_name";
 	public static final String STUDY_NAME = "study_name";
 	public static final String WR_ID = "workflow_run_id";
+	public static final String WR_TYPE = "workflow_run_type";
 	public static final String WORKFLOW = "workflow_name";
 	public static final String WF_VERSION = "workflow_version";
 	public static final String STATUS  = "status";
@@ -35,20 +36,24 @@ public final class DataContract {
 			+ "/ReportProvider.data.text";
 
 	// All columns of this table
-	public static final String[] ALL_COLUMNS = { SAMPLE, WORKFLOW, WF_VERSION, CR_TIME, LM_TIME, PROGRESS };
-	
+	public static final String[] ALL_COLUMNS = { SAMPLE, SEQRUN_NAME, STUDY_NAME, WR_ID, WR_TYPE, WORKFLOW, WF_VERSION, STATUS, CR_TIME, LM_TIME, PROGRESS };
+
+
 	// Database initialization Query
 	public static final String REPORT_DB_CREATE = "CREATE TABLE " +
-			DATA_TABLE +                    // Table's name
-		    "(" +                           // The columns in the table
-		    " _ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			DATA_TABLE +
+		    "(" +                           
+		    " _ID INTEGER PRIMARY KEY AUTOINCREMENT, " + // this is needed to make it all work for ListView
 		    SAMPLE + " TEXT, " +
 		    SEQRUN_NAME + " TEXT, " +
+		    STUDY_NAME + " TEXT," +
+		    WR_ID  + " TEXT," +
+		    WR_TYPE  + " TEXT, " + // such as pending, completed etc
 		    WORKFLOW + " TEXT, " +
 		    WF_VERSION + " TEXT, " +
-		    WR_ID  + " TEXT, " +
-		    STATUS + " TEXT, " +
+		    STATUS + " TEXT, " +  // actual status (maybe running, scheduled etc.)
 		    CR_TIME + " TEXT, " +
 		    LM_TIME + " TEXT, " +
- 		    PROGRESS + " INTEGER)";
+ 		    PROGRESS + " TEXT, " + 
+ 		   "UNIQUE (" + DataContract.WR_ID + ") ON CONFLICT REPLACE)";
     }

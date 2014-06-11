@@ -78,8 +78,8 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_reporter);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
-		// Perhaps we need to move the Http request - sending code into new
-		// activity (SummaryStatsActivity)
+		// Http request may stay here since we are using COntentProvider
+
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
@@ -364,7 +364,8 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			mSectionsPagerAdapter.notifyDataSetChanged();
+			if (ReporterActivity.this.isVisible)
+				mSectionsPagerAdapter.notifyDataSetChanged();
 		}
 		
 

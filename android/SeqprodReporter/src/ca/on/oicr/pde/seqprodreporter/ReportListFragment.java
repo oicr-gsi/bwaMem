@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ public class ReportListFragment extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
-	// private static final String ARG_SECTION_NUMBER = "section_number";
 	private ReportAdapter mAdapter;
 	private Time lastUpdateTime;
 	private int sectionNumber;
@@ -28,7 +26,7 @@ public class ReportListFragment extends Fragment {
     static final int SORT_BY_MODTIME   = 0;
     static final int SORT_BY_WORKFLOW = 1;
     static final int SORT_BY_SAMPLE  = 2;
-            
+    //May want to move these comparator's code into a separate class for easy maintenance            
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
 	public final Comparator<Report> NAMECOMPARATOR = new ReportWorkflowComparator();
@@ -51,8 +49,6 @@ public class ReportListFragment extends Fragment {
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
 		
 		int index = this.getSectionNumber() - 1;
-		Log.d(ReporterActivity.TAG, "onCreateView called for "
-				+ ReporterActivity.types[index]);
 		this.mAdapter = new ReportAdapter(container.getContext(), R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
 		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute(Boolean.FALSE);
@@ -71,7 +67,7 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","",false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","","","",false);
 			this.mAdapter.add(emptyReport);
 		}
 		mAdapter.notifyDataSetChanged();
@@ -147,7 +143,7 @@ public class ReportListFragment extends Fragment {
 			Time repTime1 = report1.getTimeStamp();
 			Time repTime2 = report2.getTimeStamp();
 
-			// ascending order
+			// newer first
 			return Time.compare(repTime2, repTime1);
 
 		}

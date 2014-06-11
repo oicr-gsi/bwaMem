@@ -61,17 +61,21 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		return results;
 	}
 
-	// Functions for getting data from cursor
+	/*
+	 *  Functions for getting data from cursor
+	 */
 	private ArrayList<Report> queryReportData() {
 		Cursor result = mParent.get().getActivity().getApplication()
 				.getContentResolver()
-				.query(DataContract.CONTENT_URI, null, null, null, null);
+				.query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
 		ArrayList<Report> rValue = new ArrayList<Report>();
 
 		if (result != null) {
 			if (result.moveToFirst()) {
 				do {
-					rValue.add(getReportDataFromCursor(result));
+					Report newEntry = getReportDataFromCursor(result);
+					if (TYPE.equals(ReporterActivity.types[2]) && !newEntry.getrProgress().isEmpty())
+					rValue.add(newEntry);
 				} while (result.moveToNext() == true);
 			}
 			result.close();
@@ -79,6 +83,9 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		return rValue;
 	}
 
+	/*
+	 * Create a Report and return it, set progress only for pending runs
+	 */
 	private Report getReportDataFromCursor(Cursor cursor) {
 		String sname = cursor.getString(cursor
 				.getColumnIndex(DataContract.SAMPLE));
@@ -92,10 +99,21 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 				.getColumnIndex(DataContract.LM_TIME));
 		String wrunid = cursor.getString(cursor
 				.getColumnIndex(DataContract.WR_ID));
-		// construct the returned object, consolidate date checking code
-		return new Report(sname, wname, wversion, ctime, ltime, wrunid, false);
+		String wrunstatus = cursor.getString(cursor
+				.getColumnIndex(DataContract.STATUS));
+		String wruntype   = cursor.getString(cursor
+				.getColumnIndex(DataContract.WR_TYPE));
+		String wrprogress = cursor.getString(cursor
+				.getColumnIndex(DataContract.PROGRESS));
+		// Construct Report from obtained values
+		Report newEntry = new Report(sname, wname, wversion, ctime, ltime, wrunid, wrunstatus, wruntype, false);
+		if (wruntype.equals(ReporterActivity.types[2]))
+			newEntry.setrProgress(wrprogress);
+		return newEntry;
 	}
 
+
+	@Deprecated
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 
 		Resources res = mParent.get().getResources();
@@ -112,7 +130,7 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		}
 		br.close();
 		List<Report> results = getRecordsFromJSON(jString, this.TYPE);
-		// Insert data into db
+		// Insert data into DB
 		if (null != results) {
 			ContentResolver cr = mParent.get().getActivity().getApplication()
 					.getContentResolver();
@@ -124,6 +142,9 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		return results;
 	}
 
+    /*
+     * Get list of Report objects from a long JSON string
+     */
 	public List<Report> getRecordsFromJSON(String JsonString, String type) {
 
 		String [] types = {type};
