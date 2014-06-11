@@ -84,8 +84,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
-
+		
 		setContentView(R.layout.activity_reporter);
+		
+		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
 		// Perhaps we need to move the Http request - sending code into new
 		// activity (SummaryStatsActivity)
@@ -99,7 +101,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
-			
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -143,12 +145,15 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
+		((MainApplication)getApplication()).setisCurrentActivityVisible(false);
+		
 		this.isVisible = false;
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
 		super.onResume();
@@ -352,51 +357,57 @@ public class ReporterActivity extends ActionBarActivity implements
 	class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
-			if (ReporterActivity.this.isVisible) {
-				Toast.makeText(ReporterActivity.this, "Update Received",
-						Toast.LENGTH_SHORT).show();
-				//TODO isVisible is being set to false when on preference page, do we want this?
-			} else {
-				if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
-					Intent mNIntent = new Intent(context, ReporterActivity.class);
-					PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
-							mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-					
-					// Send a certain notification based on which shared preference selected 
-					Notification.Builder notificationBuilder = new Notification.Builder(context);
-					notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
-					.setAutoCancel(true)
-					.setContentTitle("Seqprod Reporter")
-					.setContentIntent(mCIntent);
-							if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
-								notificationBuilder.setTicker("Update Received")
-								.setContentText("Update Received");
-								
-							}
-							else {// if (function which checks if failed items are updated)
-								notificationBuilder
-								.setTicker("Critical Update Received")
-								.setContentText("Critical Update Received")
-								.setLights(Color.RED, 500, 1000);
-								if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
-									//May need to change the notification sound type
-									notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+			if (isVisible!=((MainApplication)getApplication()).getisCurrentActivityVisible()){
+				LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(this);
+			}
+			else{
+				Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
+				if (ReporterActivity.this.isVisible) {
+					Toast.makeText(ReporterActivity.this, "Update Received",
+							Toast.LENGTH_SHORT).show();
+					//TODO isVisible is being set to false when on preference page, do we want this?
+				} else {
+					if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
+						Intent mNIntent = new Intent(context, ReporterActivity.class);
+						PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
+								mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+						
+						// Send a certain notification based on which shared preference selected 
+						Notification.Builder notificationBuilder = new Notification.Builder(context);
+						notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+						.setAutoCancel(true)
+						.setContentTitle("Seqprod Reporter")
+						.setContentIntent(mCIntent);
+								if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
+									notificationBuilder.setTicker("Update Received")
+									.setContentText("Update Received");
+									
 								}
-							}
+								else {// if (function which checks if failed items are updated)
+									notificationBuilder
+									.setTicker("Critical Update Received")
+									.setContentText("Critical Update Received")
+									.setLights(Color.RED, 500, 1000);
+									if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
+										//May need to change the notification sound type
+										notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+									}
+								}
+									
 								
-							
-					// Pass the Notification to the NotificationManager:
-					NotificationManager mNotificationManager = (NotificationManager) context
-							.getSystemService(Context.NOTIFICATION_SERVICE);
-					mNotificationManager.notify(0, notificationBuilder.build());
+						// Pass the Notification to the NotificationManager:
+						NotificationManager mNotificationManager = (NotificationManager) context
+								.getSystemService(Context.NOTIFICATION_SERVICE);
+						mNotificationManager.notify(0, notificationBuilder.build());
+					}
 				}
-			}	
+				if (!isDestroyed()){
+					mSectionsPagerAdapter.notifyDataSetChanged();
+				}
+			}
 			// Only dynamically update the corresponding views when the app is either paused or active
 			// Not when the app is killed but an data update is received
-			if (!isDestroyed()){
-				mSectionsPagerAdapter.notifyDataSetChanged();
-			}
+			
 		}
 
 	}
@@ -407,10 +418,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	class TimedHttpTask extends TimerTask {
 		@Override
 		public void run() {
+			if (isVisible != ((MainApplication)getApplication()).getisCurrentActivityVisible()){
+				timer.cancel();
+			}
+			else{
 			Log.d(TAG,
 					"Entered TimedHttpTask, here we need to launch HTTP request");
 			new getreportHTTP(getApplicationContext(), sp).execute();
+			}
 		}
+			
 	}
 
 }
