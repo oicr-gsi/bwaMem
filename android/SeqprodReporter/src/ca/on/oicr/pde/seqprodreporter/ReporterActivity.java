@@ -405,8 +405,6 @@ public class ReporterActivity extends ActionBarActivity implements
 					mSectionsPagerAdapter.notifyDataSetChanged();
 				}
 			}
-			// Only dynamically update the corresponding views when the app is either paused or active
-			// Not when the app is killed but an data update is received
 		}
 	}
 
