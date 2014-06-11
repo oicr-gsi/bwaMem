@@ -6,6 +6,7 @@ use DBI;
 use JSON;
 use Data::Dumper;
 use Time::Local;
+use Getopt::Std;
 use constant DEBUG=>0;
 my $STATUSTAG = "pegasus";
 
@@ -24,6 +25,14 @@ my $dbname = 'seqware_meta_db';
 my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
 my $wruser = 'seqware';
 my $wrhost = 'pipedev.hpc.oicr.on.ca';
+my $devmode = 0;
+
+# Control development output with -d option
+my %opts = ();
+getopts('sd', \%opts);
+if (defined $opts{d}) {
+  $devmode = 1;
+}
 
 if (exists $ARGV[0])
 {
@@ -74,11 +83,11 @@ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processin
 	      JOIN processing_ius pi ON wrp.processing_id = pi.processing_id 
 	      JOIN ius i ON pi.ius_id = i.ius_id)
              SELECT 
+               wr.workflow_run_id,
                s.name AS sample_name,
                w.name,
                w.version,
                wr.status,            
-               wr.status_cmd,
                wr.create_tstmp,
                p.last_modified
               FROM workflow_run AS wr 
@@ -97,11 +106,11 @@ $sth->execute();
 
 warn "Query complete, processing\n";
 my %results;
-
+my %statushash = ();
 while(my @row = $sth->fetchrow_array) {
-        my ($sampleName, $workflowName, $workflowVersion, $status, $statusCmd, $createTime, $lastmodTime) = @row;
+        my ($workflowRunID, $sampleName, $workflowName, $workflowVersion, $status, $createTime, $lastmodTime) = @row;
                
-        next if (!$sampleName || !$workflowName || !$workflowVersion || !$createTime);
+        next if (!$workflowRunID || !$sampleName || !$workflowName || !$workflowVersion || !$createTime);
         $lastmodTime ||= $createTime;
         
 
@@ -109,29 +118,30 @@ while(my @row = $sth->fetchrow_array) {
         #my $ltime_value = parse_timestamp($lastmodTime);
 
         my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
-	warn "$createTime vs $lastmodTime\n" if DEBUG;
+	#warn "$createTime vs $lastmodTime\n" if DEBUG;
         #warn "$ctime_value vs $ltime_value\n\n" if DEBUG;
         #print Dumper($createTime)."\n".Dumper($lastmodTime)."\n";
         #exit;
 	next if ($timeDiff > $recentCutoff);
         
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
-        
+        $statushash{$status}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
-        $statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; #'
-        warn "Status command:".$statusCmd."\n" if DEBUG;
-        push(@{$results{$currentStatus}},{sample    => $sampleName,
+        #$statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; #'
+        #warn "Status command:".$statusCmd."\n" if DEBUG;   WE DONT NEED THIS WITH OOZIE
+        push(@{$results{$currentStatus}},{sample    => $devmode ? $sampleName."[$status]" : $sampleName,
                                           workflow  => $workflowName,
                                           version   => $workflowVersion,
                                           status    => $status,
-                                          stcommand => $statusCmd,
-                	                  #id => $workflowRunID,
+                	                  wrun_id   => $workflowRunID,
 					  #accession => $workflowAccession,
 					  #host => $wrhost,
 					  crtime    => $createTime,
 					  lmtime    => $lastmodTime});
         
 }
+print STDERR "Seen these statuses:\n" if DEBUG;
+map{print STDERR "$_:\t$statushash{$_}\n"} (keys %statushash) if DEBUG;
 
 $sth->finish;
 $dbh->disconnect;
@@ -146,8 +156,8 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
     }
 
     warn "About to check for ".$STATUSTAG if DEBUG;
-    if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
-	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
+    #if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
+    #	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
 
 	  #my @statusOutput = split(/\n/, `ssh -i $wrkey $wruser\@$wrhost $run->{stcommand}`);
 	  #if (defined $statusOutput[5] && $statusOutput[5] =~ /.*\( (.*%) \).*/) {
@@ -159,8 +169,10 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
           $run->{progress} = "".int rand(100);
 
 	 }
-   }
+   #}
 }
+print STDERR "We have following types present in the results:\n" if DEBUG;
+map{print STDERR $_."\n"} (keys %results) if DEBUG;
 
 my $json = JSON->new();
 $json = encode_json \%results;

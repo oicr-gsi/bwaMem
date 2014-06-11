@@ -21,6 +21,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
+	//TODO Need to move these values to string.xml
 	private final int UPDATE_COLOR = 0xFFCCFF99;
 	private final int DEFAULT_COLOR = 0xFFFFFFFF;
 	

@@ -89,8 +89,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
-		// Perhaps we need to move the Http request - sending code into new
-		// activity (SummaryStatsActivity)
+		// Http request may stay here since we are using COntentProvider
+
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
@@ -288,7 +288,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				+ this.updateHost);
 		// Schedule Alert here
 		// DEBUG ONLY
-		// this.updateFrequency = 1;
+		//this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -330,11 +330,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A function for updating Last Update Time (text should replace the app title) 
 	 */
 	//TODO PDE-622
-	private void updateLUT() {
+	/*private void updateLUT() {
 		//get newTitle from the data currently downloaded, 
 		String newTitle = null;
 		this.getActionBar().setTitle(newTitle);
-	}
+	}*/
 
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
@@ -407,9 +407,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			// Only dynamically update the corresponding views when the app is either paused or active
 			// Not when the app is killed but an data update is received
-			
 		}
-
 	}
 
 	/*
