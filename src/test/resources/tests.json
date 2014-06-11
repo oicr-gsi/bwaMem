@@ -8,7 +8,12 @@
     },
     "tests": [
         {
-            "input_config": "workflow_test_01.ini"
-        }
+	    "description": "Runs the small PCSI_0022 R data without trimming.",
+            "input_config": "PCSI0022R_notrim.ini"
+        },
+	{
+	    "description": "Runs the small PCSI_0022 R data with trimming.",
+	    "input_config": "PCSI0022R_trim.ini"
+	}
     ]
 }

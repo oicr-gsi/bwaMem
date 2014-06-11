@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
+import net.sourceforge.seqware.pipeline.workflowV2.model.Command;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 
 public class WorkflowClient extends OicrWorkflow {
@@ -16,6 +17,7 @@ public class WorkflowClient extends OicrWorkflow {
     String outputDir = null;
     String dataDir = "data/";
     String outputFileName = null;
+    String outputIndexName = null;
     boolean manualOutput;
     String adapter_Trimming_activated = null;
     String read1_adapterTrim = null;
@@ -23,7 +25,7 @@ public class WorkflowClient extends OicrWorkflow {
     String trimmedFile_1;
     String trimmedFile_2;
     //BWA parameters
-    String manual_bwa_path;
+    String bwa;
     String RGID;
     String RGLB;
     String RGPL;
@@ -37,9 +39,9 @@ public class WorkflowClient extends OicrWorkflow {
     String readGroup;//sampe
     String bwa_aln_params;
     String bwa_sampe_params;
-    SqwFile file0;
-    SqwFile file1;
-    SqwFile file2;
+    SqwFile read1;
+    SqwFile read2;
+    SqwFile outputFile;
 
     String queue; 
     
@@ -53,49 +55,30 @@ public class WorkflowClient extends OicrWorkflow {
             reference_path = getProperty("input_reference");
             outputDir = this.getMetadata_output_dir();
             outputPrefix = this.getMetadata_output_file_prefix();
-            adapter_Trimming_activated = getProperty("adapter_Trimming_activated");
 
-            manual_bwa_path = getProperty("manual_bwa_path");
+            bwa = getProperty("bwa");
 
             manualOutput = Boolean.valueOf(getProperty("manual_output"));
 
-            RGID = getProperty("RGID");
-            RGLB = getProperty("RGLB");
-            RGPL = getProperty("RGPL");
-            RGPU = getProperty("RGPU");
-            RGSM = getProperty("RGSM");
+            RGID = getProperty("rg_platform_unit");
+            RGLB = getProperty("rg_library");
+            RGPL = getProperty("rg_platform");
+            RGPU = getProperty("rg_platform_unit");
+            RGSM = getProperty("rg_sample_name");
             additionalPicardParams = getProperty("additionalPicardParams");
 
             queue = getOptionalProperty("queue", "");
 
-            if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
-                read1_adapterTrim = getProperty("read1_adapterTrim");
-                read2_adapterTrim = getProperty("read2_adapterTrim");
-            }
-
-//            if (!getProperty("manualOutputPath").isEmpty()) {
-//                finalOutputDir = outputPrefix
-//                        + outputDir
-//                        + ("/")
-//                        + getProperty("manualOutputPath");
-//            } else {
-//                finalOutputDir = outputPrefix
-//                        + outputDir
-//                        + ("/")
-//                        + this.getName()
-//                        + ("_")
-//                        + this.getVersion()
-//                        + ("/")
-//                        + this.getRandom()
-//                        + ("/");
-//            }
             if ((getProperty("outputFileName") != null) && (!getProperty("outputFileName").isEmpty())) {
                 outputFileName = getProperty("outputFileName");
             } else {
-                outputFileName = (input1_path.substring(input1_path.lastIndexOf("/") + 1))
-                        + (input2_path.substring(input2_path.lastIndexOf("/") + 1))
-                        + (".bam");
+		outputFileName = "SWID_" + getProperty("ius_accession") + "_" 
+             	+ getProperty("rg_library") + "_" + getProperty("sequencer_run_name") + "_" + getProperty("barcode") 
+             	+ "_L00" + getProperty("lane") + "_001.annotated.bam";
             }
+
+	    outputIndexName = outputFileName.substring(0,outputFileName.lastIndexOf("bam"))+"bai";
+
 
         } catch (Exception e) {
             Logger.getLogger(WorkflowClient.class.getName()).log(Level.SEVERE, null, e);
@@ -103,55 +86,17 @@ public class WorkflowClient extends OicrWorkflow {
         }
 
         // registers the first input file
-        file0 = this.createFile("file_in_1");
-        file0.setSourcePath(input1_path);
-        //String[] filepath = input1_path.split(".");
-        int dotposition = input1_path.lastIndexOf(".") + 1;
-        String fileType = input1_path.substring(dotposition);
-        if ("gz".equals(fileType)) {
-            file0.setType("chemical/seq-na-fastq-gzip");
-        } else if ("fastq".equals(fileType)) {
-            file0.setType("chemical/seq-na-fastq");
-        } else {
-            System.out.println(fileType);
-            System.exit(1);
-
-        }
-
-//        
-//        if (filepath.length >= 2) {
-//            //for (int i = filepath.length; i > filepath.length -1; i--){
-//            if (filepath[filepath.length - 1].equals("gz") && filepath[filepath.length - 2].equals("fastq")) {
-//                file0.setType("chemical/seq-na-fastq-gzip");
-//            } else if (filepath[filepath.length - 1].equals("fastq")) {
-//                file0.setType("chemical/seq-na-fastq");
-//            }
-//        }
-
-        file0.setIsInput(true);
+        read1 = new SqwFile();
+        read1.setSourcePath(input1_path);
+        read1.setIsInput(true);
 
         // registers the second input file 
-        file1 = this.createFile("file_in_2");
-        file1.setSourcePath(input2_path);
-        //String[] filepath = input1_path.split(".");
-        int dotposition2 = input2_path.lastIndexOf(".") + 1;
-        String fileType2 = input2_path.substring(dotposition2);
-        if ("gz".equals(fileType2)) {
-            file1.setType("chemical/seq-na-fastq-gzip");
-        } else if ("fastq".equals(fileType2)) {
-            file1.setType("chemical/seq-na-fastq");
-        }
-        file1.setIsInput(true);
+        read2 = new SqwFile();
+        read2.setSourcePath(input2_path);
+        read2.setIsInput(true);
 
-        file2 = createOutputFile(this.dataDir + outputFileName, "application/bam", manualOutput);
-
-        // registers an output file
-//        file2 = this.createFile("file_out");
-//        file2.setSourcePath(outputFileName);
-//        file2.setType("application/bam");
-//        file2.setIsOutput(true);
-//        file2.setForceCopy(true);
-//        file2.setOutputPath(finalOutputDir + outputFileName);
+        outputFile = createOutputFile(this.dataDir + outputFileName, "application/bam", manualOutput);
+	
 
         return this.getFiles();
     }
@@ -162,67 +107,49 @@ public class WorkflowClient extends OicrWorkflow {
         this.addDirectory(dataDir);
     }
 
+    private Job doTrim(String read1Path, String read2Path, String read1TrimmedPath, String read2TrimmedPath) {
+        Job cutAdaptJob = this.getWorkflow().createBashJob("cutAdapt");
+        Command command = cutAdaptJob.getCommand();
+
+        command.addArgument(getProperty("bundled_jre"));
+        command.addArgument("-Xmx500M");
+        command.addArgument("-cp "+getWorkflowBaseDir() + "/classes:"+getWorkflowBaseDir() + "/lib/"+getProperty("bundled_seqware"));
+        command.addArgument("net.sourceforge.seqware.pipeline.runner.PluginRunner -p net.sourceforge.seqware.pipeline.plugins.ModuleRunner -- ");
+        command.addArgument("--module ca.on.oicr.pde.utilities.workflows.modules.CutAdaptModule --no-metadata -- ");
+        command.addArgument("--fastq-read-1 "+read1Path+" --fastq-read-2 "+read2Path);
+        command.addArgument("--output-read-1 "+read1TrimmedPath+" --output-read-2 "+read2TrimmedPath);
+        command.addArgument("--cutadapt \""+getProperty("python")+ " " +getProperty("cutadapt") +"\"");
+        if (!getProperty("trim_min_quality").isEmpty()) command.addArgument("--quality "+getProperty("trim_min_quality"));
+        if (!getProperty("trim_min_length").isEmpty()) command.addArgument("--minimum-length "+getProperty("trim_min_length"));
+        command.addArgument("--adapters-1 "+getProperty("r1_adapter_trim")+" --adapters-2 "+getProperty("r2_adapter_trim"));
+        if (!getProperty("cutadapt_r1_other_params").isEmpty()) command.addArgument("--other-parameters-1 "+getProperty("cutadapt_r1_other_params"));
+        if (!getProperty("cutadapt_r2_other_params").isEmpty()) command.addArgument("--other-parameters-2 "+getProperty("cutadapt_r2_other_params"));
+        cutAdaptJob.setMaxMemory(getProperty("trim_mem_mb"));
+        if (!this.queue.isEmpty()) {
+                cutAdaptJob.setQueue(this.queue);
+        }
+        return cutAdaptJob;
+    }
+
+
+
+
     @Override
     public void buildWorkflow() {
+	String r1=read1.getProvisionedPath();
+        String r2=read2.getProvisionedPath();
+        String basename1 = r1.substring(r1.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
+        String basename2 = r2.substring(r2.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
 
-        Job jobCutAdapt1 = null;
-        Job jobCutAdapt2 = null;
-
-        if (adapter_Trimming_activated.equalsIgnoreCase("yes")) {
-
-            jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-            jobCutAdapt1.getCommand().addArgument(
-                    this.getWorkflowBaseDir()
-                    + "/bin/Python-2.7.5/python "
-                    + this.getWorkflowBaseDir()
-                    + "/bin/cutadapt-1.2.1/bin/cutadapt ");
-            jobCutAdapt1.getCommand().addArgument(
-                    ("-a ") + read1_adapterTrim + (" "));
-            if (file0.getType().equals("chemical/seq-na-fastq-gzip")) {
-                jobCutAdapt1.getCommand().addArgument(
-                        (" -o ")
-                        + input1_path.substring(input1_path.lastIndexOf("/") + 1)
-                        + (" ")
-                        + this.getFiles().get("file_in_1").getProvisionedPath());
-            } else {
-                jobCutAdapt1.getCommand().addArgument(
-                        this.getFiles().get("file_in_1").getProvisionedPath()
-                        + " > "
-                        + this.dataDir + input1_path.substring(input1_path.lastIndexOf("/") + 1));
-            }
-
-            jobCutAdapt1.setMaxMemory("16000");
-            jobCutAdapt1.setQueue(queue);
-
-            jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-            jobCutAdapt2.setMaxMemory("16000");
-            jobCutAdapt2.setQueue(queue);
-
-            //jobCutAdapt1 = this.getWorkflow().createBashJob("cutadapt_1");
-
-
-            //jobCutAdapt2 = this.getWorkflow().createBashJob("cutadapt_2");
-            jobCutAdapt2.getCommand().addArgument(
-                    this.getWorkflowBaseDir()
-                    + "/bin/Python-2.7.5/python "
-                    + this.getWorkflowBaseDir()
-                    + "/bin/cutadapt-1.2.1/bin/cutadapt ");
-            jobCutAdapt2.getCommand().addArgument(
-                    ("-a ") + read1_adapterTrim + (" "));
-            if (file1.getType().equals("chemical/seq-na-fastq-gzip")) {
-                jobCutAdapt2.getCommand().addArgument(
-                        (" -o ")
-                        + this.dataDir + input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                        + (" ")
-                        + this.getFiles().get("file_in_2").getProvisionedPath());
-            } else {
-                jobCutAdapt2.getCommand().addArgument(
-                        this.getFiles().get("file_in_2").getProvisionedPath()
-                        + " > "
-                        + this.dataDir + input2_path.substring(input2_path.lastIndexOf("/") + 1));
-            }
-
-
+	Job trimJob=null;
+	if (Boolean.valueOf(getProperty("do_trim"))) {
+	    String trim1=basename1+".trim.fastq.gz";
+            String trim2=basename2+".trim.fastq.gz";
+            trimJob = doTrim(r1,r2,trim1,trim2);
+            r1=trim1;
+            r2=trim2;
+	    trimJob.addFile(read1);
+	    trimJob.addFile(read2);
         }
 
         Job job01 = this.getWorkflow().createBashJob("bwa_align1");
@@ -230,91 +157,65 @@ public class WorkflowClient extends OicrWorkflow {
 
 
         // Job job01 = this.getWorkflow().createBashJob("bwa_align1");
-        if (!getProperty("manual_bwa_path").isEmpty()) {
-            job01.getCommand().addArgument(manual_bwa_path + " aln ");
-        } else {
-            job01.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
-        }
+        job01.getCommand().addArgument(bwa + " aln ");
         job01.getCommand().addArgument((this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                ? input1_path.substring(input1_path.lastIndexOf("/") + 1)
-                : this.getFiles().get("file_in_1").getProvisionedPath())
+		+ r1 + " "
                 + " > " + this.dataDir + "aligned_1.sai 2> aligned_1.err");
-        job01.setMaxMemory("16000");
+        job01.setMaxMemory(getProperty("bwa_aln_mem_mb"));
         job01.setQueue(queue);
 
-        if (jobCutAdapt1 != null) {
-            job01.addParent(jobCutAdapt1);
+        if (trimJob != null) {
+            job01.addParent(trimJob);
+	    job01.addFile(read1);
         }
 
-        if (!getProperty("manual_bwa_path").isEmpty()) {
-            job02.getCommand().addArgument(manual_bwa_path + " aln ");
-        } else {
-            job02.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa aln ");
-        }
+        job02.getCommand().addArgument(bwa + " aln ");
         job02.getCommand().addArgument((this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
-                + ((adapter_Trimming_activated.equalsIgnoreCase("yes"))
-                ? input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                : this.getFiles().get("file_in_2").getProvisionedPath())
+                + r2 + " "
                 + (" > " + this.dataDir + "aligned_2.sai  2> aligned_2.err"));
-        job02.setMaxMemory("16000");
+        job02.setMaxMemory(getProperty("bwa_aln_mem_mb"));
         job02.setQueue(queue);
-        if (jobCutAdapt2 != null) {
-            job02.addParent(jobCutAdapt2);
+        if (trimJob != null) {
+            job02.addParent(trimJob);
+	    job02.addFile(read2);
         }
 
 
 
-        Job job03 = this.getWorkflow().createBashJob("bwa_sam_bam");
-        if (!getProperty("manual_bwa_path").isEmpty()) {
-            job03.getCommand().addArgument(manual_bwa_path + " sampe ");
-        } else {
-            job03.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/bwa-0.6.2/bwa sampe ");
-        }
-        
+        Job job03 = this.getWorkflow().createBashJob("bwa_sampe");
+        job03.getCommand().addArgument(bwa + " sampe ");
+
         job03.getCommand().addArgument(this.parameters("sampe").isEmpty() ? " " : this.parameters("sampe"));
 	job03.getCommand().addArgument(reference_path);
 	job03.getCommand().addArgument(this.dataDir + "aligned_1.sai");
 	job03.getCommand().addArgument(this.dataDir + "aligned_2.sai");
-	job03.getCommand().addArgument((adapter_Trimming_activated.equalsIgnoreCase("yes") ? 
-		input1_path.substring(input1_path.lastIndexOf("/") + 1) + (" ") + input2_path.substring(input2_path.lastIndexOf("/") + 1)
-                : input1_path + (" ") + input2_path));
+	job03.getCommand().addArgument(r1 + " " + r2);
 	job03.getCommand().addArgument(" > " + this.dataDir + outputFileName + ".norg 2> " +this.dataDir + outputFileName + ".norg.log");
 
-       job03.addParent(job01);
+        job03.addParent(job01);
         job03.addParent(job02);
         job03.setQueue(queue);
-        job03.setMaxMemory("16000");
+        job03.setMaxMemory(getProperty("bwa_sampe_mem_mb"));
        
 	Job job04 = this.getWorkflow().createBashJob("addReadGroups");
 	job04.getCommand().addArgument("java -Xmx2g -jar "
-                + this.getWorkflowBaseDir() + "/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar "
+                + getProperty("picard_addreadgroups") +" "
                 + " RGID=" + RGID
                 + " RGLB=" + RGLB
                 + " RGPL=" + RGPL
                 + " RGPU=" + RGPU
                 + " RGSM=" + RGSM
+		+ " VALIDATION_STRINGENCY=SILENT SORT_ORDER=coordinate CREATE_INDEX=true"
                 + " " + (additionalPicardParams.isEmpty() ? "" : additionalPicardParams)
                 + " I=" + this.dataDir + outputFileName + ".norg"
                 + " O=" + this.dataDir + outputFileName + " >> "+this.dataDir+outputFileName + ".out 2>> "+this.dataDir+outputFileName +".err");
 	job04.addParent(job03);
 	job04.setQueue(queue);
 	job04.setMaxMemory("8000");
-	job04.addFile(file2);
- 
-
-
-//        Job job04 = this.getWorkflow().createBashJob("samToBam_job");
-//
-//        job04.getCommand().addArgument(this.getWorkflowBaseDir() + "/bin/samtools-0.1.19/samtools view -bS "
-//                + (this.parameters("view") == null ? " " : this.parameters("view"))
-//                + "file_out.sam > "
-//                + outputFileName);
-//        job04.addParent(job03);
-//        job04.addFile(file2);
-//        job04.setMaxMemory("16000");
+	job04.addFile(outputFile);
+	job04.addFile(createOutputFile(this.dataDir + outputIndexName, "application/bam-index", manualOutput));
 
     }
 

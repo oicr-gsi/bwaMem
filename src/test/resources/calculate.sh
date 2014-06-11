@@ -1,15 +1,6 @@
 #!/bin/bash
 
-set -o pipefail
+cd $1
 
-for i in `find . -type f`; do
-
-        if [[ "$i" == *bam ]]
-            then
-            LINES=$(samtools view ${i} | wc -l) || exit $?;
-            if [ $LINES = '0' ];  then echo there are no lines in the BAM file; exit 1; fi
-        fi;
-
-        md5sum $i;
-
-done
+qrsh -l h_vmem=8G -cwd ". /oicr/local/Modules/default/init/bash ; module load samtools 2>/dev/null; find . -regex '.*\.bam$' -exec sh -c \" samtools view -H {} | grep '^@RG' |  tr '\n' '\t'; echo \" \; | sort | uniq | tr '\t' '\n'" 
+qrsh -l h_vmem=8G -cwd ". /oicr/local/Modules/default/init/bash ; module load samtools 2>/dev/null; find . -regex '.*\.bam$' -exec sh -c \" samtools flagstat {} | tr '\n' '\t'; echo \" \; | sort | uniq | tr '\t' '\n'"
