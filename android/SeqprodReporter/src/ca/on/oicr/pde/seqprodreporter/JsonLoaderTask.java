@@ -169,7 +169,8 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		JsonParser jp = new JsonParser(JsonString, types, this.lastUpdated);
 		List<Report> result = jp.getParsedJSON();
 		Time newLatest = jp.getNewUpdateTime();
-
+		//see if gives exception when exit -> re-enter
+		int test = this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex();
 		if (null == lastUpdated || lastUpdated.before(newLatest))
 			
 			// Called only when the corresponding fragment's tab is selected
