@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -155,10 +156,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reporter, menu);
-		//MenuItem searchItem = menu.findItem(R.id.action_search);
-		//SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 		// Configure the search info and add any event listeners
 		// TODO PDE-612: Search Request handling here
+		if (null != searchView) {
+			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		    // Assumes current activity is the searchable activity
+		    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		    searchView.setIconifiedByDefault(false);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -215,6 +222,22 @@ public class ReporterActivity extends ActionBarActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    setIntent(intent);
+	    handleIntent(intent);
+	}
+
+	private void handleIntent(Intent intent) {
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+	      this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume we cannot search when the app is off screen
+	      String query = intent.getStringExtra(SearchManager.QUERY);
+	      Log.d(TAG,"Calling doMySearch code...");//doMySearch(query);
+  		  //mSectionsPagerAdapter.notifyDataSetChanged();
+  		  
+	    }
+	}
+	
 	public static String getType(int index) {
 		return types[index];
 	}

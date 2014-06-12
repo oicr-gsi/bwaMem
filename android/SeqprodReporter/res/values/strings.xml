@@ -35,4 +35,6 @@
     <string name="url_invalid">This URL is not valid!</string>
     <string name="pref_hostName_default">Specify host name for updates</string>
     <string name="authority">ca.on.oicr.pde.seqprodprovider</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Sample or Workflow...</string>
 </resources>
