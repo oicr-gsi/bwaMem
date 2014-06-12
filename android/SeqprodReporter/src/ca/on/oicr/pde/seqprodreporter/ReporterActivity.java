@@ -142,6 +142,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
+		//update fragments when going from pause to active state
+		if (!mSectionsPagerAdapter.fragments.isEmpty())
+			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
 
