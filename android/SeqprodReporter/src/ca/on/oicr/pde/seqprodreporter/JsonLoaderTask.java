@@ -74,7 +74,6 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 			if (result.moveToFirst()) {
 				do {
 					Report newEntry = getReportDataFromCursor(result);
-					if (TYPE.equals(ReporterActivity.types[2]) && !newEntry.getrProgress().isEmpty())
 					rValue.add(newEntry);
 				} while (result.moveToNext() == true);
 			}
