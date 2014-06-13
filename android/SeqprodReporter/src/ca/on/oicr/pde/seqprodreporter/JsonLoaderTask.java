@@ -173,7 +173,6 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		JsonParser jp = new JsonParser(JsonString, types, this.lastUpdated);
 		List<Report> result = jp.getParsedJSON();
 		Time newLatest = jp.getNewUpdateTime();
-		//see if gives exception when exit -> re-enter
 		if (null == lastUpdated){
 			this.mParent.get().setLastUpdateTime(newLatest);
 		}
