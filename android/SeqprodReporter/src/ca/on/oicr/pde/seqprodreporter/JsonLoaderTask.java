@@ -85,9 +85,12 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 						newLatest = newEntry.getTimeStamp();
 					}
 				} while (result.moveToNext() == true);
+				//Initially update the fragment's update times
+				if (null == lastUpdated){
+					this.mParent.get().setLastUpdateTime(newLatest);
+				}
 				
-				if (null == lastUpdated || lastUpdated.before(newLatest)){
-					
+				else if(lastUpdated.before(newLatest)){
 					if (this.mParent.get().getSectionNumber()-1
 							== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){
 						
@@ -95,9 +98,10 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 						Log.d(ReporterActivity.TAG, "Updated last update time for " + TYPE);
 					}
 				}
-			}
+			
 			result.close();
-		}
+			}
+		}	
 		return rValue;
 	}
 
@@ -170,8 +174,10 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		List<Report> result = jp.getParsedJSON();
 		Time newLatest = jp.getNewUpdateTime();
 		//see if gives exception when exit -> re-enter
-		int test = this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex();
-		if (null == lastUpdated || lastUpdated.before(newLatest))
+		if (null == lastUpdated){
+			this.mParent.get().setLastUpdateTime(newLatest);
+		}
+		else if (lastUpdated.before(newLatest)){
 			
 			// Called only when the corresponding fragment's tab is selected
 			if (this.mParent.get().getSectionNumber() - 1 == this.mParent.get()
@@ -180,6 +186,7 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 				this.mParent.get().setLastUpdateTime(newLatest);
 				Log.d(ReporterActivity.TAG, "Updated last update time for "	+ TYPE);
 			}
+		}	
 
 		return result;
 	}
