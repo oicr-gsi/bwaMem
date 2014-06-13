@@ -30,7 +30,6 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -368,6 +367,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
+				updateLUT();
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
@@ -385,7 +385,7 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			updateLUT();
+			
 			if (ReporterActivity.this.isVisible)
 				mSectionsPagerAdapter.notifyDataSetChanged();
 
