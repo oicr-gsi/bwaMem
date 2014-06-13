@@ -16,7 +16,7 @@ import android.text.format.Time;
 import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
-public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
+public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 	private WeakReference<ReportListFragment> mParent;
 	private String TYPE;
@@ -31,16 +31,16 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 	}
 
 	@Override
-	protected List<Report> doInBackground(Boolean... params) {
+	protected List<Report> doInBackground(String... params) {
 		List<Report> reports = null;
 		try {
-			reports = params[0].booleanValue() == Boolean.TRUE ? getReportsFromFile()
-					: getReportsFromDB();
+			//TODO PDE-612 Code here:
+			reports = getReportsFromDB(params[0]);
+				//	; != Boolean.TRUE ? getReportsFromFile()
+				//	: 
 		} catch (NullPointerException npe) { // TODO fix later
 			npe.printStackTrace();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
+		} 
 		return reports;
 
 	}
@@ -55,19 +55,32 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		}
 	}
 
-	private List<Report> getReportsFromDB(Void... params)
+	private List<Report> getReportsFromDB(String... params)
 			throws NullPointerException {
-		List<Report> results = this.queryReportData();
+		List<Report> results = this.queryReportData(params[0]);
 		return results;
 	}
 
 	/*
 	 *  Functions for getting data from cursor
 	 */
-	private ArrayList<Report> queryReportData() {
-		Cursor result = mParent.get().getActivity().getApplication()
-				.getContentResolver()
-				.query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
+	private ArrayList<Report> queryReportData(String filterWord) {
+		
+		Cursor result;
+		// create String that will match with 'like' in query
+		if (null != filterWord && !filterWord.isEmpty()) {
+		 filterWord = "%" + filterWord + "%";
+		 result = mParent.get().getActivity().getApplication()
+				  .getContentResolver()
+				  .query(DataContract.CONTENT_URI, null, 
+						 DataContract.WR_TYPE + "=? AND " + 
+						 DataContract.SAMPLE + " LIKE ? OR " + 
+				         DataContract.WORKFLOW + " LIKE ? ", new String[]{TYPE,filterWord,filterWord}, null);
+		} else {
+		  result = mParent.get().getActivity().getApplication()
+				  .getContentResolver()
+				  .query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
+	    }
 		ArrayList<Report> rValue = new ArrayList<Report>();
 
 		if (result != null) {
@@ -129,7 +142,7 @@ public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 		}
 		br.close();
 		List<Report> results = getRecordsFromJSON(jString, this.TYPE);
-		// Insert data into DB
+		// Insert data into DBsavedInstanceState
 		if (null != results) {
 			ContentResolver cr = mParent.get().getActivity().getApplication()
 					.getContentResolver();

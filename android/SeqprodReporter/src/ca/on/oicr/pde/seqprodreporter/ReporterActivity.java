@@ -51,7 +51,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
+	//SearchView mSearchView;
+	
 	protected static String[] types = { "completed", "failed", "pending" };
 	protected static String SYNC_OFF;
 	public static final String TAG = "Seqprodbio Reporter";
@@ -161,10 +162,27 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Configure the search info and add any event listeners
 		// TODO PDE-612: Search Request handling here
 		if (null != searchView) {
+		/*	searchView.setOnCloseListener(new SearchView.OnCloseListener(){
+
+				@Override
+				public boolean onClose() {
+					// TODO Auto-generated method stub
+					Log.d(TAG,"Closing search View...");
+					return false;
+				}});*/
+			
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		    // Assumes current activity is the searchable activity
 		    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		    searchView.setIconifiedByDefault(false);
+		    searchView.setIconifiedByDefault(true);
+		    searchView.setOnCloseListener(new SearchView.OnCloseListener(){
+
+				@Override
+				public boolean onClose() {
+					// TODO Auto-generated method stub
+					Log.d(TAG,"Closing search View...");
+					return false;
+				}});
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -228,13 +246,22 @@ public class ReporterActivity extends ActionBarActivity implements
 	    handleIntent(intent);
 	}
 
+	/*
+	 *  This is for SearchView widget, handle searching/filtering
+	 */
 	private void handleIntent(Intent intent) {
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	      this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume we cannot search when the app is off screen
 	      String query = intent.getStringExtra(SearchManager.QUERY);
 	      Log.d(TAG,"Calling doMySearch code...");//doMySearch(query);
-  		  //mSectionsPagerAdapter.notifyDataSetChanged();
-  		  
+	      List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+		  // Testing code
+		  for (int i = 0; i < fragments.size(); ++i) {
+			ReportListFragment tmp = fragments.get(i);
+			if (null != tmp)
+			    tmp.setSearchFilter(query);
+		  }
+
 	    }
 	}
 	
@@ -419,5 +446,25 @@ public class ReporterActivity extends ActionBarActivity implements
 			new getreportHTTP(getApplicationContext(), sp).execute();
 		}
 	}
+	
+	/*class SeqprodSearchView extends SearchView {
+		@Override
+		public void onActionViewCollapsed() {
+			super.onActionViewCollapsed();
+			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+			  // Testing code
+			  for (int i = 0; i < fragments.size(); ++i) {
+				ReportListFragment tmp = fragments.get(i);
+				if (null != tmp)
+				    tmp.setSearchFilter(null);
+			  }
+		}
+
+		public SeqprodSearchView(Context context) {
+			super(context);
+			// TODO Auto-generated constructor stub
+		}
+	} */
+
 
 }
