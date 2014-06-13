@@ -69,6 +69,8 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 			String JsonString = new String(byteArray, "UTF-8");
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
+			SharedPreferences sp = mContext.getSharedPreferences(ReporterActivity.PREFERENCE_FILE, Context.MODE_PRIVATE);
+			sp.edit().putString("updateTime", ReporterActivity.timeToStringConverter(jp.getNewUpdateTime())).apply();
 			//Insert data into db
 			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
 			if (null != results) {

@@ -91,9 +91,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
 		
-		if (null!=savedInstanceState && null!=savedInstanceState.getString("updateTime"))
-			mostRecentWorkflowUpdateTime = savedInstanceState.getString("updateTime");
-		
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
@@ -135,13 +132,6 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
-	}
-	
-	@Override 
-	protected void onSaveInstanceState(Bundle savedInstanceState){
-		savedInstanceState.putString("updateTime", mostRecentWorkflowUpdateTime);
-		
-		super.onSaveInstanceState(savedInstanceState);
 	}
 	
 	@Override
@@ -223,15 +213,17 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static String getType(int index){
 		return types[index];
 	}
-	public Time getRecordUpdateTime(){
+	/*public Time getRecordUpdateTime(){
 		String tmp =  mostRecentWorkflowUpdateTime.replaceAll("-", ":").replaceAll(":", "")
 				.replace(" ","T");
 		Time recordUpdateTime = new Time();
 		recordUpdateTime.parse(tmp);
 		return recordUpdateTime;
+	}*/
+	public static String timeToStringConverter(Time time){
+		return time.format("%Y-%m-%d %H:%M:%S");
 	}
-	
-	public void setMostRecentWorkflowUpdateTime(Time updateTime){
+	/*public void setMostRecentWorkflowUpdateTime(Time updateTime){
 		this.mostRecentWorkflowUpdateTime = updateTime.format("%Y-%m-%d %H:%M:%S");
 	}
 	/**
@@ -322,7 +314,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-
+		mostRecentWorkflowUpdateTime = sp.contains("updateTime") ? sp.getString("updateTime", null) : "";
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -343,11 +335,13 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A function for updating Last Update Time (text should replace the app title) 
 	 */
 	//TODO PDE-622
-	/*private void updateLUT() {
-		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime;
-		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
-		updateView.setText(newTitle);
-		updateView.invalidate();
+	private void updateLUT() {
+		if (!mostRecentWorkflowUpdateTime.equals("")){
+			TextView updateView = (TextView)findViewById(R.id.updateTimeView);
+			String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime;
+			updateView.setText(newTitle);
+			updateView.invalidate();
+		}
 	}
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
@@ -392,7 +386,7 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			//updateLUT();
+			updateLUT();
 			if (ReporterActivity.this.isVisible)
 				mSectionsPagerAdapter.notifyDataSetChanged();
 
