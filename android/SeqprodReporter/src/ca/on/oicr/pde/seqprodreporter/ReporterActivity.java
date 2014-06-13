@@ -82,8 +82,8 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_reporter);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
-		// Perhaps we need to move the Http request - sending code into new
-		// activity (SummaryStatsActivity)
+		// Http request may stay here since we are using COntentProvider
+
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
@@ -155,6 +155,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
+		//update fragments when going from pause to active state
+		if (!mSectionsPagerAdapter.fragments.isEmpty())
+			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
 
@@ -170,8 +173,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		// TODO PDE-588 need to add 'Sort By' handling here, after option
-		// changes the UI should update
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
@@ -180,8 +181,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		// An alert dialog is invoked for the user to select the sorting method 
 		// to apply on the list of each fragment
-		// TODO: Condition on ID
-		else {
+		else if (id == R.id.sort_by) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		    builder.setTitle(R.string.sort_dialog)
 		           .setSingleChoiceItems(R.array.sorting_method_types, sortIndex, new DialogInterface.OnClickListener() {
@@ -301,7 +301,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				+ this.updateHost);
 		// Schedule Alert here
 		// DEBUG ONLY
-		// this.updateFrequency = 1;
+		//this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -343,14 +343,12 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A function for updating Last Update Time (text should replace the app title) 
 	 */
 	//TODO PDE-622
-	private void updateLUT() {
-		//get newTitle from the data currently downloaded, 
+	/*private void updateLUT() {
 		String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime;
 		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
 		updateView.setText(newTitle);
 		updateView.invalidate();
 	}
-
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
 	 * with preference values
@@ -394,8 +392,12 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
-			updateLUT();
+			//updateLUT();
+			if (ReporterActivity.this.isVisible)
+				mSectionsPagerAdapter.notifyDataSetChanged();
+
 		}
+		
 
 	}
 

@@ -21,6 +21,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
+	//TODO Need to move these values to string.xml
 	private final int UPDATE_COLOR = 0xFFCCFF99;
 	private final int DEFAULT_COLOR = 0xFFFFFFFF;
 	
@@ -52,7 +53,8 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 		View newView = convertView;
 		ReportHolder holder;
 		Report curr = list.get(position);
-
+		
+		//TODO Need to update the new fields for the holder 
 		if (null == convertView) {
 			holder = new ReportHolder();
 			newView = inflater.inflate(R.layout.report, null);
@@ -84,7 +86,6 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 				holder.pbar.setProgress(curr.progressValue());
 				holder.pbar.setVisibility(ProgressBar.VISIBLE);
 			}
-			//TODO: Set color values as static values
 	
 			if (curr.getrUpdated()){
 				newView.setBackgroundColor(UPDATE_COLOR);
@@ -97,7 +98,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 
 		return newView;
 	}
-
+	//TODO Need to update this to use new data fields for report
 	static class ReportHolder {
 		TextView samplename;
 		TextView wfname;
