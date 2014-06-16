@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -51,8 +53,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	//SearchView mSearchView;
-	
+	// SearchView mSearchView;
+
 	protected static String[] types = { "completed", "failed", "pending" };
 	protected static String SYNC_OFF;
 	public static final String TAG = "Seqprodbio Reporter";
@@ -61,8 +63,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static final String DATA_FILE = "seqprod_data_RANGE.json";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
 
-	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
-	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	//static final String SEARCHCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.searchChanged";
+	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
+	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
 
 	private String updateHost;
 	private String updateRange;
@@ -73,7 +76,15 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	private SharedPreferences sp;
 	private Timer timer;
-
+	/*public static Handler searchHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == SET_SEARCH_FIELD) {
+				updateSearchTerms(msg.obj.toString());
+			}		
+		}
+	};*/
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -134,6 +145,8 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		
 	}
 
 	@Override
@@ -146,8 +159,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
+		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity
 		this.isVisible = true;
-		//update fragments when going from pause to active state
+		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
@@ -158,31 +172,15 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reporter, menu);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
-		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		SeqprodSearchView searchView = (SeqprodSearchView) MenuItemCompat
+				.getActionView(searchItem);
 		// Configure the search info and add any event listeners
 		// TODO PDE-612: Search Request handling here
 		if (null != searchView) {
-		/*	searchView.setOnCloseListener(new SearchView.OnCloseListener(){
-
-				@Override
-				public boolean onClose() {
-					// TODO Auto-generated method stub
-					Log.d(TAG,"Closing search View...");
-					return false;
-				}});*/
-			
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		    // Assumes current activity is the searchable activity
-		    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		    searchView.setIconifiedByDefault(true);
-		    searchView.setOnCloseListener(new SearchView.OnCloseListener(){
-
-				@Override
-				public boolean onClose() {
-					// TODO Auto-generated method stub
-					Log.d(TAG,"Closing search View...");
-					return false;
-				}});
+			// Assumes current activity is the searchable activity
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(true);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -242,29 +240,30 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-	    setIntent(intent);
-	    handleIntent(intent);
+		setIntent(intent);
+		handleIntent(intent);
 	}
 
 	/*
-	 *  This is for SearchView widget, handle searching/filtering
+	 * This is for SearchView widget, handle searching/filtering
 	 */
 	private void handleIntent(Intent intent) {
-	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	      this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume we cannot search when the app is off screen
-	      String query = intent.getStringExtra(SearchManager.QUERY);
-	      Log.d(TAG,"Calling doMySearch code...");//doMySearch(query);
-	      List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-		  // Testing code
-		  for (int i = 0; i < fragments.size(); ++i) {
-			ReportListFragment tmp = fragments.get(i);
-			if (null != tmp)
-			    tmp.setSearchFilter(query);
-		  }
-
-	    }
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			//TODO PDE-612: Need to disable search interface for all activities other then ReportActivity
+			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
+								   // we cannot search when the app is off
+								   // screen
+			String query = intent.getStringExtra(SearchManager.QUERY);
+			Log.d(TAG, "Calling doMySearch code...");// doMySearch(query);
+			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments; // Testing code
+			 for (int i = 0; i < fragments.size(); i++) { 
+				 ReportListFragment tmp = fragments.get(i); 
+				 if (null != tmp) 
+					 tmp.setSearchFilter(query); 
+			 }
+		}
 	}
-	
+
 	public static String getType(int index) {
 		return types[index];
 	}
@@ -447,24 +446,30 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 	
-	/*class SeqprodSearchView extends SearchView {
-		@Override
-		public void onActionViewCollapsed() {
-			super.onActionViewCollapsed();
-			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-			  // Testing code
-			  for (int i = 0; i < fragments.size(); ++i) {
-				ReportListFragment tmp = fragments.get(i);
-				if (null != tmp)
-				    tmp.setSearchFilter(null);
-			  }
-		}
+	/*
+	 * Updating search terms in fragments for Tabbed interface
+	 */
+	private void updateSearchTerms(String searchString) {
+		List<ReportListFragment> fragments =
+				mSectionsPagerAdapter.fragments; 
+				for (int i = 0;	 i < fragments.size(); ++i) { 
+					ReportListFragment tmp = fragments.get(i);
+					if (null != tmp) 
+						tmp.setSearchFilter(searchString);
+				}
+	}
 
-		public SeqprodSearchView(Context context) {
-			super(context);
-			// TODO Auto-generated constructor stub
-		}
-	} */
-
+	/*
+	 * class SeqprodSearchView extends SearchView {
+	 * 
+	 * @Override public void onActionViewCollapsed() {
+	 * super.onActionViewCollapsed(); List<ReportListFragment> fragments =
+	 * mSectionsPagerAdapter.fragments; // Testing code for (int i = 0; i <
+	 * fragments.size(); ++i) { ReportListFragment tmp = fragments.get(i); if
+	 * (null != tmp) tmp.setSearchFilter(null); } }
+	 * 
+	 * public SeqprodSearchView(Context context) { super(context); // TODO
+	 * Auto-generated constructor stub } }
+	 */
 
 }

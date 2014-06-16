@@ -7,8 +7,9 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_action_search"
         android:title="@string/action_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:actionViewClass="ca.on.oicr.pde.seqprodreporter.SeqprodSearchView"
         app:showAsAction="collapseActionView|ifRoom"/>
+        <!-- "android.support.v7.widget.SearchView" -->
     <item
         android:id="@+id/sort_by"
         android:orderInCategory="100"
