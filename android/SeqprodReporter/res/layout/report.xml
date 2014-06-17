@@ -61,6 +61,7 @@
        android:layout_height="match_parent"
        android:layout_weight="0.25"
        android:singleLine="true"
+       android:visibility="invisible"
        android:gravity="center_vertical"
        android:textStyle="bold"/>
        

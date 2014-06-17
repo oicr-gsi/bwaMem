@@ -85,6 +85,8 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			if (null != curr.getrProgress()) {
 				holder.pbar.setProgress(curr.progressValue());
 				holder.pbar.setVisibility(ProgressBar.VISIBLE);
+				//TODO: Set the correct ETR here once back end functionality is implemented
+				// Also change the text view visibility to visible in XML
 				holder.estimatedTimeRemaining.setText("ETR: " + ESTIMATED_TIME_REMAINING_FILLER );
 			}
 			
