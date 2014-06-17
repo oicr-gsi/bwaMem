@@ -30,6 +30,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +69,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private int sortIndex;
-	private static String mostRecentWorkflowUpdateTime;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -212,19 +212,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static String getType(int index){
 		return types[index];
 	}
-	/*public Time getRecordUpdateTime(){
-		String tmp =  mostRecentWorkflowUpdateTime.replaceAll("-", ":").replaceAll(":", "")
-				.replace(" ","T");
-		Time recordUpdateTime = new Time();
-		recordUpdateTime.parse(tmp);
-		return recordUpdateTime;
-	}*/
+
 	public static String timeToStringConverter(Time time){
 		return time.format("%Y-%m-%d %H:%M:%S");
 	}
-	/*public void setMostRecentWorkflowUpdateTime(Time updateTime){
-		this.mostRecentWorkflowUpdateTime = updateTime.format("%Y-%m-%d %H:%M:%S");
-	}
+
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -313,7 +305,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-		mostRecentWorkflowUpdateTime = sp.contains("updateTime") ? sp.getString("updateTime", null) : "";
+		updateLUT(sp.getString("updateTime", ""));
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -334,13 +326,14 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A function for updating Last Update Time (text should replace the app title) 
 	 */
 	//TODO PDE-622
-	private void updateLUT() {
-		if (!mostRecentWorkflowUpdateTime.equals("")){
-			TextView updateView = (TextView)findViewById(R.id.updateTimeView);
-			String newTitle = "Most Recent Workflow Modification Time: " + mostRecentWorkflowUpdateTime;
-			updateView.setText(newTitle);
-			updateView.invalidate();
-		}
+	private void updateLUT(String updateTime) {
+		if (!updateTime.equals("")){
+		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
+		updateView.setVisibility(View.VISIBLE);
+		String newTitle = "Most Recent Workflow Modification Time: " + updateTime;
+		updateView.setText(newTitle);
+		updateView.invalidate();
+		}		
 	}
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
@@ -363,11 +356,12 @@ public class ReporterActivity extends ActionBarActivity implements
 	class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
 			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
-				updateLUT();
+				updateLUT(intent.getStringExtra("updateTime"));
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,

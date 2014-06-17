@@ -10,6 +10,7 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:background="#FF1E1E1E"
+       android:visibility="invisible"
        android:textAppearance="?android:attr/textAppearanceSmall"
        android:textColor="#FFFFFFFF" />
     	
