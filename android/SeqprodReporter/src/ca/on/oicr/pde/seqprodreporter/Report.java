@@ -93,10 +93,6 @@ public class Report {
 					"An error with Parsing Report Time occured");
 		}
 	}
-
-	public void setrUpSinceLastTime(boolean bool){
-		rUpSinceLastTime = bool;
-	}
 	
 	public String getrSequencerRunName() {
 		return rSequencerRunName;
