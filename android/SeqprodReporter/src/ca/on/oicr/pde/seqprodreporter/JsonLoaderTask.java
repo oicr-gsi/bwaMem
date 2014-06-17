@@ -16,7 +16,7 @@ import android.text.format.Time;
 import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
-public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
+public class JsonLoaderTask extends AsyncTask<Boolean, Void, List<Report>> {
 
 	private WeakReference<ReportListFragment> mParent;
 	private String TYPE;
@@ -31,14 +31,18 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	}
 
 	@Override
-	protected List<Report> doInBackground(String... params) {
+	protected List<Report> doInBackground(Boolean... params) {
 		List<Report> reports = null;
 		try {
-			reports = getReportsFromDB(params[0]); 
-		} catch (NullPointerException npe) {
-			Log.e(ReporterActivity.TAG,"There was an error reading database");
-		} 
+			reports = params[0].booleanValue() == Boolean.TRUE ? getReportsFromFile()
+					: getReportsFromDB();
+		} catch (NullPointerException npe) { // TODO fix later
+			npe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		return reports;
+
 	}
 
 	@Override
@@ -51,43 +55,53 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		}
 	}
 
-	private List<Report> getReportsFromDB(String... params)
+	private List<Report> getReportsFromDB(Void... params)
 			throws NullPointerException {
-		List<Report> results = this.queryReportData(params[0]);
+		List<Report> results = this.queryReportData();
 		return results;
 	}
 
 	/*
 	 *  Functions for getting data from cursor
 	 */
-	private ArrayList<Report> queryReportData(String filterWord) {
-		
-		Cursor result;
-		// create String that will match with 'like' in query
-		if (null != filterWord && !filterWord.isEmpty()) {
-		 filterWord = "%" + filterWord + "%";
-		 result = mParent.get().getActivity().getApplication()
-				  .getContentResolver()
-				  .query(DataContract.CONTENT_URI, null, 
-						 DataContract.WR_TYPE + "=? AND " + 
-						 DataContract.SAMPLE + " LIKE ? OR " + 
-				         DataContract.WORKFLOW + " LIKE ? ", new String[]{TYPE,filterWord,filterWord}, null);
-		} else {
-		  result = mParent.get().getActivity().getApplication()
-				  .getContentResolver()
-				  .query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
-	    }
+	private ArrayList<Report> queryReportData() {
+		Cursor result = mParent.get().getActivity().getApplication()
+				.getContentResolver()
+				.query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
 		ArrayList<Report> rValue = new ArrayList<Report>();
 
 		if (result != null) {
 			if (result.moveToFirst()) {
+				Time newLatest = new Time();
 				do {
 					Report newEntry = getReportDataFromCursor(result);
 					rValue.add(newEntry);
+					if (null != this.lastUpdated 
+							&& newEntry.getTimeStamp().after(this.lastUpdated)){
+						newEntry.setrUpSinceLastTime(true); 
+						Log.d(ReporterActivity.TAG, "A report was updated");
+					}
+					if (null == newLatest || newLatest.before(newEntry.getTimeStamp())){
+						newLatest = newEntry.getTimeStamp();
+					}
 				} while (result.moveToNext() == true);
-			}
+				//Initially update the fragment's update times
+				if (null == lastUpdated){
+					this.mParent.get().setLastUpdateTime(newLatest);
+				}
+				
+				else if(lastUpdated.before(newLatest)){
+					if (this.mParent.get().getSectionNumber()-1
+							== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){
+						
+						this.mParent.get().setLastUpdateTime(newLatest);
+						Log.d(ReporterActivity.TAG, "Updated last update time for " + TYPE);
+					}
+				}
+			
 			result.close();
-		}
+			}
+		}	
 		return rValue;
 	}
 
@@ -121,7 +135,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	}
 
 
-	@SuppressWarnings("unused")
 	@Deprecated
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 
@@ -139,7 +152,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		}
 		br.close();
 		List<Report> results = getRecordsFromJSON(jString, this.TYPE);
-		// Insert data into DBsavedInstanceState
+		// Insert data into DB
 		if (null != results) {
 			ContentResolver cr = mParent.get().getActivity().getApplication()
 					.getContentResolver();
@@ -160,9 +173,12 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		JsonParser jp = new JsonParser(JsonString, types, this.lastUpdated);
 		List<Report> result = jp.getParsedJSON();
 		Time newLatest = jp.getNewUpdateTime();
-
-		if (null == lastUpdated || lastUpdated.before(newLatest))
-
+		//see if gives exception when exit -> re-enter
+		if (null == lastUpdated){
+			this.mParent.get().setLastUpdateTime(newLatest);
+		}
+		else if (lastUpdated.before(newLatest)){
+			
 			// Called only when the corresponding fragment's tab is selected
 			if (this.mParent.get().getSectionNumber() - 1 == this.mParent.get()
 					.getActivity().getActionBar().getSelectedNavigationIndex()) {
@@ -170,6 +186,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				this.mParent.get().setLastUpdateTime(newLatest);
 				Log.d(ReporterActivity.TAG, "Updated last update time for "	+ TYPE);
 			}
+		}	
 
 		return result;
 	}
