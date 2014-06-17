@@ -6,7 +6,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 
 public class SeqprodSearchView extends SearchView {
-    private final String EMPTY_QUERY = "";
+    private final static String EMPTY_QUERY = "";
 	
     // Default constructor
     public SeqprodSearchView(Context context) {

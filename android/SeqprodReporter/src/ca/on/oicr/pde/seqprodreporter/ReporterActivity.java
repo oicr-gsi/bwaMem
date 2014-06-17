@@ -51,12 +51,12 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	ViewPager mViewPager;
 
+	public static final String TAG = "Seqprodbio Reporter";
+	
 	protected static String[] types = { "completed", "failed", "pending" };
 	protected static String SYNC_OFF;
-	public static final String TAG = "Seqprodbio Reporter";
-	public static final String TIMER_NAME = "Seqprodbio Timer";
-	public static final String PREFERENCE_FILE = "seqprod.conf";
-	public static final String DATA_FILE = "seqprod_data_RANGE.json";
+	protected static final String TIMER_NAME = "Seqprodbio Timer";
+	protected static final String PREFERENCE_FILE = "seqprod.conf";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
 
 	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
@@ -81,7 +81,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_reporter);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
 		// (MAYBE IT WILL, ON SECOND THOUGHT)
-		// Http request may stay here since we are using COntentProvider
 
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
@@ -145,7 +144,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
-		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity
+		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity?
 		this.isVisible = true;
 		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
@@ -160,7 +159,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		SeqprodSearchView searchView = (SeqprodSearchView) MenuItemCompat
 				.getActionView(searchItem);
-		// TODO PDE-612: Search Request handling here
 		if (null != searchView) {
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 			// Assumes current activity is the searchable activity
@@ -237,7 +235,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
 								   // we cannot search when the app is off screen
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			Log.d(TAG, "Calling doMySearch code...");
+			Log.d(TAG, "Calling Search/Filter code...");
 			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
 			 for (int i = 0; i < fragments.size(); i++) { 
 				 ReportListFragment tmp = fragments.get(i); 
