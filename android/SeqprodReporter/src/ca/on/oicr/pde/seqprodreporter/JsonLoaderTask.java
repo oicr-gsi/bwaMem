@@ -34,15 +34,11 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	protected List<Report> doInBackground(String... params) {
 		List<Report> reports = null;
 		try {
-			//TODO PDE-612 Code here:
-			reports = getReportsFromDB(params[0]);
-				//	; != Boolean.TRUE ? getReportsFromFile()
-				//	: 
-		} catch (NullPointerException npe) { // TODO fix later
-			npe.printStackTrace();
+			reports = getReportsFromDB(params[0]); 
+		} catch (NullPointerException npe) {
+			Log.e(ReporterActivity.TAG,"There was an error reading database");
 		} 
 		return reports;
-
 	}
 
 	@Override
@@ -125,6 +121,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	}
 
 
+	@SuppressWarnings("unused")
 	@Deprecated
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
 

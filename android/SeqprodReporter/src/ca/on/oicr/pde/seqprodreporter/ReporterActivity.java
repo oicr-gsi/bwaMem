@@ -19,8 +19,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,7 +28,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +50,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	// SearchView mSearchView;
 
 	protected static String[] types = { "completed", "failed", "pending" };
 	protected static String SYNC_OFF;
@@ -63,7 +59,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static final String DATA_FILE = "seqprod_data_RANGE.json";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
 
-	//static final String SEARCHCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.searchChanged";
 	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
 
@@ -76,14 +71,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	private SharedPreferences sp;
 	private Timer timer;
-	/*public static Handler searchHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if (msg.what == SET_SEARCH_FIELD) {
-				updateSearchTerms(msg.obj.toString());
-			}		
-		}
-	};*/
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +80,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_reporter);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
+		// (MAYBE IT WILL, ON SECOND THOUGHT)
 		// Http request may stay here since we are using COntentProvider
 
 		// Register receivers for preference and data updates
@@ -144,9 +132,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
-		}
-		
-		
+		}	
 	}
 
 	@Override
@@ -174,7 +160,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		SeqprodSearchView searchView = (SeqprodSearchView) MenuItemCompat
 				.getActionView(searchItem);
-		// Configure the search info and add any event listeners
 		// TODO PDE-612: Search Request handling here
 		if (null != searchView) {
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -249,13 +234,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	private void handleIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			//TODO PDE-612: Need to disable search interface for all activities other then ReportActivity
 			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
-								   // we cannot search when the app is off
-								   // screen
+								   // we cannot search when the app is off screen
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			Log.d(TAG, "Calling doMySearch code...");// doMySearch(query);
-			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments; // Testing code
+			Log.d(TAG, "Calling doMySearch code...");
+			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
 			 for (int i = 0; i < fragments.size(); i++) { 
 				 ReportListFragment tmp = fragments.get(i); 
 				 if (null != tmp) 
@@ -446,30 +429,4 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 	
-	/*
-	 * Updating search terms in fragments for Tabbed interface
-	 */
-	private void updateSearchTerms(String searchString) {
-		List<ReportListFragment> fragments =
-				mSectionsPagerAdapter.fragments; 
-				for (int i = 0;	 i < fragments.size(); ++i) { 
-					ReportListFragment tmp = fragments.get(i);
-					if (null != tmp) 
-						tmp.setSearchFilter(searchString);
-				}
-	}
-
-	/*
-	 * class SeqprodSearchView extends SearchView {
-	 * 
-	 * @Override public void onActionViewCollapsed() {
-	 * super.onActionViewCollapsed(); List<ReportListFragment> fragments =
-	 * mSectionsPagerAdapter.fragments; // Testing code for (int i = 0; i <
-	 * fragments.size(); ++i) { ReportListFragment tmp = fragments.get(i); if
-	 * (null != tmp) tmp.setSearchFilter(null); } }
-	 * 
-	 * public SeqprodSearchView(Context context) { super(context); // TODO
-	 * Auto-generated constructor stub } }
-	 */
-
 }
