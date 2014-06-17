@@ -22,6 +22,7 @@ public class ReportListFragment extends Fragment {
 	private int sectionNumber;
 	
 	private int sortingType;
+	private String searchFilter;
 
     static final int SORT_BY_MODTIME   = 0;
     static final int SORT_BY_WORKFLOW = 1;
@@ -37,7 +38,23 @@ public class ReportListFragment extends Fragment {
 	public static ReportListFragment newInstance(int sectionNumber) {
 		ReportListFragment fragment = new ReportListFragment();
 		fragment.setSectionNumber(sectionNumber);
+		fragment.setSearchFilter(null);
 		return fragment;
+	}
+
+	public String getSearchFilter() {
+		return searchFilter;
+	}
+
+	public void setSearchFilter(String searchFilter) {
+		this.searchFilter = searchFilter;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// We should save the sectionNumber here so that when the device is rotated, 
+		// the app does not crash
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -51,7 +68,7 @@ public class ReportListFragment extends Fragment {
 		int index = this.getSectionNumber() - 1;
 		this.mAdapter = new ReportAdapter(container.getContext(), R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
-		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute(Boolean.FALSE);
+		new JsonLoaderTask(this, ReporterActivity.types[index], this.lastUpdateTime).execute(getSearchFilter());
 
 		listView.setAdapter(mAdapter);
 		return rootView;

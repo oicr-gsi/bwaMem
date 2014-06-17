@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -52,17 +54,17 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 	ViewPager mViewPager;
 
+	public static final String TAG = "Seqprodbio Reporter";
+	
 	protected static String[] types = { "completed", "failed", "pending" };
 	protected static String SYNC_OFF;
-	public static final String TAG = "Seqprodbio Reporter";
-	public static final String TIMER_NAME = "Seqprodbio Timer";
-	public static final String PREFERENCE_FILE = "seqprod.conf";
-	public static final String DATA_FILE = "seqprod_data_RANGE.json";
+	protected static final String TIMER_NAME = "Seqprodbio Timer";
+	protected static final String PREFERENCE_FILE = "seqprod.conf";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
 
-	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
-	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
- 	
+	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
+	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+
 	private String updateHost;
 	private String updateRange;
 	private int updateFrequency; // in minutes
@@ -72,7 +74,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	private SharedPreferences sp;
 	private Timer timer;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,7 +83,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		setContentView(R.layout.activity_reporter);
 		// TODO This Activity eventually will not be the LAUNCHER Activity
-		// Http request may stay here since we are using COntentProvider
+		// (MAYBE IT WILL, ON SECOND THOUGHT)
 
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
@@ -89,11 +91,11 @@ public class ReporterActivity extends ActionBarActivity implements
 		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
-		
+
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
-			
+
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -105,10 +107,11 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-		// Allows the 2 other tab's fragments that are in idle state to be loaded 
-		// alongside the current selected tab's fragment 
-		mViewPager.setOffscreenPageLimit(types.length-1);
+
+		// Allows the 2 other tab's fragments that are in idle state to be
+		// loaded
+		// alongside the current selected tab's fragment
+		mViewPager.setOffscreenPageLimit(types.length - 1);
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -130,7 +133,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
-		}
+		}	
 	}
 	
 	@Override
@@ -143,8 +146,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		// Switch on Notifications - may do it in onPause()
+		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity?
 		this.isVisible = true;
-		//update fragments when going from pause to active state
+		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
@@ -154,7 +158,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.reporter, menu);
-		return true;
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		SeqprodSearchView searchView = (SeqprodSearchView) MenuItemCompat
+				.getActionView(searchItem);
+		if (null != searchView) {
+			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+			// Assumes current activity is the searchable activity
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(true);
+		}
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -168,25 +181,26 @@ public class ReporterActivity extends ActionBarActivity implements
 			startActivity(setPrefs);
 			return true;
 		}
-		// An alert dialog is invoked for the user to select the sorting method 
+		// An alert dialog is invoked for the user to select the sorting method
 		// to apply on the list of each fragment
 		else if (id == R.id.sort_by) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		    builder.setTitle(R.string.sort_dialog)
-		           .setSingleChoiceItems(R.array.sorting_method_types, sortIndex, new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int selected) {
-		            		List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-		            		sortIndex = selected;
-		            		for (int i =0 ; i< fragments.size(); ++i){
-		            			ReportListFragment tmp = fragments.get(i);
-		            			tmp.setSortIndex(selected);
-		            			tmp.sortFragment();
-		            			tmp.getAdapter().notifyDataSetChanged();
-		            		}
-		            		dialog.dismiss();
-		               }
-		});
-		    builder.show();
+			builder.setTitle(R.string.sort_dialog).setSingleChoiceItems(
+					R.array.sorting_method_types, sortIndex,
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int selected) {
+							List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+							sortIndex = selected;
+							for (int i = 0; i < fragments.size(); ++i) {
+								ReportListFragment tmp = fragments.get(i);
+								tmp.setSortIndex(selected);
+								tmp.sortFragment();
+								tmp.getAdapter().notifyDataSetChanged();
+							}
+							dialog.dismiss();
+						}
+					});
+			builder.show();
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -208,8 +222,32 @@ public class ReporterActivity extends ActionBarActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
-	
-	public static String getType(int index){
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		setIntent(intent);
+		handleIntent(intent);
+	}
+
+	/*
+	 * This is for SearchView widget, handle searching/filtering
+	 */
+	private void handleIntent(Intent intent) {
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
+								   // we cannot search when the app is off screen
+			String query = intent.getStringExtra(SearchManager.QUERY);
+			Log.d(TAG, "Calling Search/Filter code...");
+			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+			 for (int i = 0; i < fragments.size(); i++) { 
+				 ReportListFragment tmp = fragments.get(i); 
+				 if (null != tmp) 
+					 tmp.setSearchFilter(query); 
+			 }
+		}
+	}
+
+	public static String getType(int index) {
 		return types[index];
 	}
 
@@ -228,7 +266,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			super(fm);
 			fragments = new ArrayList<ReportListFragment>();
 		}
-		
+
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
@@ -239,7 +277,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			return fragments.get(position);
 		}
-		
+
 		@Override
 		public int getCount() {
 			return types.length;
@@ -252,10 +290,11 @@ public class ReporterActivity extends ActionBarActivity implements
 				return types[position].toUpperCase(l);
 			return null;
 		}
-		
-		// Forces each Item in the list to be re-created which allows the lists to be updated dynamically
-		@Override 
-		public int getItemPosition(Object object){
+
+		// Forces each Item in the list to be re-created which allows the lists
+		// to be updated dynamically
+		@Override
+		public int getItemPosition(Object object) {
 			return POSITION_NONE;
 		}
 	}
@@ -268,7 +307,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.v(TAG, "Entered sheduleUpdates");
 		// Start update ONLY if host URL is valid
 		if (null == this.updateRange
-				|| null == this.updateHost || this.updateHost.isEmpty() 
+				|| null == this.updateHost
+				|| this.updateHost.isEmpty()
 				|| this.updateRange.equals(getResources().getString(
 						R.string.pref_summaryScope_default))
 				|| this.updateFrequency == 0) {
@@ -284,7 +324,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				+ this.updateHost);
 		// Schedule Alert here
 		// DEBUG ONLY
-		//this.updateFrequency = 1;
+		// this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -321,11 +361,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		scheduleUpdate();
 	}
-	
-	/*
-	 * A function for updating Last Update Time (text should replace the app title) 
-	 */
-	//TODO PDE-622
+
 	private void updateLUT(String updateTime) {
 		if (!updateTime.equals("")){
 		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
@@ -335,6 +371,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		updateView.invalidate();
 		}		
 	}
+
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
 	 * with preference values
@@ -384,7 +421,6 @@ public class ReporterActivity extends ActionBarActivity implements
 				mSectionsPagerAdapter.notifyDataSetChanged();
 
 		}
-		
 
 	}
 
@@ -399,5 +435,5 @@ public class ReporterActivity extends ActionBarActivity implements
 			new getreportHTTP(getApplicationContext(), sp).execute();
 		}
 	}
-
+	
 }
