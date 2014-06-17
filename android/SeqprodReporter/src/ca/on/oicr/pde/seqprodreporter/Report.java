@@ -94,6 +94,10 @@ public class Report {
 		}
 	}
 
+	public void setrUpSinceLastTime(boolean bool){
+		rUpSinceLastTime = bool;
+	}
+	
 	public String getrSequencerRunName() {
 		return rSequencerRunName;
 	}
