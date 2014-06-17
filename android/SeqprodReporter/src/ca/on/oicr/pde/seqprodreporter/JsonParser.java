@@ -18,11 +18,13 @@ import android.util.TimeFormatException;
 public class JsonParser {
 
 	private Time newUpdateTime;
+	private Time failedItemUpdateTime;
 	private List<Report> parsedJSON;
 
 	public JsonParser(String JsonString, String[] types, Time lastUpdate) {
 		this.parsedJSON = new ArrayList<Report>();
 		this.newUpdateTime = null == lastUpdate ? null : new Time();
+		this.failedItemUpdateTime = new Time();
 		try {
 			JSONObject object = (JSONObject) new JSONTokener(JsonString)
 					.nextValue();
@@ -47,7 +49,11 @@ public class JsonParser {
 						updated = true;
 					if (null == this.newUpdateTime || this.newUpdateTime.before(recordTime))
 						this.newUpdateTime = recordTime;
-
+					
+					if (types[t].equals(ReporterActivity.types[1]) 
+							&& this.failedItemUpdateTime.before(recordTime)){
+						this.failedItemUpdateTime = recordTime;
+					}
 				} catch (TimeFormatException tfe) {
 					Log.e(ReporterActivity.TAG,
 							"An error with Parsing Time occured");
@@ -85,6 +91,10 @@ public class JsonParser {
 
 	public List<Report> getParsedJSON() {
 		return parsedJSON;
+	}
+	
+	public Time getFailedItemUpdateTime(){
+		return failedItemUpdateTime;
 	}
 
 }

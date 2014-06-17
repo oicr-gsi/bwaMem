@@ -28,6 +28,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +76,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private int sortIndex;
+	private Time lastModifiedFailedTime;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -141,11 +143,13 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setTabListener(this));
 		}
 	}
-
+	
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
 		((MainApplication)getApplication()).setisCurrentActivityVisible(false);
+		
+		sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
 		
 		this.isVisible = false;
 		super.onPause();
@@ -154,6 +158,14 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
+		
+		if (sp.contains("lastModifiedFailedTime")){
+			lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", null));
+		}
+		else {
+			lastModifiedFailedTime = new Time();
+		}
+		
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
 		//update fragments when going from pause to active state
@@ -220,10 +232,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
-	
+
 	public static String getType(int index){
 		return types[index];
 	}
+	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -386,7 +399,8 @@ public class ReporterActivity extends ActionBarActivity implements
 									.setContentText("Update Received");
 									
 								}
-								else {// if (function which checks if failed items are updated)
+								else if (!Time.isEpoch(lastModifiedFailedTime) 
+										|| intent.hasExtra("modifiedFailedTime")){
 									notificationBuilder
 									.setTicker("Critical Update Received")
 									.setContentText("Critical Update Received")
@@ -408,6 +422,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					mSectionsPagerAdapter.notifyDataSetChanged();
 				}
 			}
+			lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 		}
 	}
 
