@@ -28,7 +28,8 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	
 	private Time failedTime;
 	private boolean isFailedModified;
-	
+	private String updateTime;
+
 	public getreportHTTP(Context context, SharedPreferences sp) {
 
 		this.URL = sp.getString("pref_hostName", null);
@@ -73,9 +74,13 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 			String JsonString = new String(byteArray, "UTF-8");
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
-			if (failedTime.before(jp.getFailedItemUpdateTime()))
+
+			if (failedTime.before(jp.getFailedItemUpdateTime())){
 				failedTime = jp.getFailedItemUpdateTime();
 				isFailedModified = true;
+			}
+			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
+
 			//Insert data into db
 			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
 			if (null != results) {
@@ -100,10 +105,13 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 		// If result is true, send a Broadcast to notify ReporterActivity
 		if (result){
 			Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
+			intent.putExtra("updateTime", updateTime);
 			if (isFailedModified){
 				intent.putExtra("modifiedFailedTime", failedTime.format2445());
 			}
-		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+				intent);
+
 		}
 	}
 }
