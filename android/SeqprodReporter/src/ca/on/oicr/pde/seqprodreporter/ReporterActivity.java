@@ -159,12 +159,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
 		
-		if (sp.contains("lastModifiedFailedTime")){
-			lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", null));
-		}
-		else {
-			lastModifiedFailedTime = new Time();
-		}
+		restoreLastModifiedFailedTime();
 		
 		// Switch on Notifications - may do it in onPause()
 		this.isVisible = true;
@@ -172,6 +167,15 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
+	}
+	
+	private void restoreLastModifiedFailedTime(){
+		if (sp.contains("lastModifiedFailedTime")){
+			lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", null));
+		}
+		else {
+			lastModifiedFailedTime = new Time();
+		}
 	}
 
 	@Override
@@ -400,7 +404,7 @@ public class ReporterActivity extends ActionBarActivity implements
 									
 								}
 								else if (!Time.isEpoch(lastModifiedFailedTime) 
-										|| intent.hasExtra("modifiedFailedTime")){
+										&& intent.hasExtra("modifiedFailedTime")){
 									notificationBuilder
 									.setTicker("Critical Update Received")
 									.setContentText("Critical Update Received")
@@ -421,8 +425,9 @@ public class ReporterActivity extends ActionBarActivity implements
 				if (!isDestroyed()){
 					mSectionsPagerAdapter.notifyDataSetChanged();
 				}
+				if (intent.hasExtra("modifiedFailedTime"))
+					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 			}
-			lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 		}
 	}
 

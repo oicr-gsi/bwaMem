@@ -106,7 +106,4 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 		}
 	}
-	
-	//private boolean updatedFailedItem(){}
-
 }
