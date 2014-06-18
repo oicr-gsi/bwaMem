@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,6 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.d(ReporterActivity.TAG,"oncreate called for fragment");
 		View rootView = inflater.inflate(R.layout.fragment_reporter, container,
 				false);
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
@@ -59,7 +57,6 @@ public class ReportListFragment extends Fragment {
 	}
 
 	public void addLocalReports(List<Report> newReports) {
-		Log.d(ReporterActivity.TAG, "adding localReports for fragment");
 		this.mAdapter.removeAllViews();
 		if (newReports.size() != 0){
 			for (Report r : newReports) {
