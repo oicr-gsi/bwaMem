@@ -136,7 +136,6 @@ public class ReportListFragment extends Fragment {
 			return repSName1.compareTo(repSName2);
 
 		}
-
 	};
 
 	private class ReportWorkflowComparator implements Comparator<Report> {

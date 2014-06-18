@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation" >
 
-    <string name="app_name">SeqprodReporter</string>
+    <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
     <string name="empty_message">There are currently no workflows that are</string>

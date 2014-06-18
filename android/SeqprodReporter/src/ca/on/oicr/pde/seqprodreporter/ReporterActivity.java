@@ -28,9 +28,12 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ReporterActivity extends ActionBarActivity implements
@@ -96,7 +99,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -133,7 +135,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setTabListener(this));
 		}	
 	}
-
+	
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
@@ -249,6 +251,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		return types[index];
 	}
 
+	public static String timeToStringConverter(Time time){
+		return time.format("%Y-%m-%d %H:%M:%S");
+	}
+
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
@@ -339,7 +345,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-
+		updateLUT(sp.getString("updateTime", ""));
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -356,16 +362,15 @@ public class ReporterActivity extends ActionBarActivity implements
 		scheduleUpdate();
 	}
 
-	/*
-	 * A function for updating Last Update Time (text should replace the app
-	 * title)
-	 */
-	// TODO PDE-622
-	/*
-	 * private void updateLUT() { //get newTitle from the data currently
-	 * downloaded, String newTitle = null;
-	 * this.getActionBar().setTitle(newTitle); }
-	 */
+	private void updateLUT(String updateTime) {
+		if (!updateTime.equals("")){
+		TextView updateView = (TextView)findViewById(R.id.updateTimeView);
+		updateView.setVisibility(View.VISIBLE);
+		String newTitle = "Most Recent Workflow Modification Time: " + updateTime;
+		updateView.setText(newTitle);
+		updateView.invalidate();
+		}		
+	}
 
 	/*
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
@@ -388,10 +393,12 @@ public class ReporterActivity extends ActionBarActivity implements
 	class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
 			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
 			if (ReporterActivity.this.isVisible) {
 				Toast.makeText(ReporterActivity.this, "Update Received",
 						Toast.LENGTH_SHORT).show();
+				updateLUT(intent.getStringExtra("updateTime"));
 			} else {
 				Intent mNIntent = new Intent(context, ReporterActivity.class);
 				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
@@ -409,8 +416,10 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getSystemService(Context.NOTIFICATION_SERVICE);
 				mNotificationManager.notify(0, notificationBuilder.build());
 			}
+			
 			if (ReporterActivity.this.isVisible)
 				mSectionsPagerAdapter.notifyDataSetChanged();
+
 		}
 
 	}

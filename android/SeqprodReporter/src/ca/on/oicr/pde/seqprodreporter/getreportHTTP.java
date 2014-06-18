@@ -24,6 +24,7 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 	private Context mContext;
 	private AndroidHttpClient mClient;
 	private static final String SCRIPT = "/getReport.pl?range=";
+	private String updateTime;
 
 	public getreportHTTP(Context context, SharedPreferences sp) {
 
@@ -69,6 +70,7 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 			String JsonString = new String(byteArray, "UTF-8");
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
+			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
 			//Insert data into db
 			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
 			if (null != results) {
@@ -91,9 +93,12 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		// If result is true, send a Broadcast to notify ReporterActivity
-		if (result)
+		if (result){
+		   Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
+		   intent.putExtra("updateTime", updateTime);
 		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-				new Intent(ReporterActivity.DATACHANGE_INTENT));
+				intent);
+	
+		}
 	}
-
 }
