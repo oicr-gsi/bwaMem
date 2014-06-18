@@ -24,6 +24,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	//TODO Need to move these values to string.xml
 	private final int UPDATE_COLOR = 0xFFCCFF99;
 	private final int DEFAULT_COLOR = 0xFFFFFFFF;
+	private static final String ESTIMATED_TIME_REMAINING_FILLER = "HH:MM";
 	
 
 	public ReportAdapter(Context context, int resource) {
@@ -53,8 +54,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 		View newView = convertView;
 		ReportHolder holder;
 		Report curr = list.get(position);
-		
-		//TODO Need to update the new fields for the holder 
+
 		if (null == convertView) {
 			holder = new ReportHolder();
 			newView = inflater.inflate(R.layout.report, null);
@@ -64,6 +64,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.ctime = (TextView) newView.findViewById(R.id.report_ctime);
 			holder.lmtime = (TextView) newView.findViewById(R.id.report_lmtime);
 			holder.pbar = (ProgressBar) newView.findViewById(R.id.report_pbar);
+			holder.estimatedTimeRemaining = (TextView) newView.findViewById(R.id.estimated_time_remaining);
 			newView.setTag(holder);
 		} 
 		else {
@@ -85,8 +86,11 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			if (null != curr.getrProgress()) {
 				holder.pbar.setProgress(curr.progressValue());
 				holder.pbar.setVisibility(ProgressBar.VISIBLE);
+				//TODO: Set the correct ETR here once back end functionality is implemented
+				// Also change the text view visibility to visible in XML
+				holder.estimatedTimeRemaining.setText("ETR: " + ESTIMATED_TIME_REMAINING_FILLER );
 			}
-	
+			
 			if (curr.getrUpdated()){
 				newView.setBackgroundColor(UPDATE_COLOR);
 			}	
@@ -98,14 +102,14 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 
 		return newView;
 	}
-	//TODO Need to update this to use new data fields for report
+
 	static class ReportHolder {
 		TextView samplename;
 		TextView wfname;
 		TextView ctime;
 		TextView lmtime;
 		ProgressBar pbar;
-
+		TextView estimatedTimeRemaining;
 	}
 
 	public void add(Report listItem) {

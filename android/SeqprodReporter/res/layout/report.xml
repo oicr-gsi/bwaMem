@@ -37,15 +37,34 @@
         android:textStyle="italic" />
    </LinearLayout>
    
-   <ProgressBar 
+   <LinearLayout
+        android:id="@+id/progress_holder"
+        android:layout_below="@id/text_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:maxHeight="10dp"
+        android:minHeight="10dp"
+        android:orientation="horizontal" >
+       >
+   <ProgressBar
        android:id="@+id/report_pbar"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/text_holder"
-       android:maxHeight="10dp"
-       android:minHeight="10dp"
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       android:layout_weight="0.75"
        android:visibility="invisible"
        style="@android:style/Widget.ProgressBar.Horizontal"
        android:layout_marginRight="5dp"/>
-
+   
+   <TextView
+       android:id="@+id/estimated_time_remaining"
+       android:layout_width="0dp"
+       android:layout_height="match_parent"
+       android:layout_weight="0.25"
+       android:singleLine="true"
+       android:visibility="invisible"
+       android:gravity="center_vertical"
+       android:textStyle="bold"/>
+       
+   </LinearLayout>
+   
 </RelativeLayout>
