@@ -148,6 +148,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Switch on Notifications - may do it in onPause()
 		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity?
 		this.isVisible = true;
+		
+		updateLUT(sp.getString("updateTime", ""));
 		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
@@ -345,7 +347,6 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
-		updateLUT(sp.getString("updateTime", ""));
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
