@@ -90,6 +90,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_reporter);
 		
 		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
+		
+		lastModifiedFailedTime = new Time();
 		// TODO This Activity eventually will not be the LAUNCHER Activity
 		// Http request may stay here since we are using COntentProvider
 
@@ -172,9 +174,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	private void restoreLastModifiedFailedTime(){
 		if (sp.contains("lastModifiedFailedTime")){
 			lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", null));
-		}
-		else {
-			lastModifiedFailedTime = new Time();
 		}
 	}
 
@@ -443,7 +442,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			else{
 			Log.d(TAG,
 					"Entered TimedHttpTask, here we need to launch HTTP request");
-			new getreportHTTP(getApplicationContext(), sp).execute();
+			new getreportHTTP(getApplicationContext(), sp).execute(lastModifiedFailedTime);
 			}
 		}
 			
