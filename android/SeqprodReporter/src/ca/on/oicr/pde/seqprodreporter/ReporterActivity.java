@@ -474,9 +474,13 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 				}
 
-				if (intent.hasExtra("modifiedFailedTime"))
+				if (intent.hasExtra("modifiedFailedTime")){
 					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
-			
+					if (!ReporterActivity.this.isVisible){
+					sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
+					}
+				}
+				
 				if (ReporterActivity.this.isVisible)
 					mSectionsPagerAdapter.notifyDataSetChanged();
 			
