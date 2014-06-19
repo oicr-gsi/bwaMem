@@ -4,28 +4,45 @@ use strict;
 
 use DBI;
 use JSON;
+use LWP;
+use XML::Simple;
 use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
-my $STATUSTAG = "pegasus";
+
+# OOZIE WEBSERVICE:
+my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
+my $web_basedir = "11000/oozie/v1/job/";
+my $web_info    = "show=info";
+my $web_defi    = "show=definition";
+
+my @Status = ("FAILED","KILLED","PREP","RUNNING","SUSPENDED","SUCCEEDED","OK");
+
+use constant FAILED=>0;
+use constant KILLED=>1;
+use constant PREP=>2;
+use constant RUNNING=>3;
+use constant SUSPENDED=>4;
+use constant SUCCEDED=>5;
+use constant OK=>6;
+
+use constant JSN=>"text/json";
+use constant XML=>"text/xml";
+use constant AGENT=>"SeqprodApp/0.1alpha";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
 # query the seqware metadb
 my $username = 'sqwread';
-#my $username = 'pruzanov';
 my $password = 'Seqware8513';
-#my $password = 'metaPHP';
 my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
-#my $dbhost = '10.2.0.56';
-#my $dbhost = '10.2.0.44';
-#my $dbhost = 'localhost';
 my $dbname = 'seqware_meta_db';
 my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
 my $wruser = 'seqware';
 my $wrhost = 'pipedev.hpc.oicr.on.ca';
 my $devmode = 0;
+
 
 # Control development output with -d option
 my %opts = ();
@@ -87,7 +104,8 @@ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processin
                s.name AS sample_name,
                w.name,
                w.version,
-               wr.status,            
+               wr.status,
+               wr.status_cmd,
                wr.create_tstmp,
                p.last_modified
               FROM workflow_run AS wr 
@@ -108,35 +126,29 @@ warn "Query complete, processing\n";
 my %results;
 my %statushash = ();
 while(my @row = $sth->fetchrow_array) {
-        my ($workflowRunID, $sampleName, $workflowName, $workflowVersion, $status, $createTime, $lastmodTime) = @row;
+        my ($workflowRunID, $sampleName, $workflowName, $workflowVersion, $status, $statusCmd, $createTime, $lastmodTime) = @row;
                
         next if (!$workflowRunID || !$sampleName || !$workflowName || !$workflowVersion || !$createTime);
         $lastmodTime ||= $createTime;
-        
 
         #my $ctime_value = scalar($currentTime);
         #my $ltime_value = parse_timestamp($lastmodTime);
 
         my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
-	#warn "$createTime vs $lastmodTime\n" if DEBUG;
-        #warn "$ctime_value vs $ltime_value\n\n" if DEBUG;
-        #print Dumper($createTime)."\n".Dumper($lastmodTime)."\n";
-        #exit;
 	next if ($timeDiff > $recentCutoff);
         
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
         $statushash{$status}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
-        #$statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; #'
-        #warn "Status command:".$statusCmd."\n" if DEBUG;   WE DONT NEED THIS WITH OOZIE
+        $statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; 
         push(@{$results{$currentStatus}},{sample    => $devmode ? $sampleName."[$status]" : $sampleName,
                                           workflow  => $workflowName,
                                           version   => $workflowVersion,
                                           status    => $status,
+                                          status_cmd=> $statusCmd,
                 	                  wrun_id   => $workflowRunID,
 					  #accession => $workflowAccession,
-					  #host => $wrhost,
-					  crtime    => $createTime,
+					  crtime    => $createTime,      # TODO Change this to timelocal to address PDE-650
 					  lmtime    => $lastmodTime});
         
 }
@@ -154,22 +166,20 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
     if (!defined $run->{status} || $run->{status} ne 'running') {
      next RUN;
     }
+          # FAKE STATUS IF NO PROGRESS AVAILABLE
+          my $progress = "".int rand(100); 
+          if (defined $run->{stcommand} && $run->{stcommand}=~/^oozie/) { 
+             # Create a request
+             print STDERR "Getting oozie workflow run progress...\n";
+             my $url = join(":",($webservice,$web_basedir)).$run->{stcommand}."?";
 
-    warn "About to check for ".$STATUSTAG if DEBUG;
-    #if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
-    #	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
-
-	  #my @statusOutput = split(/\n/, `ssh -i $wrkey $wruser\@$wrhost $run->{stcommand}`);
-	  #if (defined $statusOutput[5] && $statusOutput[5] =~ /.*\( (.*%) \).*/) {
-	  #  $run->{progress} = $1;
-	  #} else {
-          #  $run->{progress} = "NA";
-          #}
-          # TEMPORARY, FAKE STATUS TODO : get these values from a webserver
-          $run->{progress} = "".int rand(100);
-
-	 }
-   #}
+             my $steps = countActions($url.$web_defi,XML);
+             my $done  = countActions($url.$web_info,JSN);
+             $progress = int($done/$steps*100);
+            
+          }
+          $run->{progress} = $progress;
+  } 
 }
 print STDERR "We have following types present in the results:\n" if DEBUG;
 map{print STDERR $_."\n"} (keys %results) if DEBUG;
@@ -193,3 +203,52 @@ sub parse_timestamp {
  warn "Couldn't parse date [$tmpstmp]\n";
  return 0;
 }
+
+
+#================================================
+# Function that gets either total number of steps 
+#    or steps done so far from a webservice
+#================================================
+sub countActions {
+
+ my($url,$mime) = @_;
+ my $req;
+
+ if ($url && $mime) {
+  $req = HTTP::Request->new(GET=>$url);
+  $req->content_type($mime);
+ } else {return undef;}
+
+ my $ua = LWP::UserAgent->new;
+ $ua->agent(AGENT);
+ my $res = $ua->request($req);
+
+ if ($mime eq JSN) {
+   my $success = 0;
+   if ($res->is_success) {
+    my $json_string = $res->content;
+    my $j_container = decode_json $json_string;
+    print STDERR "Got ".scalar(@{$j_container->{actions}})." records from JSON\n";
+    foreach my $blah(@{$j_container->{actions}}) {
+      if ($blah->{externalId} && $blah->{externalId}=~/\d+/) {
+         if ($blah->{status} eq $Status[OK] || $blah->{status} eq $Status[SUCCEDED]) {
+           $success++;
+         }
+      }
+    }
+    }
+    return $success;
+ } elsif ($mime eq XML) {
+   my $steps = 1;
+   if ($res->is_success) {
+    my $xml_string = $res->content;
+    my $x_container = XMLin($xml_string);
+    $steps = scalar(keys %{$x_container->{action}}) - 1;
+    $steps = 1 unless $steps >= 1;
+   }
+   return $steps;
+ }
+ print STDERR "Format Unsupported\n";
+ return 0;
+}
+
