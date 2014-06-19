@@ -178,9 +178,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	}
 	
 	private void restoreLastModifiedFailedTime(){
-		if (sp.contains("lastModifiedFailedTime")){
-			lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", null));
-		}
+		lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new Time().format2445()));
 	}
 
 	@Override
@@ -477,7 +475,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				if (intent.hasExtra("modifiedFailedTime")){
 					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 					if (!ReporterActivity.this.isVisible){
-					sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
+						sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
 					}
 				}
 				
