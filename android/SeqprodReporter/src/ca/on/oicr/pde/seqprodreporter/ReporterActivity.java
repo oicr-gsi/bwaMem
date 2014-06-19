@@ -154,7 +154,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Switch on Notifications - may do it in onPause()
 		((MainApplication)getApplication()).setisCurrentActivityVisible(false);
 		
-		sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
+		storeLastModifiedFailedTime();
 		
 		this.isVisible = false;
 		super.onPause();
@@ -175,6 +175,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
+	}
+	
+	private void storeLastModifiedFailedTime(){
+		sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
 	}
 	
 	private void restoreLastModifiedFailedTime(){
@@ -434,9 +438,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					Toast.makeText(ReporterActivity.this, "Update Received",
 							Toast.LENGTH_SHORT).show();
 					updateLUT(intent.getStringExtra("updateTime"));
-					//TODO isVisible is being set to false when on preference page, do we want this?
 				} else {
-					
 					if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
 						Intent mNIntent = new Intent(context, ReporterActivity.class);
 						PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
@@ -476,7 +478,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				if (isFailedModified(intent)){
 					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 					if (!ReporterActivity.this.isVisible){
-						sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
+						storeLastModifiedFailedTime();
 					}
 				}
 				
