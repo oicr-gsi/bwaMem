@@ -413,7 +413,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 
 	}
-
+	
+	
 	@SuppressLint("NewApi")
 	/*
 	 * Broadcast Receiver for Data Update Broadcast
@@ -453,7 +454,7 @@ public class ReporterActivity extends ActionBarActivity implements
 									
 								}
 								else if (!Time.isEpoch(lastModifiedFailedTime) 
-										&& intent.hasExtra("modifiedFailedTime")){
+										&& isFailedModified(intent)){
 									notificationBuilder
 									.setTicker("Critical Update Received")
 									.setContentText("Critical Update Received")
@@ -472,7 +473,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 				}
 
-				if (intent.hasExtra("modifiedFailedTime")){
+				if (isFailedModified(intent)){
 					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
 					if (!ReporterActivity.this.isVisible){
 						sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
@@ -483,6 +484,10 @@ public class ReporterActivity extends ActionBarActivity implements
 					mSectionsPagerAdapter.notifyDataSetChanged();
 			
 			}
+		}
+		
+		private boolean isFailedModified(Intent intent){
+			return intent.hasExtra("modifiedFailedTime");
 		}
 	}
 
