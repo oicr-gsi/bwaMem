@@ -204,6 +204,9 @@ public class ReporterActivity extends ActionBarActivity implements
 					});
 			builder.show();
 		}
+		else if (id == R.id.action_refresh){
+			
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
