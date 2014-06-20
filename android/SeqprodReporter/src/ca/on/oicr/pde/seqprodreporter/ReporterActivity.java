@@ -172,6 +172,14 @@ public class ReporterActivity extends ActionBarActivity implements
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	private boolean isUpdateHostSet(){
+		return !(null == this.updateHost || this.updateHost.isEmpty());
+	}
+	
+	private boolean isUpdateRangeSet(){
+		return !(null == this.updateRange || this.updateRange.equals(getResources().getString(
+						R.string.pref_summaryScope_default)));
+	}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -205,7 +213,21 @@ public class ReporterActivity extends ActionBarActivity implements
 			builder.show();
 		}
 		else if (id == R.id.action_refresh){
-			
+			if (timerScheduled && null != timer){
+					long INTERVAL = this.updateFrequency * 60 * 1000L;
+					this.timer.cancel();
+					this.timer = new Timer();
+					this.timer.schedule(new TimedHttpTask(), 0, INTERVAL);
+			}
+			else {
+				if (!isUpdateHostSet() || !isUpdateRangeSet()){
+					//pop up that asks you to set corresponding field, 
+					// and then schdeule update only one time
+				}
+				else {
+					new Timer().schedule(new TimedHttpTask(), 0);
+				}
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -311,11 +333,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Update data range here as well
 		Log.v(TAG, "Entered sheduleUpdates");
 		// Start update ONLY if host URL is valid
-		if (null == this.updateRange
-				|| null == this.updateHost
-				|| this.updateHost.isEmpty()
-				|| this.updateRange.equals(getResources().getString(
-						R.string.pref_summaryScope_default))
+		if (!isUpdateHostSet() || !isUpdateRangeSet()
 				|| this.updateFrequency == 0) {
 			if (null != this.timer) {
 				this.timer.cancel();
