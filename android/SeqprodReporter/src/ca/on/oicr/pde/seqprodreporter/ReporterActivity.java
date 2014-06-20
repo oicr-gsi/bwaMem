@@ -213,7 +213,10 @@ public class ReporterActivity extends ActionBarActivity implements
 			builder.show();
 		}
 		else if (id == R.id.action_refresh){
-			if (timerScheduled && null != timer){
+			
+			if (null != timer){
+					Toast.makeText(ReporterActivity.this, "Lists Are Being Refreshed",
+						Toast.LENGTH_LONG).show();
 					long INTERVAL = this.updateFrequency * 60 * 1000L;
 					this.timer.cancel();
 					this.timer = new Timer();
@@ -221,13 +224,18 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			else {
 				if (!isUpdateHostSet() || !isUpdateRangeSet()){
-					//pop up that asks you to set corresponding field, 
-					// and then schdeule update only one time
+					Toast.makeText(ReporterActivity.this, "Please Set Corresponding Fields & Retry",
+							Toast.LENGTH_LONG).show();
+					Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
+					startActivity(setPrefs);
 				}
 				else {
+					Toast.makeText(ReporterActivity.this, "Lists Are Being Refreshed",
+							Toast.LENGTH_LONG).show();
 					new Timer().schedule(new TimedHttpTask(), 0);
 				}
 			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
