@@ -378,6 +378,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				|| this.updateFrequency == 0) {
 			if (null != this.timer) {
 				this.timer.cancel();
+				this.timer = null;
 				Log.d(TAG, "Http Updates Canceled");
 			}
 			this.timerScheduled = false;
