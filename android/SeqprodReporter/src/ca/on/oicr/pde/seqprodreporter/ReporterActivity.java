@@ -18,6 +18,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -61,16 +63,24 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected static final String TIMER_NAME = "Seqprodbio Timer";
 	protected static final String PREFERENCE_FILE = "seqprod.conf";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
+	
+	private static final String NOTIFICATIONS_OFF = "Off";
+	private static final String NOTIFICATIONS_WEB_UPDATES = "Web Updates";
+	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
+	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound"; 
+	
 
 	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
 
 	private String updateHost;
 	private String updateRange;
+	private String notificationSetting;
 	private int updateFrequency; // in minutes
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private int sortIndex;
+	private Time lastModifiedFailedTime;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -80,8 +90,12 @@ public class ReporterActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
-
+		
 		setContentView(R.layout.activity_reporter);
+		
+		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
+		
+		lastModifiedFailedTime = new Time();
 		// TODO This Activity eventually will not be the LAUNCHER Activity
 		// (MAYBE IT WILL, ON SECOND THOUGHT)
 
@@ -95,7 +109,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
 		// Read preferences
 		this.updateActivityPrefs();
-
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -139,12 +152,20 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
+		((MainApplication)getApplication()).setisCurrentActivityVisible(false);
+		
+		storeLastModifiedFailedTime();
+		
 		this.isVisible = false;
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
+		((MainApplication)getApplication()).setisCurrentActivityVisible(true);
+		
+		restoreLastModifiedFailedTime();
+		
 		// Switch on Notifications - may do it in onPause()
 		// TODO may want to modify this - i.e. not needed if returning from PreferenceActivity?
 		this.isVisible = true;
@@ -154,6 +175,14 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
+	}
+	
+	private void storeLastModifiedFailedTime(){
+		sp.edit().putString("lastModifiedFailedTime", lastModifiedFailedTime.format2445()).apply();
+	}
+	
+	private void restoreLastModifiedFailedTime(){
+		lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new Time().format2445()));
 	}
 
 	@Override
@@ -380,6 +409,8 @@ public class ReporterActivity extends ActionBarActivity implements
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
 		this.updateRange = sp.getString("pref_summaryScope", null);
+		this.notificationSetting = sp.getString("pref_notificationSettings", NOTIFICATIONS_WEB_UPDATES);
+		
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -419,7 +450,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 
 	}
-
+	
+	
 	@SuppressLint("NewApi")
 	/*
 	 * Broadcast Receiver for Data Update Broadcast
@@ -427,35 +459,71 @@ public class ReporterActivity extends ActionBarActivity implements
 	class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
-			Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
-			if (ReporterActivity.this.isVisible) {
-				Toast.makeText(ReporterActivity.this, "Update Received",
-						Toast.LENGTH_SHORT).show();
-				updateLUT(intent.getStringExtra("updateTime"));
-			} else {
-				Intent mNIntent = new Intent(context, ReporterActivity.class);
-				PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
-						mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-				Notification.Builder notificationBuilder = new Notification.Builder(
-						context).setTicker("Update Received")
-						.setSmallIcon(android.R.drawable.stat_sys_warning)
-						.setAutoCancel(true)
-						.setContentTitle("Seqprod Reporter")
-						.setContentText("Update Received")
-						.setContentIntent(mCIntent);
-
-				// Pass the Notification to the NotificationManager:
-				NotificationManager mNotificationManager = (NotificationManager) context
-						.getSystemService(Context.NOTIFICATION_SERVICE);
-				mNotificationManager.notify(0, notificationBuilder.build());
+			if (isVisible!=((MainApplication)getApplication()).getisCurrentActivityVisible()){
+				LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(this);
 			}
 			
-			if (ReporterActivity.this.isVisible)
-				mSectionsPagerAdapter.notifyDataSetChanged();
+			else {
+				sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
+				Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
+			
+				if (ReporterActivity.this.isVisible) {
+					Toast.makeText(ReporterActivity.this, "Update Received",
+							Toast.LENGTH_SHORT).show();
+					updateLUT(intent.getStringExtra("updateTime"));
+				} else {
+					if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
+						Intent mNIntent = new Intent(context, ReporterActivity.class);
+						PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
+								mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+						
+						// Send a certain notification based on which shared preference selected 
+						Notification.Builder notificationBuilder = new Notification.Builder(context);
+						notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+						.setAutoCancel(true)
+						.setContentTitle("Seqprod Reporter")
+						.setContentIntent(mCIntent);
+								if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
+									notificationBuilder.setTicker("Update Received")
+									.setContentText("Update Received");
+									
+								}
+								else if (!Time.isEpoch(lastModifiedFailedTime) 
+										&& isFailedModified(intent)){
+									notificationBuilder
+									.setTicker("Critical Update Received")
+									.setContentText("Critical Update Received")
+									.setLights(Color.RED, 500, 1000);
+									if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
+										//May need to change the notification sound type
+										notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+									}
+								}
+									
+								
+						// Pass the Notification to the NotificationManager:
+						NotificationManager mNotificationManager = (NotificationManager) context
+								.getSystemService(Context.NOTIFICATION_SERVICE);
+						mNotificationManager.notify(0, notificationBuilder.build());
+					}
+				}
 
+				if (isFailedModified(intent)){
+					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
+					if (!ReporterActivity.this.isVisible){
+						storeLastModifiedFailedTime();
+					}
+				}
+				
+				if (ReporterActivity.this.isVisible)
+					mSectionsPagerAdapter.notifyDataSetChanged();
+			
+			}
 		}
-
+		
+		private boolean isFailedModified(Intent intent){
+			return intent.hasExtra("modifiedFailedTime");
+		}
 	}
 
 	/*
@@ -464,10 +532,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	class TimedHttpTask extends TimerTask {
 		@Override
 		public void run() {
+			if (isVisible != ((MainApplication)getApplication()).getisCurrentActivityVisible()){
+				timer.cancel();
+			}
+			else{
 			Log.d(TAG,
 					"Entered TimedHttpTask, here we need to launch HTTP request");
-			new getreportHTTP(getApplicationContext(), sp).execute();
+			new getreportHTTP(getApplicationContext(), sp).execute(lastModifiedFailedTime);
+			}
 		}
+			
 	}
 	
 }

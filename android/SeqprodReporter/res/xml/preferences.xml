@@ -18,6 +18,15 @@
         android:entryValues="@array/pref_summaryScope_entries"
         android:defaultValue="@string/pref_summaryScope_default"
         android:summary="@string/pref_summaryScope_default" />
+   <ListPreference
+       android:dependency="pref_hostName"
+       android:key="pref_notificationSettings"
+       android:title="@string/pref_notificationSettings"
+       android:dialogTitle="@string/pref_notificationSettings"
+       android:entries="@array/pref_notificationSettings_entries"
+       android:entryValues="@array/pref_notificationSettings_entries"
+       android:defaultValue="@string/pref_notificationSettings_default"
+       android:summary="@string/pref_notificationSettings_default" />
    <EditTextPreference
        android:key="pref_hostName"
        android:title="@string/pref_hostName"

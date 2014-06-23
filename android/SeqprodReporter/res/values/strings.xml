@@ -34,6 +34,14 @@
         <item>60 min</item>
     </string-array>
     <string name="pref_automaticUpdates_default">Off</string>
+    <string name="pref_notificationSettings">Notification Settings</string>
+    <string-array name="pref_notificationSettings_entries">
+        <item>Off</item>
+        <item>Web Updates</item>
+        <item>Critical Updates</item>
+        <item>Critical Updates With Sound</item>
+    </string-array>
+    <string name="pref_notificationSettings_default">Web Updates</string>
     <string name="pref_hostName">Host URL</string>
     <string name="url_invalid">This URL is not valid!</string>
     <string name="pref_hostName_default">Specify host name for updates</string>
