@@ -6,6 +6,8 @@
     <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
+    <string name="refresh_error_title">Error: Required parameters are missing</string>
+    <string name="refresh_error_message">To enable instant updates, please set the Host URL/Time Span.</string>
     <string name="empty_message">There are currently no workflows that are</string>
     <string-array name= "sorting_method_types">
         <item>By Date</item>

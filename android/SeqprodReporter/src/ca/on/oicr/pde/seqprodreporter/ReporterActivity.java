@@ -224,10 +224,14 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			else {
 				if (!isUpdateHostSet() || !isUpdateRangeSet()){
-					Toast.makeText(ReporterActivity.this, "Please Set Corresponding Fields & Retry",
-							Toast.LENGTH_LONG).show();
-					Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
-					startActivity(setPrefs);
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setTitle(R.string.refresh_error_title).setMessage(R.string.refresh_error_message);
+					builder.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int select){
+									dialog.dismiss();
+								}
+							}).show();
 				}
 				else {
 					Toast.makeText(ReporterActivity.this, "Lists Are Being Refreshed",
