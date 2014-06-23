@@ -465,61 +465,82 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			
 			else {
-				sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
-				Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
-			
-				if (ReporterActivity.this.isVisible) {
-					Toast.makeText(ReporterActivity.this, "Update Received",
-							Toast.LENGTH_SHORT).show();
-					updateLUT(intent.getStringExtra("updateTime"));
-				} else {
-					if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
-						Intent mNIntent = new Intent(context, ReporterActivity.class);
-						PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
-								mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
-						
-						// Send a certain notification based on which shared preference selected 
-						Notification.Builder notificationBuilder = new Notification.Builder(context);
-						notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
-						.setAutoCancel(true)
-						.setContentTitle("Seqprod Reporter")
-						.setContentIntent(mCIntent);
-								if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
-									notificationBuilder.setTicker("Update Received")
-									.setContentText("Update Received");
-									
-								}
-								else if (!Time.isEpoch(lastModifiedFailedTime) 
-										&& isFailedModified(intent)){
-									notificationBuilder
-									.setTicker("Critical Update Received")
-									.setContentText("Critical Update Received")
-									.setLights(Color.RED, 500, 1000);
-									if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
-										//May need to change the notification sound type
-										notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-									}
-								}
-									
-								
-						// Pass the Notification to the NotificationManager:
-						NotificationManager mNotificationManager = (NotificationManager) context
-								.getSystemService(Context.NOTIFICATION_SERVICE);
-						mNotificationManager.notify(0, notificationBuilder.build());
-					}
-				}
-
-				if (isFailedModified(intent)){
-					lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
-					if (!ReporterActivity.this.isVisible){
-						storeLastModifiedFailedTime();
-					}
+				if (!intent.hasExtra("updateTime")) {
+					if (ReporterActivity.this.isVisible)
+						Toast.makeText(ReporterActivity.this, "Error: No Reports Could be Loaded",
+								Toast.LENGTH_SHORT).show();
+					else 
+						if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
+							Notification.Builder notificationBuilder = setUpNotificationBuilder(context); 
+							notificationBuilder.setTicker("Error: No Reports Could be Loaded")
+							.setContentText("An Error Occured While Loading The Reports");
+							passNotificationBuildertoManager(context,notificationBuilder);
+						}
 				}
 				
-				if (ReporterActivity.this.isVisible)
-					mSectionsPagerAdapter.notifyDataSetChanged();
-			
-			}
+				else {
+					sp.edit().putString("updateTime", intent.getStringExtra("updateTime")).apply();
+					Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
+				
+					if (ReporterActivity.this.isVisible) {
+						Toast.makeText(ReporterActivity.this, "Update Received",
+								Toast.LENGTH_SHORT).show();
+						updateLUT(intent.getStringExtra("updateTime"));
+					} else {
+						if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
+							Notification.Builder notificationBuilder = setUpNotificationBuilder(context);
+							
+									if(notificationSetting.equals(NOTIFICATIONS_WEB_UPDATES)){
+										notificationBuilder.setTicker("Update Received")
+										.setContentText("Update Received");
+										
+									}
+									else if (!Time.isEpoch(lastModifiedFailedTime) 
+											&& isFailedModified(intent)){
+										notificationBuilder
+										.setTicker("Critical Update Received")
+										.setContentText("Critical Update Received")
+										.setLights(Color.RED, 500, 1000);
+										if (notificationSetting.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)){
+											//May need to change the notification sound type
+											notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+										}
+									}
+							// Pass the Notification to the NotificationManager:
+							passNotificationBuildertoManager(context,notificationBuilder);
+						}
+					}
+	
+					if (isFailedModified(intent)){
+						lastModifiedFailedTime.parse(intent.getStringExtra("modifiedFailedTime"));
+						if (!ReporterActivity.this.isVisible){
+							storeLastModifiedFailedTime();
+						}
+					}
+					
+					if (ReporterActivity.this.isVisible)
+						mSectionsPagerAdapter.notifyDataSetChanged();
+				
+				}
+			}	
+		}
+		
+		private Notification.Builder setUpNotificationBuilder(Context context){
+			Intent mNIntent = new Intent(context, ReporterActivity.class);
+			PendingIntent mCIntent = PendingIntent.getActivity(context, 0,
+					mNIntent, Intent.FLAG_ACTIVITY_NEW_TASK);
+			Notification.Builder notificationBuilder = new Notification.Builder(context);
+			notificationBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+			.setAutoCancel(true)
+			.setContentTitle("Seqprod Reporter")
+			.setContentIntent(mCIntent);
+			return notificationBuilder;
+		}
+		
+		private void passNotificationBuildertoManager(Context context, Notification.Builder notificationBuilder){
+			NotificationManager mNotificationManager = (NotificationManager) context
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+			mNotificationManager.notify(0, notificationBuilder.build());
 		}
 		
 		private boolean isFailedModified(Intent intent){

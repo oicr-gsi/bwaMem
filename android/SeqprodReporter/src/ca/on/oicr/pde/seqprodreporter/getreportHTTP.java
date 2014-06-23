@@ -17,6 +17,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
+import android.widget.Toast;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
@@ -103,15 +104,18 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		// If result is true, send a Broadcast to notify ReporterActivity
+		Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
 		if (result){
-			Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
 			intent.putExtra("updateTime", updateTime);
 			if (isFailedModified){
 				intent.putExtra("modifiedFailedTime", failedTime.format2445());
 			}
-		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-				intent);
-
 		}
+		else {
+			intent.putExtra("NoRecordsLoaded", true);
+		}
+		 LocalBroadcastManager.getInstance(mContext).sendBroadcast(
+					intent);
 	}
+	
 }
