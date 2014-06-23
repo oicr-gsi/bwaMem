@@ -16,14 +16,18 @@ import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.format.Time;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
-public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
+public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private final String URL;
 	private final String Range;
 	private Context mContext;
 	private AndroidHttpClient mClient;
 	private static final String SCRIPT = "/getReport.pl?range=";
+	
+	private Time failedTime;
+	private boolean isFailedModified;
 	private String updateTime;
 
 	public getreportHTTP(Context context, SharedPreferences sp) {
@@ -32,17 +36,18 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 		this.Range = sp.getString("prefs_Scope", "week");
 		this.mContext = context;
 	}
-
 	@Override
-	protected Boolean doInBackground(Void... params) {
+	protected Boolean doInBackground(Time... params) {
 
+		failedTime = params[0];
+		isFailedModified = false;
 		Boolean result = Boolean.FALSE;
 		String fullURL = URL + SCRIPT + this.Range;
 		this.mClient = AndroidHttpClient
 				.newInstance(ReporterActivity.TAG);
 		
 		HttpGet request = new HttpGet(fullURL);
-
+		
 		DBResponseHandler responseHandler = new DBResponseHandler();
 		try {
 			return mClient.execute(request, responseHandler);
@@ -65,12 +70,17 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 				throws ClientProtocolException, IOException {
 			String dbResponse = new BasicResponseHandler()
 					.handleResponse(response);
-
 			byte[] byteArray = dbResponse.getBytes();
 			String JsonString = new String(byteArray, "UTF-8");
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
+
+			if (failedTime.before(jp.getFailedItemUpdateTime())){
+				failedTime = jp.getFailedItemUpdateTime();
+				isFailedModified = true;
+			}
 			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
+
 			//Insert data into db
 			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
 			if (null != results) {
@@ -94,11 +104,14 @@ public class getreportHTTP extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean result) {
 		// If result is true, send a Broadcast to notify ReporterActivity
 		if (result){
-		   Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
-		   intent.putExtra("updateTime", updateTime);
+			Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
+			intent.putExtra("updateTime", updateTime);
+			if (isFailedModified){
+				intent.putExtra("modifiedFailedTime", failedTime.format2445());
+			}
 		   LocalBroadcastManager.getInstance(mContext).sendBroadcast(
 				intent);
-	
+
 		}
 	}
 }

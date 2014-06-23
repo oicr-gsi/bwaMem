@@ -33,11 +33,14 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	@Override
 	protected List<Report> doInBackground(String... params) {
 		List<Report> reports = null;
+
 		try {
 			reports = getReportsFromDB(params[0]); 
 		} catch (NullPointerException npe) {
 			Log.e(ReporterActivity.TAG,"There was an error reading database");
-		} 
+		} catch (RuntimeException rte){
+			Log.d(ReporterActivity.TAG, "Caught exception");
+		}
 		return reports;
 	}
 
