@@ -467,12 +467,12 @@ public class ReporterActivity extends ActionBarActivity implements
 			else {
 				if (!intent.hasExtra("updateTime")) {
 					if (ReporterActivity.this.isVisible)
-						Toast.makeText(ReporterActivity.this, "Error: No Reports Could be Loaded",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(ReporterActivity.this, "Error: No New Reports Could be Loaded",
+								Toast.LENGTH_LONG).show();
 					else 
 						if (!notificationSetting.equals(NOTIFICATIONS_OFF)){
 							Notification.Builder notificationBuilder = setUpNotificationBuilder(context); 
-							notificationBuilder.setTicker("Error: No Reports Could be Loaded")
+							notificationBuilder.setTicker("Error: No New Reports Could be Loaded")
 							.setContentText("An Error Occured While Loading The Reports");
 							passNotificationBuildertoManager(context,notificationBuilder);
 						}
