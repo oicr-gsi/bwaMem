@@ -270,6 +270,11 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 
 		}
+		else if (id == R.id.stats){
+			Intent intent = new Intent(this, WorkflowStatsListActivity.class);
+			startActivity(intent);
+			return true;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
