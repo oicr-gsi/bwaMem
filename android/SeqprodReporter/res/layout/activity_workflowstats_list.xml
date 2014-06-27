@@ -1,6 +1,31 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/workflowstats_list"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+<TextView android:id="@+id/total_number_of_completed"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textStyle="bold"
+    android:clickable="true" 
+    android:gravity="center"/>
+
+<TextView android:id="@+id/total_number_of_failed"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textStyle="bold"
+    android:clickable="true"
+    android:gravity="center" />
+
+<TextView android:id="@+id/total_number_of_pending"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textStyle="bold" 
+    android:clickable="true"
+    android:gravity="center"/>
+   
+<fragment android:id="@+id/workflowstats_list"
     android:name="ca.on.oicr.pde.seqprodreporter.WorkflowStatsListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,3 +33,4 @@
     android:layout_marginRight="16dp"
     tools:context="ca.on.oicr.pde.seqprodreporter.WorkflowStatsListActivity"
     tools:layout="@android:layout/list_content" />
+</LinearLayout>

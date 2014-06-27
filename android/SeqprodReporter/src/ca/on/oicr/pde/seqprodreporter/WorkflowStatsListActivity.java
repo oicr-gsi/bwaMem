@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * An activity representing a list of WorkflowStats. This activity has different
@@ -24,6 +26,13 @@ import android.view.MenuItem;
  */
 public class WorkflowStatsListActivity extends FragmentActivity implements
 		WorkflowStatsListFragment.Callbacks {
+	
+	private static final String COMPLETED_TEXT_FILLER = "Completed: ##";
+	private static final String FAILED_TEXT_FILLER = "Failed: ##";
+	private static final String PENDING_TEXT_FILLER = "Pending: ##";
+	private TextView completedTextView;
+	private TextView failedTextView;
+	private TextView pendingTextView;
 
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -37,6 +46,8 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_workflowstats_list);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		setUpTextViews();
 
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -53,6 +64,18 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+	}
+	
+	//TODO: query total number and replace ## with proper value
+	private void setUpTextViews(){
+		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
+		completedTextView.setText(COMPLETED_TEXT_FILLER);
+		
+		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
+		failedTextView.setText(FAILED_TEXT_FILLER);
+		
+		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
+		pendingTextView.setText(PENDING_TEXT_FILLER);
 	}
 
 	@Override
