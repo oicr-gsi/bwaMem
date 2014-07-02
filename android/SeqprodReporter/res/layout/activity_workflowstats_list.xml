@@ -9,21 +9,28 @@
     android:layout_height="wrap_content"
     android:textStyle="bold"
     android:clickable="true" 
-    android:gravity="center"/>
+    android:gravity="center"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:textSize="20sp"/>
 
 <TextView android:id="@+id/total_number_of_failed"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="bold"
     android:clickable="true"
-    android:gravity="center" />
+    android:gravity="center"
+    android:layout_marginBottom="16dp"
+	android:textSize="20sp"/>
 
 <TextView android:id="@+id/total_number_of_pending"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="bold" 
     android:clickable="true"
-    android:gravity="center"/>
+    android:gravity="center"
+    android:layout_marginBottom="16dp"
+    android:textSize="20sp"/>
    
 <fragment android:id="@+id/workflowstats_list"
     android:name="ca.on.oicr.pde.seqprodreporter.WorkflowStatsListFragment"
