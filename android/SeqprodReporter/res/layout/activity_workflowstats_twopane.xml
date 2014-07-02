@@ -20,14 +20,43 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-
-    <fragment
-        android:id="@+id/workflowstats_list"
-        android:name="ca.on.oicr.pde.seqprodreporter.WorkflowStatsListFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+    
+    <!-- TODO: may need to put this in a fragment, its being used twice, once here and the other time in
+    activity list.xml -->
+    <LinearLayout 
+	    android:orientation="vertical"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="1">
+    
+		<TextView android:id="@+id/total_number_of_completed"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold"
+		    android:clickable="true" 
+		    android:gravity="center"/>
+		
+		<TextView android:id="@+id/total_number_of_failed"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold"
+		    android:clickable="true"
+		    android:gravity="center" />
+		
+		<TextView android:id="@+id/total_number_of_pending"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold" 
+		    android:clickable="true"
+		    android:gravity="center"/>
+	
+	    <fragment
+	        android:id="@+id/workflowstats_list"
+	        android:name="ca.on.oicr.pde.seqprodreporter.WorkflowStatsListFragment"
+	        tools:layout="@android:layout/list_content"
+	        android:layout_width="match_parent"
+		    android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/workflowstats_detail_container"
