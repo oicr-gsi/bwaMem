@@ -242,7 +242,9 @@ public class ReporterActivity extends ActionBarActivity implements
 			builder.show();
 		}
 		else if (id == R.id.action_refresh){
-			
+			// Instance where a timer is set with automatic updates
+			// Timer is cancelled, and re-scheduled with the same interval but starts the instance 
+			// when the icon is pressed with no delay
 			if (null != timer){
 					Toast.makeText(ReporterActivity.this, "Lists Are Being Refreshed",
 						Toast.LENGTH_LONG).show();
@@ -252,6 +254,8 @@ public class ReporterActivity extends ActionBarActivity implements
 					this.timer.schedule(new TimedHttpTask(), 0, INTERVAL);
 			}
 			else {
+				// Instance where if either updateHost and updateRange are not set in the preferences
+				// an alert dialog will appear telling the user to set the corresponding fields
 				if (!isUpdateHostSet() || !isUpdateRangeSet()){
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder.setTitle(R.string.refresh_error_title).setMessage(R.string.refresh_error_message);
@@ -262,6 +266,8 @@ public class ReporterActivity extends ActionBarActivity implements
 								}
 							}).show();
 				}
+				// Instance where the preferences are filled in, however the automatic updates are turned off
+				// Will just schedule a single execution of TimedHttpTask with no change in the preferences 
 				else {
 					Toast.makeText(ReporterActivity.this, "Lists Are Being Refreshed",
 							Toast.LENGTH_LONG).show();
@@ -465,6 +471,9 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			
 			else {
+				// The intent will only have the extra "updateTime" when the reports have been successfully loaded from the 
+				// GetReportHttp async task, therefore this will notify the user that there was an error loading the reports
+				// depending on if they are on screen (Toast message) or off screen (Notification)
 				if (!intent.hasExtra("updateTime")) {
 					if (ReporterActivity.this.isVisible)
 						Toast.makeText(ReporterActivity.this, "Error: No New Reports Could be Loaded",
