@@ -69,6 +69,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound"; 
 	
+	public static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
+	public static final int FAILED_WORKFLOW_TAB_INDEX = 1;
+	public static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
 	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
@@ -125,7 +128,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// loaded
 		// alongside the current selected tab's fragment
 		mViewPager.setOffscreenPageLimit(types.length - 1);
-
+		
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
@@ -147,6 +150,13 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}	
+		
+		//TODO: Need to select correct tab without giving IndexOutOfRangeException
+		/*Intent intent = getIntent();
+		if (intent.hasExtra("selectedTab")){
+			int selectedTab = intent.getIntExtra("selectedTab",COMPLETED_WORKFLOW_TAB_INDEX);
+			mViewPager.setCurrentItem(selectedTab);
+		}*/
 	}
 	
 	@Override
@@ -174,6 +184,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 	

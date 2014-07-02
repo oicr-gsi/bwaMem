@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**
@@ -66,16 +67,39 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
 	
+	private OnClickListener onTextViewClick = new OnClickListener(){
+		@Override
+		public void onClick(View textView){
+			Intent intent = new Intent(WorkflowStatsListActivity.this, ReporterActivity.class);
+			if (textView.equals(completedTextView)){
+				intent.putExtra("selectedTab", ReporterActivity.COMPLETED_WORKFLOW_TAB_INDEX);
+			}
+			else if (textView.equals(failedTextView)){
+				intent.putExtra("selectedTab", ReporterActivity.FAILED_WORKFLOW_TAB_INDEX);
+			}
+			else if (textView.equals(pendingTextView)){
+				intent.putExtra("selectedTab", ReporterActivity.PENDING_WORKFLOW_TAB_INDEX);
+			}
+			startActivity(intent);
+		} 
+		
+		
+	};
+	
+	
 	//TODO: query total number and replace ## with proper value
 	private void setUpTextViews(){
 		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
 		completedTextView.setText(COMPLETED_TEXT_FILLER);
+		completedTextView.setOnClickListener(onTextViewClick);
 		
 		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
 		failedTextView.setText(FAILED_TEXT_FILLER);
+		failedTextView.setOnClickListener(onTextViewClick);
 		
 		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
 		pendingTextView.setText(PENDING_TEXT_FILLER);
+		pendingTextView.setOnClickListener(onTextViewClick);
 	}
 
 	@Override
