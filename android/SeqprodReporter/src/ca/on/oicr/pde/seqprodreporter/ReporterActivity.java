@@ -282,7 +282,19 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		}
 		else if (id == R.id.stats){
+			int [] workflowStatsNumbers = new int[types.length];
+			
+			for (int i = 0;i<mSectionsPagerAdapter.fragments.size();++i){
+				ReportListFragment tmp = mSectionsPagerAdapter.fragments.get(i);
+				if (tmp.isFragmentListEmpty()) {
+					workflowStatsNumbers[i] = 0;
+				}
+				else {
+					workflowStatsNumbers[i] = tmp.getAdapter().getCount();
+				}
+			}
 			Intent intent = new Intent(this, WorkflowStatsListActivity.class);
+			intent.putExtra("WorkflowStats", workflowStatsNumbers);
 			startActivity(intent);
 			return true;
 		}

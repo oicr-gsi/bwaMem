@@ -69,7 +69,6 @@ public class WorkflowStatsListFragment extends ListFragment {
 	 */
 	public WorkflowStatsListFragment() {
 	}
-	
 	// Function which populates the different workflows from the database
 	private void populateWorkflowNameList(){
 		Cursor c = getActivity().getContentResolver()
@@ -92,12 +91,12 @@ public class WorkflowStatsListFragment extends ListFragment {
 			}
 		}
 	} 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		populateWorkflowNameList();
-		
-		// TODO: replace with a real list adapter.
+
 		setListAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.workflowNameList));

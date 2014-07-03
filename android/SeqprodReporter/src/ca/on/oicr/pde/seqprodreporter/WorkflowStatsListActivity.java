@@ -27,14 +27,9 @@ import android.widget.TextView;
  */
 public class WorkflowStatsListActivity extends FragmentActivity implements
 		WorkflowStatsListFragment.Callbacks {
-	
-	private static final String COMPLETED_TEXT_FILLER = "Completed: ##";
-	private static final String FAILED_TEXT_FILLER = "Failed: ##";
-	private static final String PENDING_TEXT_FILLER = "Pending: ##";
 	private TextView completedTextView;
 	private TextView failedTextView;
 	private TextView pendingTextView;
-
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -47,8 +42,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_workflowstats_list);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		setUpTextViews();
+		setUpTextViews(getIntent());
 
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -87,18 +81,19 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	};
 	
 	
-	//TODO: query total number and replace ## with proper value
-	private void setUpTextViews(){
+	//TODO: workflow type numbers being set using intent sent from ReporterActivity, could also have it query DB
+	private void setUpTextViews(Intent intent){
+		int [] workflowStats = intent.getIntArrayExtra("WorkflowStats");
 		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
-		completedTextView.setText(COMPLETED_TEXT_FILLER);
+		completedTextView.setText("Completed: " + workflowStats[0]);
 		completedTextView.setOnClickListener(onTextViewClick);
 		
 		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
-		failedTextView.setText(FAILED_TEXT_FILLER);
+		failedTextView.setText("Failed: " + workflowStats[1]);
 		failedTextView.setOnClickListener(onTextViewClick);
 		
 		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
-		pendingTextView.setText(PENDING_TEXT_FILLER);
+		pendingTextView.setText("Pending: " + workflowStats[2]);
 		pendingTextView.setOnClickListener(onTextViewClick);
 	}
 
