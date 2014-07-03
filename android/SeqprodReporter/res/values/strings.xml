@@ -4,6 +4,8 @@
     <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
+    <string name="stats_error_title">Error: No available data</string>
+    <string name="stats_error_message">To be able to see statistics, you must set preferences and download sufficient data</string>
     <string name="refresh_error_title">Error: Required parameters are missing</string>
     <string name="refresh_error_message">To enable instant updates, please set the Host URL/Time Span.</string>
     <string name="empty_message">There are currently no workflows that are</string>

@@ -1,6 +1,8 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -42,7 +44,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_workflowstats_list);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setUpTextViews(getIntent());
+		setUpTextViews();
 
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -80,20 +82,23 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		
 	};
 	
+	private int workflowTypeTotal(String workflowType){
+		Cursor c = this.getContentResolver()
+				.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, DataContract.WR_TYPE + "=?", new String[]{workflowType} , null);			
+		return c.getCount();
+	}
 	
-	//TODO: workflow type numbers being set using intent sent from ReporterActivity, could also have it query DB
-	private void setUpTextViews(Intent intent){
-		int [] workflowStats = intent.getIntArrayExtra("WorkflowStats");
+	private void setUpTextViews(){
 		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
-		completedTextView.setText("Completed: " + workflowStats[0]);
+		completedTextView.setText("Completed: " + workflowTypeTotal(ReporterActivity.types[0]));
 		completedTextView.setOnClickListener(onTextViewClick);
 		
 		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
-		failedTextView.setText("Failed: " + workflowStats[1]);
+		failedTextView.setText("Failed: " + workflowTypeTotal(ReporterActivity.types[1]));
 		failedTextView.setOnClickListener(onTextViewClick);
 		
 		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
-		pendingTextView.setText("Pending: " + workflowStats[2]);
+		pendingTextView.setText("Pending: " + workflowTypeTotal(ReporterActivity.types[2]));
 		pendingTextView.setOnClickListener(onTextViewClick);
 	}
 

@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -18,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -279,28 +281,34 @@ public class ReporterActivity extends ActionBarActivity implements
 					new Timer().schedule(new TimedHttpTask(), 0);
 				}
 			}
-
 		}
 		else if (id == R.id.stats){
-			int [] workflowStatsNumbers = new int[types.length];
-			
-			for (int i = 0;i<mSectionsPagerAdapter.fragments.size();++i){
-				ReportListFragment tmp = mSectionsPagerAdapter.fragments.get(i);
-				if (tmp.isFragmentListEmpty()) {
-					workflowStatsNumbers[i] = 0;
-				}
-				else {
-					workflowStatsNumbers[i] = tmp.getAdapter().getCount();
-				}
+			if (isDatabaseEmpty()){
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(R.string.stats_error_title).setMessage(R.string.stats_error_message);
+				builder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int select){
+								dialog.dismiss();
+								//TODO:We can start Preferences Activity?
+								//startActivity(new Intent(ReporterActivity.this, SeqprodPreferencesActivity.class));
+							}
+						}).show();
 			}
-			Intent intent = new Intent(this, WorkflowStatsListActivity.class);
-			intent.putExtra("WorkflowStats", workflowStatsNumbers);
-			startActivity(intent);
-			return true;
+			else{
+				Intent intent = new Intent(this, WorkflowStatsListActivity.class);
+				startActivity(intent);
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	// Checks if the database is empty by using cursor results, used when we shouldn't be able to go to stats page
+	private boolean isDatabaseEmpty(){
+		Cursor c = this.getContentResolver()
+				.query(DataContract.CONTENT_URI, new String[]{DataContract.WORKFLOW}, null, null, null);
+		return !c.moveToFirst();
+	}
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
