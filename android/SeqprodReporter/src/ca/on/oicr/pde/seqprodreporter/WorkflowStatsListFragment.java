@@ -1,13 +1,16 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import ca.on.oicr.pde.seqprodreporter.dummy.DummyContent;
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 /**
  * A list fragment representing a list of WorkflowStats. This fragment also
@@ -19,7 +22,8 @@ import ca.on.oicr.pde.seqprodreporter.dummy.DummyContent;
  * interface.
  */
 public class WorkflowStatsListFragment extends ListFragment {
-
+	
+	private List<String> workflowNameList;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -65,15 +69,38 @@ public class WorkflowStatsListFragment extends ListFragment {
 	 */
 	public WorkflowStatsListFragment() {
 	}
-
+	
+	// Function which populates the different workflows from the database
+	private void populateWorkflowNameList(){
+		Cursor c = getActivity().getContentResolver()
+				.query(DataContract.CONTENT_URI, new String[]{DataContract.WORKFLOW}, null,null , DataContract.WORKFLOW + " ASC");
+		if (null!=c){
+			this.workflowNameList = new ArrayList<String>();
+			if (c.moveToFirst()){
+				do {
+					String currentWorkflowName = c.getString(c.getColumnIndex(DataContract.WORKFLOW));
+					if (c.isFirst()){
+						this.workflowNameList.add(currentWorkflowName);
+					}
+					else {
+						if (!this.workflowNameList.contains(currentWorkflowName)){
+							this.workflowNameList.add(currentWorkflowName);
+						}
+					}
+					
+				} while(c.moveToNext() == true);
+			}
+		}
+	} 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		populateWorkflowNameList();
+		
 		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+		setListAdapter(new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+				android.R.id.text1, this.workflowNameList));
 	}
 
 	@Override
@@ -116,7 +143,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(workflowNameList.get((int)id));
 	}
 
 	@Override
