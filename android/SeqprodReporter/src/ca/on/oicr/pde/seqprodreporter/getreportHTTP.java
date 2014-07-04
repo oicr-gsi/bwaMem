@@ -79,7 +79,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 				failedTime = jp.getFailedItemUpdateTime();
 				isFailedModified = true;
 			}
-			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
+			updateTime = jp.getNewUpdateTime().format2445();
 
 			//Insert data into db
 			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
