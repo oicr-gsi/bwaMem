@@ -101,7 +101,11 @@ public class WorkflowStatsListFragment extends ListFragment {
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.workflowNameList));
 	}
-
+	
+	public List<String> getWorkflowList(){
+		return this.workflowNameList;
+	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);

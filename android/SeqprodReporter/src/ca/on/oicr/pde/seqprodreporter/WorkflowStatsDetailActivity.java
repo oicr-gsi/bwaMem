@@ -42,6 +42,7 @@ public class WorkflowStatsDetailActivity extends FragmentActivity {
 					WorkflowStatsDetailFragment.ARG_ITEM_ID,
 					getIntent().getStringExtra(
 							WorkflowStatsDetailFragment.ARG_ITEM_ID));
+			arguments.putStringArray("WorkflowList", getIntent().getStringArrayExtra("WorkflowList"));
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()

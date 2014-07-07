@@ -1,12 +1,19 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import java.util.LinkedHashMap;
+
+import com.androidplot.xy.XYPlot;
+import com.example.testingplot.R;
+
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 import ca.on.oicr.pde.seqprodreporter.dummy.DummyContent;
 
 /**
@@ -15,6 +22,9 @@ import ca.on.oicr.pde.seqprodreporter.dummy.DummyContent;
  * (on tablets) or a {@link WorkflowStatsDetailActivity} on handsets.
  */
 public class WorkflowStatsDetailFragment extends Fragment {
+	LinkedHashMap<String, Number[]> workflowStatsHash = new LinkedHashMap<String, Number[]>();
+	String [] workflowList;
+	private XYPlot completedPlot;
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -24,7 +34,6 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -36,27 +45,35 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("WorkflowList")) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			workflowList = getArguments().getStringArray("WorkflowList");
+			for (int i = 0;i<workflowList.length;++i){
+				getWorkflowStats(workflowList[i]);
+			}
 		}
 	}
 
+	private void getWorkflowStats(String workflowName){
+		Number[] tmp = new Number[ReporterActivity.types.length];
+		for (int i =0;i<ReporterActivity.types.length;++i){
+		Cursor c = getActivity().getContentResolver()
+			.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, DataContract.WR_TYPE + "=? AND " + DataContract.WORKFLOW + "=? ",new String[]{ReporterActivity.types[i],workflowName} ,null);
+		tmp[i] = c.getCount();
+		}
+		workflowStatsHash.put(workflowName, tmp);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(
 				R.layout.fragment_workflowstats_detail, container, false);
-
-		// Show the dummy content as text in a TextView.
-		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.workflowstats_detail))
-					.setText(mItem.content);
-		}
+		
+		completedPlot = (XYPlot) findViewById(R.id.completePlot);
+		completedPlot.setTitle("Completed Workflows");
 
 		return rootView;
 	}

@@ -1,5 +1,7 @@
 package ca.on.oicr.pde.seqprodreporter;
 
+import java.util.ArrayList;
+
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,6 +34,9 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	private TextView completedTextView;
 	private TextView failedTextView;
 	private TextView pendingTextView;
+	
+	private WorkflowStatsListFragment listFragment;
+	
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -44,6 +49,9 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_workflowstats_list);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		listFragment = (WorkflowStatsListFragment) getSupportFragmentManager().findFragmentById(R.id.workflowstats_list);
+		
 		setUpTextViews();
 
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
@@ -125,11 +133,13 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void onItemSelected(String id) {
+
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
+			arguments.putStringArrayList("WorkflowList", (ArrayList)listFragment.getWorkflowList());
 			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
@@ -142,6 +152,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					WorkflowStatsDetailActivity.class);
+			detailIntent.putExtra("WorkflowList",listFragment.getWorkflowList().toArray(new String[listFragment.getWorkflowList().size()]));
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}

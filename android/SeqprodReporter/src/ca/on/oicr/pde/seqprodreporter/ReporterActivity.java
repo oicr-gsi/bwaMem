@@ -197,7 +197,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private void restoreLastModifiedFailedTime(){
 		lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new Time().format2445()));
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
