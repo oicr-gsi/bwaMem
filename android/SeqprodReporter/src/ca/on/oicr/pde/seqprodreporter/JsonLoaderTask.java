@@ -72,9 +72,9 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		 result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
 				  .query(DataContract.CONTENT_URI, null, 
-						 DataContract.WR_TYPE + "=? AND " + 
+						 DataContract.WR_TYPE + "= ? AND (" + 
 						 DataContract.SAMPLE + " LIKE ? OR " + 
-				         DataContract.WORKFLOW + " LIKE ? ", new String[]{TYPE,filterWord,filterWord}, null);
+				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE,filterWord,filterWord}, null);
 		} else {
 		  result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
