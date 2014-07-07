@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ca.on.oicr.pde.seqprodreporter.WorkflowStatsDetailFragment" />
+    tools:context="ca.on.oicr.pde.seqprodreporter.WorkflowStatsDetailFragment" >
      
      <com.androidplot.xy.XYPlot
        android:id="@+id/completePlot"
