@@ -38,7 +38,7 @@ public class ReportListFragment extends Fragment {
 	public static ReportListFragment newInstance(int sectionNumber) {
 		ReportListFragment fragment = new ReportListFragment();
 		fragment.setSectionNumber(sectionNumber);
-		fragment.setSearchFilter(null);
+		//fragment.setSearchFilter(null);
 		return fragment;
 	}
 

@@ -81,6 +81,7 @@ public class JsonParser {
 			}
 			
 		} catch (JSONException e) {
+			Log.e(ReporterActivity.TAG, "A JSON parsing error occured");
 			e.printStackTrace();
 		}
 	}

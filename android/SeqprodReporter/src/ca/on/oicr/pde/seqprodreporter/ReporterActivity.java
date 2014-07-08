@@ -82,7 +82,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private int sortIndex;
 	private Time lastModifiedFailedTime;
 	private int mCurrentTabIndex;
-	//private ActionBar mActionBar;
+	private String mSearchQuery;
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -97,25 +97,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 
-		// TODO PDE-660
-		if (null != savedInstanceState) {
-			try {
-				lastModifiedFailedTime = new Time();
-				lastModifiedFailedTime.parse(savedInstanceState
-						.getString("lastModifiedFailedTime"));
-				this.mCurrentTabIndex = savedInstanceState.getInt("currentlySelectedTab");
-			} catch (Exception e) {
-				Log.d(TAG, "Last Failed Time could not be retrieved");
-			}
-		} else {
-			this.mCurrentTabIndex = 0;
-		}
-
-		if (null == lastModifiedFailedTime)
-			lastModifiedFailedTime = new Time();
-		// TODO This Activity eventually will not be the LAUNCHER Activity
-		// (MAYBE IT WILL, ON SECOND THOUGHT)
-
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
@@ -128,8 +109,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		this.updateActivityPrefs();
 		// Set up the action bar.
 		final ActionBar actionBar = getSupportActionBar();
-		
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowHomeEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(true);
+		// actionBar.setDisplayShowHomeEnabled(false);
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -154,43 +137,66 @@ public class ReporterActivity extends ActionBarActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
-		mViewPager.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
-			@Override
-			public void onChildViewAdded(View parent, View child) {
-				// TODO Auto-generated method stub
-				if ( mCurrentTabIndex != 0 && mViewPager.getChildCount() >= mCurrentTabIndex)
-					mViewPager.setCurrentItem(mCurrentTabIndex);
-				
-			}
+		mViewPager
+				.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
-			@Override
-			public void onChildViewRemoved(View parent, View child) {
-				// Do nothing
+					@Override
+					public void onChildViewAdded(View parent, View child) {
+						if (mCurrentTabIndex != 0
+								&& mViewPager.getChildCount() >= mCurrentTabIndex
+								&& mCurrentTabIndex != mViewPager
+										.getCurrentItem())
+							mViewPager.setCurrentItem(mCurrentTabIndex);
+
+					}
+
+					@Override
+					public void onChildViewRemoved(View parent, View child) {
+						// Do nothing, this is not supposed to happen
+					}
+
+				});	
+
+		// TODO PDE-660
+		if (null != savedInstanceState) {
+			try {
+				lastModifiedFailedTime = new Time();
+				lastModifiedFailedTime.parse(savedInstanceState
+						.getString("lastModifiedFailedTime"));
+				this.mCurrentTabIndex = savedInstanceState
+						.getInt("currentlySelectedTab");
+				this.mSearchQuery = savedInstanceState
+						.getString("currentSearchQuery");
+			} catch (Exception e) {
+				Log.d(TAG, "Last Failed Time could not be retrieved");
 			}
-			
-		});
+		} else {
+			this.mCurrentTabIndex = 0;
+		}
 		
-
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+			actionBar.addTab(
+						actionBar.newTab()
+				  	   .setText(mSectionsPagerAdapter.getPageTitle(i))
+					   .setTabListener(this));
 		}
-		//if (selectedTabIndex > 0) THIS CAUSES PROBLEMS 
-		//	mViewPager.setCurrentItem(selectedTabIndex);
+
+		if (null == lastModifiedFailedTime)
+			lastModifiedFailedTime = new Time();
+
 	}
 
 	@Override
 	protected void onPause() {
 		// Switch on Notifications - may do it in onPause()
 		((MainApplication) getApplication()).setisCurrentActivityVisible(false);
-		//storeLastModifiedFailedTime();
+		// storeLastModifiedFailedTime();
 		this.isVisible = false;
 		super.onPause();
 	}
@@ -198,8 +204,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
-		//if (null == this.lastModifiedFailedTime)
-		//    restoreLastModifiedFailedTime();
+		// if (null == this.lastModifiedFailedTime)
+		// restoreLastModifiedFailedTime();
 
 		// Switch on Notifications - may do it in onPause()
 		// TODO may want to modify this - i.e. not needed if returning from
@@ -211,12 +217,9 @@ public class ReporterActivity extends ActionBarActivity implements
 			mSectionsPagerAdapter.notifyDataSetChanged();
 		super.onResume();
 	}
-	
-	
 
 	@Override
 	public void onAttachFragment(android.app.Fragment fragment) {
-		// TODO Auto-generated method stub
 		super.onAttachFragment(fragment);
 	}
 
@@ -225,23 +228,20 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null != this.lastModifiedFailedTime)
 			outState.putString("lastModifiedFailedTime",
 					lastModifiedFailedTime.format2445());
-		    outState.putInt("currentlySelectedTab",
-				mViewPager.getCurrentItem());
-	}
-	
-	
-
-	/*private void storeLastModifiedFailedTime() {
-		sp.edit()
-				.putString("lastModifiedFailedTime",
-						lastModifiedFailedTime.format2445()).apply();
+		outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
+		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
+			outState.putString("currentSearchQuery", this.mSearchQuery);
 	}
 
-	private void restoreLastModifiedFailedTime() {
-		lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime",
-				new Time().format2445()));
-	}*/
-
+	/*
+	 * private void storeLastModifiedFailedTime() { sp.edit()
+	 * .putString("lastModifiedFailedTime",
+	 * lastModifiedFailedTime.format2445()).apply(); }
+	 * 
+	 * private void restoreLastModifiedFailedTime() {
+	 * lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new
+	 * Time().format2445())); }
+	 */
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -256,6 +256,10 @@ public class ReporterActivity extends ActionBarActivity implements
 			searchView.setSearchableInfo(searchManager
 					.getSearchableInfo(getComponentName()));
 			searchView.setIconifiedByDefault(true);
+			if (this.mSearchQuery != null && !this.mSearchQuery.isEmpty()) {
+				searchView.setQuery(this.mSearchQuery, true);
+				// searchView.setIconified(false);
+			}
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -352,6 +356,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
+		mCurrentTabIndex = tab.getPosition();
 	}
 
 	@Override
@@ -370,21 +375,29 @@ public class ReporterActivity extends ActionBarActivity implements
 		handleIntent(intent);
 	}
 
-	/*
-	 * This is for SearchView widget, handle searching/filtering
+	/**
+	 * handleIntent
+	 * <p>
+	 * Introduced to handle SearchView widget events
+	 * <p>
+	 * Gets all fragments and set their search Filter to query, entered in
+	 * SearchView
+	 * 
+	 * @param Intent
 	 */
+
 	private void handleIntent(Intent intent) {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
 									// we cannot search when the app is off
 									// screen
-			String query = intent.getStringExtra(SearchManager.QUERY);
+			this.mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
 			Log.d(TAG, "Calling Search/Filter code...");
 			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
 			for (int i = 0; i < fragments.size(); i++) {
 				ReportListFragment tmp = fragments.get(i);
 				if (null != tmp)
-					tmp.setSearchFilter(query);
+					tmp.setSearchFilter(this.mSearchQuery);
 			}
 		}
 	}
@@ -393,9 +406,9 @@ public class ReporterActivity extends ActionBarActivity implements
 		return types[index];
 	}
 
-	//public static String timeToStringConverter(Time time) {
-	//	return time.format("%Y-%m-%d %H:%M:%S");
-	//}
+	// public static String timeToStringConverter(Time time) {
+	// return time.format("%Y-%m-%d %H:%M:%S");
+	// }
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -406,7 +419,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
-		    fragments = new ArrayList<ReportListFragment>();  
+			fragments = new ArrayList<ReportListFragment>();
 		}
 
 		@Override
@@ -414,8 +427,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 			if (position >= this.fragments.size() || this.fragments.size() == 0
 					|| null == this.fragments.get(position)) {
-				
-				
+
 				fragments.add(position,
 						ReportListFragment.newInstance(position + 1));
 			}
@@ -617,9 +629,9 @@ public class ReporterActivity extends ActionBarActivity implements
 					if (isFailedModified(intent)) {
 						lastModifiedFailedTime.parse(intent
 								.getStringExtra("modifiedFailedTime"));
-						//if (!ReporterActivity.this.isVisible) {
-						//	storeLastModifiedFailedTime();
-						//}
+						// if (!ReporterActivity.this.isVisible) {
+						// storeLastModifiedFailedTime();
+						// }
 					}
 
 					if (ReporterActivity.this.isVisible)
