@@ -51,16 +51,15 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		listFragment = (WorkflowStatsListFragment) getSupportFragmentManager().findFragmentById(R.id.workflowstats_list);
-		
 		setUpTextViews();
-
+		
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
 			mTwoPane = true;
-
+			replaceDetailsFragment("NoSelectedWorkflow");
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			((WorkflowStatsListFragment) getSupportFragmentManager()
@@ -138,14 +137,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			Bundle arguments = new Bundle();
-			arguments.putStringArrayList("WorkflowList", (ArrayList)listFragment.getWorkflowList());
-			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
-			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
-			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.workflowstats_detail_container, fragment)
-					.commit();
+			replaceDetailsFragment(id);
 
 		} else {
 			// In single-pane mode, simply start the detail activity
@@ -156,5 +148,16 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}
+	
+	private void replaceDetailsFragment(String id){
+		Bundle arguments = new Bundle();
+		arguments.putStringArrayList("WorkflowList", (ArrayList<String>)listFragment.getWorkflowList());
+		arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
+		WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
+		fragment.setArguments(arguments);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.workflowstats_detail_container, fragment)
+				.commit();
 	}
 }

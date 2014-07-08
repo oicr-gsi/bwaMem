@@ -25,7 +25,7 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  */
 public class WorkflowStatsDetailFragment extends Fragment {
 	LinkedHashMap<String, Number[]> workflowStatsHash = new LinkedHashMap<String, Number[]>();
-	String [] workflowList;
+	List<String> workflowList;
 	private XYPlot completedPlot;
 	private XYPlot pendingPlot;
 	private XYPlot failedPlot;
@@ -59,9 +59,9 @@ public class WorkflowStatsDetailFragment extends Fragment {
 		
 		if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("WorkflowList")) {
 			selectedWorkflow = getArguments().getString(ARG_ITEM_ID);
-			workflowList = getArguments().getStringArray("WorkflowList");
-			for (int i = 0;i<workflowList.length;++i){
-				getWorkflowStats(workflowList[i]);
+			workflowList = getArguments().getStringArrayList("WorkflowList");
+			for (int i = 0;i<workflowList.size(); ++i){
+				getWorkflowStats(workflowList.get(i));
 			}
 		}
 	}
@@ -116,6 +116,7 @@ public class WorkflowStatsDetailFragment extends Fragment {
 			default:
 				fillColor = BORDER_COLOR;
 				break;
+		}
 				
 		for (String workflowName : workflowStatsHash.keySet()){
 			
@@ -130,7 +131,8 @@ public class WorkflowStatsDetailFragment extends Fragment {
 			SimpleXYSeries series = new SimpleXYSeries(workflowName);
 			series.addFirst(workflowIndex, 
 					workflowStatsHash.get(workflowName)[workflowType]);
-			if (workflowName.equals(selectedWorkflow)){
+			if (!selectedWorkflow.equals("NoSelectedWorkflow") 
+					&& workflowName.equals(selectedWorkflow)){
 				barFormatter = new BarFormatter(
 						HIGHLIGHT_COLOR,BORDER_COLOR);
 			}
