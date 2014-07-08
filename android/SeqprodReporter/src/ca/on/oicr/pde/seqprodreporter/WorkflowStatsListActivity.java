@@ -144,7 +144,8 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					WorkflowStatsDetailActivity.class);
-			detailIntent.putExtra("WorkflowList",listFragment.getWorkflowList().toArray(new String[listFragment.getWorkflowList().size()]));
+			detailIntent.putExtra("WorkflowList",listFragment.getWorkflowList()
+					.toArray(new String[listFragment.getWorkflowList().size()]));
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
@@ -152,7 +153,8 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	
 	private void replaceDetailsFragment(String id){
 		Bundle arguments = new Bundle();
-		arguments.putStringArrayList("WorkflowList", (ArrayList<String>)listFragment.getWorkflowList());
+		arguments.putStringArray("WorkflowList", listFragment.getWorkflowList()
+				.toArray(new String[listFragment.getWorkflowList().size()]));
 		arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 		WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 		fragment.setArguments(arguments);

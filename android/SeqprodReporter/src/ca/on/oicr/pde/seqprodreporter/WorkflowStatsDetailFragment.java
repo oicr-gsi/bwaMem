@@ -25,7 +25,7 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  */
 public class WorkflowStatsDetailFragment extends Fragment {
 	LinkedHashMap<String, Number[]> workflowStatsHash = new LinkedHashMap<String, Number[]>();
-	List<String> workflowList;
+	String [] workflowList;
 	private XYPlot completedPlot;
 	private XYPlot pendingPlot;
 	private XYPlot failedPlot;
@@ -59,9 +59,9 @@ public class WorkflowStatsDetailFragment extends Fragment {
 		
 		if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("WorkflowList")) {
 			selectedWorkflow = getArguments().getString(ARG_ITEM_ID);
-			workflowList = getArguments().getStringArrayList("WorkflowList");
-			for (int i = 0;i<workflowList.size(); ++i){
-				getWorkflowStats(workflowList.get(i));
+			workflowList = getArguments().getStringArray("WorkflowList");
+			for (int i = 0;i<workflowList.length; ++i){
+				getWorkflowStats(workflowList[i]);
 			}
 		}
 	}
