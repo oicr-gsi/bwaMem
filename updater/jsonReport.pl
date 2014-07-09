@@ -8,15 +8,35 @@ use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
-my $STATUSTAG = "pegasus";
+# my $STATUSTAG = "pegasus";
+
+# TODO set the credentials using setup script
+# OOZIE WEBSERVICE:
+my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
+my $web_basedir = "11000/oozie/v1/job/";
+my $web_info    = "show=info";
+my $web_defi    = "show=definition";
+
+my @Status = ("FAILED","KILLED","PREP","RUNNING","SUSPENDED","SUCCEEDED","OK");
+
+use constant FAILED=>0;
+use constant KILLED=>1;
+use constant PREP=>2;
+use constant RUNNING=>3;
+use constant SUSPENDED=>4;
+use constant SUCCEDED=>5;
+use constant OK=>6;
+
+use constant JSN=>"text/json";
+use constant XML=>"text/xml";
+use constant AGENT=>"SeqprodApp/0.1alpha";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
+# TODO set the credentials using setup script
 # query the seqware metadb
-my $username = 'sqwread';
-#my $username = 'pruzanov';
-my $password = 'Seqware8513';
-#my $password = 'metaPHP';
+my $username = '*****'; # This should not be posted in git
+my $password = '*****'; # This should not be posted in git
 my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
 #my $dbhost = '10.2.0.56';
 #my $dbhost = '10.2.0.44';
@@ -155,7 +175,7 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
      next RUN;
     }
 
-    warn "About to check for ".$STATUSTAG if DEBUG;
+    # warn "About to check for ".$STATUSTAG if DEBUG;
     #if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
     #	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
 
