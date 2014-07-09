@@ -10,7 +10,6 @@ use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
-# my $STATUSTAG = "pegasus";
 
 # TODO set the credentials using setup script
 # OOZIE WEBSERVICE:
