@@ -4,16 +4,18 @@ import java.text.NumberFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.androidplot.ui.YLayoutStyle;
+import com.androidplot.ui.YPositionMetric;
 import com.androidplot.xy.BarFormatter;
 import com.androidplot.xy.BarRenderer;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XValueMarker;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeriesRenderer;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,9 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	
 	private static final float GRAPH_TOP_MARGIN = 15f;
 	private static final float BAR_WIDTH = 40f;
+	
 	private static final int BORDER_COLOR = 0xFF000000;
+	private static final int TRANSPARENT_COLOR = 0x30000000;
 	private static final int HIGHLIGHT_COLOR = 0xFFFFFFFF;
 	private static final int FILL_COLOR_COMPLETED = 0XFF00FF00 ;
 	private static final int FILL_COLOR_PENDING = 0xFFFFFF00;
@@ -133,20 +137,29 @@ public class WorkflowStatsDetailFragment extends Fragment {
 			SimpleXYSeries series = new SimpleXYSeries(workflowName);
 			series.addFirst(workflowIndex, 
 					workflowStatsHash.get(workflowName)[workflowType]);
+			String workflowNameEdit = workflowName.length() < 11 ? workflowName : shortenWorkflowName(workflowName);
 			if (!selectedWorkflow.equals("NoSelectedWorkflow") 
 					&& workflowName.equals(selectedWorkflow)){
+				plot.addMarker(new XValueMarker(workflowIndex - 0.25,workflowNameEdit,
+						new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_TOP),
+						0,TRANSPARENT_COLOR));
+				plot.addMarker(new XValueMarker(workflowIndex- 0.090,
+						workflowStatsHash.get(workflowName)[workflowType].toString(),
+							new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_BOTTOM),
+								0,BORDER_COLOR));
 				barFormatter = new BarFormatter(
 						HIGHLIGHT_COLOR,BORDER_COLOR);
 			}
 			else {
+				plot.addMarker(new XValueMarker(workflowIndex - 0.25,workflowNameEdit,
+						new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_TOP),
+							0,BORDER_COLOR));
 				barFormatter = new BarFormatter(
 						fillColor,BORDER_COLOR);
 			}
 			plot.addSeries(series, barFormatter);
+			
 			++workflowIndex;
-			//Debug purposes
-			Log.d(ReporterActivity.TAG, ReporterActivity.types[workflowType]+ 
-					": " + workflowName +": " + workflowStatsHash.get(workflowName)[workflowType]);
 		}
 		List<XYSeriesRenderer> rendererList = plot.getRendererList();
 		for (int i =0;i<rendererList.size();++i){
@@ -160,11 +173,29 @@ public class WorkflowStatsDetailFragment extends Fragment {
 		plot.setRangeValueFormat(NumberFormat.getIntegerInstance());
 		plot.getGraphWidget().setMarginTop(GRAPH_TOP_MARGIN);
 		if (maxRange == 0){
-			plot.setRangeUpperBoundary(workflowIndex, BoundaryMode.FIXED);
+			plot.setRangeUpperBoundary(workflowIndex+1, BoundaryMode.FIXED);
 		} 
 		else {
 			plot.setRangeUpperBoundary(maxRange 
 					+ (int) plot.getRangeStepValue(), BoundaryMode.FIXED);
 		}
+	}
+	private String shortenWorkflowName(String workflowName){
+		String output = "";
+		for (int i = 0; i < workflowName.length();++i){
+			if (Character.isUpperCase(workflowName.charAt(i))){
+				if (i==workflowName.length()-1 || Character.isUpperCase(workflowName.charAt(i+1))){
+					output+=workflowName.charAt(i);
+				}
+				else {
+					output+=workflowName.charAt(i)+".";
+				}	
+			}
+			else if (!Character.isLetter(workflowName.charAt(i)) 
+					&& !Character.isLetter(output.charAt(output.length()-1))){
+						output = output.substring(0, output.length()-1) + workflowName.charAt(i);
+			}
+		}
+		return output;
 	}
 }
