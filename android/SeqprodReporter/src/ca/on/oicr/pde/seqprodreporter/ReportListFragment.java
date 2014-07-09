@@ -60,7 +60,6 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 		View rootView = inflater.inflate(R.layout.fragment_reporter, container,
 				false);
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
@@ -136,7 +135,6 @@ public class ReportListFragment extends Fragment {
 			return repSName1.compareTo(repSName2);
 
 		}
-
 	};
 
 	private class ReportWorkflowComparator implements Comparator<Report> {

@@ -33,11 +33,14 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	@Override
 	protected List<Report> doInBackground(String... params) {
 		List<Report> reports = null;
+
 		try {
 			reports = getReportsFromDB(params[0]); 
 		} catch (NullPointerException npe) {
 			Log.e(ReporterActivity.TAG,"There was an error reading database");
-		} 
+		} catch (RuntimeException rte){
+			Log.d(ReporterActivity.TAG, "Caught exception");
+		}
 		return reports;
 	}
 
@@ -69,9 +72,9 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		 result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
 				  .query(DataContract.CONTENT_URI, null, 
-						 DataContract.WR_TYPE + "=? AND " + 
+						 DataContract.WR_TYPE + "= ? AND (" + 
 						 DataContract.SAMPLE + " LIKE ? OR " + 
-				         DataContract.WORKFLOW + " LIKE ? ", new String[]{TYPE,filterWord,filterWord}, null);
+				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE,filterWord,filterWord}, null);
 		} else {
 		  result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()

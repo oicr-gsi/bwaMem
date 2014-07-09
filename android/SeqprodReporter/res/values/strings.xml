@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation" >
 
-    <string name="app_name">SeqprodReporter</string>
+    <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
+    <string name="refresh_error_title">Error: Required parameters are missing</string>
+    <string name="refresh_error_message">To enable instant updates, please set the Host URL/Time Span.</string>
     <string name="empty_message">There are currently no workflows that are</string>
     <string-array name= "sorting_method_types">
         <item>By Date</item>
@@ -14,6 +16,7 @@
     </string-array>
     <string name="action_settings">Settings</string>
     <string name="action_update">Update</string>
+    <string name="action_refresh">Refresh</string>
     <string name="pref_summaryScope">Time Span</string>
     <string-array name="pref_summaryScope_entries">
         <item>week</item>
@@ -31,6 +34,14 @@
         <item>60 min</item>
     </string-array>
     <string name="pref_automaticUpdates_default">Off</string>
+    <string name="pref_notificationSettings">Notification Settings</string>
+    <string-array name="pref_notificationSettings_entries">
+        <item>Off</item>
+        <item>Web Updates</item>
+        <item>Critical Updates</item>
+        <item>Critical Updates With Sound</item>
+    </string-array>
+    <string name="pref_notificationSettings_default">Web Updates</string>
     <string name="pref_hostName">Host URL</string>
     <string name="url_invalid">This URL is not valid!</string>
     <string name="pref_hostName_default">Specify host name for updates</string>
