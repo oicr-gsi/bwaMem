@@ -33,6 +33,14 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	private XYPlot failedPlot;
 	String selectedWorkflow;
 	
+	private boolean isTwoPane;
+	
+	//TODO: May need to change offset values upon further testing with different data
+	private static final double TWOPANE_WORKFLOW_NAME_OFFSET = 0.18;
+	private static final double TWOPANE_WORKFLOW_NUMBER_OFFSET = 0.08;
+	private static final double WORKFLOW_NAME_OFFSET = 0.25;
+	private static final double WORKFLOW_NUMBER_OFFSET = 0.09;
+	
 	private static final float GRAPH_TOP_MARGIN = 15f;
 	private static final float BAR_WIDTH = 40f;
 	
@@ -62,12 +70,15 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		isTwoPane = false;
 		if (getArguments().containsKey(ARG_ITEM_ID) && getArguments().containsKey("WorkflowList")) {
 			selectedWorkflow = getArguments().getString(ARG_ITEM_ID);
 			workflowList = getArguments().getStringArray("WorkflowList");
 			for (int i = 0;i<workflowList.length; ++i){
 				getWorkflowStats(workflowList[i]);
+			}
+			if (getArguments().containsKey("IsTwoPane")){
+				isTwoPane = true;
 			}
 		}
 	}
@@ -137,13 +148,17 @@ public class WorkflowStatsDetailFragment extends Fragment {
 			SimpleXYSeries series = new SimpleXYSeries(workflowName);
 			series.addFirst(workflowIndex, 
 					workflowStatsHash.get(workflowName)[workflowType]);
+			
 			String workflowNameEdit = workflowName.length() < 11 ? workflowName : shortenWorkflowName(workflowName);
+			double nameOffset = isTwoPane ? TWOPANE_WORKFLOW_NAME_OFFSET : WORKFLOW_NAME_OFFSET;
+			double numberOffset = isTwoPane ? TWOPANE_WORKFLOW_NUMBER_OFFSET : WORKFLOW_NUMBER_OFFSET;
+			
 			if (!selectedWorkflow.equals("NoSelectedWorkflow") 
 					&& workflowName.equals(selectedWorkflow)){
-				plot.addMarker(new XValueMarker(workflowIndex - 0.25,workflowNameEdit,
+				plot.addMarker(new XValueMarker(workflowIndex - nameOffset,workflowNameEdit,
 						new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_TOP),
 						0,TRANSPARENT_COLOR));
-				plot.addMarker(new XValueMarker(workflowIndex- 0.090,
+				plot.addMarker(new XValueMarker(workflowIndex- numberOffset,
 						workflowStatsHash.get(workflowName)[workflowType].toString(),
 							new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_BOTTOM),
 								0,BORDER_COLOR));
@@ -151,7 +166,7 @@ public class WorkflowStatsDetailFragment extends Fragment {
 						HIGHLIGHT_COLOR,BORDER_COLOR);
 			}
 			else {
-				plot.addMarker(new XValueMarker(workflowIndex - 0.25,workflowNameEdit,
+				plot.addMarker(new XValueMarker(workflowIndex - nameOffset,workflowNameEdit,
 						new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_TOP),
 							0,BORDER_COLOR));
 				barFormatter = new BarFormatter(
