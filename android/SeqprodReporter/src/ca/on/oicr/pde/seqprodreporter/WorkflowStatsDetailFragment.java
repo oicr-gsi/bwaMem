@@ -31,6 +31,8 @@ public class WorkflowStatsDetailFragment extends Fragment {
 	private XYPlot failedPlot;
 	String selectedWorkflow;
 	
+	private static final float GRAPH_TOP_MARGIN = 15f;
+	private static final float BAR_WIDTH = 40f;
 	private static final int BORDER_COLOR = 0xFF000000;
 	private static final int HIGHLIGHT_COLOR = 0xFFFFFFFF;
 	private static final int FILL_COLOR_COMPLETED = 0XFF00FF00 ;
@@ -149,14 +151,14 @@ public class WorkflowStatsDetailFragment extends Fragment {
 		List<XYSeriesRenderer> rendererList = plot.getRendererList();
 		for (int i =0;i<rendererList.size();++i){
 			BarRenderer tmp = (BarRenderer) rendererList.get(i);
-			tmp.setBarWidth(40f);
+			tmp.setBarWidth(BAR_WIDTH);
 		}
 		plot.setDomainBoundaries(0, workflowStatsHash.size()+1
 				, BoundaryMode.FIXED);
 		plot.setDomainStepValue(1);
 		plot.getLegendWidget().setVisible(false);
 		plot.setRangeValueFormat(NumberFormat.getIntegerInstance());
-
+		plot.getGraphWidget().setMarginTop(GRAPH_TOP_MARGIN);
 		if (maxRange == 0){
 			plot.setRangeUpperBoundary(workflowIndex, BoundaryMode.FIXED);
 		} 
