@@ -10,13 +10,9 @@ use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
-<<<<<<< HEAD
 # my $STATUSTAG = "pegasus";
 
 # TODO set the credentials using setup script
-=======
-
->>>>>>> develop
 # OOZIE WEBSERVICE:
 my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
 my $web_basedir = "11000/oozie/v1/job/";
@@ -41,13 +37,8 @@ my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
 # TODO set the credentials using setup script
 # query the seqware metadb
-<<<<<<< HEAD
 my $username = '*****'; # This should not be posted in git
 my $password = '*****'; # This should not be posted in git
-=======
-my $username = 'sqwread';
-my $password = 'Seqware8513';
->>>>>>> develop
 my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
 my $dbname = 'seqware_meta_db';
 my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
@@ -178,24 +169,6 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
     if (!defined $run->{status} || $run->{status} ne 'running') {
      next RUN;
     }
-<<<<<<< HEAD
-
-    # warn "About to check for ".$STATUSTAG if DEBUG;
-    #if (defined $run->{stcommand} && $run->{stcommand}=~/$STATUSTAG/) {
-    #	  warn "Checking ".$run->{workflow}." with ".$run->{stcommand}."\n" if DEBUG;
-
-	  #my @statusOutput = split(/\n/, `ssh -i $wrkey $wruser\@$wrhost $run->{stcommand}`);
-	  #if (defined $statusOutput[5] && $statusOutput[5] =~ /.*\( (.*%) \).*/) {
-	  #  $run->{progress} = $1;
-	  #} else {
-          #  $run->{progress} = "NA";
-          #}
-          # TEMPORARY, FAKE STATUS TODO : get these values from a webserver
-          $run->{progress} = "".int rand(100);
-
-	 }
-   #}
-=======
           # FAKE STATUS IF NO PROGRESS AVAILABLE
           my $progress = "".int rand(100); 
           if (defined $run->{stcommand} && $run->{stcommand}=~/^oozie/) { 
@@ -210,7 +183,6 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
           }
           $run->{progress} = $progress;
   } 
->>>>>>> develop
 }
 print STDERR "We have following types present in the results:\n" if DEBUG;
 map{print STDERR $_."\n"} (keys %results) if DEBUG;
