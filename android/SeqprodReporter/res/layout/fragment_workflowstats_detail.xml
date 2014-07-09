@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ca.on.oicr.pde.seqprodreporter.WorkflowStatsDetailFragment" >
+     
+     <com.androidplot.xy.XYPlot
+       android:id="@+id/completePlot"
+       android:layout_width="match_parent"
+	   android:layout_height="wrap_content"
+	   android:layout_weight="1"/>
+	  
+    <com.androidplot.xy.XYPlot
+       android:id="@+id/pendingPlot"
+       android:layout_width="match_parent"
+	   android:layout_height="wrap_content"
+	   android:layout_weight="1"/>
+
+     <com.androidplot.xy.XYPlot
+       android:id="@+id/failedPlot"
+       android:layout_width="match_parent"
+	   android:layout_height="wrap_content"
+	   android:layout_weight="1"/>
+</LinearLayout>

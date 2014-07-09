@@ -21,6 +21,8 @@ public class ReportListFragment extends Fragment {
 	private Time lastUpdateTime;
 	private int sectionNumber;
 	
+	private boolean emptyList;
+	
 	private int sortingType;
 	private String searchFilter;
 
@@ -79,12 +81,14 @@ public class ReportListFragment extends Fragment {
 			for (Report r : newReports) {
 				this.mAdapter.add(r);
 			}
+			this.emptyList = false;
 			sortFragment();
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
 			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","","","",false);
 			this.mAdapter.add(emptyReport);
+			this.emptyList = true;
 		}
 		mAdapter.notifyDataSetChanged();
 	}
@@ -103,6 +107,10 @@ public class ReportListFragment extends Fragment {
 		}
 	}
 
+	public boolean isFragmentListEmpty(){
+		return this.emptyList;
+	}
+	
 	public int getSectionNumber() {
 		return this.sectionNumber;
 	}

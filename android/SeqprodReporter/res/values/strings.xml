@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources 
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingTranslation" >
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">SpbReporter</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
+    <string name="stats_error_title">Error: No available data</string>
+    <string name="stats_error_message">To be able to see statistics, you must set preferences and download sufficient data</string>
     <string name="refresh_error_title">Error: Required parameters are missing</string>
     <string name="refresh_error_message">To enable instant updates, please set the Host URL/Time Span.</string>
     <string name="empty_message">There are currently no workflows that are</string>
-    <string-array name= "sorting_method_types">
+
+    <string-array name="sorting_method_types">
         <item>By Date</item>
         <item>By Workflow</item>
         <item>By Sample</item>
     </string-array>
+
     <string name="action_settings">Settings</string>
+    <string name="stats">Statistics</string>
     <string name="action_update">Update</string>
     <string name="action_refresh">Refresh</string>
     <string name="pref_summaryScope">Time Span</string>
+
     <string-array name="pref_summaryScope_entries">
         <item>week</item>
         <item>month</item>
         <item>year</item>
         <item>decade</item>
     </string-array>
+
     <string name="pref_summaryScope_default">Define the time range for the report</string>
     <string name="title_pref_activity">Pereferences</string>
     <string name="pref_automaticUpdates">Automatic Updates</string>
+
     <string-array name="pref_automaticUpdates_entries">
         <item>Off</item>
         <item>5 min</item>
         <item>15 min</item>
         <item>60 min</item>
     </string-array>
+
     <string name="pref_automaticUpdates_default">Off</string>
     <string name="pref_notificationSettings">Notification Settings</string>
+
     <string-array name="pref_notificationSettings_entries">
         <item>Off</item>
         <item>Web Updates</item>
         <item>Critical Updates</item>
         <item>Critical Updates With Sound</item>
     </string-array>
+
     <string name="pref_notificationSettings_default">Web Updates</string>
     <string name="pref_hostName">Host URL</string>
     <string name="url_invalid">This URL is not valid!</string>
@@ -48,4 +57,7 @@
     <string name="authority">ca.on.oicr.pde.seqprodprovider</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Sample or Workflow...</string>
+    <string name="title_workflowstats_list">Workflows</string>
+    <string name="title_workflowstats_detail">Workflow Statistics</string>
+
 </resources>

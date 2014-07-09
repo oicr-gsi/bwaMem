@@ -24,5 +24,9 @@
         android:orderInCategory="101"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
-
+    <item
+        android:id="@+id/stats"
+        android:orderInCategory="102"
+        android:title="@string/stats"
+        app:showAsAction="never"/>
 </menu>

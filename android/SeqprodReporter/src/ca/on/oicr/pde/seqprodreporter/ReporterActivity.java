@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -18,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -69,6 +71,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound"; 
 	
+	public static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
+	public static final int FAILED_WORKFLOW_TAB_INDEX = 1;
+	public static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
 	static final String PREFCHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT   = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
@@ -125,7 +130,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// loaded
 		// alongside the current selected tab's fragment
 		mViewPager.setOffscreenPageLimit(types.length - 1);
-
+		
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
@@ -147,6 +152,13 @@ public class ReporterActivity extends ActionBarActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}	
+		
+		//TODO: Need to select correct tab without giving IndexOutOfRangeException
+		/*Intent intent = getIntent();
+		if (intent.hasExtra("selectedTab")){
+			int selectedTab = intent.getIntExtra("selectedTab",COMPLETED_WORKFLOW_TAB_INDEX);
+			mViewPager.setCurrentItem(selectedTab);
+		}*/
 	}
 	
 	@Override
@@ -174,6 +186,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		// update fragments when going from pause to active state
 		if (!mSectionsPagerAdapter.fragments.isEmpty())
 			mSectionsPagerAdapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 	
@@ -184,7 +197,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private void restoreLastModifiedFailedTime(){
 		lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new Time().format2445()));
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -274,11 +287,34 @@ public class ReporterActivity extends ActionBarActivity implements
 					new Timer().schedule(new TimedHttpTask(), 0);
 				}
 			}
-
+		}
+		else if (id == R.id.stats){
+			if (isDatabaseEmpty()){
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(R.string.stats_error_title).setMessage(R.string.stats_error_message);
+				builder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int select){
+								dialog.dismiss();
+								//TODO:We can start Preferences Activity?
+								//startActivity(new Intent(ReporterActivity.this, SeqprodPreferencesActivity.class));
+							}
+						}).show();
+			}
+			else{
+				Intent intent = new Intent(this, WorkflowStatsListActivity.class);
+				startActivity(intent);
+				return true;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	// Checks if the database is empty by using cursor results, used when we shouldn't be able to go to stats page
+	private boolean isDatabaseEmpty(){
+		Cursor c = this.getContentResolver()
+				.query(DataContract.CONTENT_URI, new String[]{DataContract.WORKFLOW}, null, null, null);
+		return !c.moveToFirst();
+	}
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
