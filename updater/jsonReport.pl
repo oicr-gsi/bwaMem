@@ -11,6 +11,7 @@ use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
 
+# TODO set the credentials using setup script
 # OOZIE WEBSERVICE:
 my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
 my $web_basedir = "11000/oozie/v1/job/";
@@ -33,9 +34,10 @@ use constant AGENT=>"SeqprodApp/0.1alpha";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
+# TODO set the credentials using setup script
 # query the seqware metadb
-my $username = 'sqwread';
-my $password = 'Seqware8513';
+my $username = '*****'; # This should not be posted in git
+my $password = '*****'; # This should not be posted in git
 my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
 my $dbname = 'seqware_meta_db';
 my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
