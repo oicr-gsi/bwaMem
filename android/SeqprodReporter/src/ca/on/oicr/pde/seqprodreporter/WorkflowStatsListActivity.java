@@ -153,6 +153,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	
 	private void replaceDetailsFragment(String id){
 		Bundle arguments = new Bundle();
+		arguments.putBoolean("IsTwoPane", true);
 		arguments.putStringArray("WorkflowList", listFragment.getWorkflowList()
 				.toArray(new String[listFragment.getWorkflowList().size()]));
 		arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
