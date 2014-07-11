@@ -143,7 +143,6 @@ public class Report {
 	}
 
 	public void setrProgress(String progress) {
-		// Make sure we don't have null
 		if (null == progress)
 			rProgress = ZERO_PROGRESS;
 		else
@@ -193,7 +192,7 @@ public class Report {
 			values.put(DataContract.STATUS, report.getrWorkflowRunStatus());
 			values.put(DataContract.CR_TIME, report.getrCreateTime());
 			values.put(DataContract.LM_TIME, report.getrLastmodTime());
-			// Make sure we are not passing null here
+
 			String progress = report.getrProgress();
 			if (null != progress) {
 				values.put(DataContract.PROGRESS, progress);

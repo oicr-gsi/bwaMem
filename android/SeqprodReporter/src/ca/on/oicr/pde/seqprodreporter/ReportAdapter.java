@@ -16,9 +16,6 @@ import android.widget.TextView;
 public class ReportAdapter extends ArrayAdapter<Report> {
 
 	private Context mContext;
-	// TODO (PDE-577) need to flag updated reports, for this we need to extract
-	// time and compare it to the time of the last update
-	// This parameter may be local to this adapter
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
 	//TODO Need to move these values to string.xml

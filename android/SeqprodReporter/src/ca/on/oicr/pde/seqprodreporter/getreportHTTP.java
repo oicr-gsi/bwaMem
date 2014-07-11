@@ -79,20 +79,14 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 				failedTime = jp.getFailedItemUpdateTime();
 				isFailedModified = true;
 			}
-			updateTime = jp.getNewUpdateTime().format2445();
+			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
 
 			//Insert data into db
-			//int count = 0; // WE MAY NEED THIS TO DEBUG FURTHER
 			if (null != results) {
 			    ContentResolver cr = mContext.getApplicationContext().getContentResolver();
 				for (Report rep : results) {
-					//DEBUG
-					//if (rep.getrWorkflowRunType().equals(ReporterActivity.types[2]))
-					//	Log.d(ReporterActivity.TAG, "Inserting pending report with progress %" + rep.getrProgress());
 					cr.insert(DataContract.CONTENT_URI, Report.convertToCV(rep));
-					//count++;
 				}
-				//Log.d(ReporterActivity.TAG,results.size() + " Reports received from server, " + count + "insert operations");
 				return Boolean.TRUE;
 			}
 

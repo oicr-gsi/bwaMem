@@ -117,7 +117,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
-		// actionBar.setDisplayShowHomeEnabled(false);
+
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
@@ -161,9 +161,8 @@ public class ReporterActivity extends ActionBarActivity implements
 						// Do nothing, this is not supposed to happen
 					}
 
-				});	
+				});
 
-		// TODO PDE-660
 		if (null != savedInstanceState) {
 			try {
 				lastModifiedFailedTime = new Time();
@@ -179,29 +178,40 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else {
 			this.mCurrentTabIndex = 0;
 		}
-		
+
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
-			actionBar.addTab(
-						actionBar.newTab()
-				  	   .setText(mSectionsPagerAdapter.getPageTitle(i))
-					   .setTabListener(this));
+			actionBar.addTab(actionBar.newTab()
+					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
 		}
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
+	}
 
-		
-		//TODO: Need to select correct tab without giving IndexOutOfRangeException
-		/*Intent intent = getIntent();
-		if (intent.hasExtra("selectedTab")){
-			int selectedTab = intent.getIntExtra("selectedTab",COMPLETED_WORKFLOW_TAB_INDEX);
-			mViewPager.setCurrentItem(selectedTab);
-		}*/
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Handle intent that comes from Statisticss Activity
+		Intent startIntent = this.getIntent();
+		if (null != startIntent && null != startIntent.getExtras()) {
+			Object starter = startIntent.getExtras().get("selectedTab");
+			if (null != starter) {
+				try {
+					int selectedTab = Integer.parseInt(starter.toString());
+					if (selectedTab >= 0 && selectedTab < types.length) {
+						this.mCurrentTabIndex = selectedTab;
+					}
+				} catch (NumberFormatException nfe) {
+					Log.e(TAG, "Received invalid tab index from Intent");
+				}
+			}
+		}
 	}
 
 	@Override
@@ -244,7 +254,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
 	}
-	
+
 	/*
 	 * private void storeLastModifiedFailedTime() { sp.edit()
 	 * .putString("lastModifiedFailedTime",
@@ -357,34 +367,36 @@ public class ReporterActivity extends ActionBarActivity implements
 					new Timer().schedule(new TimedHttpTask(), 0);
 				}
 			}
-		}
-		else if (id == R.id.stats){
-			if (isDatabaseEmpty()){
+		} else if (id == R.id.stats) {
+			if (isDatabaseEmpty()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setTitle(R.string.stats_error_title).setMessage(R.string.stats_error_message);
+				builder.setTitle(R.string.stats_error_title).setMessage(
+						R.string.stats_error_message);
 				builder.setPositiveButton("Ok",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int select){
+							public void onClick(DialogInterface dialog,
+									int select) {
 								dialog.dismiss();
-								//TODO:We can start Preferences Activity?
-								//startActivity(new Intent(ReporterActivity.this, SeqprodPreferencesActivity.class));
 							}
 						}).show();
-			}
-			else{
-				Intent intent = new Intent(this, WorkflowStatsListActivity.class);
+			} else {
+				Intent intent = new Intent(this,
+						WorkflowStatsListActivity.class);
 				startActivity(intent);
 				return true;
 			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	// Checks if the database is empty by using cursor results, used when we shouldn't be able to go to stats page
-	private boolean isDatabaseEmpty(){
-		Cursor c = this.getContentResolver()
-				.query(DataContract.CONTENT_URI, new String[]{DataContract.WORKFLOW}, null, null, null);
+
+	// Checks if the database is empty by using cursor results, used when we
+	// shouldn't be able to go to stats page
+	private boolean isDatabaseEmpty() {
+		Cursor c = this.getContentResolver().query(DataContract.CONTENT_URI,
+				new String[] { DataContract.WORKFLOW }, null, null, null);
 		return !c.moveToFirst();
 	}
+
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
@@ -434,6 +446,11 @@ public class ReporterActivity extends ActionBarActivity implements
 				if (null != tmp)
 					tmp.setSearchFilter(this.mSearchQuery);
 			}
+		} else {
+			String act = intent.getAction();
+			act.concat("blah");
+			Log.d(TAG, "Action passed: " + act);
+			// intent.get
 		}
 	}
 
@@ -441,9 +458,15 @@ public class ReporterActivity extends ActionBarActivity implements
 		return types[index];
 	}
 
-	// public static String timeToStringConverter(Time time) {
-	// return time.format("%Y-%m-%d %H:%M:%S");
-	// }
+	/**
+	 * A function that returns a formatted user-friendly Time representation.
+	 * 
+	 * @param Time
+	 *            time
+	 */
+	public static String timeToStringConverter(Time time) {
+		return time.format("%Y-%m-%d %H:%M:%S");
+	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -484,10 +507,10 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		// Forces each Item in the list to be re-created which allows the lists
 		// to be updated dynamically
-		@Override
-		public int getItemPosition(Object object) {
-			return POSITION_NONE;
-		}
+		/*
+		 * @Override public int getItemPosition(Object object) { return
+		 * POSITION_NONE; }
+		 */
 	}
 
 	/*
