@@ -91,7 +91,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					if (null != this.lastUpdated 
 							&& newEntry.getTimeStamp().after(this.lastUpdated)){
 						newEntry.setrUpSinceLastTime(true); 
-						Log.d(ReporterActivity.TAG, "A report was updated");
 					}
 					if (null == newLatest || newLatest.before(newEntry.getTimeStamp())){
 						newLatest = newEntry.getTimeStamp();

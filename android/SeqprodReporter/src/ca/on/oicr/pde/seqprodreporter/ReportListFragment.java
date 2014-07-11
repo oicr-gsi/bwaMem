@@ -40,7 +40,7 @@ public class ReportListFragment extends Fragment {
 	public static ReportListFragment newInstance(int sectionNumber) {
 		ReportListFragment fragment = new ReportListFragment();
 		fragment.setSectionNumber(sectionNumber);
-		fragment.setSearchFilter(null);
+		//fragment.setSearchFilter(null);
 		return fragment;
 	}
 
@@ -55,17 +55,25 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		// We should save the sectionNumber here so that when the device is rotated, 
-		// the app does not crash
+		// the app does not crash (May actually be unnecessary)
 		super.onSaveInstanceState(outState);
+		outState.putInt("sectionNumber", this.sectionNumber);
+		//outState.pu("items", this.mAdapter.getAllItems());
 	}
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//TODO need to get View from savedInstanceState if setRetainInstance is not what we need
+		if (null != savedInstanceState) {
+			setSectionNumber(savedInstanceState.getInt("sectionNumber"));
+			return super.onCreateView(inflater, container, savedInstanceState);
+		}
 		View rootView = inflater.inflate(R.layout.fragment_reporter, container,
 				false);
 		ListView listView = (ListView) rootView.findViewById(R.id.section_list);
-		
+			
 		int index = this.getSectionNumber() - 1;
 		this.mAdapter = new ReportAdapter(container.getContext(), R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
