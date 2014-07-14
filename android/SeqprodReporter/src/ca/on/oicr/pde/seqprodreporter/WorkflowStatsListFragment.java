@@ -1,15 +1,13 @@
 package ca.on.oicr.pde.seqprodreporter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 /**
@@ -23,7 +21,7 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  */
 public class WorkflowStatsListFragment extends ListFragment {
 	
-	private List<String> workflowNameList;
+	private SimpleCursorAdapter mAdapter;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -69,43 +67,22 @@ public class WorkflowStatsListFragment extends ListFragment {
 	 */
 	public WorkflowStatsListFragment() {
 	}
-	// Function which populates the different workflows from the database
-	private void populateWorkflowNameList(){
-		Cursor c = getActivity().getContentResolver()
-				.query(DataContract.CONTENT_URI, new String[]{DataContract.WORKFLOW}, null,null , DataContract.WORKFLOW + " ASC");
-		if (null!=c){
-			this.workflowNameList = new ArrayList<String>();
-			if (c.moveToFirst()){
-				do {
-					String currentWorkflowName = c.getString(c.getColumnIndex(DataContract.WORKFLOW));
-					if (c.isFirst()){
-						this.workflowNameList.add(currentWorkflowName);
-					}
-					else {
-						if (!this.workflowNameList.contains(currentWorkflowName)){
-							this.workflowNameList.add(currentWorkflowName);
-						}
-					}
-					
-				} while(c.moveToNext() == true);
-			}
-		}
-	} 
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	
+	@Override 
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		populateWorkflowNameList();
+		
+		Cursor c = getActivity().getContentResolver().query(DataContract.CONTENT_URI,
+					new String[]{"DISTINCT " + DataContract.WORKFLOW + " AS _id"},
+					null, null,
+					DataContract.WORKFLOW + " ASC");
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				android.R.layout.simple_list_item_activated_1, c,
+				new String[] {"_id"},
+				new int[]{android.R.id.text1}, 0);
+		setListAdapter(mAdapter);
+	}
 
-		setListAdapter(new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.workflowNameList));
-	}
-	
-	public List<String> getWorkflowList(){
-		return this.workflowNameList;
-	}
-	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -121,6 +98,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
 
 		// Activities containing this fragment must implement its callbacks.
 		if (!(activity instanceof Callbacks)) {
@@ -143,10 +121,10 @@ public class WorkflowStatsListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-
 		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(workflowNameList.get((int)id));
+		// fragment is attached to one) that an item has been selected
+		String workflowName = (String) ((TextView) view).getText();
+		mCallbacks.onItemSelected(workflowName);
 	}
 
 	@Override
@@ -169,7 +147,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
 						: ListView.CHOICE_MODE_NONE);
 	}
-
+	
 	private void setActivatedPosition(int position) {
 		if (position == ListView.INVALID_POSITION) {
 			getListView().setItemChecked(mActivatedPosition, false);
@@ -178,5 +156,9 @@ public class WorkflowStatsListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	
+	public SimpleCursorAdapter getListFragmentCursorAdapter(){
+		return mAdapter;
 	}
 }

@@ -16,7 +16,7 @@ import android.view.MenuItem;
  * a {@link WorkflowStatsDetailFragment}.
  */
 public class WorkflowStatsDetailActivity extends FragmentActivity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,7 +24,6 @@ public class WorkflowStatsDetailActivity extends FragmentActivity {
 
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
 		// (e.g. when rotating the screen from portrait to landscape).
@@ -42,7 +41,6 @@ public class WorkflowStatsDetailActivity extends FragmentActivity {
 					WorkflowStatsDetailFragment.ARG_ITEM_ID,
 					getIntent().getStringExtra(
 							WorkflowStatsDetailFragment.ARG_ITEM_ID));
-			arguments.putStringArray("WorkflowList", getIntent().getStringArrayExtra("WorkflowList"));
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
