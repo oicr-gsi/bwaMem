@@ -29,11 +29,9 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 	private WorkflowStatsListActivity activity;
 	
 	private static final double VALUE_LABEL_OFFSET = 0.1;
-	private static final int HIGHLIGHT_COLOR = 0xFFFFFFFF;
 	private static final float GRAPH_TOP_MARGIN = 15f;
 	private static final float BAR_WIDTH = 40f;
-	
-	
+		
 	public WorkflowStatsDetailHistogramFragment(){
 	}
 	
@@ -73,7 +71,6 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 	
 	private void setUpXYPlot(XYPlot plot, int workflowType){
 		int workflowIndex = 1;
-		int fillColor = WorkflowStatsDetailFragment.getTypeFillColor(workflowType);
 		int maxRange = 0;
 		
 		for (String workflowName : workflowStatsHash.keySet()){
@@ -95,13 +92,13 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 				plot.addMarker(new XValueMarker(workflowIndex- VALUE_LABEL_OFFSET,
 						((Number)workflowStatsHash.get(workflowName)[workflowType]).toString(),
 							new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_BOTTOM),
-								0,WorkflowStatsDetailFragment.BORDER_COLOR));
+								0,getResources().getColor(R.color.black)));
 				barFormatter = new BarFormatter(
-						HIGHLIGHT_COLOR,WorkflowStatsDetailFragment.BORDER_COLOR);
+						getResources().getColor(R.color.white), getResources().getColor(R.color.black));
 			}
 			else {
 				barFormatter = new BarFormatter(
-						fillColor,WorkflowStatsDetailFragment.BORDER_COLOR);
+						getTypeFillColor(workflowType), getResources().getColor(R.color.black));
 			}
 			plot.addSeries(series, barFormatter);
 			
@@ -146,4 +143,23 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 		}
 		return output;
 	}*/
+	
+	public int getTypeFillColor(int workflowType){
+		int fillColor;
+		switch(workflowType){
+		case 0:
+			fillColor = getResources().getColor(R.color.green);
+			break;
+		case 1:
+			fillColor = getResources().getColor(R.color.red);
+			break;
+		case 2: 
+			fillColor = getResources().getColor(R.color.yellow);
+			break;
+		default:
+			fillColor = getResources().getColor(R.color.black);
+			break;
+	}
+		return fillColor;
+	}
 }

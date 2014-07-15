@@ -23,21 +23,11 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 	
 	private PieChart workflowPieChart; 
 	private String selectedWorkflow;	
-	public static final int BORDER_COLOR = 0xFF000000;
-
-	private static final int FILL_COLOR_COMPLETED = 0XFF00FF00 ;
-	private static final int FILL_COLOR_PENDING = 0xFFFFFF00;
-	private static final int FILL_COLOR_FAILED = 0xFFFF0000;
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
 	 */
 	public static final String ARG_ITEM_ID = "item_id";
-
-	/**
-	 * The dummy content this fragment is presenting.
-	 */
-
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -110,29 +100,30 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 				String segmentLabel = ReporterActivity.types[i].substring(0, 1).toUpperCase() 
 						+ ReporterActivity.types[i].substring(1) + ": " + workflowTotals[i];
 				Segment pieSegment = new Segment(segmentLabel,(Number) workflowTotals[i]);
-				SegmentFormatter segmentFormatter = new SegmentFormatter(getTypeFillColor(i), BORDER_COLOR);
+				SegmentFormatter segmentFormatter = new SegmentFormatter(getTypeFillColor(i), 
+						getResources().getColor(R.color.black));
 				
-				segmentFormatter.getLabelPaint().setColor(BORDER_COLOR);
+				segmentFormatter.getLabelPaint().setColor(getResources().getColor(R.color.black));
 				segmentFormatter.getLabelPaint().setTextSize(20f);
 				workflowPieChart.addSegment(pieSegment, segmentFormatter);
 			}
 		}
 	}
 	
-	public static int getTypeFillColor(int workflowType){
+	public int getTypeFillColor(int workflowType){
 		int fillColor;
 		switch(workflowType){
 		case 0:
-			fillColor = FILL_COLOR_COMPLETED;
+			fillColor = getResources().getColor(R.color.green);
 			break;
 		case 1:
-			fillColor = FILL_COLOR_FAILED;
+			fillColor = getResources().getColor(R.color.red);
 			break;
 		case 2: 
-			fillColor = FILL_COLOR_PENDING;
+			fillColor = getResources().getColor(R.color.yellow);
 			break;
 		default:
-			fillColor = BORDER_COLOR;
+			fillColor = getResources().getColor(R.color.black);
 			break;
 	}
 		return fillColor;

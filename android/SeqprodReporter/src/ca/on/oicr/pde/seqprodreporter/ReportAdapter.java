@@ -18,11 +18,8 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	private Context mContext;
 	private List<Report> list = new ArrayList<Report>();
 	private static LayoutInflater inflater = null;
-	//TODO Need to move these values to string.xml
-	private final int UPDATE_COLOR = 0xFFCCFF99;
-	private final int DEFAULT_COLOR = 0xFFFFFFFF;
-	private static final String ESTIMATED_TIME_REMAINING_FILLER = "HH:MM";
 	
+	private static final String ESTIMATED_TIME_REMAINING_FILLER = "HH:MM";
 
 	public ReportAdapter(Context context, int resource) {
 		super(context, resource);
@@ -89,10 +86,12 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			}
 			
 			if (curr.getrUpdated()){
-				newView.setBackgroundColor(UPDATE_COLOR);
+				newView.setBackgroundColor
+					(getContext().getResources().getColor(R.color.highlight_green));
 			}	
 			else {
-				newView.setBackgroundColor(DEFAULT_COLOR);
+				newView.setBackgroundColor
+					(getContext().getResources().getColor(R.color.white));
 			} 
 		}
 		
