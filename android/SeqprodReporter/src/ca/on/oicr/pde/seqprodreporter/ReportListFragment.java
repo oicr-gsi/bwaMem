@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 public class ReportListFragment extends Fragment {
 
@@ -79,6 +80,10 @@ public class ReportListFragment extends Fragment {
 	}
 
 	public void addLocalReports(List<Report> newReports) {
+		ProgressBar a_wheel = (ProgressBar) getView().findViewById(R.id.section_progress);
+		a_wheel.setVisibility(View.VISIBLE);
+		//ProgressBar a_wheel = new ProgressBar(this.getActivity().getApplicationContext());
+	    
 		this.mAdapter.removeAllViews();
 		if (newReports.size() != 0){
 			for (Report r : newReports) {
@@ -94,6 +99,7 @@ public class ReportListFragment extends Fragment {
 			this.emptyList = true;
 		}
 		mAdapter.notifyDataSetChanged();
+		a_wheel.setVisibility(View.GONE);
 	}
 
 	//Invokes the correct comparator to sort a fragment's list

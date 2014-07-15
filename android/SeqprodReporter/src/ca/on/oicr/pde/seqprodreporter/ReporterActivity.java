@@ -160,24 +160,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					public void onChildViewRemoved(View parent, View child) {
 						// Do nothing, this is not supposed to happen
 					}
-
 				});
-
-		if (null != savedInstanceState) {
-			try {
-				lastModifiedFailedTime = new Time();
-				lastModifiedFailedTime.parse(savedInstanceState
-						.getString("lastModifiedFailedTime"));
-				this.mCurrentTabIndex = savedInstanceState
-						.getInt("currentlySelectedTab");
-				this.mSearchQuery = savedInstanceState
-						.getString("currentSearchQuery");
-			} catch (Exception e) {
-				Log.d(TAG, "Last Failed Time could not be retrieved");
-			}
-		} else {
-			this.mCurrentTabIndex = 0;
-		}
 
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
@@ -254,6 +237,26 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
 	}
+	
+		@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (null != savedInstanceState) {
+			try {
+				this.lastModifiedFailedTime = new Time();
+				this.lastModifiedFailedTime.parse(savedInstanceState
+						.getString("lastModifiedFailedTime"));
+				this.mCurrentTabIndex = savedInstanceState
+						.getInt("currentlySelectedTab");
+				this.mSearchQuery = savedInstanceState
+						.getString("currentSearchQuery");
+			} catch (Exception e) {
+				Log.d(TAG, "Last Failed Time could not be retrieved");
+			}
+		} else {
+			this.mCurrentTabIndex = 0;
+		}
+	}
 
 	/*
 	 * private void storeLastModifiedFailedTime() { sp.edit()
@@ -264,6 +267,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new
 	 * Time().format2445())); }
 	 */
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
