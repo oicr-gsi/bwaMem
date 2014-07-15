@@ -13,7 +13,8 @@ use constant DEBUG=>0;
 
 # TODO set the credentials using setup script
 # OOZIE WEBSERVICE:
-my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
+#my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
+my $webservice  = "http://hsqwprod-node1.hpc.oicr.on.ca"; 
 my $web_basedir = "11000/oozie/v1/job/";
 my $web_info    = "show=info";
 my $web_defi    = "show=definition";
@@ -34,15 +35,11 @@ use constant AGENT=>"SeqprodApp/0.1alpha";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
-# TODO set the credentials using setup script
 # query the seqware metadb
-my $username = '*****'; # This should not be posted in git
-my $password = '*****'; # This should not be posted in git
-my $dbhost = 'sqwprod-db1.hpc.oicr.on.ca';
-my $dbname = 'seqware_meta_db';
-my $wrkey  = '/u/pruzanov/.ssh/keys/seqprod_reporter';
-my $wruser = 'seqware';
-my $wrhost = 'pipedev.hpc.oicr.on.ca';
+my $username = '*****';
+my $password = '*****';
+my $dbhost = 'hsqwprod-db1.hpc.oicr.on.ca';
+my $dbname = 'hsqwprod_seqware_meta_db';
 my $devmode = 0;
 
 
@@ -135,10 +132,8 @@ while(my @row = $sth->fetchrow_array) {
 
         #my $ctime_value = scalar($currentTime);
         #my $ltime_value = parse_timestamp($lastmodTime);
-
         my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
 	next if ($timeDiff > $recentCutoff);
-        
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
         $statushash{$status}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
@@ -169,16 +164,16 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
      next RUN;
     }
           # FAKE STATUS IF NO PROGRESS AVAILABLE
+          print STDERR "Using Fake status Data\n" if DEBUG;
           my $progress = "".int rand(100); 
-          if (defined $run->{stcommand} && $run->{stcommand}=~/^oozie/) { 
+          if (defined $run->{status_cmd} && $run->{status_cmd}=~/oozie/) { 
              # Create a request
-             print STDERR "Getting oozie workflow run progress...\n";
-             my $url = join(":",($webservice,$web_basedir)).$run->{stcommand}."?";
-
+             my $url = join(":",($webservice,$web_basedir)).$run->{status_cmd}."?";
+             print STDERR "Getting oozie workflow run progress from $url\n" if DEBUG;
              my $steps = countActions($url.$web_defi,XML);
              my $done  = countActions($url.$web_info,JSN);
              $progress = int($done/$steps*100);
-            
+             print STDERR "Got real Progress value $progress\n"; 
           }
           $run->{progress} = $progress;
   } 
@@ -217,9 +212,13 @@ sub countActions {
  my $req;
 
  if ($url && $mime) {
+  print STDERR "Requesting $url\n" if DEBUG;
   $req = HTTP::Request->new(GET=>$url);
   $req->content_type($mime);
- } else {return undef;}
+ } else {
+  print STDERR "Cannot get content from the webservice\n";
+  return undef;
+ }
 
  my $ua = LWP::UserAgent->new;
  $ua->agent(AGENT);
@@ -228,9 +227,10 @@ sub countActions {
  if ($mime eq JSN) {
    my $success = 0;
    if ($res->is_success) {
+    print STDERR "JSON data received\n" if DEBUG;
     my $json_string = $res->content;
     my $j_container = decode_json $json_string;
-    print STDERR "Got ".scalar(@{$j_container->{actions}})." records from JSON\n";
+    print STDERR "Got ".scalar(@{$j_container->{actions}})." records from JSON\n" if DEBUG;
     foreach my $blah(@{$j_container->{actions}}) {
       if ($blah->{externalId} && $blah->{externalId}=~/\d+/) {
          if ($blah->{status} eq $Status[OK] || $blah->{status} eq $Status[SUCCEDED]) {
@@ -238,15 +238,20 @@ sub countActions {
          }
       }
     }
+    } else {
+      print STDERR $res->status_line, "\n"
     }
     return $success;
  } elsif ($mime eq XML) {
    my $steps = 1;
    if ($res->is_success) {
+    print STDERR "XML data received\n" if DEBUG;
     my $xml_string = $res->content;
     my $x_container = XMLin($xml_string);
     $steps = scalar(keys %{$x_container->{action}}) - 1;
     $steps = 1 unless $steps >= 1;
+   } else {
+     print STDERR $res->status_line, "\n";
    }
    return $steps;
  }
