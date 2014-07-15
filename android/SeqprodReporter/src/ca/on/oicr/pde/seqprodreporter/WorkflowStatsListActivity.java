@@ -79,14 +79,14 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 					.commit();
 			
 			
-			
+			/*
 			WorkflowStatsDetailHistogramFragment histogramFragment = 
 					new WorkflowStatsDetailHistogramFragment();
 			histogramFragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
 				.commit();
-			
+			*/
 					
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
@@ -178,14 +178,14 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.workflowstats_detail_container, fragment)
 					.commit();
-			
+			/*
 			WorkflowStatsDetailHistogramFragment histogramFragment = 
 					new WorkflowStatsDetailHistogramFragment();
 			histogramFragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
 				.commit();
-			
+			*/
 			
 
 		} else {
