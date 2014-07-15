@@ -89,10 +89,12 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 			
 			if (!selectedWorkflow.equals("NoSelectedWorkflow") 
 					&& workflowName.equals(selectedWorkflow)){
+				
 				plot.addMarker(new XValueMarker(workflowIndex- VALUE_LABEL_OFFSET,
 						((Number)workflowStatsHash.get(workflowName)[workflowType]).toString(),
 							new YPositionMetric(0,YLayoutStyle.ABSOLUTE_FROM_BOTTOM),
 								0,getResources().getColor(R.color.black)));
+				
 				barFormatter = new BarFormatter(
 						getResources().getColor(R.color.white), getResources().getColor(R.color.black));
 			}

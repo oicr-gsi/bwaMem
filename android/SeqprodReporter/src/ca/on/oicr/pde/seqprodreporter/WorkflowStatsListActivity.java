@@ -78,7 +78,6 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 					.replace(R.id.workflowstats_detail_container, fragment)
 					.commit();
 			
-			
 			/*
 			WorkflowStatsDetailHistogramFragment histogramFragment = 
 					new WorkflowStatsDetailHistogramFragment();
@@ -112,8 +111,6 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			}
 			startActivity(intent);
 		} 
-		
-		
 	};
 		
 	private void setUpTextViews(){

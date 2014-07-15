@@ -20,7 +20,6 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
 public class WorkflowStatsDetailFragment extends Fragment  {
 	
 	private int [] workflowTotals;
-	
 	private PieChart workflowPieChart; 
 	private String selectedWorkflow;	
 	/**
@@ -93,12 +92,15 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 	
 	private void setUpPieChart(){
 		workflowPieChart.getTitleWidget().getLabelPaint().setTextSize(40f);
-		workflowPieChart.getTitleWidget().setSize(new SizeMetrics(100f, SizeLayoutType.ABSOLUTE,150f, SizeLayoutType.FILL));
+		workflowPieChart.getTitleWidget().setSize(
+				new SizeMetrics(100f, SizeLayoutType.ABSOLUTE,
+						150f, SizeLayoutType.FILL));
 	
 		for (int i = 0;i<ReporterActivity.types.length;++i){
 			if (0 != workflowTotals[i]){
 				String segmentLabel = ReporterActivity.types[i].substring(0, 1).toUpperCase() 
 						+ ReporterActivity.types[i].substring(1) + ": " + workflowTotals[i];
+				
 				Segment pieSegment = new Segment(segmentLabel,(Number) workflowTotals[i]);
 				SegmentFormatter segmentFormatter = new SegmentFormatter(getTypeFillColor(i), 
 						getResources().getColor(R.color.black));
