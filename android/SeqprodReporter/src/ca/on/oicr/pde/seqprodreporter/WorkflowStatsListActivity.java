@@ -1,6 +1,6 @@
 package ca.on.oicr.pde.seqprodreporter;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,13 +31,17 @@ import android.widget.TextView;
  * selections.
  */
 public class WorkflowStatsListActivity extends FragmentActivity implements
-		WorkflowStatsListFragment.Callbacks {
+				WorkflowStatsListFragment.Callbacks{
 	private TextView completedTextView;
 	private TextView failedTextView;
 	private TextView pendingTextView;
-	
 	private WorkflowStatsListFragment listFragment;
 	
+	private int [] workflowTypesTotal;
+	private LinkedHashMap<String, int[]> workflowStatsHash;
+
+	public static final String WORKFLOW_PIE_CHART_VALUES = "WorkflowTypeTotals";
+	public static final String NO_WORKFLOW_SELECTED = "NoSelectedWorkflow";
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -49,24 +54,46 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_workflowstats_list);
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		workflowTypesTotal = new int[ReporterActivity.types.length];
 		
-		listFragment = (WorkflowStatsListFragment) getSupportFragmentManager().findFragmentById(R.id.workflowstats_list);
 		setUpTextViews();
-		
+		listFragment = (WorkflowStatsListFragment)getSupportFragmentManager().findFragmentById(R.id.workflowstats_list);
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
 			mTwoPane = true;
-			replaceDetailsFragment("NoSelectedWorkflow");
+			
+			SimpleCursorAdapter tmp = (SimpleCursorAdapter) listFragment.getListAdapter();
+			workflowStatsHash = getWorkflowStats(tmp.getCursor());
+			
+			Bundle arguments = new Bundle();
+			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
+			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, NO_WORKFLOW_SELECTED);			
+			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.workflowstats_detail_container, fragment)
+					.commit();
+			
+			
+			
+			WorkflowStatsDetailHistogramFragment histogramFragment = 
+					new WorkflowStatsDetailHistogramFragment();
+			histogramFragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
+				.commit();
+			
+					
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			((WorkflowStatsListFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.workflowstats_list))
 					.setActivateOnItemClick(true);
 		}
-
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
 	
@@ -88,25 +115,28 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		
 		
 	};
-	
-	private int workflowTypeTotal(String workflowType){
-		Cursor c = this.getContentResolver()
-				.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, DataContract.WR_TYPE + "=?", new String[]{workflowType} , null);			
-		return c.getCount();
-	}
-	
-	private void setUpTextViews(){
-		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
-		completedTextView.setText("Completed: " + workflowTypeTotal(ReporterActivity.types[0]));
-		completedTextView.setOnClickListener(onTextViewClick);
 		
+	private void setUpTextViews(){
+		for (int i = 0; i<ReporterActivity.types.length;++i){
+			Cursor c = this.getContentResolver()
+					 .query(DataContract.CONTENT_URI, 
+							 new String[]{DataContract.WR_TYPE}, 
+							 DataContract.WR_TYPE + "=?", 
+							 new String[]{ReporterActivity.types[i]} , null);
+			workflowTypesTotal[i] = c.getCount();
+		}
+		
+		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
+		completedTextView.setText("Completed: " + workflowTypesTotal[0]);
+		completedTextView.setOnClickListener(onTextViewClick);
+
 		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
-		failedTextView.setText("Failed: " + workflowTypeTotal(ReporterActivity.types[1]));
+		failedTextView.setText("Failed: " + workflowTypesTotal[1]);
 		failedTextView.setOnClickListener(onTextViewClick);
 		
 		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
-		pendingTextView.setText("Pending: " + workflowTypeTotal(ReporterActivity.types[2]));
-		pendingTextView.setOnClickListener(onTextViewClick);
+		pendingTextView.setText("Pending: " + workflowTypesTotal[2]);
+		pendingTextView.setOnClickListener(onTextViewClick);	
 	}
 
 	@Override
@@ -130,6 +160,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	 * Callback method from {@link WorkflowStatsListFragment.Callbacks}
 	 * indicating that the item with the given ID was selected.
 	 */
+	
 	@Override
 	public void onItemSelected(String id) {
 
@@ -137,30 +168,59 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			replaceDetailsFragment(id);
+			Bundle arguments = new Bundle();
+			
+			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowStatsHash.get(id));
+			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
+			
+			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.workflowstats_detail_container, fragment)
+					.commit();
+			
+			WorkflowStatsDetailHistogramFragment histogramFragment = 
+					new WorkflowStatsDetailHistogramFragment();
+			histogramFragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction()
+				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
+				.commit();
+			
+			
 
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					WorkflowStatsDetailActivity.class);
-			detailIntent.putExtra("WorkflowList",listFragment.getWorkflowList()
-					.toArray(new String[listFragment.getWorkflowList().size()]));
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
 			startActivity(detailIntent);
 		}
+	}	
+	
+	private LinkedHashMap<String, int[]> getWorkflowStats(Cursor c){
+		LinkedHashMap<String, int[]> workflowStatsHash = 
+				 new LinkedHashMap<String, int[]>();
+		if (c.moveToFirst()){
+			do {
+				int [] tmpWorkflowNumbers = new int[ReporterActivity.types.length];
+				String workflowName = c.getString(c.getColumnIndex("_id"));
+				for (int i = 0;i<ReporterActivity.types.length;++i){
+					Cursor tmp = getContentResolver()
+							.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, DataContract.WR_TYPE + "=? AND " + DataContract.WORKFLOW + "=? ",new String[]{ReporterActivity.types[i],workflowName} ,null);
+					tmpWorkflowNumbers[i] = tmp.getCount();
+				}
+			workflowStatsHash.put(workflowName, tmpWorkflowNumbers);
+			} while(c.moveToNext());
+		}
+		return workflowStatsHash;
 	}
 	
-	private void replaceDetailsFragment(String id){
-		Bundle arguments = new Bundle();
-		arguments.putBoolean("IsTwoPane", true);
-		arguments.putStringArray("WorkflowList", listFragment.getWorkflowList()
-				.toArray(new String[listFragment.getWorkflowList().size()]));
-		arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
-		WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
-		fragment.setArguments(arguments);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.workflowstats_detail_container, fragment)
-				.commit();
+	public LinkedHashMap<String, int[]> getWorkflowStatsHash(){
+		return workflowStatsHash;
+	}
+	
+	public int[] getWorkflowTypesTotal(){
+		return workflowTypesTotal;
 	}
 }

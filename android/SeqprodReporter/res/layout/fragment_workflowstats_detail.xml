@@ -5,21 +5,21 @@
     android:orientation="vertical"
     tools:context="ca.on.oicr.pde.seqprodreporter.WorkflowStatsDetailFragment" >
      
-     <com.androidplot.xy.XYPlot
-       android:id="@+id/completePlot"
-       android:layout_width="match_parent"
-	   android:layout_height="wrap_content"
-	   android:layout_weight="1"/>
-	  
-    <com.androidplot.xy.XYPlot
-       android:id="@+id/pendingPlot"
-       android:layout_width="match_parent"
-	   android:layout_height="wrap_content"
-	   android:layout_weight="1"/>
-
-     <com.androidplot.xy.XYPlot
-       android:id="@+id/failedPlot"
-       android:layout_width="match_parent"
-	   android:layout_height="wrap_content"
-	   android:layout_weight="1"/>
+    <com.androidplot.pie.PieChart
+	   android:id="@+id/pieChart"
+	   android:layout_width="match_parent"
+	   android:layout_height="0dp"
+	   androidPlot.graphWidget.marginTop="5dp"
+       androidPlot.graphWidget.marginLeft="5dp"
+       androidPlot.graphWidget.marginBottom="5dp"
+       androidPlot.graphWidget.marginRight="5dp"
+       android:layout_weight="2"/>
+    
+    <FrameLayout
+        android:id="@+id/workflowstats_detail_fill"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" 
+        android:background="#FFFFFF"/>
+	   
 </LinearLayout>
