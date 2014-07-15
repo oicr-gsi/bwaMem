@@ -14,19 +14,20 @@
         app:actionViewClass="ca.on.oicr.pde.seqprodreporter.SeqprodSearchView"
         app:showAsAction="collapseActionView|ifRoom"/>
         <!-- "android.support.v7.widget.SearchView" -->
+     <item
+        android:id="@+id/stats"
+        android:orderInCategory="100"
+        android:title="@string/stats"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/sort_by"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/sort_by"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/stats"
-        android:orderInCategory="102"
-        android:title="@string/stats"
-        app:showAsAction="never"/>
+   
 </menu>
