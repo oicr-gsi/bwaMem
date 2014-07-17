@@ -48,8 +48,18 @@ public class ReportListFragment extends Fragment {
 		return searchFilter;
 	}
 
+	/**
+	 * This function updates the value of searchFilter variable and updates
+	 * the list of items based on this filter
+	 * 
+	 * @param searchFilter (a search query String)
+	 */
 	public void setSearchFilter(String searchFilter) {
-		this.searchFilter = searchFilter;
+		//THIS CODE RUNS ONLY WHEN ACTIVITY IS VISIBLE
+		if (null == this.searchFilter || (null != searchFilter && !this.searchFilter.equals(searchFilter))) {
+			this.searchFilter = searchFilter;
+			new JsonLoaderTask(this, ReporterActivity.types[this.getSectionNumber() -1], this.lastUpdateTime).execute(searchFilter);
+		}
 	}
 
 	@Override
@@ -82,7 +92,6 @@ public class ReportListFragment extends Fragment {
 	public void addLocalReports(List<Report> newReports) {
 		ProgressBar a_wheel = (ProgressBar) getView().findViewById(R.id.section_progress);
 		a_wheel.setVisibility(View.VISIBLE);
-		//ProgressBar a_wheel = new ProgressBar(this.getActivity().getApplicationContext());
 	    
 		this.mAdapter.removeAllViews();
 		if (newReports.size() != 0){
