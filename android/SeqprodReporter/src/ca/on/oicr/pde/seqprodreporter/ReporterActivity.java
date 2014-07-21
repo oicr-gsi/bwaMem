@@ -512,10 +512,10 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		// Forces each Item in the list to be re-created which allows the lists
 		// to be updated dynamically
-		/*
-		 * @Override public int getItemPosition(Object object) { return
-		 * POSITION_NONE; }
-		 */
+		
+		 @Override public int getItemPosition(Object object) { return
+		  POSITION_NONE; }
+		 
 	}
 
 	/*
