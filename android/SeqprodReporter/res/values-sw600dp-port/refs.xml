@@ -1,0 +1,5 @@
+<resources>
+	  
+	<item name="activity_workflowstats_list" type="layout">@layout/activity_workflowstats_twopaneportrait</item>
+
+</resources>
