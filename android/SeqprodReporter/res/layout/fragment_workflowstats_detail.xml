@@ -8,18 +8,10 @@
     <com.androidplot.pie.PieChart
 	   android:id="@+id/pieChart"
 	   android:layout_width="match_parent"
-	   android:layout_height="0dp"
+	   android:layout_height="match_parent"
 	   androidPlot.graphWidget.marginTop="5dp"
        androidPlot.graphWidget.marginLeft="5dp"
        androidPlot.graphWidget.marginBottom="5dp"
-       androidPlot.graphWidget.marginRight="5dp"
-       android:layout_weight="2"/>
+       androidPlot.graphWidget.marginRight="5dp"/>
     
-    <FrameLayout
-        android:id="@+id/workflowstats_detail_fill"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" 
-        android:background="@color/white"/>
-	   
 </LinearLayout>
