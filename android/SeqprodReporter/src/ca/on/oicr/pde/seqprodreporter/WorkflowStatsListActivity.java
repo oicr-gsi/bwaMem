@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
@@ -41,7 +41,6 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	private LinkedHashMap<String, int[]> workflowStatsHash;
 
 	public static final String WORKFLOW_PIE_CHART_VALUES = "WorkflowTypeTotals";
-	public static final String NO_WORKFLOW_SELECTED = "NoSelectedWorkflow";
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -66,12 +65,12 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// activity should be in two-pane mode.
 			mTwoPane = true;
 			
-			SimpleCursorAdapter tmp = (SimpleCursorAdapter) listFragment.getListAdapter();
-			workflowStatsHash = getWorkflowStats(tmp.getCursor());
+			workflowStatsHash = getWorkflowStats(
+					(ArrayAdapter<String>) listFragment.getArrayAdapter());
 			
 			Bundle arguments = new Bundle();
 			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
-			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, NO_WORKFLOW_SELECTED);			
+			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, WorkflowStatsListFragment.ALL_WORKFLOWS);			
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -89,9 +88,10 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 					
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((WorkflowStatsListFragment) getSupportFragmentManager()
-					.findFragmentById(R.id.workflowstats_list))
-					.setActivateOnItemClick(true);
+			
+			listFragment.setActivateOnItemClick(true);
+			listFragment.getListView().setItemChecked(0, true);
+					
 		}
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
@@ -191,26 +191,33 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			Intent detailIntent = new Intent(this,
 					WorkflowStatsDetailActivity.class);
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
+			if (id.equals(WorkflowStatsListFragment.ALL_WORKFLOWS)){
+				detailIntent.putExtra(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
+			}
 			startActivity(detailIntent);
 		}
 	}	
 	
-	private LinkedHashMap<String, int[]> getWorkflowStats(Cursor c){
+	private LinkedHashMap<String, int[]> getWorkflowStats(ArrayAdapter<String> adapter){
 		LinkedHashMap<String, int[]> workflowStatsHash = 
 				 new LinkedHashMap<String, int[]>();
-		if (c.moveToFirst()){
-			do {
+		
+		    workflowStatsHash.put(WorkflowStatsListFragment.ALL_WORKFLOWS, workflowTypesTotal);
+			for (int b = 1; b < adapter.getCount(); ++b){
 				int [] tmpWorkflowNumbers = new int[ReporterActivity.types.length];
-				String workflowName = c.getString(c.getColumnIndex("_id"));
-				for (int i = 0;i<ReporterActivity.types.length;++i){
+				String workflowName = adapter.getItem(b);
+
+				for (int i = 0; i<ReporterActivity.types.length; ++i){
 					Cursor tmp = getContentResolver()
-							.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, DataContract.WR_TYPE + "=? AND " + DataContract.WORKFLOW + "=? ",new String[]{ReporterActivity.types[i],workflowName} ,null);
+							.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, 
+									DataContract.WR_TYPE + "=? AND " + DataContract.WORKFLOW + "=? ",
+									new String[]{ReporterActivity.types[i],workflowName}, null);
 					tmpWorkflowNumbers[i] = tmp.getCount();
 				}
-			workflowStatsHash.put(workflowName, tmpWorkflowNumbers);
-			} while(c.moveToNext());
-		}
-		return workflowStatsHash;
+
+				workflowStatsHash.put(workflowName, tmpWorkflowNumbers);
+			}
+			return workflowStatsHash;
 	}
 	
 	public LinkedHashMap<String, int[]> getWorkflowStatsHash(){

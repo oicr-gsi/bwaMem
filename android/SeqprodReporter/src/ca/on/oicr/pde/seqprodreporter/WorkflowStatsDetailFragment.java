@@ -41,14 +41,13 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 		if (arguments.containsKey(ARG_ITEM_ID)) {
 			selectedWorkflow = arguments.getString(ARG_ITEM_ID);
  
-			setActionBarTitle(selectedWorkflow);
+			getActivity().setTitle(selectedWorkflow);
 			
 			if (arguments.containsKey(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES)){
 				workflowTotals = arguments
 						.getIntArray(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES);
 			}
-			else if (!selectedWorkflow
-					.equals(WorkflowStatsListActivity.NO_WORKFLOW_SELECTED)) {
+			else if (!selectedWorkflow.equals(WorkflowStatsListFragment.ALL_WORKFLOWS)){
 				workflowTotals = getPieChartValues();
 			}
 		}
@@ -65,13 +64,6 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 		setUpPieChart();
 
 		return rootView;
-	}
-
-	private void setActionBarTitle(String title){
-		String activityTitle = title
-				.equals(WorkflowStatsListActivity.NO_WORKFLOW_SELECTED) 
-				? "Workflow Statistics" : title; 
-		getActivity().setTitle(activityTitle);
 	}
 	
 	private int[] getPieChartValues(){
@@ -98,10 +90,8 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 	
 		for (int i = 0;i<ReporterActivity.types.length;++i){
 			if (0 != workflowTotals[i]){
-				String segmentLabel = ReporterActivity.types[i].substring(0, 1).toUpperCase() 
-						+ ReporterActivity.types[i].substring(1) + ": " + workflowTotals[i];
-				
-				Segment pieSegment = new Segment(segmentLabel,(Number) workflowTotals[i]);
+				Segment pieSegment = new Segment(Integer.toString(workflowTotals[i]),
+						(Number) workflowTotals[i]);
 				SegmentFormatter segmentFormatter = new SegmentFormatter(getTypeFillColor(i), 
 						getResources().getColor(R.color.black));
 				

@@ -37,6 +37,14 @@ public class WorkflowStatsDetailActivity extends FragmentActivity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
+			
+			if (getIntent().hasExtra
+					(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES)){
+				arguments.putIntArray(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES, 
+						getIntent().getIntArrayExtra(
+								WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES));
+			}
+			
 			arguments.putString(
 					WorkflowStatsDetailFragment.ARG_ITEM_ID,
 					getIntent().getStringExtra(

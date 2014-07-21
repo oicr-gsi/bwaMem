@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
@@ -21,7 +21,7 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  */
 public class WorkflowStatsListFragment extends ListFragment {
 	
-	private SimpleCursorAdapter mAdapter;
+	private ArrayAdapter<String> mAdapter;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -39,6 +39,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
+	public static final String ALL_WORKFLOWS = "All Workflows";
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -73,13 +74,22 @@ public class WorkflowStatsListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		
 		Cursor c = getActivity().getContentResolver().query(DataContract.CONTENT_URI,
-					new String[]{"DISTINCT " + DataContract.WORKFLOW + " AS _id"},
+					new String[]{"DISTINCT " + DataContract.WORKFLOW},
 					null, null,
 					DataContract.WORKFLOW + " ASC");
-		mAdapter = new SimpleCursorAdapter(getActivity(),
-				android.R.layout.simple_list_item_activated_1, c,
-				new String[] {"_id"},
-				new int[]{android.R.id.text1}, 0);
+		
+		String [] workflowNames = new String[c.getCount() + 1];
+		workflowNames[0] = ALL_WORKFLOWS;
+		int index = 1;
+		if (c.moveToFirst()){
+			do {
+				workflowNames[index] = c.getString(c.getColumnIndex(DataContract.WORKFLOW));
+				++index;
+			} while (c.moveToNext());
+		}
+		
+		mAdapter = new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_activated_1, workflowNames);
 		setListAdapter(mAdapter);
 	}
 
@@ -156,7 +166,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 		mActivatedPosition = position;
 	}
 	
-	public SimpleCursorAdapter getListFragmentCursorAdapter(){
+	public ArrayAdapter<String> getArrayAdapter(){
 		return mAdapter;
 	}
 }
