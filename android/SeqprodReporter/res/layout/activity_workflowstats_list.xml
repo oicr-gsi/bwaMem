@@ -8,8 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="bold"
+    android:layout_marginLeft="25dp"
     android:clickable="true" 
-    android:gravity="center"
     android:layout_marginTop="16dp"
     android:layout_marginBottom="16dp"
     android:textSize="20sp"/>
@@ -18,8 +18,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="bold"
+    android:layout_marginLeft="25dp"
     android:clickable="true"
-    android:gravity="center"
     android:layout_marginBottom="16dp"
 	android:textSize="20sp"/>
 
@@ -27,8 +27,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="bold" 
+    android:layout_marginLeft="25dp"
     android:clickable="true"
-    android:gravity="center"
     android:layout_marginBottom="16dp"
     android:textSize="20sp"/>
    
