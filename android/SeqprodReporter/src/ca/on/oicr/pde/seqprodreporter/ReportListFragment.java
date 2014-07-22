@@ -56,7 +56,7 @@ public class ReportListFragment extends Fragment {
 	 */
 	public void setSearchFilter(String searchFilter) {
 		//THIS CODE RUNS ONLY WHEN ACTIVITY IS VISIBLE
-		if (null == this.searchFilter || (null != searchFilter && !this.searchFilter.equals(searchFilter))) {
+		if (null == this.searchFilter || (!this.searchFilter.equals(searchFilter))) {
 			this.searchFilter = searchFilter;
 			new JsonLoaderTask(this, ReporterActivity.types[this.getSectionNumber() -1], this.lastUpdateTime).execute(searchFilter);
 		}

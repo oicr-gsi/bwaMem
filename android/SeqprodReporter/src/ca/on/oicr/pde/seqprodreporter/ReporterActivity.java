@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ca.on.oicr.pde.seqprodprovider.DataContract;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -40,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 public class ReporterActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
@@ -153,8 +153,9 @@ public class ReporterActivity extends ActionBarActivity implements
 								&& mCurrentTabIndex != mViewPager
 										.getCurrentItem())
 							mViewPager.setCurrentItem(mCurrentTabIndex);
+						
 
-					}
+						}
 
 					@Override
 					public void onChildViewRemoved(View parent, View child) {
@@ -175,6 +176,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
+		
 	}
 
 	@Override
@@ -283,6 +285,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			searchView.setSearchableInfo(searchManager
 					.getSearchableInfo(getComponentName()));
 			searchView.setIconifiedByDefault(true);
+			searchView.setSearchString(this.mSearchQuery);
 			if (this.mSearchQuery != null && !this.mSearchQuery.isEmpty()) {
 				searchView.setQuery(this.mSearchQuery, true);
 				// searchView.setIconified(false);

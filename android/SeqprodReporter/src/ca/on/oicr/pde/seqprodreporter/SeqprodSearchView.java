@@ -6,7 +6,16 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 
 public class SeqprodSearchView extends SearchView {
-    private final static String EMPTY_QUERY = "";
+    
+	private String mSearchString;
+	
+	@Override
+	public void onActionViewExpanded() {
+		super.onActionViewExpanded();
+		this.setQuery(getSearchString(), false);
+	}
+
+	private final static String EMPTY_QUERY = "";
 	
     // Default constructor
     public SeqprodSearchView(Context context) {
@@ -21,6 +30,14 @@ public class SeqprodSearchView extends SearchView {
 		Intent searchReset = new Intent(getContext(), ReporterActivity.class);
 		searchReset.setAction(Intent.ACTION_SEARCH);
 		getContext().startActivity(searchReset);
+	}
+
+	public String getSearchString() {
+		return mSearchString;
+	}
+
+	public void setSearchString(String mSearchQuery) {
+		this.mSearchString = mSearchQuery;
 	}
 
 }
