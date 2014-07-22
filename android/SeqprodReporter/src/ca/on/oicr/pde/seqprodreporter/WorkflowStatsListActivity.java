@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -94,6 +96,17 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 					
 		}
 		// TODO: If exposing deep links into your app, handle intents here.
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		//TODO PDE-705
+		// Take care of selection parameters - they need to stay the same when device orientation changes
+	}
+	
+		@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		//TODO PDE-705
 	}
 	
 	private OnClickListener onTextViewClick = new OnClickListener(){
