@@ -71,7 +71,14 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 					(ArrayAdapter<String>) listFragment.getArrayAdapter());
 			
 			Bundle arguments = new Bundle();
-			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
+			
+			if (null != savedInstanceState && savedInstanceState.containsKey(WORKFLOW_PIE_CHART_VALUES)){
+				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, savedInstanceState.getIntArray(WORKFLOW_PIE_CHART_VALUES));
+			}
+			else {
+				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
+			}
+			
 			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, WorkflowStatsListFragment.ALL_WORKFLOWS);			
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
@@ -100,13 +107,12 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		//TODO PDE-705
-		// Take care of selection parameters - they need to stay the same when device orientation changes
-	}
-	
-		@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		//TODO PDE-705
+		if (mTwoPane) {
+			WorkflowStatsDetailFragment detailFragment = (WorkflowStatsDetailFragment) 
+					getSupportFragmentManager().findFragmentById(R.id.workflowstats_detail_container);
+			outState.putIntArray(WORKFLOW_PIE_CHART_VALUES, detailFragment.getSelectedWorkflowValues());
+		}
+		super.onSaveInstanceState(outState);
 	}
 	
 	private OnClickListener onTextViewClick = new OnClickListener(){

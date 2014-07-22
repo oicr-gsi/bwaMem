@@ -121,5 +121,7 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 		return fillColor;
 	}
 
-	
+	public int[] getSelectedWorkflowValues(){
+		return workflowTotals;
+	}
 }
