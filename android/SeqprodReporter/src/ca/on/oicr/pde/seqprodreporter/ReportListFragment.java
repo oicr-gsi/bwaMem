@@ -37,10 +37,14 @@ public class ReportListFragment extends Fragment {
 
 	/**
 	 * Returns a new instance of this fragment for the given section number.
+	 * 
+	 * @param sectionNumber is the section number of this fragment
+	 * @param searchFilter  search filter String determines which records are getting loaded
 	 */
-	public static ReportListFragment newInstance(int sectionNumber) {
+	public static ReportListFragment newInstance(int sectionNumber, String searchFilter) {
 		ReportListFragment fragment = new ReportListFragment();
 		fragment.setSectionNumber(sectionNumber);
+		fragment.setSearchFilter(searchFilter);
 		return fragment;
 	}
 
@@ -50,7 +54,6 @@ public class ReportListFragment extends Fragment {
 
 	/**
 	 * This function updates the value of searchFilter variable and updates
-	 * the list of items based on this filter
 	 * 
 	 * @param searchFilter (a search query String)
 	 */
@@ -58,7 +61,6 @@ public class ReportListFragment extends Fragment {
 		//THIS CODE RUNS ONLY WHEN ACTIVITY IS VISIBLE
 		if (null == this.searchFilter || (!this.searchFilter.equals(searchFilter))) {
 			this.searchFilter = searchFilter;
-			new JsonLoaderTask(this, ReporterActivity.types[this.getSectionNumber() -1], this.lastUpdateTime).execute(searchFilter);
 		}
 	}
 
@@ -89,6 +91,11 @@ public class ReportListFragment extends Fragment {
 		return rootView;
 	}
 
+	/**
+	 * This is the function that gets called after JsonLoaderTask finishes loading data
+	 * if the received list of reports is empty, a special message is shown
+	 * @param newReports
+	 */
 	public void addLocalReports(List<Report> newReports) {
 		ProgressBar a_wheel = (ProgressBar) getView().findViewById(R.id.section_progress);
 		a_wheel.setVisibility(View.VISIBLE);
@@ -111,8 +118,10 @@ public class ReportListFragment extends Fragment {
 		a_wheel.setVisibility(View.GONE);
 	}
 
-	//Invokes the correct comparator to sort a fragment's list
-	//based on the 'sortingType' member variable that is set by the user
+	/**
+	 * Invokes the correct comparator to sort a fragment's list
+	 * based on the 'sortingType' member variable that is set by the user
+	 */
 	public void sortFragment(){
 		if (this.sortingType == SORT_BY_WORKFLOW){
 			mAdapter.sortList(NAMECOMPARATOR);

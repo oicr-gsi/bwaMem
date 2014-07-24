@@ -117,6 +117,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		@Override
 		public void onClick(View textView){
 			Intent intent = new Intent(WorkflowStatsListActivity.this, ReporterActivity.class);
+			intent.setAction(Intent.ACTION_RUN);
 			if (textView.equals(completedTextView)){
 				intent.putExtra("selectedTab", ReporterActivity.COMPLETED_WORKFLOW_TAB_INDEX);
 			}
