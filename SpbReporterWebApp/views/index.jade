@@ -1,0 +1,68 @@
+doctype html
+html
+	head
+		title SpbReporter
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+	body.SpbReporter
+		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
+		script(src="/javascripts/index.js")
+		.app
+			header.headerContainer
+				h3.titleheader.text-muted SpbReporter
+				ul.nav.nav-justified
+					li.completed.active.tabs
+						a.tabs(href="#completed") Completed
+					li.failed.tabs
+						a.tabs(href="#failed") Failed
+					li.pending.tabs
+						a.tabs(href="#pending") Pending
+			.content
+				#completedReports
+					if completed_reports.length == 0
+						.emptyReport
+							p There are currently no completed workflows.
+					else
+						for reports in completed_reports
+							.report
+								p
+									b Sample: #{reports.sample_name}
+								p
+									b #{reports.workflow_name}
+								p
+									i Created: #{reports.create_time}
+								p
+									i Modified: #{reports.last_modified_time}
+				#failedReports
+					if failed_reports.length == 0
+						.emptyReport
+							p There are currently no failed workflows.
+					else
+						for reports in failed_reports
+							.report
+								p
+									b Sample: #{reports.sample_name}
+								p
+									b #{reports.workflow_name}
+								p
+									i Created: #{reports.create_time}
+								p
+									i Modified: #{reports.last_modified_time}
+				#pendingReports
+					if pending_reports.length == 0
+						.emptyReport
+							p There are currently no pending workflows.
+					else
+						for reports in pending_reports
+							.report
+								p
+									b Sample: #{reports.sample_name}
+								p
+									b #{reports.workflow_name}
+								p
+									i Created: #{reports.create_time}
+								p
+									i Modified: #{reports.last_modified_time}

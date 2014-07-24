@@ -1,0 +1,44 @@
+a.tabs {
+  color: #777;
+  border-style: solid;
+  border-width: thin;
+}
+.SpbReporter{
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	position: absolute;
+	top: 0px;
+	width:100%;
+	background-color: #E5E5E5;
+}
+
+.headerContainer{
+	background-color: black;
+}
+
+h3.titleheader{
+	margin:0px 0px 15px 20px;
+	padding-top: 10px;
+}
+
+.report{
+	width:80%;
+	margin: 5px auto;
+	border-bottom-style: solid;
+	border-bottom-width: thin;
+	border-bottom-color: black;
+	padding: 10px 10px;
+}
+
+.report p{
+	margin: 0 0;
+}
+
+.emptyReport{
+	font-weight: bold;
+	text-align: center;
+	margin-top: 10px;
+}
+.reportBorder{
+	width: 30%;
+}
+
