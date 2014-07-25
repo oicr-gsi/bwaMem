@@ -41,15 +41,16 @@ h3.titleheader{
 .reportBorder{
 	width: 30%;
 }
-
-
+.progress{
+	margin-top: 5px;
+}
 /*
 * Specific styles for when tabs are stacked on top of eachother
 * phones
 */
 @media screen and (min-width: 319px) and (max-width: 767px){
 .report p i{
-	font-size: 12px;
+	font-size: 13px;
 }
 }
 /*

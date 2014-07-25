@@ -38,7 +38,6 @@ html
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
-
 				#failedReports
 					if failed_reports.length == 0
 						.emptyReport
@@ -56,7 +55,6 @@ html
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
-
 				#pendingReports
 					if pending_reports.length == 0
 						.emptyReport
@@ -74,4 +72,7 @@ html
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
+								if reports.progress!== undefined
+									.progress
+										.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
 							// TODO: need to progress bar here
