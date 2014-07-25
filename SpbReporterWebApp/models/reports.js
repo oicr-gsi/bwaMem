@@ -10,7 +10,9 @@ var reportSchema = new Schema({
 	workflow_run_status : String,
 	create_time : String,//Date,
 	last_modified_time : String,//Date,
-	progress : String
+	progress : String,
+	create_date: Date,
+	last_modified_date: Date
 });
 
 module.exports = mongoose.model('Report', reportSchema);

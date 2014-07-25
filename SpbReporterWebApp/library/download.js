@@ -40,7 +40,9 @@ var downloadReportsToDB = function(){
 									workflow_run_status : tmp_json_report.status_cmd,
 									create_time : tmp_json_report.crtime,
 									last_modified_time : tmp_json_report.lmtime,
-									progress : report_progress
+									progress : report_progress,
+									create_date : stringToDateConverter(tmp_json_report.crtime),
+									last_modified_date : stringToDateConverter(tmp_json_report.lmtime)
 								});
 								tmp_report.save(function(err){
 									if (err){
@@ -65,5 +67,10 @@ var downloadReportsToDB = function(){
 	request.on('error', function(){
 		console.log('There was an error downloading the data');
 	});
+}
+
+function stringToDateConverter(string){
+	var tmpString = string.substring(0,string.lastIndexOf(".")).replace(" ", "T");
+	return new Date(tmpString);
 }
 module.exports.downloadReportsToDB = downloadReportsToDB;
