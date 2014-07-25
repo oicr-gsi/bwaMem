@@ -30,6 +30,7 @@ var downloadReportsToDB = function(){
 							for (size=0;size<jsonArrays[i].length;++size){
 								++count;
 								var tmp_json_report = jsonArrays[i][size];
+								var report_progress = (tmp_json_report.hasOwnProperty('progress')) ? tmp_json_report.progress : undefined;
 								var tmp_report = new Report({
 									sample_name : tmp_json_report.sample,
 									workflow_name : tmp_json_report.workflow,
@@ -38,7 +39,8 @@ var downloadReportsToDB = function(){
 									workflow_run_type : workflow_run_types[i],
 									workflow_run_status : tmp_json_report.status_cmd,
 									create_time : tmp_json_report.crtime,
-									last_modified_time : tmp_json_report.lmtime
+									last_modified_time : tmp_json_report.lmtime,
+									progress : report_progress
 								});
 								tmp_report.save(function(err){
 									if (err){
@@ -54,7 +56,10 @@ var downloadReportsToDB = function(){
 				}
 			});
 		});
+	response.on('error', function(){
+		console.log('error downloading from script');
 	});
+});
 
 	request.end();
 	request.on('error', function(){

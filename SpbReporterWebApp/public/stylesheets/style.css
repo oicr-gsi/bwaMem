@@ -25,7 +25,7 @@ h3.titleheader{
 	margin: 5px auto;
 	border-bottom-style: solid;
 	border-bottom-width: thin;
-	border-bottom-color: black;
+	border-bottom-color: #D6D2D2;
 	padding: 10px 10px;
 }
 
@@ -42,3 +42,23 @@ h3.titleheader{
 	width: 30%;
 }
 
+
+/*
+* Specific styles for when tabs are stacked on top of eachother
+* phones
+*/
+@media screen and (min-width: 319px) and (max-width: 767px){
+.report p i{
+	font-size: 12px;
+}
+}
+/*
+* Specfic styles for when tabs are side by side
+* tablets, laptops, desktops
+*/
+@media screen and (min-width:768px){
+.report {
+	width:50%;
+	text-align: center;
+}
+}

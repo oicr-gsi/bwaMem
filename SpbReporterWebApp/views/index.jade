@@ -14,7 +14,7 @@ html
 			header.headerContainer
 				h3.titleheader.text-muted SpbReporter
 				ul.nav.nav-justified
-					li.completed.active.tabs
+					li.completed.tabs
 						a.tabs(href="#completed") Completed
 					li.failed.tabs
 						a.tabs(href="#failed") Failed
@@ -33,9 +33,12 @@ html
 								p
 									b #{reports.workflow_name}
 								p
+									i Version: #{reports.workflow_version}
+								p
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
+
 				#failedReports
 					if failed_reports.length == 0
 						.emptyReport
@@ -48,9 +51,12 @@ html
 								p
 									b #{reports.workflow_name}
 								p
+									i Version: #{reports.workflow_version}
+								p
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
+
 				#pendingReports
 					if pending_reports.length == 0
 						.emptyReport
@@ -63,6 +69,9 @@ html
 								p
 									b #{reports.workflow_name}
 								p
+									i Version: #{reports.workflow_version}
+								p
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
+							// TODO: need to progress bar here

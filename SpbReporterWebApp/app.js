@@ -10,9 +10,8 @@ var mongoose = require('mongoose');
 accessingDB = false;
 
 var download = require('./library/download');
-
 //sets timer to get reports from script and update the DB every 15 minutes
-setInterval(download.downloadReportsToDB, 1000 * 60 * 15 );
+setInterval(download.downloadReportsToDB, 1000 * 60 * 15);
 
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
@@ -33,9 +32,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-
-
-
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
