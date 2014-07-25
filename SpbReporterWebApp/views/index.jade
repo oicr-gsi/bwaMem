@@ -7,6 +7,15 @@ html
 		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
 		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		- var getMostRecentModDate = function(){
+		- 	var most_recent_modification_date = completed_reports[0].last_modified_date;
+		- 	most_recent_modification_date = most_recent_modification_date > failed_reports[0].last_modified_date ? most_recent_modification_date : failed_reports[0].last_modified_date;
+		- 	most_recent_modification_date = most_recent_modification_date > pending_reports[0].last_modified_date ? most_recent_modification_date : pending_reports[0].last_modified_date;
+		- 	date_string = most_recent_modification_date.toUTCString();
+		-	return date_string.substring(0, date_string.lastIndexOf("G"));
+		- }
+
+
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
 		script(src="/javascripts/index.js")
@@ -20,6 +29,8 @@ html
 						a.tabs(href="#failed") Failed
 					li.pending.tabs
 						a.tabs(href="#pending") Pending
+				.update_time
+					p Most recent workflow modification time: #{getMostRecentModDate()}
 			.content
 				#completedReports
 					if completed_reports.length == 0
@@ -72,7 +83,6 @@ html
 									i Created: #{reports.create_time}
 								p
 									i Modified: #{reports.last_modified_time}
-								if reports.progress!== undefined
-									.progress
+								.progress
+									if reports.progress!== undefined
 										.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
-							// TODO: need to progress bar here

@@ -11,6 +11,13 @@ a.tabs {
 	background-color: #E5E5E5;
 }
 
+.update_time p{
+	color: #777;
+	margin-left: 10px;
+	padding-bottom: 7px;
+	padding-top: 7px;
+	text-align: center;
+}
 .headerContainer{
 	background-color: black;
 }
@@ -49,21 +56,24 @@ h3.titleheader{
 * phones
 */
 @media screen and (min-width: 319px) and (max-width: 767px){
-.report p i{
-	font-size: 13px;
-}
+	.report p i{
+		font-size: 13px;
+	}
+	.update_time p{
+		font-size: 10px;
+	}
 }
 /*
 * Specfic styles for when tabs are side by side
 * tablets, laptops, desktops
 */
 @media screen and (min-width:768px){
-.report {
-	width:50%;
-	text-align: center;
-}
-.progress{
-	margin-right:auto;
-	margin-left: auto;
-}
+	.report {
+		width:50%;
+		text-align: center;
+	}
+	.progress{
+		margin-right:auto;
+		margin-left: auto;
+	}
 }
