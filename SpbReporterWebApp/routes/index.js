@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 module.exports = router;
 
 function getCompletedReports(callback){
-	Report.find({workflow_run_type:'completed'}, function(err, completed_reports){
+	Report.find({workflow_run_type:'completed'}).sort({last_modified_date : 'desc'}).exec(function(err, completed_reports){
 		if (err){
 			callback(err, null);
 		}
@@ -25,7 +25,7 @@ function getCompletedReports(callback){
 }
 
 function getFailedReports(callback){
-	Report.find({workflow_run_type:'failed'}, function(err, failed_reports){
+	Report.find({workflow_run_type:'failed'}).sort({last_modified_date : 'desc'}).exec(function(err, failed_reports){
 		if (err){
 			callback(err, null);
 		}
@@ -36,7 +36,7 @@ function getFailedReports(callback){
 }
 
 function getPendingReports(callback){
-	Report.find({workflow_run_type:'pending'}, function(err, pending_reports){
+	Report.find({workflow_run_type:'pending'}).sort({last_modified_date : 'desc'}).exec(function(err, pending_reports){
 		if (err){
 			callback(err, null);
 		}
