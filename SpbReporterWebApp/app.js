@@ -9,9 +9,14 @@ var app = express();
 var mongoose = require('mongoose');
 accessingDB = false;
 
+downloadTime = new Date();
+
 var download = require('./library/download');
 //sets timer to get reports from script and update the DB every 15 minutes
-setInterval(download.downloadReportsToDB, 1000 * 60 * 15);
+setInterval(function(){
+    download.downloadReportsToDB();
+    downloadTime = new Date();
+}, 1000 * 60 * 15 );
 
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;

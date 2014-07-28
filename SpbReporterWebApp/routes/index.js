@@ -7,7 +7,7 @@ var async = require('async');
 router.get('/', function(req, res) {
 	async.series([getCompletedReports,getFailedReports,getPendingReports ],
 		function(err, reportsArray){
-			res.render('index',{completed_reports:reportsArray[0], failed_reports:reportsArray[1], pending_reports:reportsArray[2]});
+			res.render('index',{completed_reports:reportsArray[0], failed_reports:reportsArray[1], pending_reports:reportsArray[2], JSONdownloadTime:downloadTime});
 		});
 
 });

@@ -11,8 +11,6 @@ html
 		- 	var most_recent_modification_date = completed_reports[0].last_modified_date;
 		- 	most_recent_modification_date = most_recent_modification_date > failed_reports[0].last_modified_date ? most_recent_modification_date : failed_reports[0].last_modified_date;
 		- 	most_recent_modification_date = most_recent_modification_date > pending_reports[0].last_modified_date ? most_recent_modification_date : pending_reports[0].last_modified_date;
-		- 	date_string = most_recent_modification_date.toUTCString();
-		-	return date_string.substring(0, date_string.lastIndexOf("G"));
 		- }
 
 
@@ -30,7 +28,7 @@ html
 					li.pending.tabs
 						a.tabs(href="#pending") Pending
 				.update_time
-					p Most recent workflow modification time: #{getMostRecentModDate()}
+					p Last update: #{JSONdownloadTime.toString().substring(0, JSONdownloadTime.toString().lastIndexOf("G"))}
 			.content
 				#completedReports
 					if completed_reports.length == 0
