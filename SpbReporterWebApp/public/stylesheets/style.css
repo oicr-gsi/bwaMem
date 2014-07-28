@@ -15,7 +15,6 @@ a.tabs {
 	color: #777;
 	margin-left: 10px;
 	padding-bottom: 7px;
-	padding-top: 7px;
 	text-align: center;
 }
 .headerContainer{
@@ -25,8 +24,23 @@ a.tabs {
 h3.titleheader{
 	margin:0px 0px 15px 20px;
 	padding-top: 10px;
+	display: inline-block;
+}
+.topHeader{
+	width: 100%;
+	display: inline-block;
+
 }
 
+.btn-group{
+	float: right;
+	display: inline-block;
+}
+
+button.btn{
+	background: #777;
+	margin: 15px 30px 0px 0px;
+}
 .report{
 	margin: 5px auto;
 	border-bottom-style: solid;
@@ -50,6 +64,11 @@ h3.titleheader{
 .progress{
 	margin-top: 5px;
 	width: 75%;
+	margin-bottom: 10px;
+}
+
+ul.dropdown-menu {
+	margin-right: 30px;
 }
 /*
 * Specific styles for when tabs are stacked on top of eachother
@@ -72,5 +91,8 @@ h3.titleheader{
 	.progress{
 		margin-right:auto;
 		margin-left: auto;
+	}
+	.update_time p {
+		padding-top: 7px;
 	}
 }

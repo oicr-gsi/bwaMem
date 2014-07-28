@@ -2,11 +2,9 @@ doctype html
 html
 	head
 		title SpbReporter
+		link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+		link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
-		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.css')
-		link(rel='stylesheet', href='/stylesheets/bootstrap-theme.min.css')
-		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
-		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
 		- var getMostRecentModDate = function(){
 		- 	var most_recent_modification_date = completed_reports[0].last_modified_date;
 		- 	most_recent_modification_date = most_recent_modification_date > failed_reports[0].last_modified_date ? most_recent_modification_date : failed_reports[0].last_modified_date;
@@ -16,10 +14,20 @@ html
 
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
-		script(src="/javascripts/index.js")
+		script(src='/javascripts/index.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		.app
 			header.headerContainer
-				h3.titleheader.text-muted SpbReporter
+				.topHeader
+					h3.titleheader.text-muted SpbReporter
+					.btn-group
+						button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown")
+							span.caret
+						ul.dropdown-menu.dropdown-menu-right(role="menu")
+							li
+								a(href="/stats") Statistics
+							li
+								a(href="#sort") Sort By
 				ul.nav.nav-justified
 					li.completed.tabs
 						a.tabs(href="#completed") Completed
