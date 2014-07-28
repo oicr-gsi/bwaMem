@@ -70,6 +70,21 @@ button.btn{
 ul.dropdown-menu {
 	margin-right: 30px;
 }
+
+ul.topHeader{
+	padding-left: 0px;
+	margin-bottom: 0px;
+}
+li.headerItem{
+	display: inline;
+}
+.titleheader a {
+	padding: 10px;
+	color: #777;
+}
+.titleheader a:hover{
+	text-decoration: none;
+}
 /*
 * Specific styles for when tabs are stacked on top of eachother
 * phones

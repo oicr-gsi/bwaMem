@@ -18,16 +18,19 @@ html
 		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		.app
 			header.headerContainer
-				.topHeader
-					h3.titleheader.text-muted SpbReporter
-					.btn-group
-						button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown")
-							span.caret
-						ul.dropdown-menu.dropdown-menu-right(role="menu")
-							li
-								a(href="/stats") Statistics
-							li
-								a(href="#sort") Sort By
+				ul.topHeader
+					li.headerItem
+						h3.titleheader.text-muted
+							a(href="/") SpbReporter
+					li.headerItem
+						.btn-group
+							button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown")
+								span.caret
+							ul.dropdown-menu.dropdown-menu-right(role="menu")
+								li
+									a(href="/stats") Statistics
+								li
+									a(href="#sort") Sort By
 				ul.nav.nav-justified
 					li.completed.tabs
 						a.tabs(href="#completed") Completed
