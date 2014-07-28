@@ -74,6 +74,7 @@ public class ReportListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//TODO double-check if this code ever gets called (and remove if it doesn't)
 		if (null != savedInstanceState) {
 			setSectionNumber(savedInstanceState.getInt("sectionNumber"));
 			return super.onCreateView(inflater, container, savedInstanceState);
