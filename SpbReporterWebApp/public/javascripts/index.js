@@ -24,6 +24,10 @@ $(document).ready(function(){
 		showFailed();
 	});
 
+	$('.refresh_button').click(function(){
+		location.reload();
+	});
+
 	function showCompleted(){
 		$('#pendingReports').hide();
 		$('#failedReports').hide();

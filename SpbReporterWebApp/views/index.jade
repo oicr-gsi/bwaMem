@@ -23,14 +23,18 @@ html
 						h3.titleheader.text-muted
 							a(href="/") SpbReporter
 					li.headerItem
-						.btn-group
-							button.btn.btn-default.btn-xs.dropdown-toggle(type="button", data-toggle="dropdown")
-								span.caret
-							ul.dropdown-menu.dropdown-menu-right(role="menu")
-								li
-									a(href="/stats") Statistics
-								li
-									a(href="#sort") Sort By
+						button.btn.btn-default.btn-xs
+							span.glyphicon.glyphicon-sort
+							span.caret
+					li.headerItem
+						button.btn.btn-default.btn-xs.search_button
+							span.glyphicon.glyphicon-search
+					li.headerItem
+						button.btn.btn-default.btn-xs
+							span.glyphicon.glyphicon-stats
+					li.headerItem
+						button.btn.btn-default.btn-xs.refresh_button
+							span.glyphicon.glyphicon-refresh
 				ul.nav.nav-justified
 					li.completed.tabs
 						a.tabs(href="#completed") Completed

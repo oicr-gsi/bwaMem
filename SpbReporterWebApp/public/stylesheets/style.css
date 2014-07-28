@@ -22,7 +22,7 @@ a.tabs {
 }
 
 h3.titleheader{
-	margin:0px 0px 15px 20px;
+	margin:0px 0px 15px 5px;
 	padding-top: 10px;
 	display: inline-block;
 }
@@ -31,16 +31,13 @@ h3.titleheader{
 	display: inline-block;
 
 }
-
-.btn-group{
-	float: right;
-	display: inline-block;
-}
-
 button.btn{
-	background: #777;
-	margin: 15px 30px 0px 0px;
+	display: inline-block;
+	float: right;
+	background: #B3B3B3;
+	margin: 15px 15px 0px 0px;
 }
+
 .report{
 	margin: 5px auto;
 	border-bottom-style: solid;
@@ -67,10 +64,6 @@ button.btn{
 	margin-bottom: 10px;
 }
 
-ul.dropdown-menu {
-	margin-right: 30px;
-}
-
 ul.topHeader{
 	padding-left: 0px;
 	margin-bottom: 0px;
@@ -84,6 +77,10 @@ li.headerItem{
 }
 .titleheader a:hover{
 	text-decoration: none;
+}
+
+span.caret{
+	margin-left: 5px !important;
 }
 /*
 * Specific styles for when tabs are stacked on top of eachother
