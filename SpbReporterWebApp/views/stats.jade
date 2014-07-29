@@ -1,0 +1,36 @@
+doctype html
+html
+	head
+	title Statistics
+	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+	link(rel='stylesheet', href='/stylesheets/style.css')
+
+	body.SpbReporter
+		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
+		script(src='/javascripts/index.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		.app
+			header.headerContainer
+				ul.topHeader
+					li.headerItem
+						h3.titleheader.text-muted
+							a(href="/") SpbReporter
+								span.glyphicon.glyphicon-home(style="float:left")
+			.content(style="overflow:scroll")
+				table.table
+					thead
+						tr
+							th Workflow Name
+							th Completed
+							th Failed
+							th Pending
+					tbody
+						for stat in stats
+							tr
+								td #{stat.workflow}
+								td #{stat.stats[0]}
+								td #{stat.stats[1]}
+								td #{stat.stats[2]}
+
+

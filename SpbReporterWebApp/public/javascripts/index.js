@@ -28,6 +28,10 @@ $(document).ready(function(){
 		location.reload();
 	});
 
+	$('.stats_button').click(function(){
+		window.location.href = '/stats';
+	});
+
 	function showCompleted(){
 		$('#pendingReports').hide();
 		$('#failedReports').hide();
