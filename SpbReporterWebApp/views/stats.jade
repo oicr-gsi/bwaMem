@@ -18,13 +18,16 @@ html
 							a(href="/") SpbReporter
 								span.glyphicon.glyphicon-home(style="float:left")
 			.content(style="overflow:scroll")
-				table.table
+				table.table.table-hover
 					thead
 						tr
 							th Workflow Name
-							th Completed
-							th Failed
-							th Pending
+							th
+								a(href="/#completed") Completed
+							th
+								a(href="/#failed") Failed
+							th
+								a(href="/#pending") Pending
 					tbody
 						for stat in stats
 							tr
