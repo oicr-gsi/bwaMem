@@ -17,7 +17,7 @@ var download = require('./library/download');
 setInterval(function(){
     download.downloadReportsToDB();
     downloadTime = new Date();
-}, 1000 * 60 * 15 );
+}, 1000 * 60 );
 
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;

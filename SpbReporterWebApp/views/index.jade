@@ -51,51 +51,90 @@ html
 							p There are currently no completed workflows.
 					else
 						for reports in completed_reports
-							.report
-								p
-									b Sample: #{reports.sample_name}
-								p
-									b #{reports.workflow_name}
-								p
-									i Version: #{reports.workflow_version}
-								p
-									i Created: #{reports.create_time}
-								p
-									i Modified: #{reports.last_modified_time}
+							if reports.recently_modified == true
+								.report(style="background-color :yellow")
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
+							else
+								.report
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
 				#failedReports
 					if failed_reports.length == 0
 						.emptyReport
 							p There are currently no failed workflows.
 					else
 						for reports in failed_reports
-							.report
-								p
-									b Sample: #{reports.sample_name}
-								p
-									b #{reports.workflow_name}
-								p
-									i Version: #{reports.workflow_version}
-								p
-									i Created: #{reports.create_time}
-								p
-									i Modified: #{reports.last_modified_time}
+							if reports.recently_modified == true
+								.report(style="background-color:yellow")
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
+							else
+								.report
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
 				#pendingReports
 					if pending_reports.length == 0
 						.emptyReport
 							p There are currently no pending workflows.
 					else
 						for reports in pending_reports
-							.report
-								p
-									b Sample: #{reports.sample_name}
-								p
-									b #{reports.workflow_name}
-								p
-									i Version: #{reports.workflow_version}
-								p
-									i Created: #{reports.create_time}
-								p
-									i Modified: #{reports.last_modified_time}
+							if reports.recently_modified == true
+								.report(style="background-color:yellow")
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
+							else
+								.report
+									p
+										b Sample: #{reports.sample_name}
+									p
+										b #{reports.workflow_name}
+									p
+										i Version: #{reports.workflow_version}
+									p
+										i Created: #{reports.create_time}
+									p
+										i Modified: #{reports.last_modified_time}
 								.progress
 									if reports.progress!== undefined
 										.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")

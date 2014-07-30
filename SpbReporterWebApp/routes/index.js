@@ -2,10 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Report = require('../models/reports');
 var async = require('async');
-
 /* GET home page. */
 router.get('/', function(req, res) {
-	async.series([getCompletedReports,getFailedReports,getPendingReports ],
+	async.series([getCompletedReports,getFailedReports,getPendingReports],
 		function(err, reportsArray){
 			res.render('index',{completed_reports:reportsArray[0], failed_reports:reportsArray[1], pending_reports:reportsArray[2], JSONdownloadTime:downloadTime});
 		});
