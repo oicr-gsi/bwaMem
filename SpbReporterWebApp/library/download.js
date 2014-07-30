@@ -3,11 +3,12 @@ var router = express.Router();
 var Report = require('../models/reports');
 var url = "http://www-pde.hpc.oicr.on.ca/cgi-bin/spbreporter/getReport.pl?range=week";
 var http = require('http');
-var jsonArrays = [];
 var workflow_run_types = ["completed","failed", "pending"];
 var most_recent_modfication_time;
 
 var downloadReportsToDB = function(){
+	var jsonArrays = [];
+	console.log('before : jsonArrays: ' + jsonArrays);
 	console.log('old most recent mod time: ' + most_recent_modfication_time);
 	var request = http.request(url, function(response){
 		var str = '';
@@ -16,14 +17,13 @@ var downloadReportsToDB = function(){
 		});
 
 		response.on('end', function(){
-			var json_object;
-			try {
-				json_object = JSON.parse(str);
+			if (isJSON(str)){
 				Report.remove({},function(err) {
 					if (err){
 						console.log('There was an error deleting database entries');
 					}
 					else {
+						var json_object = JSON.parse(str);
 						jsonArrays.push(json_object.completed);
 						jsonArrays.push(json_object.failed);
 						jsonArrays.push(json_object.pending);
@@ -76,9 +76,6 @@ var downloadReportsToDB = function(){
 					}
 				});
 			}
-			catch(err){
-				console.log('there was an error while updating DB');
-			}
 
 		});
 	response.on('error', function(){
@@ -89,6 +86,15 @@ var downloadReportsToDB = function(){
 	request.on('error', function(){
 		console.log('There was an error downloading the data');
 	});
+}
+
+function isJSON(string){
+	try {
+		JSON.parse(string);
+	} catch(err){
+		return false;
+	}
+	return true;
 }
 
 function stringToDateConverter(string){
