@@ -29,6 +29,12 @@ html
 							th
 								a(href="/#pending") Pending
 					tbody
+						tr
+							td All Workflows
+							td #{all[0]}
+							td #{all[1]}
+							td #{all[2]}
+
 						for stat in stats
 							tr
 								td #{stat.workflow}

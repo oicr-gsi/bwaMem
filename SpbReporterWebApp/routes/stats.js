@@ -36,9 +36,26 @@ router.get('/', function(req, res) {
 					callback(null);
 				});
 			},
-
 			function(err){
-				res.render('stats',{stats:workflow_stats_data});
+				async.parallel([
+					function(callback){
+						Report.count({workflow_run_type:'completed'}, function(err, count){
+							callback(err,count);
+						});
+					},
+					function(callback){
+						Report.count({workflow_run_type:'failed'}, function(err, count){
+							callback(err,count);
+						});
+					},
+					function(callback){
+						Report.count({workflow_run_type:'pending'}, function(err, count){
+							callback(err,count);
+						});
+					}],
+					function(err,all_workflow_stats){
+						res.render('stats',{stats:workflow_stats_data, all:all_workflow_stats});
+				});
 			});
 	});
 });
