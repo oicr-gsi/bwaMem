@@ -8,8 +8,6 @@ var most_recent_modfication_time;
 
 var downloadReportsToDB = function(){
 	var jsonArrays = [];
-	console.log('before : jsonArrays: ' + jsonArrays);
-	console.log('old most recent mod time: ' + most_recent_modfication_time);
 	var request = http.request(url, function(response){
 		var str = '';
 		response.on('data', function(data){
@@ -66,12 +64,9 @@ var downloadReportsToDB = function(){
 								//debug tool to see if it loads correct
 							console.log(workflow_run_types[i]+ ": " + count);
 						}
-						console.log('most recent mod time for this batch is ' + tmp_date);
 						if (most_recent_modfication_time === undefined || tmp_date > most_recent_modfication_time){
 							most_recent_modfication_time = tmp_date;
-							console.log('updated mod time');
 						}
-						console.log('new most recent mod time: ' + most_recent_modfication_time);
 						console.log('finished downloading new data to DB');
 					}
 				});

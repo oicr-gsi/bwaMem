@@ -16,6 +16,7 @@ a.tabs {
 	margin-left: 10px;
 	padding-bottom: 7px;
 	text-align: center;
+	margin-bottom: 0;
 }
 .headerContainer{
 	background-color: black;
