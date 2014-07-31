@@ -82,7 +82,7 @@ html
 					else
 						for reports in failed_reports
 							if reports.recently_modified == true
-								.report(style="background-color:yellow")
+								.report(style="background-color:orange")
 									p
 										b Sample: #{reports.sample_name}
 									p
@@ -112,7 +112,7 @@ html
 					else
 						for reports in pending_reports
 							if reports.recently_modified == true
-								.report(style="background-color:yellow")
+								.report(style="background-color:orange")
 									p
 										b Sample: #{reports.sample_name}
 									p
@@ -123,6 +123,10 @@ html
 										i Created: #{reports.create_time}
 									p
 										i Modified: #{reports.last_modified_time}
+									.progress
+										if reports.progress!== undefined
+											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
+
 							else
 								.report
 									p
@@ -135,6 +139,6 @@ html
 										i Created: #{reports.create_time}
 									p
 										i Modified: #{reports.last_modified_time}
-								.progress
-									if reports.progress!== undefined
-										.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
+									.progress
+										if reports.progress!== undefined
+											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")

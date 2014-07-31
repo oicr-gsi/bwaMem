@@ -16,5 +16,4 @@ var reportSchema = new Schema({
 	last_modified_date: Date,
 	recently_modified: Boolean
 });
-
 module.exports = mongoose.model('Report', reportSchema);

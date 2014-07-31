@@ -8,7 +8,7 @@ var routes = require('./routes/index');
 var stats = require('./routes/stats');
 var app = express();
 var mongoose = require('mongoose');
-accessingDB = false;
+accessingDB = false;//TODO: work on this
 
 downloadTime = new Date();
 
