@@ -12,18 +12,20 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
-/*
- * Helper class for parsing JSON strings
+/**
+ * JsonParser class is for parsing JSON strings
+ * @author pruzanov
+ *
  */
 public class JsonParser {
 
-	private Time newUpdateTime;
+	private Time lastUpdateTime;
 	private Time failedItemUpdateTime;
 	private List<Report> parsedJSON;
 
 	public JsonParser(String JsonString, String[] types, Time lastUpdate) {
 		this.parsedJSON = new ArrayList<Report>();
-		this.newUpdateTime = null == lastUpdate ? null : new Time();
+		this.lastUpdateTime = null == lastUpdate ? null : new Time();
 		this.failedItemUpdateTime = new Time();
 		try {
 			JSONObject object = (JSONObject) new JSONTokener(JsonString)
@@ -47,8 +49,8 @@ public class JsonParser {
 					if (null != lastUpdate
 							&& recordTime.after(lastUpdate))
 						updated = true;
-					if (null == this.newUpdateTime || this.newUpdateTime.before(recordTime))
-						this.newUpdateTime = recordTime;
+					if (null == this.lastUpdateTime || this.lastUpdateTime.before(recordTime))
+						this.lastUpdateTime = recordTime;
 					
 					if (types[t].equals(ReporterActivity.types[1]) 
 							&& this.failedItemUpdateTime.before(recordTime)){
@@ -87,7 +89,7 @@ public class JsonParser {
 	}
 
 	public Time getNewUpdateTime() {
-		return newUpdateTime;
+		return lastUpdateTime;
 	}
 
 	public List<Report> getParsedJSON() {

@@ -60,7 +60,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		return results;
 	}
 
-	/*
+	/**
 	 *  Functions for getting data from cursor
 	 */
 	private ArrayList<Report> queryReportData(String filterWord) {
@@ -84,30 +84,29 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 		if (result != null) {
 			if (result.moveToFirst()) {
-				Time newLatest = new Time();
+				Time newLatest = null;
 				do {
 					Report newEntry = getReportDataFromCursor(result);
-					rValue.add(newEntry);
+					Time entryLMTime = newEntry.getTimeStamp();
 					if (null != this.lastUpdated 
-							&& newEntry.getTimeStamp().after(this.lastUpdated)){
-						newEntry.setrUpSinceLastTime(true); 
+							&& entryLMTime.after(this.lastUpdated)){
+						newEntry.setrUpdated(true); 
 					}
-					if (null == newLatest || newLatest.before(newEntry.getTimeStamp())){
-						newLatest = newEntry.getTimeStamp();
+					rValue.add(newEntry);
+					if (null == newLatest || newLatest.before(entryLMTime)){
+						newLatest = entryLMTime;
 					}
 				} while (result.moveToNext() == true);
 				//Initially update the fragment's update times
 				if (null == lastUpdated){
 					this.mParent.get().setLastUpdateTime(newLatest);
-				}
-				
-				else if(lastUpdated.before(newLatest)){
-					if (this.mParent.get().getSectionNumber()-1
-							== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){
-						
+				} 
+				//Update the lastUpdated for parent after all items are created
+				else if (this.lastUpdated.before(newLatest)){
+					//TODO: this code was used here for some reason, need to see if it's abscence does anything
+					//if (this.mParent.get().getSectionNumber()-1
+					//		== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
 						this.mParent.get().setLastUpdateTime(newLatest);
-						Log.d(ReporterActivity.TAG, "Updated last update time for " + TYPE);
-					}
 				}
 			
 			result.close();
@@ -146,6 +145,14 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	}
 
 
+	/**
+	 * getReportsFromFile was initially used for loading data from a static json file,
+	 * is still here just in case we need some debugging enabled
+	 * 
+	 * @param params
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unused")
 	@Deprecated
 	private List<Report> getReportsFromFile(Void... params) throws IOException {
@@ -176,16 +183,17 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		return results;
 	}
 
-    /*
+    /**
      * Get list of Report objects from a long JSON string
      */
+	@Deprecated
 	public List<Report> getRecordsFromJSON(String JsonString, String type) {
 
 		String [] types = {type};
 		JsonParser jp = new JsonParser(JsonString, types, this.lastUpdated);
 		List<Report> result = jp.getParsedJSON();
 		Time newLatest = jp.getNewUpdateTime();
-		//see if gives exception when exit -> re-enter
+
 		if (null == lastUpdated){
 			this.mParent.get().setLastUpdateTime(newLatest);
 		}
@@ -198,7 +206,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				this.mParent.get().setLastUpdateTime(newLatest);
 				Log.d(ReporterActivity.TAG, "Updated last update time for "	+ TYPE);
 			}
-		}	
+		}
 
 		return result;
 	}
