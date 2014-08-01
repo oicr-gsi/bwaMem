@@ -95,7 +95,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "ReporterActivity onCreate called");
+
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
@@ -134,9 +134,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		// alongside the current selected tab's fragment
 		mViewPager.setOffscreenPageLimit(types.length - 1);
 
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
+		/* When swiping between different sections, select the corresponding
+		 * tab. We can also use ActionBar.Tab#select() to do this if we have
+		 * a reference to the Tab.
+		 */
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
@@ -145,6 +146,11 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 				});
 
+		/*
+		 * This is needed for selecting proper tab when restoring activity or returning
+		 * from Stats activity - it takes care of selecting tab as it gets added
+		 * (May be done differently, perhaps)
+		 */
 		mViewPager
 				.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
@@ -181,7 +187,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
-		Log.d(TAG, "PostCreate called for ReporterActivity...");
 		super.onPostCreate(savedInstanceState);
 		// Handle intent that comes from Statistics Activity
 		Intent startIntent = this.getIntent();
@@ -191,7 +196,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onPause() {
-		//Log.d(TAG, "Reporter Activity Paused");
 		((MainApplication) getApplication()).setisCurrentActivityVisible(false);
 		this.isVisible = false;
 		super.onPause();
@@ -200,8 +204,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
-
-		//Log.d(TAG, "Reporter Activity Resumes");
 		this.isVisible = true;
 		updateLUT(sp.getString("updateTime", ""));
 		// update fragments when searching for a query (Device orientation change handled elsewhere)
@@ -218,11 +220,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		super.onResume();
 	}
 
-	/*
-	 * @Override I don't know why we have it here public void
-	 * onAttachFragment(android.app.Fragment fragment) {
-	 * super.onAttachFragment(fragment); }
-	 */
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -260,7 +257,6 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		Log.d(TAG, "Creating Options Menu...");
 		getMenuInflater().inflate(R.menu.reporter, menu);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		SeqprodSearchView searchView = (SeqprodSearchView) MenuItemCompat
@@ -301,7 +297,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		//Log.d(TAG, "Option Item Selected");
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
@@ -419,7 +414,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		Log.d(TAG, "Intent Received...");
+		//Log.d(TAG, "Intent Received...");
 		setIntent(intent);
 		handleIntent(intent);
 	}
@@ -454,9 +449,8 @@ public class ReporterActivity extends ActionBarActivity implements
 					Log.e(TAG, "Received invalid tab index from Intent");
 				}
 			}
-		} else {
+		} else { // Debugging only
 			String act = intent.getAction();
-			act.concat("blah");
 			Log.d(TAG, "Action passed: " + act);
 		}
 	}
@@ -468,12 +462,12 @@ public class ReporterActivity extends ActionBarActivity implements
 	/**
 	 * A function that returns a formatted user-friendly Time representation.
 	 * 
-	 * @param Time
-	 *            time
+	 * @param Time time
 	 */
 	public static String timeToStringConverter(Time time) {
 		return time.format("%Y-%m-%d %H:%M:%S");
 	}
+	
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -490,7 +484,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			// getItem is called to instantiate the fragment for the given page.
-			Log.d(TAG, "getItem called for SectionPagerAdapter...");
 			if (position >= this.fragments.size() || this.fragments.size() == 0
 					|| null == this.fragments.get(position)) {
 
@@ -589,6 +582,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (!updateTime.equals("")) {
 			TextView updateView = (TextView) findViewById(R.id.updateTimeView);
 			updateView.setVisibility(View.VISIBLE);
+			Log.d(TAG,"Update Time set to " + updateTime);
 			String newTitle = "Most Recent Workflow Modification Time: "
 					+ updateTime;
 			updateView.setText(newTitle);

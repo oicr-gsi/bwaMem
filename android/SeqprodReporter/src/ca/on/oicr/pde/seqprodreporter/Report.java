@@ -55,6 +55,7 @@ public class Report {
 		rUpSinceLastTime = updated;
 		setTimeStamp(new Time());
 
+		//TODO need to consolidate code and make this conversion a function?
 		if (!rWorkflowName.equals(EMPTY_REPORT)) {
 			String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":",
 					"");
@@ -94,7 +95,7 @@ public class Report {
 		}
 	}
 
-	public void setrUpSinceLastTime(boolean bool){
+	public void setrUpdated(boolean bool){
 		rUpSinceLastTime = bool;
 	}
 	
