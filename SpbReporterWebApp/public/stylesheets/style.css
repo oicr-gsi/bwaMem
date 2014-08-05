@@ -14,7 +14,7 @@ a.tabs {
 .update_time p{
 	color: #777;
 	margin-left: 10px;
-	padding-bottom: 7px;
+	padding:7px 0;
 	text-align: center;
 	margin-bottom: 0;
 }
@@ -38,7 +38,13 @@ button.btn{
 	background: #B3B3B3;
 	margin: 15px 15px 0px 0px;
 }
-
+.nav-tabs{
+	border-bottom: none;
+}
+.nav-tabs li{
+	width : 33.33%;
+	text-align: center;
+}
 .report{
 	margin: 0 auto;
 	border-bottom-style: solid;
@@ -87,16 +93,42 @@ span.caret{
 * Specific styles for when tabs are stacked on top of eachother
 * phones
 */
-@media screen and (min-width: 319px) and (max-width: 767px){
+@media screen and (max-width: 747px){
 	.report p i{
-		font-size: 13px;
+		font-size: 9px;
+	}
+
+	.titleheader a{
+		padding: 0;
+	}
+	button.btn{
+		margin-right: 10px;
+	}
+	.SpbReporter{
+		font-size: 11px;
+	}
+}
+@media screen and (min-width: 396px){
+
+	button.btn{
+		margin-right: 20px;
+	}
+	h3.titleheader{
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+}
+
+@media screen and (max-width: 395px){
+	h3.titleheader{
+		margin-left: 0;
 	}
 }
 /*
 * Specfic styles for when tabs are side by side
 * tablets, laptops, desktops
 */
-@media screen and (min-width:768px){
+@media screen and (min-width:748px){
 	.report {
 		width:50%;
 		text-align: center;
