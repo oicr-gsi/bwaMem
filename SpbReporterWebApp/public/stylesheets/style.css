@@ -1,0 +1,110 @@
+a.tabs {
+  color: #777;
+  border-style: solid;
+  border-width: thin;
+}
+.SpbReporter{
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	position: absolute;
+	top: 0px;
+	width:100%;
+	background-color: #E5E5E5;
+}
+
+.update_time p{
+	color: #777;
+	margin-left: 10px;
+	padding-bottom: 7px;
+	text-align: center;
+	margin-bottom: 0;
+}
+.headerContainer{
+	background-color: black;
+}
+
+h3.titleheader{
+	margin:0px 0px 15px 5px;
+	padding-top: 10px;
+	display: inline-block;
+}
+.topHeader{
+	width: 100%;
+	display: inline-block;
+
+}
+button.btn{
+	display: inline-block;
+	float: right;
+	background: #B3B3B3;
+	margin: 15px 15px 0px 0px;
+}
+
+.report{
+	margin: 0 auto;
+	border-bottom-style: solid;
+	border-bottom-width: thin;
+	border-bottom-color: #D6D2D2;
+	padding: 10px 10px;
+}
+
+.report p{
+	margin: 0 0;
+}
+
+.emptyReport{
+	font-weight: bold;
+	text-align: center;
+	margin-top: 10px;
+}
+.reportBorder{
+	width: 30%;
+}
+.progress{
+	margin-top: 5px;
+	width: 75%;
+	margin-bottom: 10px;
+}
+
+ul.topHeader{
+	padding-left: 0px;
+	margin-bottom: 0px;
+}
+li.headerItem{
+	display: inline;
+}
+.titleheader a {
+	padding: 10px;
+	color: #777;
+}
+.titleheader a:hover{
+	text-decoration: none;
+}
+
+span.caret{
+	margin-left: 5px !important;
+}
+/*
+* phones (portrait and landscape)
+*/
+@media screen and (max-width: 767px){
+	.report p i{
+		font-size: 13px;
+	}
+}
+/*
+* Specfic styles for when tabs are side by side
+* tablets, laptops, desktops
+*/
+@media screen and (min-width:768px){
+	.report {
+		width:50%;
+		text-align: center;
+	}
+	.progress{
+		margin-right:auto;
+		margin-left: auto;
+	}
+	.update_time p {
+		padding-top: 7px;
+	}
+}
