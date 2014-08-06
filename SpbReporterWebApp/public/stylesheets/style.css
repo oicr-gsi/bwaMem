@@ -1,7 +1,6 @@
 a.tabs {
   color: #777;
-  border-style: solid;
-  border-width: thin;
+  margin-right: 0 !important;
 }
 
 .btn-group.sorting{
@@ -15,8 +14,12 @@ h5.dropdown-title{
 li.dropdown-row{
 	margin-left: 10px;
 }
+
 .radio {
 	margin: 5px 0;
+}
+ul.reportsList{
+	list-style-type: none;
 }
 ul.dropdown-menu.dropdown-menu-right{
 	margin-right: 15px;
@@ -61,9 +64,13 @@ button.btn{
 	border-bottom: none;
 }
 .nav-tabs li{
-	width : 33.33%;
+	color: #777;
+  	border-style: solid;
+  	border-width: thin;
+	width : 33.333333%;
 	text-align: center;
 }
+
 .report{
 	margin: 0 auto;
 	border-bottom-style: solid;
