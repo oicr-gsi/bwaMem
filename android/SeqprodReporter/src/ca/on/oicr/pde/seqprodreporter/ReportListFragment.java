@@ -80,21 +80,20 @@ public class ReportListFragment extends Fragment {
 		this.mAdapter.setNotifyOnChange(false);
 		// Restoring last update time, if available:
 		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE);
-		String upTime = sp.getString("updateListTime" + ReporterActivity.types[index], null);
+		long upTime = sp.getLong("updateListTime" + ReporterActivity.getType(index), 0);
+		String timeRange = sp.getString("pref_summaryScope", "week");
 		
-		if (upTime != null && !upTime.isEmpty()) {
+		if (upTime > 0) {
 			try {
-				Time recoveredTime = new Time();
-				recoveredTime.parse(upTime);
-				this.lastUpdateTime = recoveredTime;
+				this.lastUpdateTime.set(upTime);
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
-						.edit().putString("updateListTime" + ReporterActivity.types[this.getSectionNumber() - 1],"").apply();
+						.edit().putLong("updateListTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
 		}
 
-		new JsonLoaderTask(this, ReporterActivity.types[index],this.lastUpdateTime).execute(getSearchFilter());
+		new JsonLoaderTask(this, ReporterActivity.getType(index),this.lastUpdateTime).execute(new String[] {getSearchFilter(),timeRange});
 
 		listView.setAdapter(mAdapter);
 		return rootView;
@@ -106,8 +105,8 @@ public class ReportListFragment extends Fragment {
 			SharedPreferences sp = getActivity().getSharedPreferences(
 					ReporterActivity.PREFERENCE_FILE,
 					ReporterActivity.MODE_PRIVATE);
-			sp.edit().putString("updateListTime" + ReporterActivity.types[this.getSectionNumber() - 1],
-					            this.lastUpdateTime.format2445()).apply();
+			sp.edit().putLong("updateListTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
+					            this.lastUpdateTime.toMillis(false)).apply();
 
 		}
 		// TODO Auto-generated method stub
@@ -136,7 +135,7 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","","","",false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type, Report.EMPTY_REPORT, "", 0, 0, "", "", "", false);
 			this.mAdapter.add(emptyReport);
 			this.emptyList = true;
 		}

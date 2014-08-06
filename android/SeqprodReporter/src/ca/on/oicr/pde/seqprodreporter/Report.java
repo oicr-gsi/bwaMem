@@ -17,8 +17,8 @@ public class Report {
 	private String rWorkflowRunId;
 	private String rWorkflowRunType; // get this from web in json format
 	private String rWorkflowRunStatus; // what we get from db (status field)
-	private String rCreateTime;
-	private String rLastmodTime;
+	private long rCreateTime;
+	private long rLastmodTime;
 	private String rProgress;
 	private Time rLastModTime;
 	private boolean rUpSinceLastTime;
@@ -40,8 +40,8 @@ public class Report {
 	public static final String ZERO_PROGRESS = "0";
 
 	// TODO place to change if adding new fields
-	public Report(String sname, String wname, String wversion, String ctime,
-			String ltime, String wrun_id, String wrun_status, String wrun_type,
+	public Report(String sname, String wname, String wversion, long ctime,
+			long ltime, String wrun_id, String wrun_status, String wrun_type,
 			boolean updated) {
 		rSampleName = sname;
 		rWorkflowName = wname;
@@ -57,12 +57,8 @@ public class Report {
 
 		//TODO need to consolidate code and make this conversion a function?
 		if (!rWorkflowName.equals(EMPTY_REPORT)) {
-			String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":",
-					"");
 			try {
-				String parsable = lmTime.substring(0, lmTime.lastIndexOf("."))
-						.replace(" ", "T");
-				getTimeStamp().parse(parsable);
+				getTimeStamp().set(rLastmodTime);
 			} catch (TimeFormatException tfe) {
 				getTimeStamp().setToNow();
 				Log.e(ReporterActivity.TAG,
@@ -78,16 +74,13 @@ public class Report {
 		rWorkflowRunId = value.getAsString(DataContract.WR_ID);
 		rWorkflowRunType = value.getAsString(DataContract.WR_TYPE);
 		rWorkflowRunStatus = value.getAsString(DataContract.STATUS);
-		rCreateTime = value.getAsString(DataContract.CR_TIME);
-		rLastmodTime = value.getAsString(DataContract.LM_TIME);
+		rCreateTime = value.getAsLong(DataContract.CR_TIME);
+		rLastmodTime = value.getAsLong(DataContract.LM_TIME);
 		rProgress = value.getAsString(DataContract.PROGRESS);
 		setTimeStamp(new Time());
 
-		String lmTime = rLastmodTime.replaceAll("-", ":").replaceAll(":", "");
 		try {
-			String parsable = lmTime.substring(0, lmTime.lastIndexOf("."))
-					.replace(" ", "T");
-			getTimeStamp().parse(parsable);
+			getTimeStamp().set(rLastmodTime);
 		} catch (TimeFormatException tfe) {
 			getTimeStamp().setToNow();
 			Log.e(ReporterActivity.TAG,
@@ -115,7 +108,7 @@ public class Report {
 		return rSampleName;
 	}
 
-	public String getrLastmodTime() {
+	public long getrLastmodTime() {
 		return rLastmodTime;
 	}
 
@@ -139,7 +132,7 @@ public class Report {
 		return rWorkflowRunType;
 	}
 
-	public String getrCreateTime() {
+	public long getrCreateTime() {
 		return rCreateTime;
 	}
 

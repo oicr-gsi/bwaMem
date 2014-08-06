@@ -75,9 +75,8 @@ public class ReportProvider extends ContentProvider {
 		// This method is implemented but NOT IN USE at this point
 		SQLiteDatabase db = mReportHelper.getWritableDatabase();
 		ContentValues selectedValues = new ContentValues();
-
 		selectedValues.put(DataContract.LM_TIME,
-				values.getAsString(DataContract.LM_TIME));
+				values.getAsLong(DataContract.LM_TIME));
 		selectedValues.put(DataContract.STATUS,
 				values.getAsString(DataContract.STATUS));
 		selectedValues.put(DataContract.PROGRESS,

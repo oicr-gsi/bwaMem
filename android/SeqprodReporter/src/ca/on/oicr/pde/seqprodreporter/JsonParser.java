@@ -35,17 +35,15 @@ public class JsonParser {
 			for (int i = 0; i < jsonRecords.length(); i++) {
 				JSONObject tmp = (JSONObject) jsonRecords.get(i);
 
-				String lmTime = tmp.getString("lmtime").replaceAll("-", ":")
-						.replaceAll(":", "");
+				// TODO PDE-650
+				//Time lmTime = new Time();
+				//lmTime.set(tmp.getLong("lmtime"));
 				boolean updated = false;
 
 				// 2014-03-21 14:32:23.729
-				// TODO Need to use timestamps in db so that we can do easy filtering by time range
 				try {
-					String parsable = lmTime.substring(0,
-							lmTime.lastIndexOf(".")).replace(" ", "T");
 					Time recordTime = new Time();
-					recordTime.parse(parsable);
+					recordTime.set(tmp.getLong("lmtime"));
 					if (null != lastUpdate
 							&& recordTime.after(lastUpdate))
 						updated = true;
@@ -65,8 +63,8 @@ public class JsonParser {
 				Report newReport = new Report(tmp.getString("sample"),
 											  tmp.getString("workflow"),
 											  tmp.getString("version"),
-											  tmp.getString("crtime"),
-											  tmp.getString("lmtime"),
+											  tmp.getLong("crtime"),
+											  tmp.getLong("lmtime"),
 											  tmp.getString("wrun_id"),
 											  tmp.getString("status"),
 											  types[t],

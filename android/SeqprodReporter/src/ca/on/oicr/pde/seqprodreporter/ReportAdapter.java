@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import android.content.Context;
+import android.text.format.Time;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,8 +76,11 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 			holder.samplename.setText("Sample: " + curr.getrSampleName());
 			holder.wfname.setText(curr.getrWorkflowName() + " "
 					+ curr.getrWorkflowVersion());
-			holder.ctime.setText("Created: " + curr.getrCreateTime());
-			holder.lmtime.setText("Modified: " + curr.getrLastmodTime());
+			Time timeHolder = new Time();
+			timeHolder.set(curr.getrCreateTime());
+			holder.ctime.setText("Created: " + timeHolder.format("%Y-%m-%d %H:%M:%S"));
+			timeHolder.set(curr.getrLastmodTime());
+			holder.lmtime.setText("Modified: " + timeHolder.format("%Y-%m-%d %H:%M:%S"));
 			if (null != curr.getrProgress()) {
 				holder.pbar.setProgress(curr.progressValue());
 				holder.pbar.setVisibility(ProgressBar.VISIBLE);

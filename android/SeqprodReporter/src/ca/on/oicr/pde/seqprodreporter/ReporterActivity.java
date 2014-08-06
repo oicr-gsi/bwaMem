@@ -227,7 +227,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null != this.lastModifiedFailedTime)
 			outState.putString("lastModifiedFailedTime",
 					lastModifiedFailedTime.format2445());
-		outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
+		    outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
 	}
