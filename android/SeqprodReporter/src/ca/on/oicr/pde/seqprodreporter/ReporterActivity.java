@@ -290,9 +290,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	}
 
 	private boolean isUpdateRangeSet() {
-		return !(null == this.updateRange || this.updateRange
-				.equals(getResources().getString(
-						R.string.pref_summaryScope_default)));
+		return !(null == this.updateRange || this.updateRange.isEmpty());
 	}
 
 	@Override
@@ -558,6 +556,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null == this.sp) // This check may be not needed
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
+		//TODO PDE-650 handle time ranges other than 'week' here
 		this.updateRange = sp.getString("pref_summaryScope", null);
 		this.notificationSetting = sp.getString("pref_notificationSettings",
 				NOTIFICATIONS_WEB_UPDATES);
@@ -597,8 +596,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	class PreferenceUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG,
-					"Entered onReceive for PreferenceUpdate, Broadcast received");
+			Log.d(TAG, "Entered onReceive for PreferenceUpdateReceiver");
 			updateActivityPrefs();
 		}
 

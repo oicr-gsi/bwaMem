@@ -61,7 +61,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 	private List<Report> getReportsFromDB(String... params)
 			throws NullPointerException {
-		// TODO PDE-650: Need to change this to enable time-constrained queries
 		List<Report> results = this.queryReportData(params[0],params[1]);
 		return results;
 	}
@@ -149,11 +148,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				.getColumnIndex(DataContract.WORKFLOW));
 		String wversion = cursor.getString(cursor
 				.getColumnIndex(DataContract.WF_VERSION));
-		// TODO PDE-650 change String to long
-		//String ctime = cursor.getString(cursor
-		//		.getColumnIndex(DataContract.CR_TIME));
-		//String ltime = cursor.getString(cursor
-		//		.getColumnIndex(DataContract.LM_TIME));
 		long ctime = cursor.getLong(cursor
 				.getColumnIndex(DataContract.CR_TIME));
 		long ltime = cursor.getLong(cursor

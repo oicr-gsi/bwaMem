@@ -79,6 +79,8 @@ public class ReportListFragment extends Fragment {
 				R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
 		// Restoring last update time, if available:
+		this.lastUpdateTime = new Time();
+		this.lastUpdateTime.setToNow();
 		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE);
 		long upTime = sp.getLong("updateListTime" + ReporterActivity.getType(index), 0);
 		String timeRange = sp.getString("pref_summaryScope", "week");
