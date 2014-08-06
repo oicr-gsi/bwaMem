@@ -3,6 +3,25 @@ a.tabs {
   border-style: solid;
   border-width: thin;
 }
+
+.btn-group.sorting{
+	float:right;
+}
+
+h5.dropdown-title{
+	margin-left: 10px;
+}
+
+li.dropdown-row{
+	margin-left: 10px;
+}
+.radio {
+	margin: 5px 0;
+}
+ul.dropdown-menu.dropdown-menu-right{
+	margin-right: 15px;
+}
+
 .SpbReporter{
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 	position: absolute;

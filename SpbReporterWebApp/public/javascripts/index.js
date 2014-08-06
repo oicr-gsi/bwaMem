@@ -1,3 +1,5 @@
+var async = require('async');
+
 $(document).ready(function(){
 	var hash = window.location.hash;
 
@@ -11,6 +13,11 @@ $(document).ready(function(){
 	else if(hash == '#failed'){
 		showFailed();
 	}
+
+	$('input[name="sortingRadios"]').change(function(){
+		var sortBy = $(this).attr('value');
+		async.parallel([],function(err, sortedLists))
+	});
 
 	$('li.completed').click(function(){
 		showCompleted();

@@ -23,9 +23,30 @@ html
 						h3.titleheader.text-muted
 							a(href="/") SpbReporter
 					li.headerItem
-						button.btn.btn-default.btn-xs
-							span.glyphicon.glyphicon-sort
-							span.caret
+						.btn-group.sorting
+							button.btn.btn-default.btn-xs.dropdown-toggle(data-toggle="dropdown")
+								span.glyphicon.glyphicon-sort
+								span.caret
+							ul.dropdown-menu.dropdown-menu-right(role="menu")
+								li
+									h5.dropdown-title
+										b Sort by:
+								li.divider
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortByWorkflow",value="workflow")
+											p Workflow
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortByDate",value="date", checked)
+											p Date
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortBySample",value="sample")
+											p Sample
 					li.headerItem
 						button.btn.btn-default.btn-xs.search_button
 							span.glyphicon.glyphicon-search
