@@ -20,8 +20,13 @@ html
 			header.headerContainer
 				ul.topHeader
 					li.headerItem
-						h3.titleheader.text-muted
+						h3.titleheader.text-muted.homepage-title
 							a(href="/") SpbReporter
+					li.headerItem
+						form.searching(style="display:none", id="search_form")
+							.form-group(style="margin-bottom:0")
+								input.search-div(type="search",placeholder="Search")
+								input.submit-button(type="submit")
 					li.headerItem
 						.btn-group.sorting
 							button.btn.btn-default.btn-xs.dropdown-toggle(data-toggle="dropdown")

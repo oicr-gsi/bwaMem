@@ -18,18 +18,18 @@ $(document).ready(function(){
 		var failedItems;
 		var pendingItems;
 
-		if ($('.reportsList#completedReports li.report')){
+		if (!($('.reportsList#completedReports li').hasClass('emptyReport'))){
 			completedItems = $('.reportsList#completedReports li').get();
 		}
 
-		if ($('.reportsList#failedReports li.report')){
+		if (!($('.reportsList#failedReports li').hasClass('emptyReport'))){
 			failedItems = $('.reportsList#failedReports li').get();
 		}
-		if ($('.reportsList#pendingReports li.report')){
+		if (!($('.reportsList#pendingReports li').hasClass('emptyReport'))){
 			pendingItems = $('.reportsList#pendingReports li').get();
 		}
 		if (sortBy == 'date'){
-			if (completedItems.length>1){
+			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 					var timeOne = a.getElementsByClassName('modified')[0].textContent;
 
@@ -44,7 +44,7 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
-			if (failedItems.length>1){
+			if (failedItems!== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 					var timeOne = a.getElementsByClassName('modified')[0].textContent;
 					var timeTwo = b.getElementsByClassName('modified')[0].textContent;
@@ -58,7 +58,7 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
-			if (pendingItems.length>1){
+			if (pendingItems!== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 					var timeOne = a.getElementsByClassName('modified')[0].textContent;
 					var timeTwo = b.getElementsByClassName('modified')[0].textContent;
@@ -74,7 +74,7 @@ $(document).ready(function(){
 			}
 		}
 		else if (sortBy == 'workflow'){
-			if (completedItems.length>1){
+			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 					var workflowOne = a.getElementsByClassName('workflowName')[0].textContent;
 
@@ -89,7 +89,7 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
-			if (failedItems.length>1){
+			if (failedItems !== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 					var workflowOne = a.getElementsByClassName('workflowName')[0].textContent;
 					var workflowTwo = b.getElementsByClassName('workflowName')[0].textContent;
@@ -103,7 +103,7 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
-			if (pendingItems.length>1){
+			if (pendingItems !== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 					var workflowOne = a.getElementsByClassName('workflowName')[0].textContent;
 					var workflowTwo = b.getElementsByClassName('workflowName')[0].textContent;
@@ -119,7 +119,7 @@ $(document).ready(function(){
 			}
 		}
 		else if (sortBy == 'sample'){
-			if (completedItems.length>1){
+			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 					var sampleOne = a.getElementsByClassName('sampleName')[0].textContent;
 
@@ -134,7 +134,7 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
-			if (failedItems.length>1){
+			if (failedItems !== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 					var sampleOne = a.getElementsByClassName('sampleName')[0].textContent;
 					var sampleTwo = b.getElementsByClassName('sampleName')[0].textContent;
@@ -148,7 +148,7 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
-			if (pendingItems.length>1){
+			if (pendingItems !== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 					var sampleOne = a.getElementsByClassName('sampleName')[0].textContent;
 					var sampleTwo = b.getElementsByClassName('sampleName')[0].textContent;
@@ -165,6 +165,95 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#search_form').submit(function(event){
+		event.preventDefault();
+		var queryString = $('input.search-div').val().toLowerCase().trim();
+
+		if (!($('.reportsList#completedReports li').hasClass('emptyReport'))){
+			$('.reportsList#completedReports li').filter(function(index){
+				var workflowName = this.getElementsByClassName('workflowName')[0].textContent.toLowerCase();
+				var sampleText = this.getElementsByClassName('sampleName')[0].textContent.toLowerCase();
+				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
+
+				if($(this).hasClass('hide')){
+					if (queryString == ""){
+						return true;
+					}
+					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			}).toggleClass('hide');
+		}
+
+		if (!($('.reportsList#failedReports li').hasClass('emptyReport'))){
+			$('.reportsList#failedReports li').filter(function(index){
+				var workflowName = this.getElementsByClassName('workflowName')[0].textContent.toLowerCase();
+				var sampleText = this.getElementsByClassName('sampleName')[0].textContent.toLowerCase();
+				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
+
+				if($(this).hasClass('hide')){
+					if (queryString == ""){
+						return true;
+					}
+					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			}).toggleClass('hide');
+		}
+
+		if (!($('.reportsList#pendingReports li').hasClass('emptyReport'))){
+			$('.reportsList#pendingReports li').filter(function(index){
+				var workflowName = this.getElementsByClassName('workflowName')[0].textContent.toLowerCase();
+				var sampleText = this.getElementsByClassName('sampleName')[0].textContent.toLowerCase();
+				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
+
+				if($(this).hasClass('hide')){
+					if (queryString == ""){
+						return true;
+					}
+					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+				else {
+					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+			}).toggleClass('hide');
+		}
+	});
+
 	$('li.completed').click(function(){
 		showCompleted();
 	});
@@ -175,6 +264,12 @@ $(document).ready(function(){
 
 	$('li.failed').click(function(){
 		showFailed();
+	});
+
+	$('.search_button').click(function(){
+		$('form.searching').toggle();
+		$('.homepage-title').toggle();
+		$(this).toggleClass('white');
 	});
 
 	$('.refresh_button').click(function(){

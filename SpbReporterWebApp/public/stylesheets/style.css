@@ -19,6 +19,7 @@ li.dropdown-row{
 	margin: 5px 0;
 }
 ul.reportsList{
+	padding-left: 0;
 	list-style-type: none;
 }
 ul.dropdown-menu.dropdown-menu-right{
@@ -111,9 +112,31 @@ li.headerItem{
 .titleheader a:hover{
 	text-decoration: none;
 }
+input.submit-button{
+	position:absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+}
 
+form.searching{
+	width: 45%;
+	margin:5px 0px 15px 10px;
+	padding-top: 10px;
+	display: inline-block;
+}
+input.search-div{
+	width: 100%;
+}
 span.caret{
 	margin-left: 5px !important;
+}
+.white{
+	background-color: #fff !important;
+}
+
+.hide{
+	display: none;
 }
 /*
 * Specific styles for when tabs are stacked on top of eachother
@@ -133,6 +156,7 @@ span.caret{
 	.SpbReporter{
 		font-size: 11px;
 	}
+
 }
 @media screen and (min-width: 396px){
 
@@ -164,4 +188,3 @@ span.caret{
 	.update_time p {
 		padding-top: 7px;
 	}
-}
