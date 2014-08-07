@@ -789,7 +789,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				// Need to use something like Reentrant Lock here
 				new getreportHTTP(getApplicationContext(), 
 						          sp.getString("pref_hostName", null),
-						          getResources().getString(R.string.pref_summaryScope_default)).execute(lastModifiedFailedTime);
+						          getResources().getStringArray(R.array.pref_summaryScope_entries)[0]).execute(lastModifiedFailedTime);
 			}
 		}
 
