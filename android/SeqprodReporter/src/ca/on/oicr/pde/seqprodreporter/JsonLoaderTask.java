@@ -22,10 +22,10 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	private String TYPE;
 	private Time lastUpdated;
 	private Time firstUpdated;
-	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000,		//WEEK
-												   30 * 24 * 3600 * 1000,		//MONTH
-		                                           365 * 24 * 3600 * 1000,		//YEAR
-		                                           10 * 365 * 24 * 3600 * 1000};//DECADE
+	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
+												   30 * 24 * 3600 * 1000L,		//MONTH
+		                                           365 * 24 * 3600 * 1000L,		//YEAR
+		                                           10 * 365 * 24 * 3600 * 1000L};//DECADE
 
 	public JsonLoaderTask(ReportListFragment parent, String type,
 			Time lastUpdate) {
@@ -33,8 +33,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		mParent = new WeakReference<ReportListFragment>(parent);
 		TYPE = type;
 		this.lastUpdated = lastUpdate;
-		this.firstUpdated = new Time();
-		this.firstUpdated.setToNow();
 	}
 
 	@Override
@@ -117,8 +115,9 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 							&& entryLMTime.after(this.lastUpdated)){
 						newEntry.setrUpdated(true);
 					}
-					if (entryLMTime.before(this.firstUpdated)){
-						this.firstUpdated = entryLMTime;
+					if (null == this.firstUpdated || entryLMTime.before(this.firstUpdated)){
+						if (!Time.isEpoch(entryLMTime))
+							this.firstUpdated = entryLMTime;
 					}
 					rValue.add(newEntry);
 					if (null == newLatest || newLatest.before(entryLMTime)){
@@ -133,7 +132,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				else if (this.lastUpdated.before(newLatest)){
 					// TODO: this code was used here for some reason, need to see if it's absence does anything
 					// if (this.mParent.get().getSectionNumber()-1
-					// 8== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
+					// == this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
 						this.mParent.get().setLastUpdateTime(newLatest);
 				}
 				this.mParent.get().setFirstUpdateTime(this.firstUpdated);

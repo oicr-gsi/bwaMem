@@ -17,8 +17,8 @@ public class Report {
 	private String rWorkflowRunId;
 	private String rWorkflowRunType; // get this from web in json format
 	private String rWorkflowRunStatus; // what we get from db (status field)
-	private long rCreateTime;
-	private long rLastmodTime;
+	private long rCreateTimeMillis;
+	private long rLastmodTimeMillis;
 	private String rProgress;
 	private Time rLastModTime;
 	private boolean rUpSinceLastTime;
@@ -49,8 +49,8 @@ public class Report {
 		rWorkflowRunId = wrun_id;
 		rWorkflowRunType = wrun_type;
 		rWorkflowRunStatus = wrun_status;
-		rCreateTime = ctime;
-		rLastmodTime = ltime;
+		rCreateTimeMillis = ctime;
+		rLastmodTimeMillis = ltime;
 		rProgress = null;
 		rUpSinceLastTime = updated;
 		setTimeStamp(new Time());
@@ -58,7 +58,7 @@ public class Report {
 		//TODO need to consolidate code and make this conversion a function?
 		if (!rWorkflowName.equals(EMPTY_REPORT)) {
 			try {
-				getTimeStamp().set(rLastmodTime);
+				getTimeStamp().set(rLastmodTimeMillis);
 			} catch (TimeFormatException tfe) {
 				getTimeStamp().setToNow();
 				Log.e(ReporterActivity.TAG,
@@ -74,13 +74,13 @@ public class Report {
 		rWorkflowRunId = value.getAsString(DataContract.WR_ID);
 		rWorkflowRunType = value.getAsString(DataContract.WR_TYPE);
 		rWorkflowRunStatus = value.getAsString(DataContract.STATUS);
-		rCreateTime = value.getAsLong(DataContract.CR_TIME);
-		rLastmodTime = value.getAsLong(DataContract.LM_TIME);
+		rCreateTimeMillis = value.getAsLong(DataContract.CR_TIME);
+		rLastmodTimeMillis = value.getAsLong(DataContract.LM_TIME);
 		rProgress = value.getAsString(DataContract.PROGRESS);
 		setTimeStamp(new Time());
 
 		try {
-			getTimeStamp().set(rLastmodTime);
+			getTimeStamp().set(rLastmodTimeMillis);
 		} catch (TimeFormatException tfe) {
 			getTimeStamp().setToNow();
 			Log.e(ReporterActivity.TAG,
@@ -109,7 +109,7 @@ public class Report {
 	}
 
 	public long getrLastmodTime() {
-		return rLastmodTime;
+		return rLastmodTimeMillis;
 	}
 
 	public String getrWorkflowName() {
@@ -133,7 +133,7 @@ public class Report {
 	}
 
 	public long getrCreateTime() {
-		return rCreateTime;
+		return rCreateTimeMillis;
 	}
 
 	public void setrProgress(String progress) {
@@ -168,7 +168,7 @@ public class Report {
 	}
 
 	public Time getTimeStamp() {
-		return rLastModTime;
+		return this.rLastModTime;
 	}
 
 	private void setTimeStamp(Time rLastModTime) {

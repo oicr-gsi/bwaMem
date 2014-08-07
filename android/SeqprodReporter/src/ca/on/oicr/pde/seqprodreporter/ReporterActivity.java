@@ -561,14 +561,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null == this.sp) // This check may be not needed
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
-		// PDE-650 handle time ranges other than 'week' here
-		this.updateRange = sp.getString("pref_summaryScope", null);
-		if (!this.updateRange.equals(getResources().getString(R.string.pref_summaryScope_default)) && this.updateFrequency != 0) 
-			requestLargeUpdate();
-				
-		this.notificationSetting = sp.getString("pref_notificationSettings",
-				NOTIFICATIONS_WEB_UPDATES);
-
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -582,6 +574,16 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else {
 			this.updateFrequency = 0;
 		}
+				
+		// PDE-650 handle time ranges other than 'week' here
+		this.updateRange = sp.getString("pref_summaryScope", null);
+		if (!this.updateRange.equals(getResources().getStringArray(R.array.pref_summaryScope_entries)[0]) && this.updateFrequency != 0) 
+			requestLargeUpdate();
+				
+		this.notificationSetting = sp.getString("pref_notificationSettings",
+				NOTIFICATIONS_WEB_UPDATES);
+
+		
 		scheduleUpdate();
 	}
 
@@ -625,9 +627,11 @@ public class ReporterActivity extends ActionBarActivity implements
 		now.setToNow();
 		Log.d(TAG,"Checking if we already have data in requested range...");
 		long rangeLimit = now.toMillis(false) - JsonLoaderTask.updateRanges[rangeIndex];
+		
+		try {
 		ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter.getItem(0);
-		if (f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
-			Log.d(TAG,"Comparing exisitng data " + f.getFirstUpdateTime().toMillis(false) + " ns old and rangeLimit " + rangeLimit);
+		//TODO PDE-650 Somehow we get 1970 here all the time, need to fix 
+		if (null == f.getFirstUpdateTime() || f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
 			this.dataRangeRequested[rangeIndex] = true;
 			return;	
 		}
@@ -638,6 +642,9 @@ public class ReporterActivity extends ActionBarActivity implements
 		          this.updateRange).execute();
 		//update dataRangeRequested
 		this.dataRangeRequested[rangeIndex] = true;
+		} catch (NullPointerException npe) {
+			Log.e(TAG,"Error getting first update time, won't request data");
+		}
 	}
 
 	/*
