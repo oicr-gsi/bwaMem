@@ -21,11 +21,11 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	private WeakReference<ReportListFragment> mParent;
 	private String TYPE;
 	private Time lastUpdated;
-	
-	private static final int WEEK   = 7 * 24 * 3600 * 1000;
-	private static final int MONTH  = 30 * 24 * 3600 * 1000;
-	private static final int YEAR   = 365 * 24 * 3600 * 1000;
-	private static final int DECADE = 10 * 365 * 24 * 3600 * 1000;
+	private Time firstUpdated;
+	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000,		//WEEK
+												   30 * 24 * 3600 * 1000,		//MONTH
+		                                           365 * 24 * 3600 * 1000,		//YEAR
+		                                           10 * 365 * 24 * 3600 * 1000};//DECADE
 
 	public JsonLoaderTask(ReportListFragment parent, String type,
 			Time lastUpdate) {
@@ -33,6 +33,8 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		mParent = new WeakReference<ReportListFragment>(parent);
 		TYPE = type;
 		this.lastUpdated = lastUpdate;
+		this.firstUpdated = new Time();
+		this.firstUpdated.setToNow();
 	}
 
 	@Override
@@ -77,16 +79,16 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		    // Not clear at this point what is the best way to handle this other than
 		    // by using long if-else block
 		    if (timeRange.equals("decade")) {
-		      earliest -= DECADE;		    	
+		      earliest -= updateRanges[3];		    	
 		    } else if (timeRange.equals("year")) {
-		      earliest -= YEAR;
+		      earliest -= updateRanges[2];
 		    } else if (timeRange.equals("month")) {
-		      earliest -= MONTH;
+		      earliest -= updateRanges[1];
 		    } else { // default to 'week'
-		      earliest -= WEEK;
+		      earliest -= updateRanges[0];
 		    }	    
 		} else {
-			earliest -= WEEK;
+			earliest -= updateRanges[0];
 		}
 		
 		if (null != filterWord && !filterWord.isEmpty()) {
@@ -113,7 +115,10 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					Time entryLMTime = newEntry.getTimeStamp();
 					if (null != this.lastUpdated 
 							&& entryLMTime.after(this.lastUpdated)){
-						newEntry.setrUpdated(true); 
+						newEntry.setrUpdated(true);
+					}
+					if (entryLMTime.before(this.firstUpdated)){
+						this.firstUpdated = entryLMTime;
 					}
 					rValue.add(newEntry);
 					if (null == newLatest || newLatest.before(entryLMTime)){
@@ -126,11 +131,12 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				} 
 				//Update the lastUpdated for parent after all items are created
 				else if (this.lastUpdated.before(newLatest)){
-					// TODO: this code was used here for some reason, need to see if it's abscence does anything
+					// TODO: this code was used here for some reason, need to see if it's absence does anything
 					// if (this.mParent.get().getSectionNumber()-1
 					// 8== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
 						this.mParent.get().setLastUpdateTime(newLatest);
 				}
+				this.mParent.get().setFirstUpdateTime(this.firstUpdated);
 			
 			result.close();
 			}
