@@ -125,7 +125,7 @@ span.caret{
 	}
 
 	.titleheader a{
-		padding: 0;
+		padding: 8;
 	}
 	button.btn{
 		margin-right: 10px;
@@ -146,9 +146,7 @@ span.caret{
 }
 
 @media screen and (max-width: 395px){
-	h3.titleheader{
-		margin-left: 0;
-	}
+
 }
 /*
 * Specfic styles for when tabs are side by side
