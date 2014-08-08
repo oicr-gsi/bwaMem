@@ -13,6 +13,7 @@ accessingDB = false;//TODO: work on this
 downloadTime = new Date();
 
 var download = require('./library/download');
+
 //sets timer to get reports from script and update the DB every 15 minutes
 setInterval(function(){
     download.downloadReportsToDB();
@@ -24,7 +25,13 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console,'connection error:'));
 db.once('open', function callback(){
     console.log('connected to DB');
+    setTimeout(function(){
+    download.downloadReportsToDB();
+    downloadTime = new Date();
+    }, 0);
 });
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
