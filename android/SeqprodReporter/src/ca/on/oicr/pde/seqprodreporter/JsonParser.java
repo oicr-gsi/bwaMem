@@ -35,9 +35,6 @@ public class JsonParser {
 			for (int i = 0; i < jsonRecords.length(); i++) {
 				JSONObject tmp = (JSONObject) jsonRecords.get(i);
 
-				// TODO PDE-650
-				//Time lmTime = new Time();
-				//lmTime.set(tmp.getLong("lmtime"));
 				boolean updated = false;
 
 				// 2014-03-21 14:32:23.729
@@ -59,7 +56,6 @@ public class JsonParser {
 							"An error with Parsing Time occured");
 				}
 
-				// TODO Need to use new data field entries once back end is modified
 				Report newReport = new Report(tmp.getString("sample"),
 											  tmp.getString("workflow"),
 											  tmp.getString("version"),

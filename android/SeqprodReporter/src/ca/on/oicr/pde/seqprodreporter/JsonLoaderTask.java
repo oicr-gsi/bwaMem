@@ -129,10 +129,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					this.mParent.get().setLastUpdateTime(newLatest);
 				} 
 				//Update the lastUpdated for parent after all items are created
-				else if (this.lastUpdated.before(newLatest)){
-					// TODO: this code was used here for some reason, need to see if it's absence does anything
-					// if (this.mParent.get().getSectionNumber()-1
-					// == this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
+				else if (this.lastUpdated.before(newLatest)){				
 						this.mParent.get().setLastUpdateTime(newLatest);
 				}
 				this.mParent.get().setFirstUpdateTime(this.firstUpdated);

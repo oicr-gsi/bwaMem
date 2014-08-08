@@ -417,7 +417,6 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		// Log.d(TAG, "Intent Received...");
 		setIntent(intent);
 		handleIntent(intent);
 	}
@@ -540,8 +539,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.d(TAG, "Will schedule Timer to trigger updates from "
 				+ this.updateHost);
 		// Schedule Alert here
-		// DEBUG ONLY
-		// this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -630,7 +627,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 		try {
 		ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter.getItem(0);
-		//TODO PDE-650 Somehow we get 1970 here all the time, need to fix 
 		if (null == f.getFirstUpdateTime() || f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
 			this.dataRangeRequested[rangeIndex] = true;
 			return;	
