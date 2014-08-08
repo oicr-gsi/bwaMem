@@ -3,6 +3,7 @@
 use warnings;
 use CGI qw(:standard -debug escape);
 use JSON;
+use constant DEBUG=>0;
 
 my $fileDir = "/.mounts/labs/PDE/web/html/spbreporter/";
 my %files   = (week   => "week.json",
@@ -18,6 +19,9 @@ if (my $q = param('range')) {
     if ($files{$q}) {
        warn "Will try to load the file" if DEBUG;
        my $path = $fileDir.$files{$q};
+        if (!-e $path) {
+          $path = $fileDir.$files{week}; # If there's no requested file, return the week.json
+        } 
         open(JSON,"<$path") or die "Couldn't read file [$path]";
         my $jsonBuffer;
         while (<JSON>){
