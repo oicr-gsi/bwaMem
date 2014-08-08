@@ -40,7 +40,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 
 		if (null == this.URL || null == this.Range)
 			return null;
-		if (null != params)
+		if (null != params && params.length >= 1)
 			failedTime = params[0];
 		
 		isFailedModified = false;

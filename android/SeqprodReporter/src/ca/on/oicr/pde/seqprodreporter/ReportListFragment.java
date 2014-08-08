@@ -101,6 +101,9 @@ public class ReportListFragment extends Fragment {
 		if (crTime > 0) {
 			try {
 				this.firstUpdateTime.set(crTime);
+				if (Time.isEpoch(this.firstUpdateTime)) {
+					this.firstUpdateTime.setToNow(); // Prevent passing value created with Time() constructor
+				}
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
