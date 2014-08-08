@@ -574,6 +574,9 @@ public class ReporterActivity extends ActionBarActivity implements
 				
 		// PDE-650 handle time ranges other than 'week' here
 		this.updateRange = sp.getString("pref_summaryScope", null);
+		if (null == this.updateRange || null == this.updateHost)
+			return;
+		
 		if (!this.updateRange.equals(getResources().getStringArray(R.array.pref_summaryScope_entries)[0]) && this.updateFrequency != 0) 
 			requestLargeUpdate();
 				
