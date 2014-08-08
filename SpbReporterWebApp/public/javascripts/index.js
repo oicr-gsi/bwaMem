@@ -1,7 +1,8 @@
 $(document).ready(function(){
+
 	var hash = window.location.hash;
 
-	//---------- Code that takes care of what list to show based on what URL that was accessed-------------------
+//---------- Code that takes care of what list to show based on what URL that was accessed-------------------
 
 	if (hash == '#completed' || hash == ''){
 		showCompleted();
@@ -14,7 +15,7 @@ $(document).ready(function(){
 		showFailed();
 	}
 
-	//---------------------- Tab selection event handling code-------------------------------------
+//---------------------- Tab selection event handling code-------------------------------------
 
 	$('li.completed').click(function(){
 		showCompleted();
@@ -28,7 +29,7 @@ $(document).ready(function(){
 		showFailed();
 	});
 
-	//------------------ Button (nav bar icon) click event handling code------------------------------------
+//------------------ Button (nav bar icon) click event handling code------------------------------------
 
 	$('.search_button').click(function(){
 		$('form.searching').toggle();
@@ -44,7 +45,7 @@ $(document).ready(function(){
 		window.location.href = '/stats';
 	});
 
-	//------------ Code that takes care of dynamic sorting-----------------------------------
+//------------------- Code that takes care of dynamic sorting-----------------------------------
 
 	$('input[name="sortingRadios"]').change(function(){
 		var sortBy = $(this).attr('value');
@@ -53,7 +54,6 @@ $(document).ready(function(){
 		var pendingItems;
 
 		// If the lists aren't empty put the list items (reports) in an array
-		// Only sorts lists if there are more than 1 item in the list
 		if (!($('.reportsList#completedReports li').hasClass('emptyReport'))){
 			completedItems = $('.reportsList#completedReports li').get();
 		}
@@ -64,8 +64,13 @@ $(document).ready(function(){
 		if (!($('.reportsList#pendingReports li').hasClass('emptyReport'))){
 			pendingItems = $('.reportsList#pendingReports li').get();
 		}
-		//--------------------Code that takes care of sorting by date------------------
+
+		//****************************** Sorting by date *********************************************
+
 		if (sortBy == 'date'){
+
+			// ----------- Sorts the completed list by modifification time if theres more than 1 report in the list---------
+
 			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 
@@ -82,6 +87,9 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the failed list by modifification time if theres more than 1 report in the list---------
+
 			if (failedItems!== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 
@@ -98,6 +106,9 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the pending list by modifification time if theres more than 1 report in the list---------
+
 			if (pendingItems!== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 
@@ -116,7 +127,12 @@ $(document).ready(function(){
 			}
 		}
 
+		//*********************** Sorting by workflow name ***************************************
+
 		else if (sortBy == 'workflow'){
+
+			// ----------- Sorts the completed list by workflow name if theres more than 1 report in the list-------------
+
 			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 
@@ -133,6 +149,9 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the failed list by workflow name if theres more than 1 report in the list-------------
+
 			if (failedItems !== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 
@@ -149,6 +168,9 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the pending list by workflow name if theres more than 1 report in the list-------------
+
 			if (pendingItems !== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 
@@ -166,7 +188,13 @@ $(document).ready(function(){
 				});
 			}
 		}
+
+		//***************************** Sorting by sample name ***************************************
+
 		else if (sortBy == 'sample'){
+
+			// ----------- Sorts the completed list by sample name if theres more than 1 report in the list-------------
+
 			if (completedItems !== undefined && completedItems.length>1){
 				completedItems.sort(function(a,b){
 
@@ -183,6 +211,9 @@ $(document).ready(function(){
 					completedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the failed list by sample name if theres more than 1 report in the list-------------
+
 			if (failedItems !== undefined && failedItems.length>1){
 				failedItems.sort(function(a,b){
 
@@ -199,6 +230,9 @@ $(document).ready(function(){
 					failedUList.append(li);
 				});
 			}
+
+			// ----------- Sorts the pending list by sample name if theres more than 1 report in the list-------------
+
 			if (pendingItems !== undefined && pendingItems.length>1){
 				pendingItems.sort(function(a,b){
 
@@ -217,6 +251,8 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+//---------------Code that takes care of dynamic searching/filtering once user submits search query-------------------
 
 	$('#search_form').submit(function(event){
 		event.preventDefault();
@@ -307,6 +343,8 @@ $(document).ready(function(){
 		}
 	});
 
+
+//---------------------- Functions that are invoked to show/hide corresponding lists------------------------
 
 	function showCompleted(){
 		$('#pendingReports').hide();
