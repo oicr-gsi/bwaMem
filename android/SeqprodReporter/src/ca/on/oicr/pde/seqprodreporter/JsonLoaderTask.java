@@ -21,6 +21,11 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	private WeakReference<ReportListFragment> mParent;
 	private String TYPE;
 	private Time lastUpdated;
+	private Time firstUpdated;
+	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
+												   30 * 24 * 3600 * 1000L,		//MONTH
+		                                           365 * 24 * 3600 * 1000L,		//YEAR
+		                                           10 * 365 * 24 * 3600 * 1000L};//DECADE
 
 	public JsonLoaderTask(ReportListFragment parent, String type,
 			Time lastUpdate) {
@@ -35,7 +40,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		List<Report> reports = null;
 
 		try {
-			reports = getReportsFromDB(params[0]); 
+			reports = getReportsFromDB(params); 
 		} catch (NullPointerException npe) {
 			Log.e(ReporterActivity.TAG,"There was an error reading database");
 		} catch (RuntimeException rte){
@@ -56,25 +61,43 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 	private List<Report> getReportsFromDB(String... params)
 			throws NullPointerException {
-		List<Report> results = this.queryReportData(params[0]);
+		List<Report> results = this.queryReportData(params[0],params[1]);
 		return results;
 	}
 
 	/**
 	 *  Functions for getting data from cursor
 	 */
-	private ArrayList<Report> queryReportData(String filterWord) {
+	private ArrayList<Report> queryReportData(String filterWord, String timeRange) {
 		
 		Cursor result;
-		// create String that will match with 'like' in query
+		long earliest =  Long.valueOf(System.currentTimeMillis());
+		
+		if (null != timeRange && !timeRange.isEmpty()) {	    
+		    // Not clear at this point what is the best way to handle this other than
+		    // by using long if-else block
+		    if (timeRange.equals("decade")) {
+		      earliest -= updateRanges[3];		    	
+		    } else if (timeRange.equals("year")) {
+		      earliest -= updateRanges[2];
+		    } else if (timeRange.equals("month")) {
+		      earliest -= updateRanges[1];
+		    } else { // default to 'week'
+		      earliest -= updateRanges[0];
+		    }	    
+		} else {
+			earliest -= updateRanges[0];
+		}
+		
 		if (null != filterWord && !filterWord.isEmpty()) {
 		 filterWord = "%" + filterWord + "%";
 		 result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
 				  .query(DataContract.CONTENT_URI, null, 
-						 DataContract.WR_TYPE + "= ? AND (" + 
+						 DataContract.WR_TYPE + "= ? AND " + 
+				         DataContract.LM_TIME + "> ? " + " AND (" + 
 						 DataContract.SAMPLE + " LIKE ? OR " + 
-				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE,filterWord,filterWord}, null);
+				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE, "" + earliest, filterWord, filterWord}, null);
 		} else {
 		  result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
@@ -90,7 +113,11 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					Time entryLMTime = newEntry.getTimeStamp();
 					if (null != this.lastUpdated 
 							&& entryLMTime.after(this.lastUpdated)){
-						newEntry.setrUpdated(true); 
+						newEntry.setrUpdated(true);
+					}
+					if (null == this.firstUpdated || entryLMTime.before(this.firstUpdated)){
+						if (!Time.isEpoch(entryLMTime))
+							this.firstUpdated = entryLMTime;
 					}
 					rValue.add(newEntry);
 					if (null == newLatest || newLatest.before(entryLMTime)){
@@ -102,12 +129,10 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					this.mParent.get().setLastUpdateTime(newLatest);
 				} 
 				//Update the lastUpdated for parent after all items are created
-				else if (this.lastUpdated.before(newLatest)){
-					//TODO: this code was used here for some reason, need to see if it's abscence does anything
-					//if (this.mParent.get().getSectionNumber()-1
-					//		== this.mParent.get().getActivity().getActionBar().getSelectedNavigationIndex()){					
+				else if (this.lastUpdated.before(newLatest)){				
 						this.mParent.get().setLastUpdateTime(newLatest);
 				}
+				this.mParent.get().setFirstUpdateTime(this.firstUpdated);
 			
 			result.close();
 			}
@@ -125,9 +150,9 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				.getColumnIndex(DataContract.WORKFLOW));
 		String wversion = cursor.getString(cursor
 				.getColumnIndex(DataContract.WF_VERSION));
-		String ctime = cursor.getString(cursor
+		long ctime = cursor.getLong(cursor
 				.getColumnIndex(DataContract.CR_TIME));
-		String ltime = cursor.getString(cursor
+		long ltime = cursor.getLong(cursor
 				.getColumnIndex(DataContract.LM_TIME));
 		String wrunid = cursor.getString(cursor
 				.getColumnIndex(DataContract.WR_ID));

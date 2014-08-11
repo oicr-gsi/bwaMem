@@ -10,8 +10,8 @@ use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
+$| = 1;
 
-# TODO set the credentials using setup script
 # OOZIE WEBSERVICE:
 #my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
 my $webservice  = "http://hsqwprod-node1.hpc.oicr.on.ca"; 
@@ -41,13 +41,18 @@ my $password = '*****';
 my $dbhost = 'hsqwprod-db1.hpc.oicr.on.ca';
 my $dbname = 'hsqwprod_seqware_meta_db';
 my $devmode = 0;
+my $timemode= 0;
 
 
 # Control development output with -d option
 my %opts = ();
-getopts('sd', \%opts);
+getopts('sdt', \%opts);
 if (defined $opts{d}) {
   $devmode = 1;
+}
+
+if (defined $opts{t}) {
+  $timemode = 1;
 }
 
 if (exists $ARGV[0])
@@ -132,8 +137,13 @@ while(my @row = $sth->fetchrow_array) {
 
         #my $ctime_value = scalar($currentTime);
         #my $ltime_value = parse_timestamp($lastmodTime);
+
         my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
 	next if ($timeDiff > $recentCutoff);
+        if ($timemode) {
+          $createTime = parse_timestamp($createTime) * 1000;
+          $lastmodTime= parse_timestamp($lastmodTime) * 1000;
+        }
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
         $statushash{$status}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
@@ -145,7 +155,7 @@ while(my @row = $sth->fetchrow_array) {
                                           status_cmd=> $statusCmd,
                 	                  wrun_id   => $workflowRunID,
 					  #accession => $workflowAccession,
-					  crtime    => $createTime,      # TODO Change this to timelocal to address PDE-650
+					  crtime    => $createTime,
 					  lmtime    => $lastmodTime});
         
 }
@@ -185,7 +195,7 @@ my $json = JSON->new();
 $json = encode_json \%results;
 print "$json\n";
 
-
+# Returns time in seconds
 sub parse_timestamp {
  my $tmpstmp = shift @_;
  if ($tmpstmp =~ /^(....)-(..)-(..) (..):(..):(..)/) {

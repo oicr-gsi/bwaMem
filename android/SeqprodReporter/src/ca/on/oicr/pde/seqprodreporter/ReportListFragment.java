@@ -22,6 +22,7 @@ public class ReportListFragment extends Fragment {
 	 */
 	private ReportAdapter mAdapter;
 	private Time lastUpdateTime;
+	private Time firstUpdateTime;
 	private int sectionNumber;
 	private boolean emptyList;
 	private int sortingType;
@@ -79,22 +80,38 @@ public class ReportListFragment extends Fragment {
 				R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
 		// Restoring last update time, if available:
+		this.lastUpdateTime  = new Time();
+		this.firstUpdateTime = new Time();
+		this.lastUpdateTime.setToNow();
 		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE);
-		String upTime = sp.getString("updateListTime" + ReporterActivity.types[index], null);
+		long upTime = sp.getLong("updateLastTime" + ReporterActivity.getType(index), 0L);
+		long crTime = sp.getLong("updateFirstTime" + ReporterActivity.getType(index), 0L);
+		String timeRange = sp.getString("pref_summaryScope", "week");
 		
-		if (upTime != null && !upTime.isEmpty()) {
+		if (upTime > 0) {
 			try {
-				Time recoveredTime = new Time();
-				recoveredTime.parse(upTime);
-				this.lastUpdateTime = recoveredTime;
+				this.lastUpdateTime.set(upTime);
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
-						.edit().putString("updateListTime" + ReporterActivity.types[this.getSectionNumber() - 1],"").apply();
+						.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
+			}
+		}
+		
+		if (crTime > 0) {
+			try {
+				this.firstUpdateTime.set(crTime);
+				if (Time.isEpoch(this.firstUpdateTime)) {
+					this.firstUpdateTime.setToNow(); // Prevent passing value created with Time() constructor
+				}
+			} catch (TimeFormatException tfe) {
+				// In case we have a corrupted value, it will be reset in shared preferences
+				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
+						.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
 		}
 
-		new JsonLoaderTask(this, ReporterActivity.types[index],this.lastUpdateTime).execute(getSearchFilter());
+		new JsonLoaderTask(this, ReporterActivity.getType(index),this.lastUpdateTime).execute(new String[] {getSearchFilter(),timeRange});
 
 		listView.setAdapter(mAdapter);
 		return rootView;
@@ -106,11 +123,13 @@ public class ReportListFragment extends Fragment {
 			SharedPreferences sp = getActivity().getSharedPreferences(
 					ReporterActivity.PREFERENCE_FILE,
 					ReporterActivity.MODE_PRIVATE);
-			sp.edit().putString("updateListTime" + ReporterActivity.types[this.getSectionNumber() - 1],
-					            this.lastUpdateTime.format2445()).apply();
+			sp.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
+					            this.lastUpdateTime.toMillis(false)).apply();
+			sp.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
+		            this.firstUpdateTime.toMillis(false)).apply();
 
 		}
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		super.onDestroyView();
 	}
 
@@ -136,7 +155,7 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type ,Report.EMPTY_REPORT,"","","","","","",false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type, Report.EMPTY_REPORT, "", 0, 0, "", "", "", false);
 			this.mAdapter.add(emptyReport);
 			this.emptyList = true;
 		}
@@ -180,6 +199,16 @@ public class ReportListFragment extends Fragment {
 		}
 	}
 
+	public void setFirstUpdateTime(Time t) {
+		if (this.firstUpdateTime == null || this.firstUpdateTime.after(t)) {
+			this.firstUpdateTime = t;
+		}
+	}
+	
+	public Time getFirstUpdateTime() {
+		return this.firstUpdateTime;
+	}
+	
 	private void setSectionNumber(int sectionNumber) {
 		this.sectionNumber = sectionNumber;
 	}
