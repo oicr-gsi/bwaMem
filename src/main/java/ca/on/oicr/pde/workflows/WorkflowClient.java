@@ -13,8 +13,6 @@ public class WorkflowClient extends OicrWorkflow {
     String input1_path = null;
     String input2_path = null;
     String reference_path = null;
-    String outputPrefix = null;
-    String outputDir = null;
     String dataDir = "data/";
     String outputFileName = null;
     String outputIndexName = null;
@@ -53,8 +51,8 @@ public class WorkflowClient extends OicrWorkflow {
             input1_path = getProperty("input_file_1");
             input2_path = getProperty("input_file_2");
             reference_path = getProperty("input_reference");
-            outputDir = this.getMetadata_output_dir();
-            outputPrefix = this.getMetadata_output_file_prefix();
+            //outputDir = this.getMetadata_output_dir();
+            //outputPrefix = this.getMetadata_output_file_prefix();
 
             bwa = getProperty("bwa");
 
@@ -86,13 +84,15 @@ public class WorkflowClient extends OicrWorkflow {
         }
 
         // registers the first input file
-        read1 = new SqwFile();
+        read1 = this.createFile("file_in_0");
         read1.setSourcePath(input1_path);
+        read1.setType("chemical/seq-na-fastq-gzip");
         read1.setIsInput(true);
 
-        // registers the second input file 
-        read2 = new SqwFile();
+        // registers the second input file
+        read2 = this.createFile("file_in_1");
         read2.setSourcePath(input2_path);
+        read2.setType("chemical/seq-na-fastq-gzip");
         read2.setIsInput(true);
 
         outputFile = createOutputFile(this.dataDir + outputFileName, "application/bam", manualOutput);
@@ -136,8 +136,8 @@ public class WorkflowClient extends OicrWorkflow {
 
     @Override
     public void buildWorkflow() {
-	String r1=read1.getProvisionedPath();
-        String r2=read2.getProvisionedPath();
+        String r1 = read1.getProvisionedPath();
+        String r2 = read2.getProvisionedPath();
         String basename1 = r1.substring(r1.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
         String basename2 = r2.substring(r2.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
 
