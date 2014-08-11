@@ -265,10 +265,7 @@ $(document).ready(function(){
 				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
 
 				if($(this).hasClass('hide')){
-					if (queryString == ""){
-						return true;
-					}
-					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+					if (contains(queryString,workflowName) || contains(queryString, sampleName)){
 						return true;
 					}
 					else {
@@ -276,7 +273,7 @@ $(document).ready(function(){
 					}
 				}
 				else {
-					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+					if (!contains(queryString,workflowName) && !contains(queryString,sampleName)){
 						return true;
 					}
 					else {
@@ -293,10 +290,7 @@ $(document).ready(function(){
 				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
 
 				if($(this).hasClass('hide')){
-					if (queryString == ""){
-						return true;
-					}
-					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+					if (contains(queryString,workflowName) || contains(queryString, sampleName)){
 						return true;
 					}
 					else {
@@ -304,7 +298,7 @@ $(document).ready(function(){
 					}
 				}
 				else {
-					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+					if (!contains(queryString,workflowName) && !contains(queryString,sampleName)){
 						return true;
 					}
 					else {
@@ -321,10 +315,7 @@ $(document).ready(function(){
 				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
 
 				if($(this).hasClass('hide')){
-					if (queryString == ""){
-						return true;
-					}
-					else if (workflowName.contains(queryString) || sampleName.contains(queryString)){
+					if (contains(queryString,workflowName) || contains(queryString,sampleName)){
 						return true;
 					}
 					else {
@@ -332,7 +323,7 @@ $(document).ready(function(){
 					}
 				}
 				else {
-					if (!workflowName.contains(queryString) && !sampleName.contains(queryString)){
+					if (!contains(queryString,workflowName) && !contains(queryString,sampleName)){
 						return true;
 					}
 					else {
@@ -373,6 +364,10 @@ $(document).ready(function(){
 		$('li.failed').css('background-color','white');
 		$('li.pending').css('background-color','black');
 		$('li.completed').css('background-color','black');
+	}
+
+	function contains(queryString, queriedString){
+		return queriedString.indexOf(queryString) > -1 ? true : false;
 	}
 
 });
