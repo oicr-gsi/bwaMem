@@ -4,18 +4,18 @@ html
 	title Statistics
 	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
 	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
-	link(rel='stylesheet', href='/stylesheets/style.css')
+	link(rel='stylesheet', href='/webapp-utils/SpbReporterWebApp/public/stylesheets/style.css')
 
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
-		script(src='/javascripts/index.js')
+		script(src='/webapp-utils/SpbReporterWebApp/public/javascripts/index.js')
 		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		.app
 			header.headerContainer
 				ul.topHeader
 					li.headerItem
 						h3.titleheader.text-muted
-							a(href="/") SpbReporter
+							a(href="/spbreporter") SpbReporter
 								span.glyphicon.glyphicon-home(style="float:left")
 			.content(style="overflow:scroll")
 				table.table.table-hover
@@ -23,11 +23,11 @@ html
 						tr
 							th Workflow Name
 							th
-								a(href="/#completed") Completed
+								a(href="/spbreporter#completed") Completed
 							th
-								a(href="/#failed") Failed
+								a(href="/spbreporter#failed") Failed
 							th
-								a(href="/#pending") Pending
+								a(href="/spbreporter#pending") Pending
 					tbody
 						tr
 							td All Workflows
