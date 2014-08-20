@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Report = require('../models/reports');
-var url = "http://www-pde.hpc.oicr.on.ca/cgi-bin/spbreporter/getReport.pl?range=week";
+var url = "http://www-pde.hpc.oicr.on.ca/cgi-bin/spbreporter.dev/getReport.pl?range=week";
 var http = require('http');
 var workflow_run_types = ["completed","failed", "pending"];
 var most_recent_modfication_time;
@@ -32,7 +32,7 @@ var downloadReportsToDB = function(){
 								for (size=0;size<jsonArrays[i].length;++size){
 									++count;
 									var tmp_json_report = jsonArrays[i][size];
-									var tmp_modification_date = stringToDateConverter(tmp_json_report.lmtime);
+									var tmp_modification_date = new Date(tmp_json_report.lmtime);
 
 									if (tmp_date === undefined || tmp_modification_date > tmp_date){
 										tmp_date = tmp_modification_date;
@@ -50,7 +50,7 @@ var downloadReportsToDB = function(){
 										create_time : tmp_json_report.crtime,
 										last_modified_time : tmp_json_report.lmtime,
 										progress : report_progress,
-										create_date : stringToDateConverter(tmp_json_report.crtime),
+										create_date : new Date(tmp_json_report.crtime),
 										last_modified_date : tmp_modification_date,
 										recently_modified : updated
 									});
@@ -92,6 +92,7 @@ function isJSON(string){
 	return true;
 }
 
+// Was used when using the non dev JSON script (Script did not supply dates in millisecond format)
 function stringToDateConverter(string){
 	var tmpString = string.substring(0,string.lastIndexOf(".")).replace(" ", "T");
 	return new Date(tmpString);

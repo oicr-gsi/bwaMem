@@ -86,9 +86,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 							else
 								li.report
 									p.sampleName
@@ -98,9 +98,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 				ul.reportsList#failedReports
 					if failed_reports.length == 0
 						li.emptyReport
@@ -116,9 +116,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 							else
 								li.report
 									p.sampleName
@@ -128,9 +128,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 				ul.reportsList#pendingReports
 					if pending_reports.length == 0
 						li.emptyReport
@@ -146,9 +146,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 									.progress
 										if reports.progress!== undefined
 											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
@@ -162,9 +162,9 @@ html
 									p
 										i Version: #{reports.workflow_version}
 									p
-										i Created: #{reports.create_time}
+										i Created: #{reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G"))}
 									p.modified
-										i Modified: #{reports.last_modified_time}
+										i Modified: #{reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G"))}
 									.progress
 										if reports.progress!== undefined
 											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
