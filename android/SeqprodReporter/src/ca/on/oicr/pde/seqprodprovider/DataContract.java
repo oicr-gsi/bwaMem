@@ -52,8 +52,8 @@ public final class DataContract {
 		    WORKFLOW + " TEXT, " +
 		    WF_VERSION + " TEXT, " +
 		    STATUS + " TEXT, " +  // actual status (maybe running, scheduled etc.)
-		    CR_TIME + " TEXT, " +
-		    LM_TIME + " TEXT, " +
+		    CR_TIME + " INTEGER, " +
+		    LM_TIME + " INTEGER, " +
  		    PROGRESS + " TEXT, " + 
  		   "UNIQUE (" + DataContract.WR_ID + ") ON CONFLICT REPLACE)";
     }

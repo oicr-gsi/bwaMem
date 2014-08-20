@@ -12,7 +12,6 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
@@ -30,19 +29,23 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private boolean isFailedModified;
 	private String updateTime;
 
-	public getreportHTTP(Context context, SharedPreferences sp) {
+	public getreportHTTP(Context context, String hostURL, String updateRange) {
 
-		this.URL = sp.getString("pref_hostName", null);
-		this.Range = sp.getString("prefs_Scope", "week");
+		this.URL = hostURL;
+		this.Range = updateRange;
 		this.mContext = context;
 	}
 	@Override
 	protected Boolean doInBackground(Time... params) {
 
-		failedTime = params[0];
+		if (null == this.URL || null == this.Range)
+			return null;
+		if (null != params && params.length >= 1)
+			failedTime = params[0];
+		
 		isFailedModified = false;
 		Boolean result = Boolean.FALSE;
-		String fullURL = URL + SCRIPT + this.Range;
+		String fullURL = this.URL + SCRIPT + this.Range;
 		this.mClient = AndroidHttpClient
 				.newInstance(ReporterActivity.TAG);
 		
@@ -75,7 +78,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
 
-			if (failedTime.before(jp.getFailedItemUpdateTime())){
+			if (null == failedTime || failedTime.before(jp.getFailedItemUpdateTime())){
 				failedTime = jp.getFailedItemUpdateTime();
 				isFailedModified = true;
 			}

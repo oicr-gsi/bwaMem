@@ -31,6 +31,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView.OnCloseListener;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
@@ -71,9 +72,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	private static final String NOTIFICATIONS_WEB_UPDATES = "Web Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound";
-	public static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
-	public static final int FAILED_WORKFLOW_TAB_INDEX = 1;
-	public static final int PENDING_WORKFLOW_TAB_INDEX = 2;
+	protected static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
+	protected static final int FAILED_WORKFLOW_TAB_INDEX = 1;
+	protected static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
 	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
@@ -84,6 +85,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private int updateFrequency; // in minutes
 	private boolean timerScheduled = false;
 	private boolean isVisible;
+	private boolean [] dataRangeRequested;
 	private int sortIndex;
 	private Time lastModifiedFailedTime;
 	private int mCurrentTabIndex;
@@ -94,6 +96,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
@@ -132,9 +135,11 @@ public class ReporterActivity extends ActionBarActivity implements
 		// alongside the current selected tab's fragment
 		mViewPager.setOffscreenPageLimit(types.length - 1);
 
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
+		/*
+		 * When swiping between different sections, select the corresponding
+		 * tab. We can also use ActionBar.Tab#select() to do this if we have a
+		 * reference to the Tab.
+		 */
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
@@ -143,6 +148,11 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 				});
 
+		/*
+		 * This is needed for selecting proper tab when restoring activity or
+		 * returning from Stats activity - it takes care of selecting tab as it
+		 * gets added (May be done differently, perhaps)
+		 */
 		mViewPager
 				.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
@@ -153,9 +163,7 @@ public class ReporterActivity extends ActionBarActivity implements
 								&& mCurrentTabIndex != mViewPager
 										.getCurrentItem())
 							mViewPager.setCurrentItem(mCurrentTabIndex);
-						
-
-						}
+					}
 
 					@Override
 					public void onChildViewRemoved(View parent, View child) {
@@ -176,34 +184,21 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
-		
+
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		// Handle intent that comes from Statisticss Activity
+		// Handle intent that comes from Statistics Activity
 		Intent startIntent = this.getIntent();
-		if (null != startIntent && null != startIntent.getExtras()) {
-			Object starter = startIntent.getExtras().get("selectedTab");
-			if (null != starter) {
-				try {
-					int selectedTab = Integer.parseInt(starter.toString());
-					if (selectedTab >= 0 && selectedTab < types.length) {
-						this.mCurrentTabIndex = selectedTab;
-					}
-				} catch (NumberFormatException nfe) {
-					Log.e(TAG, "Received invalid tab index from Intent");
-				}
-			}
-		}
+		if (null != startIntent)
+			handleIntent(startIntent);
 	}
 
 	@Override
 	protected void onPause() {
-		// Switch on Notifications - may do it in onPause()
 		((MainApplication) getApplication()).setisCurrentActivityVisible(false);
-		// storeLastModifiedFailedTime();
 		this.isVisible = false;
 		super.onPause();
 	}
@@ -211,37 +206,39 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
-		// if (null == this.lastModifiedFailedTime)
-		// restoreLastModifiedFailedTime();
-
-		// Switch on Notifications - may do it in onPause()
-		// TODO may want to modify this - i.e. not needed if returning from
-		// PreferenceActivity?
 		this.isVisible = true;
 		updateLUT(sp.getString("updateTime", ""));
-		// update fragments when going from pause to active state
-		if (!mSectionsPagerAdapter.fragments.isEmpty())
+		// update fragments when searching for a query (Device orientation
+		// change handled elsewhere)
+		if (!mSectionsPagerAdapter.fragments.isEmpty()) {
+			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+			for (int i = 0; i < fragments.size(); i++) {
+				ReportListFragment tmp = fragments.get(i);
+				if (null != tmp)
+					tmp.setSearchFilter(this.mSearchQuery);
+			}
+
 			mSectionsPagerAdapter.notifyDataSetChanged();
+		}
 		super.onResume();
 	}
 
 	@Override
-	public void onAttachFragment(android.app.Fragment fragment) {
-		super.onAttachFragment(fragment);
-	}
-
-	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		Log.d(TAG, "Saving Instance...");
 		if (null != this.lastModifiedFailedTime)
 			outState.putString("lastModifiedFailedTime",
 					lastModifiedFailedTime.format2445());
+		if (null != this.dataRangeRequested)
+		    outState.putBooleanArray("dataRangeRequested", this.dataRangeRequested);
 		outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
 	}
-	
-		@Override
+
+	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.d(TAG, "Restoring Instance...");
 		super.onRestoreInstanceState(savedInstanceState);
 		if (null != savedInstanceState) {
 			try {
@@ -252,6 +249,8 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getInt("currentlySelectedTab");
 				this.mSearchQuery = savedInstanceState
 						.getString("currentSearchQuery");
+				this.dataRangeRequested = savedInstanceState
+						.getBooleanArray("dataRangeRequested");
 			} catch (Exception e) {
 				Log.d(TAG, "Last Failed Time could not be retrieved");
 			}
@@ -259,18 +258,6 @@ public class ReporterActivity extends ActionBarActivity implements
 			this.mCurrentTabIndex = 0;
 		}
 	}
-
-	/*
-	 * private void storeLastModifiedFailedTime() { sp.edit()
-	 * .putString("lastModifiedFailedTime",
-	 * lastModifiedFailedTime.format2445()).apply(); }
-	 * 
-	 * private void restoreLastModifiedFailedTime() {
-	 * lastModifiedFailedTime.parse(sp.getString("lastModifiedFailedTime", new
-	 * Time().format2445())); }
-	 */
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,15 +268,24 @@ public class ReporterActivity extends ActionBarActivity implements
 				.getActionView(searchItem);
 		if (null != searchView) {
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-			// Assumes current activity is the searchable activity
+			// Assumes current activity is the search-able activity
 			searchView.setSearchableInfo(searchManager
 					.getSearchableInfo(getComponentName()));
 			searchView.setIconifiedByDefault(true);
 			searchView.setSearchString(this.mSearchQuery);
 			if (this.mSearchQuery != null && !this.mSearchQuery.isEmpty()) {
-				searchView.setQuery(this.mSearchQuery, true);
-				// searchView.setIconified(false);
+				searchView.setQuery(this.mSearchQuery, false);
 			}
+
+			searchView.setOnCloseListener(new OnCloseListener() {
+				@Override
+				public boolean onClose() {
+					// Indicate that we handled this request and don't want to
+					// reset - helpful when we want to get to the tabs
+					return mSearchQuery.isEmpty() ? false : true;
+				}
+			});
+
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -299,16 +295,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	}
 
 	private boolean isUpdateRangeSet() {
-		return !(null == this.updateRange || this.updateRange
-				.equals(getResources().getString(
-						R.string.pref_summaryScope_default)));
+		return !(null == this.updateRange || this.updateRange.isEmpty());
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
@@ -433,7 +424,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	/**
 	 * handleIntent
 	 * <p>
-	 * Introduced to handle SearchView widget events
+	 * Introduced to handle SearchView widget events and Intent from Stats
+	 * Activity
 	 * <p>
 	 * Gets all fragments and set their search Filter to query, entered in
 	 * SearchView
@@ -442,23 +434,27 @@ public class ReporterActivity extends ActionBarActivity implements
 	 */
 
 	private void handleIntent(Intent intent) {
+		// Search widget intent
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			this.isVisible = true; // NEED TO SEE IF THIS IS SAFE: but we assume
-									// we cannot search when the app is off
-									// screen
-			this.mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
+			this.isVisible = true;
 			Log.d(TAG, "Calling Search/Filter code...");
-			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-			for (int i = 0; i < fragments.size(); i++) {
-				ReportListFragment tmp = fragments.get(i);
-				if (null != tmp)
-					tmp.setSearchFilter(this.mSearchQuery);
+			this.mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
+			// Statistics Activity event
+		} else if (Intent.ACTION_RUN.equals(intent.getAction())) {
+			Object starter = intent.getExtras().get("selectedTab");
+			if (null != starter) {
+				try {
+					int selectedTab = Integer.parseInt(starter.toString());
+					if (selectedTab >= 0 && selectedTab < types.length) {
+						this.mCurrentTabIndex = selectedTab;
+					}
+				} catch (NumberFormatException nfe) {
+					Log.e(TAG, "Received invalid tab index from Intent");
+				}
 			}
-		} else {
+		} else { // Debugging only
 			String act = intent.getAction();
-			act.concat("blah");
 			Log.d(TAG, "Action passed: " + act);
-			// intent.get
 		}
 	}
 
@@ -469,8 +465,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	/**
 	 * A function that returns a formatted user-friendly Time representation.
 	 * 
-	 * @param Time
-	 *            time
+	 * @param Time time
 	 */
 	public static String timeToStringConverter(Time time) {
 		return time.format("%Y-%m-%d %H:%M:%S");
@@ -494,8 +489,8 @@ public class ReporterActivity extends ActionBarActivity implements
 			if (position >= this.fragments.size() || this.fragments.size() == 0
 					|| null == this.fragments.get(position)) {
 
-				fragments.add(position,
-						ReportListFragment.newInstance(position + 1));
+				fragments.add(position, ReportListFragment.newInstance(
+						position + 1, mSearchQuery));
 			}
 			return fragments.get(position);
 		}
@@ -515,10 +510,12 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		// Forces each Item in the list to be re-created which allows the lists
 		// to be updated dynamically
-		
-		 @Override public int getItemPosition(Object object) { return
-		  POSITION_NONE; }
-		 
+
+		@Override
+		public int getItemPosition(Object object) {
+			return POSITION_NONE;
+		}
+
 	}
 
 	/*
@@ -542,8 +539,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.d(TAG, "Will schedule Timer to trigger updates from "
 				+ this.updateHost);
 		// Schedule Alert here
-		// DEBUG ONLY
-		// this.updateFrequency = 1;
 		long INTERVAL = this.updateFrequency * 60 * 1000L;
 		if (this.timerScheduled) {
 			this.timer.cancel();
@@ -563,10 +558,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null == this.sp) // This check may be not needed
 			return;
 		this.updateHost = sp.getString("pref_hostName", null);
-		this.updateRange = sp.getString("pref_summaryScope", null);
-		this.notificationSetting = sp.getString("pref_notificationSettings",
-				NOTIFICATIONS_WEB_UPDATES);
-
 		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
@@ -580,17 +571,78 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else {
 			this.updateFrequency = 0;
 		}
+				
+		// PDE-650 handle time ranges other than 'week' here
+		this.updateRange = sp.getString("pref_summaryScope", null);
+		if (null == this.updateRange || null == this.updateHost)
+			return;
+		
+		if (!this.updateRange.equals(getResources().getStringArray(R.array.pref_summaryScope_entries)[0]) && this.updateFrequency != 0) 
+			requestLargeUpdate();
+				
+		this.notificationSetting = sp.getString("pref_notificationSettings",
+				NOTIFICATIONS_WEB_UPDATES);
+
+		
 		scheduleUpdate();
 	}
 
+	/**
+	 * Update Last Modified Time in UI
+	 * @param updateTime
+	 */
 	private void updateLUT(String updateTime) {
 		if (!updateTime.equals("")) {
 			TextView updateView = (TextView) findViewById(R.id.updateTimeView);
 			updateView.setVisibility(View.VISIBLE);
+			Log.d(TAG, "Update Time set to " + updateTime);
 			String newTitle = "Most Recent Workflow Modification Time: "
 					+ updateTime;
 			updateView.setText(newTitle);
 			updateView.invalidate();
+		}
+	}
+	
+	/**
+	 * Function for sending HTTP requests for data range other than 'week' 
+	 */
+	private void requestLargeUpdate() {
+		// check dataRangeRequested flag
+		String [] ranges = getResources().getStringArray(R.array.pref_summaryScope_entries);
+		int rangeIndex = 0;
+		for (int i = 1; i < ranges.length; i++) { // we don't check 'week' which is the element with index 0
+		     if (this.updateRange.equals(ranges[i]))
+		    	 rangeIndex = i;
+		}
+		if (rangeIndex == 0)
+			return;
+		Log.d(TAG,"Update range longer than a week chosen");
+		if (null == this.dataRangeRequested)
+			this.dataRangeRequested = new boolean [ranges.length];
+		else if (this.dataRangeRequested[rangeIndex])
+			return;
+
+		// check the oldest (completed) fragments' firstUpdated value
+		Time now = new Time();
+		now.setToNow();
+		Log.d(TAG,"Checking if we already have data in requested range...");
+		long rangeLimit = now.toMillis(false) - JsonLoaderTask.updateRanges[rangeIndex];
+		
+		try {
+		ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter.getItem(0);
+		if (null == f.getFirstUpdateTime() || f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
+			this.dataRangeRequested[rangeIndex] = true;
+			return;	
+		}
+		//if all checks negative, launch http request
+		Log.d(TAG,"Requesting a large update...");
+		new getreportHTTP(getApplicationContext(), 
+		          this.updateHost,
+		          this.updateRange).execute();
+		//update dataRangeRequested
+		this.dataRangeRequested[rangeIndex] = true;
+		} catch (NullPointerException npe) {
+			Log.e(TAG,"Error getting first update time, won't request data");
 		}
 	}
 
@@ -601,8 +653,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	class PreferenceUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG,
-					"Entered onReceive for PreferenceUpdate, Broadcast received");
+			Log.d(TAG, "Entered onReceive for PreferenceUpdateReceiver");
 			updateActivityPrefs();
 		}
 
@@ -695,9 +746,6 @@ public class ReporterActivity extends ActionBarActivity implements
 					if (isFailedModified(intent)) {
 						lastModifiedFailedTime.parse(intent
 								.getStringExtra("modifiedFailedTime"));
-						// if (!ReporterActivity.this.isVisible) {
-						// storeLastModifiedFailedTime();
-						// }
 					}
 
 					if (ReporterActivity.this.isVisible)
@@ -732,8 +780,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 
-	/*
-	 * Task used by the Timer to launch Http requests
+	/**
+	 * Class used by the Timer to launch Http requests
 	 */
 	class TimedHttpTask extends TimerTask {
 		@Override
@@ -742,10 +790,12 @@ public class ReporterActivity extends ActionBarActivity implements
 					.getisCurrentActivityVisible()) {
 				timer.cancel();
 			} else {
-				Log.d(TAG,
-						"Entered TimedHttpTask, here we need to launch HTTP request");
-				new getreportHTTP(getApplicationContext(), sp)
-						.execute(lastModifiedFailedTime);
+				Log.d(TAG, "Entered TimedHttpTask, here we need to launch HTTP request");
+				// We ask for 'week' update here and launch getreportHTTP
+				// Need to use something like Reentrant Lock here
+				new getreportHTTP(getApplicationContext(), 
+						          sp.getString("pref_hostName", null),
+						          getResources().getStringArray(R.array.pref_summaryScope_entries)[0]).execute(lastModifiedFailedTime);
 			}
 		}
 

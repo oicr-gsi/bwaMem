@@ -10,8 +10,8 @@ use Data::Dumper;
 use Time::Local;
 use Getopt::Std;
 use constant DEBUG=>0;
+$| = 1;
 
-# TODO set the credentials using setup script
 # OOZIE WEBSERVICE:
 #my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
 my $webservice  = "http://hsqwprod-node1.hpc.oicr.on.ca"; 
@@ -41,13 +41,20 @@ my $password = '*****';
 my $dbhost = 'hsqwprod-db1.hpc.oicr.on.ca';
 my $dbname = 'hsqwprod_seqware_meta_db';
 my $devmode = 0;
+my $timemode= 0;
+my $outfile;
+my $outdir;
 
 
 # Control development output with -d option
 my %opts = ();
-getopts('sd', \%opts);
+getopts('sdt', \%opts);
 if (defined $opts{d}) {
   $devmode = 1;
+}
+
+if (defined $opts{t}) {
+  $timemode = 1;
 }
 
 if (exists $ARGV[0])
@@ -56,25 +63,34 @@ if (exists $ARGV[0])
   {
     $recentCutoffTime = $ARGV[0];
     $recentCutoff = 31 * 24 * 60 * 60;
+    $outfile = "month.json";
   }
   elsif ($ARGV[0] eq "year")
   {
     $recentCutoffTime = $ARGV[0];
     $recentCutoff = 365 * 24 * 60 * 60;
+    $outfile = "year.json";
   }
   elsif ($ARGV[0] eq "decade")
   {
     $recentCutoffTime = $ARGV[0];
     $recentCutoff = 10 * 365 * 24 * 60 * 60;
+    $outfile = "decade.json";
   }
   elsif ($ARGV[0] ne "week")
   {
-    die "Please run as seqwareJsonReport.pl [week|month|year|decade] > output.html\n";
+    die "Please run as seqwareJsonReport.pl [week|month|year|decade] [output_dir]\n";
   }
   # defaults are fine
 }
 
+if (exists $ARGV[1] && -d $ARGV[1]) {
+  $outdir = $ARGV[1];
+} else {
+  die "Need an output directory for writing into";
+}
 
+$outfile ||= "week.json";
 warn "Connecting to meta_db\n";
 
 my $dsn = "DBI:Pg:dbname=$dbname;host=$dbhost";
@@ -132,8 +148,13 @@ while(my @row = $sth->fetchrow_array) {
 
         #my $ctime_value = scalar($currentTime);
         #my $ltime_value = parse_timestamp($lastmodTime);
+
         my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
 	next if ($timeDiff > $recentCutoff);
+        if ($timemode) {
+          $createTime = parse_timestamp($createTime) * 1000;
+          $lastmodTime= parse_timestamp($lastmodTime) * 1000;
+        }
         my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
         $statushash{$status}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
@@ -145,7 +166,7 @@ while(my @row = $sth->fetchrow_array) {
                                           status_cmd=> $statusCmd,
                 	                  wrun_id   => $workflowRunID,
 					  #accession => $workflowAccession,
-					  crtime    => $createTime,      # TODO Change this to timelocal to address PDE-650
+					  crtime    => $createTime,
 					  lmtime    => $lastmodTime});
         
 }
@@ -183,12 +204,22 @@ map{print STDERR $_."\n"} (keys %results) if DEBUG;
 
 my $json = JSON->new();
 $json = encode_json \%results;
-print "$json\n";
 
+# Atomic update
+$outdir.="/" if $outdir !~m!/$!;
+my $tmppath = $outdir."tmp.json_$$";
+open(TEMP,">$tmppath") or die "Couldn't write to a temporary file";
+print TEMP "$json\n";
+close TEMP;
 
+my $outpath =$outdir.$outfile;
+`mv $tmppath $outpath`;
+
+# Returns time in seconds
 sub parse_timestamp {
  my $tmpstmp = shift @_;
  if ($tmpstmp =~ /^(....)-(..)-(..) (..):(..):(..)/) {
+ print STDERR $tmpstmp."\n" if DEBUG;
                 my $year = $1;
                 my $mon = $2 - 1;
                 my $mday = $3;
