@@ -4,6 +4,10 @@ var Report = require('../models/reports');
 var async = require('async');
 /* GET home page. */
 router.get('/', function(req, res) {
+	// We will first get the completed, then failed and pending reports from the database each in array form.
+	// Then we will pass to the calling function a 2 dimensional array 'reportsArray' which will have the queried results
+	// in the first 3 indexes.  Finally we will render the 'index' html file (found in views/index.jade) while assigning
+	// variables in the jade file to represent each array that has the queried reports
 	async.series([getCompletedReports,getFailedReports,getPendingReports],
 		function(err, reportsArray){
 			res.render('index',{completed_reports:reportsArray[0], failed_reports:reportsArray[1], pending_reports:reportsArray[2], JSONdownloadTime:downloadTime});

@@ -1,3 +1,4 @@
+// Node modules that are used in this script
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -8,25 +9,26 @@ var routes = require('./routes/index');
 var stats = require('./routes/stats');
 var app = express();
 var mongoose = require('mongoose');
-accessingDB = false;//TODO: work on this
 
+// The variable that is used for the view that indicates when the last update took place
 downloadTime = new Date();
 
 var download = require('./library/download');
 
-//sets timer to get reports from script and update the DB every 15 minutes
+//sets timer to download reports from script and update the DB every 15 minutes
 setInterval(function(){
     download.downloadReportsToDB();
     downloadTime = new Date();
 }, 1000 * 60 * 15);
 
+// Connects App to DB (initially)
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'connection error:'));
 db.once('open', function callback(){
     console.log('connected to DB');
     setTimeout(function(){
-    download.downloadReportsToDB();
+    download.downloadReportsToDB(); // Download data from script to DB on initial start of the App
     downloadTime = new Date();
     }, 0);
 });

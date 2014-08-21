@@ -255,15 +255,18 @@ $(document).ready(function(){
 //---------------Code that takes care of dynamic searching/filtering once user submits search query-------------------
 
 	$('#search_form').submit(function(event){
-		event.preventDefault();
+		event.preventDefault(); // May have to play with this if theres problem on mobile
 		var queryString = $('input.search-div').val().toLowerCase().trim();
 
+		// Just to check if the list is empty, if its not then apply filtering
 		if (!($('.reportsList#completedReports li').hasClass('emptyReport'))){
+
 			$('.reportsList#completedReports li').filter(function(index){
 				var workflowName = this.getElementsByClassName('workflowName')[0].textContent.toLowerCase();
 				var sampleText = this.getElementsByClassName('sampleName')[0].textContent.toLowerCase();
 				var sampleName = sampleText.substring(sampleText.lastIndexOf(":")+1,sampleText.length).trim();
 
+				// If the report is already hidden, then show it by returning true, and keep it hidden by returning false
 				if($(this).hasClass('hide')){
 					if (contains(queryString,workflowName) || contains(queryString, sampleName)){
 						return true;
@@ -272,6 +275,7 @@ $(document).ready(function(){
 						return false;
 					}
 				}
+				// If the report is showing, hide it by returning true and keep it showing by returning false
 				else {
 					if (!contains(queryString,workflowName) && !contains(queryString,sampleName)){
 						return true;
