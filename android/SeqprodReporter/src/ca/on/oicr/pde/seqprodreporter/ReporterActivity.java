@@ -86,6 +86,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private boolean [] dataRangeRequested;
+	private boolean refreshEnabled = true;
 	private int sortIndex;
 	private Time lastModifiedFailedTime;
 	private int mCurrentTabIndex;
@@ -327,6 +328,11 @@ public class ReporterActivity extends ActionBarActivity implements
 					});
 			builder.show();
 		} else if (id == R.id.action_refresh) {
+			if (!this.refreshEnabled) {
+				Log.d(TAG, "Refresh disabled, won't send request...");
+			    return true;
+			}
+			this.refreshEnabled = false;
 			// Instance where a timer is set with automatic updates
 			// Timer is cancelled, and re-scheduled with the same interval but
 			// starts the instance
@@ -680,10 +686,11 @@ public class ReporterActivity extends ActionBarActivity implements
 				// depending on if they are on screen (Toast message) or off
 				// screen (Notification)
 				if (!intent.hasExtra("updateTime")) {
-					if (ReporterActivity.this.isVisible)
+					if (ReporterActivity.this.isVisible) {
 						Toast.makeText(ReporterActivity.this,
 								"Error: No New Reports Could be Loaded",
 								Toast.LENGTH_LONG).show();
+					}
 					else if (!notificationSetting.equals(NOTIFICATIONS_OFF)) {
 						Notification.Builder notificationBuilder = setUpNotificationBuilder(context);
 						notificationBuilder
@@ -753,6 +760,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 				}
 			}
+			ReporterActivity.this.refreshEnabled = true;
 		}
 
 		private Notification.Builder setUpNotificationBuilder(Context context) {

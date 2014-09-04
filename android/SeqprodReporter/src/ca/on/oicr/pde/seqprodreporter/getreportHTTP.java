@@ -16,6 +16,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
+import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
@@ -71,6 +72,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 		@Override
 		public Boolean handleResponse(HttpResponse response)
 				throws ClientProtocolException, IOException {
+			Log.d(ReporterActivity.TAG,"Http response received...");
 			String dbResponse = new BasicResponseHandler()
 					.handleResponse(response);
 			byte[] byteArray = dbResponse.getBytes();
@@ -87,9 +89,11 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 			//Insert data into db
 			if (null != results) {
 			    ContentResolver cr = mContext.getApplicationContext().getContentResolver();
+			    Log.d(ReporterActivity.TAG,"Started loading entries in DB...");
 				for (Report rep : results) {
 					cr.insert(DataContract.CONTENT_URI, Report.convertToCV(rep));
 				}
+				Log.d(ReporterActivity.TAG,"Done loading entries in DB...");
 				return Boolean.TRUE;
 			}
 
@@ -99,6 +103,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
+		Log.d(ReporterActivity.TAG,"Http Request execution finished...");
 		Intent intent = new Intent(ReporterActivity.DATACHANGE_INTENT);
 		if (result){
 			intent.putExtra("updateTime", updateTime);
