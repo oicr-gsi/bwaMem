@@ -40,6 +40,22 @@ public class ReportProvider extends ContentProvider {
 	}
 
 	@Override
+	public int bulkInsert(Uri uri, ContentValues[] values) {
+		SQLiteDatabase db = this.mReportHelper.getWritableDatabase();
+		db.beginTransactionNonExclusive();
+         
+        for(int x = 0; x < values.length; x++){
+            db.insert(DataContract.DATA_TABLE, null, values[x]);            
+        }
+ 
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+		
+		return values.length;
+	}
+
+	@Override
 	public synchronized String getType(Uri uri) {
 		String contentType = DataContract.CONTENT_ITEM_TYPE;
 		if (isTableUri(uri)) {

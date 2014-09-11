@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.http.AndroidHttpClient;
@@ -90,9 +91,12 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 			if (null != results) {
 			    ContentResolver cr = mContext.getApplicationContext().getContentResolver();
 			    Log.d(ReporterActivity.TAG,"Started loading entries in DB...");
-				for (Report rep : results) {
-					cr.insert(DataContract.CONTENT_URI, Report.convertToCV(rep));
-				}
+				//We use bulk insert instead of incremental insert
+			    ContentValues[] dataChunks = new ContentValues[results.size()];
+			    for (int r = 0; r < results.size(); r++) {
+			      dataChunks[r] = Report.convertToCV(results.get(r));
+			    }
+			    cr.bulkInsert(DataContract.CONTENT_URI, dataChunks);
 				Log.d(ReporterActivity.TAG,"Done loading entries in DB...");
 				return Boolean.TRUE;
 			}
