@@ -40,7 +40,7 @@ public class ReportProvider extends ContentProvider {
 	}
 
 	@Override
-	public int bulkInsert(Uri uri, ContentValues[] values) {
+	public synchronized int bulkInsert(Uri uri, ContentValues[] values) {
 		SQLiteDatabase db = this.mReportHelper.getWritableDatabase();
 		db.beginTransactionNonExclusive();
          
@@ -85,7 +85,7 @@ public class ReportProvider extends ContentProvider {
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
+	public synchronized int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
 		// Update Only things that change (lm time, progress, status)
 		// This method is implemented but NOT IN USE at this point

@@ -37,7 +37,7 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 	@Override
 	protected List<Report> doInBackground(String... params) {
-		List<Report> reports = null;
+		List<Report> reports = new ArrayList<Report>();
 
 		try {
 			reports = getReportsFromDB(params); 
