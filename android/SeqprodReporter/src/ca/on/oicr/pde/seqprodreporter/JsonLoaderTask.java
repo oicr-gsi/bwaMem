@@ -132,11 +132,13 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 				else if (this.lastUpdated.before(newLatest)){				
 						this.mParent.get().setLastUpdateTime(newLatest);
 				}
-				this.mParent.get().setFirstUpdateTime(this.firstUpdated);
-			
-			result.close();
+				if (null != this.firstUpdated) {
+					this.mParent.get().setFirstUpdateTime(this.firstUpdated);
+				}
+				
+				result.close();
 			}
-		}	
+		}
 		return rValue;
 	}
 

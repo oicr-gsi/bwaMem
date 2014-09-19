@@ -91,11 +91,16 @@ public class ReportListFragment extends Fragment {
 		if (upTime > 0) {
 			try {
 				this.lastUpdateTime.set(upTime);
+				if (Time.isEpoch(this.lastUpdateTime)) {
+					this.lastUpdateTime.setToNow(); // Prevent passing value created with Time() constructor
+				}
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
 						.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
+		} else {
+			this.lastUpdateTime.setToNow();
 		}
 		
 		if (crTime > 0) {
@@ -109,6 +114,8 @@ public class ReportListFragment extends Fragment {
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
 						.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
+		} else {
+			this.firstUpdateTime.setToNow();
 		}
 
 		new JsonLoaderTask(this, ReporterActivity.getType(index),this.lastUpdateTime).execute(new String[] {getSearchFilter(),timeRange});
