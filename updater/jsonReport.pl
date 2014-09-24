@@ -8,7 +8,9 @@ use LWP;
 use XML::Simple;
 use Data::Dumper;
 use Time::Local;
+use Time::Piece;
 use Getopt::Std;
+use POSIX qw(strftime);
 use constant DEBUG=>0;
 $| = 1;
 
@@ -16,10 +18,12 @@ $| = 1;
 #my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
 my $webservice  = "http://hsqwprod-node1.hpc.oicr.on.ca"; 
 my $web_basedir = "11000/oozie/v1/job/";
+my $web_bulkdir = "11000/oozie/v1/jobs?len=";
 my $web_info    = "show=info";
 my $web_defi    = "show=definition";
 
 my @Status = ("FAILED","KILLED","PREP","RUNNING","SUSPENDED","SUCCEEDED","OK");
+my %topstats = (pending=>"pending",completed=>"completed",failed=>"failed"); # Binding internal definitions to external ones (which may change in a future)
 
 use constant FAILED=>0;
 use constant KILLED=>1;
@@ -31,7 +35,7 @@ use constant OK=>6;
 
 use constant JSN=>"text/json";
 use constant XML=>"text/xml";
-use constant AGENT=>"SeqprodApp/0.1alpha";
+use constant AGENT=>"SeqprodApp/0.1beta";
 
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
@@ -79,7 +83,7 @@ if (exists $ARGV[0])
   }
   elsif ($ARGV[0] ne "week")
   {
-    die "Please run as seqwareJsonReport.pl [week|month|year|decade] [output_dir]\n";
+    die "Please run as jsonReport.pl [week|month|year|decade] [output_dir]\n";
   }
   # defaults are fine
 }
@@ -115,14 +119,10 @@ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processin
 	      JOIN processing_ius pi ON wrp.processing_id = pi.processing_id 
 	      JOIN ius i ON pi.ius_id = i.ius_id)
              SELECT 
-               wr.workflow_run_id,
                s.name AS sample_name,
                w.name,
                w.version,
-               wr.status,
-               wr.status_cmd,
-               wr.create_tstmp,
-               p.last_modified
+               wr.status_cmd
               FROM workflow_run AS wr 
               JOIN workflow AS w ON wr.workflow_id = w.workflow_id
               JOIN total_workflow_run_ius AS twri ON twri.workflow_run_id = wr.workflow_run_id
@@ -137,37 +137,48 @@ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processin
 my $sth = $dbh->prepare($query);
 $sth->execute();
 
+my $records = &getWRData;
+print STDERR scalar(keys %{$records})." records received from webservice\n" if DEBUG;
+
 warn "Query complete, processing\n";
 my %results;
 my %statushash = ();
 while(my @row = $sth->fetchrow_array) {
-        my ($workflowRunID, $sampleName, $workflowName, $workflowVersion, $status, $statusCmd, $createTime, $lastmodTime) = @row;
-               
-        next if (!$workflowRunID || !$sampleName || !$workflowName || !$workflowVersion || !$createTime);
-        $lastmodTime ||= $createTime;
+        my ($sampleName, $workflowName, $workflowVersion, $statusCmd) = @row; 
+        next if (!$sampleName || !$workflowName || !$workflowVersion || !$statusCmd);
+        next if (!$records->{$statusCmd});
 
-        #my $ctime_value = scalar($currentTime);
-        #my $ltime_value = parse_timestamp($lastmodTime);
+        my $crTime = parse_timestamp_oozie($records->{$statusCmd}->{ctime});
+        my $lmTime = parse_timestamp_oozie($records->{$statusCmd}->{lmtime}) ;
 
-        my $timeDiff = $currentTime - parse_timestamp($lastmodTime);
-	next if ($timeDiff > $recentCutoff);
         if ($timemode) {
-          $createTime = parse_timestamp($createTime) * 1000;
-          $lastmodTime= parse_timestamp($lastmodTime) * 1000;
+         my $timeDiff = $currentTime - $lmTime;
+	 next if ($timeDiff > $recentCutoff);
+         $crTime*=1000;
+         $lmTime*=1000;
         }
-        my $currentStatus = $status eq 'failed' || $status eq 'completed' ? $status : "pending";
-        $statushash{$status}++;
+        # Need to convert record's status in one of the three supported statuses here:
+        my $currentStatus = $topstats{pending};
+        if ($records->{$statusCmd}->{status} eq $Status[FAILED] || $records->{$statusCmd}->{status} eq $Status[KILLED]) {
+          $currentStatus = $topstats{failed};
+        } elsif ($records->{$statusCmd}->{status} eq $Status[OK] || $records->{$statusCmd}->{status} eq $Status[SUCCEDED]) {
+          $currentStatus = $topstats{completed};
+        }        
+
+
+        $statushash{$records->{$statusCmd}->{status}}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
         $statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; 
-        push(@{$results{$currentStatus}},{sample    => $devmode ? $sampleName."[$status]" : $sampleName,
+        push(@{$results{$currentStatus}},{sample    => $devmode ? $sampleName."[$records->{$statusCmd}->{status}]" : $sampleName,
                                           workflow  => $workflowName,
                                           version   => $workflowVersion,
-                                          status    => $status,
-                                          status_cmd=> $statusCmd,
-                	                  wrun_id   => $workflowRunID,
+                                          status    => $records->{$statusCmd}->{status}, #$status,
+                                          #status_cmd=> $statusCmd, # will keep this for now, but will retire in a future
+                	                  wrun_id   => $statusCmd, 
 					  #accession => $workflowAccession,
-					  crtime    => $createTime,
-					  lmtime    => $lastmodTime});
+					  crtime    => $crTime,
+					  lmtime    => $lmTime
+                                          });
         
 }
 print STDERR "Seen these statuses:\n" if DEBUG;
@@ -181,26 +192,22 @@ if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
  warn "Have pending workflows, will parse ".scalar(@{$results{pending}})." runs";
  RUN:
  foreach my $run (@{$results{pending}}) {
-    if (!defined $run->{status} || $run->{status} ne 'running') {
+    if (!defined $run->{status} || $run->{status} ne $Status[RUNNING]) {
      next RUN;
     }
           # FAKE STATUS IF NO PROGRESS AVAILABLE
-          print STDERR "Using Fake status Data\n" if DEBUG;
           my $progress = "".int rand(100); 
-          if (defined $run->{status_cmd} && $run->{status_cmd}=~/oozie/) { 
+          if (defined $run->{wrun_id} && $run->{wrun_id}=~/oozie/) {
              # Create a request
-             my $url = join(":",($webservice,$web_basedir)).$run->{status_cmd}."?";
-             print STDERR "Getting oozie workflow run progress from $url\n" if DEBUG;
+             my $url = join(":",($webservice,$web_basedir)).$run->{wrun_id}."?";
              my $steps = countActions($url.$web_defi,XML);
              my $done  = countActions($url.$web_info,JSN);
              $progress = int($done/$steps*100);
-             print STDERR "Got real Progress value $progress\n"; 
+             print STDERR "Got real Progress value $progress\n" if DEBUG; 
           }
           $run->{progress} = $progress;
   } 
 }
-print STDERR "We have following types present in the results:\n" if DEBUG;
-map{print STDERR $_."\n"} (keys %results) if DEBUG;
 
 my $json = JSON->new();
 $json = encode_json \%results;
@@ -215,19 +222,27 @@ close TEMP;
 my $outpath =$outdir.$outfile;
 `mv $tmppath $outpath`;
 
-# Returns time in seconds
-sub parse_timestamp {
+# Subroutine for converting oozie time (i.e. Thu, 01 Jan 2009 02:00:00 GMT) to localtime (in sec)
+sub parse_timestamp_oozie {
  my $tmpstmp = shift @_;
- if ($tmpstmp =~ /^(....)-(..)-(..) (..):(..):(..)/) {
- print STDERR $tmpstmp."\n" if DEBUG;
-                my $year = $1;
-                my $mon = $2 - 1;
-                my $mday = $3;
-                my $hour = $4;
-                my $min = $5;
-                my $sec = $6;
-                return timelocal($sec,$min,$hour,$mday,$mon,$year);
- } 
+ if ($tmpstmp =~ /^(...),\s+(..)\s+(...)\s+(\d+)\s+(\d\d):(\d\d):(\d\d)\s+(\S+)/) {
+                my $time = Time::Piece->strptime($tmpstmp, "%a, %d %b %Y %T %Z");
+                # time format: 2014-09-23 14:44:10.032 (if timemode not set) 
+                my $offset = $time->localtime->tzoffset;
+                $time += $offset;
+                print "Localized: ".$time."\n" if DEBUG;
+                my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($time);
+
+                if ($timemode) {
+                  return timelocal($sec, $min, $hour, $mday, $mon, $year);
+                }
+
+                # String should be formatted as: '2014-09-23 14:44:10.02'
+                if ($year >= 1900){$year-=1900};
+                my $now_string = strftime "%Y-%m-%e %T.00", $sec,$min,$hour,$mday,$mon,$year;
+                $now_string =~s/\- /\-/;
+                return $now_string;
+ }
  warn "Couldn't parse date [$tmpstmp]\n";
  return 0;
 }
@@ -273,6 +288,8 @@ sub countActions {
       print STDERR $res->status_line, "\n"
     }
     return $success;
+    
+
  } elsif ($mime eq XML) {
    my $steps = 1;
    if ($res->is_success) {
@@ -290,3 +307,62 @@ sub countActions {
  return 0;
 }
 
+#============================================================================
+# Function for getting data from webservice, we get lmtime, crtime and status
+#============================================================================
+sub getWRData {
+ my $url = join(":",($webservice,$web_bulkdir))."5"; # Initial request is to get the total number of entries
+ my $req;
+
+ print STDERR "Requesting $url\n" if DEBUG;
+ $req = HTTP::Request->new(GET=>$url);
+ $req->content_type(JSN);
+
+ my $ua = LWP::UserAgent->new;
+ $ua->agent(AGENT);
+ my $res = $ua->request($req);
+
+ # First, get the total number of records to bypass pagination
+ my $total_records;
+ if ($res->is_success) {
+    print STDERR "JSON data received\n" if DEBUG;
+    my $json_string = $res->content;
+    my $j_container = decode_json $json_string;
+    $total_records = $j_container->{total};
+    $total_records ||= 0;
+    print STDERR "Got ".$total_records." as total records from JSON\n" if DEBUG;
+ } else {
+   print STDERR $res->status_line, "\n"
+ }
+
+ if ($total_records == 0) {
+    return undef;
+ }
+
+ # If we have more than 0 records, get the data
+ $url = join(":",($webservice,$web_bulkdir)).$total_records;
+ print STDERR "Requesting $url\n" if DEBUG;
+ $req = HTTP::Request->new(GET=>$url);
+ $req->content_type(JSN);
+
+ my $res_all = $ua->request($req);
+ my $datachunks = {};
+
+ if ($res_all->is_success) {
+    print STDERR "JSON data received\n" if DEBUG;
+    my $json_string_all = $res_all->content;
+    my $j_container_all = decode_json $json_string_all;
+    print STDERR "Got ".scalar(@{$j_container_all->{workflows}})." workflows from JSON\n" if DEBUG;
+    foreach my $blah(@{$j_container_all->{workflows}}) {
+        # time format: 2014-09-23 14:44:10.032 (if timemode not set)       
+        $datachunks->{$blah->{id}} = {ctime => $blah->{createdTime},
+                                      lmtime=> $blah->{lastModTime},
+                                      status=> $blah->{status}};
+    }
+    print STDERR "Got ".scalar(keys %{$datachunks})." records from JSON\n" if DEBUG;    
+ } else {
+   print STDERR $res->status_line, "\n"
+ }
+
+ return $datachunks;
+}
