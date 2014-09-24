@@ -151,12 +151,9 @@ while(my @row = $sth->fetchrow_array) {
         my $crTime = parse_timestamp_oozie($records->{$statusCmd}->{ctime});
         my $lmTime = parse_timestamp_oozie($records->{$statusCmd}->{lmtime}) ;
 
-        if ($timemode) {
-         my $timeDiff = $currentTime - $lmTime;
-	 next if ($timeDiff > $recentCutoff);
-         $crTime*=1000;
-         $lmTime*=1000;
-        }
+        my $timeDiff = $currentTime - $crTime->[0];
+	next if ($timeDiff > $recentCutoff);
+
         # Need to convert record's status in one of the three supported statuses here:
         my $currentStatus = $topstats{pending};
         if ($records->{$statusCmd}->{status} eq $Status[FAILED] || $records->{$statusCmd}->{status} eq $Status[KILLED]) {
@@ -173,11 +170,10 @@ while(my @row = $sth->fetchrow_array) {
                                           workflow  => $workflowName,
                                           version   => $workflowVersion,
                                           status    => $records->{$statusCmd}->{status}, #$status,
-                                          #status_cmd=> $statusCmd, # will keep this for now, but will retire in a future
+                                          #status_cmd=> $statusCmd, # will completely retire in a future
                 	                  wrun_id   => $statusCmd, 
-					  #accession => $workflowAccession,
-					  crtime    => $crTime,
-					  lmtime    => $lmTime
+					  crtime    => $timemode ? $crTime->[0]*1000 : $crTime->[1],
+					  lmtime    => $timemode ? $lmTime->[0]*1000 : $lmTime->[1]
                                           });
         
 }
@@ -222,7 +218,9 @@ close TEMP;
 my $outpath =$outdir.$outfile;
 `mv $tmppath $outpath`;
 
+#================================================================================================
 # Subroutine for converting oozie time (i.e. Thu, 01 Jan 2009 02:00:00 GMT) to localtime (in sec)
+#================================================================================================
 sub parse_timestamp_oozie {
  my $tmpstmp = shift @_;
  if ($tmpstmp =~ /^(...),\s+(..)\s+(...)\s+(\d+)\s+(\d\d):(\d\d):(\d\d)\s+(\S+)/) {
@@ -232,19 +230,16 @@ sub parse_timestamp_oozie {
                 $time += $offset;
                 print "Localized: ".$time."\n" if DEBUG;
                 my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($time);
-
-                if ($timemode) {
-                  return timelocal($sec, $min, $hour, $mday, $mon, $year);
-                }
+                my $secs = timelocal($sec, $min, $hour, $mday, $mon, $year);
 
                 # String should be formatted as: '2014-09-23 14:44:10.02'
                 if ($year >= 1900){$year-=1900};
                 my $now_string = strftime "%Y-%m-%e %T.00", $sec,$min,$hour,$mday,$mon,$year;
                 $now_string =~s/\- /\-/;
-                return $now_string;
+                return [$secs,$now_string];
  }
  warn "Couldn't parse date [$tmpstmp]\n";
- return 0;
+ return [0,"NA"];
 }
 
 
