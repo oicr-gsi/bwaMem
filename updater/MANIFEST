@@ -1,0 +1,7 @@
+Build.PL
+cgi-bin/getReport.pl
+scripts/jsonReport.pl
+install_util/jsonReportInstall.pm
+install_util/install_files.pl
+t/00test_json.t
+MANIFEST			This list of files

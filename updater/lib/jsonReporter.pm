@@ -1,26 +1,21 @@
-#!/usr/bin/perl
-use warnings;
-use strict;
+#!/usr/bin/perl -w
 
+package jsonReporter;
+
+our $VERSION="1.0a";
+
+use strict;
+use warnings;
 use DBI;
-use JSON;
 use LWP;
 use XML::Simple;
 use Data::Dumper;
 use Time::Local;
 use Time::Piece;
-use Getopt::Std;
 use POSIX qw(strftime);
 use constant DEBUG=>0;
-$| = 1;
 
-# OOZIE WEBSERVICE:
-#my $webservice  = "http://hsqwstage-node2.hpc.oicr.on.ca";
-my $webservice  = "http://hsqwprod-node1.hpc.oicr.on.ca"; 
-my $web_basedir = "11000/oozie/v1/job/";
-my $web_bulkdir = "11000/oozie/v1/jobs?len=";
-my $web_info    = "show=info";
-my $web_defi    = "show=definition";
+$| = 1;
 
 my @Status = ("FAILED","KILLED","PREP","RUNNING","SUSPENDED","SUCCEEDED","OK");
 my %topstats = (pending=>"pending",completed=>"completed",failed=>"failed"); # Binding internal definitions to external ones (which may change in a future)
@@ -40,70 +35,48 @@ use constant AGENT=>"SeqprodApp/0.1beta";
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
 # query the seqware metadb
-my $username = '*****';
-my $password = '*****';
-my $dbhost = 'hsqwprod-db1.hpc.oicr.on.ca';
-my $dbname = 'hsqwprod_seqware_meta_db';
 my $devmode = 0;
 my $timemode= 0;
 my $outfile;
 my $outdir;
 
+# OOZIE WEBSERVICE:
+my $web_basedir = "11000/oozie/v1/job/";
+my $web_bulkdir = "11000/oozie/v1/jobs?len=";
+my $web_info    = "show=info";
+my $web_defi    = "show=definition";
 
-# Control development output with -d option
-my %opts = ();
-getopts('sdt', \%opts);
-if (defined $opts{d}) {
-  $devmode = 1;
+=head2 SUMMARY
+ 
+ jsonReporter module is a placeholder for parameters used by seqprod_reporter web scripts which produce workflow run data in json format
+
+=head2 USAGE
+ 
+ To be updates soon
+ 
+=cut
+
+
+sub new {
+    my $class = shift;
+    my @args = @_;
+    my $self = bless { dbhost    => $args[0],
+                       dbname    => $args[1],
+                       username  => $args[2],
+                       password  => $args[3],
+                       webservice=> $args[4],
+                       }, ref $class || $class;    # will set finfiles flag to 1 if we have it (and if we do, genotype file and fingerprint popup will be created)
 }
 
-if (defined $opts{t}) {
-  $timemode = 1;
-}
+sub getSWData {
+ my $self = shift;
+ my $dsn = "DBI:Pg:dbname=$self->dbname;host=$self->dbhost";
+ my $dbh=DBI->connect($dsn, $self->user, $self->password, {RaiseError => 1});
+ warn "connected to $self->dbname\n";
 
-if (exists $ARGV[0])
-{
-  if ($ARGV[0] eq "month")
-  {
-    $recentCutoffTime = $ARGV[0];
-    $recentCutoff = 31 * 24 * 60 * 60;
-    $outfile = "month.json";
-  }
-  elsif ($ARGV[0] eq "year")
-  {
-    $recentCutoffTime = $ARGV[0];
-    $recentCutoff = 365 * 24 * 60 * 60;
-    $outfile = "year.json";
-  }
-  elsif ($ARGV[0] eq "decade")
-  {
-    $recentCutoffTime = $ARGV[0];
-    $recentCutoff = 10 * 365 * 24 * 60 * 60;
-    $outfile = "decade.json";
-  }
-  elsif ($ARGV[0] ne "week")
-  {
-    die "Please run as jsonReport.pl [week|month|year|decade] [output_dir]\n";
-  }
-  # defaults are fine
-}
-
-if (exists $ARGV[1] && -d $ARGV[1]) {
-  $outdir = $ARGV[1];
-} else {
-  die "Need an output directory for writing into";
-}
-
-$outfile ||= "week.json";
-warn "Connecting to meta_db\n";
-
-my $dsn = "DBI:Pg:dbname=$dbname;host=$dbhost";
-my $dbh=DBI->connect($dsn, $username, $password, {RaiseError => 1});
-warn "connected to $dbname\n";
-
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-my $currentTime = timelocal($sec,$min,$hour,$mday,$mon,$year);
-my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processing_id) AS (
+ my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
+ my $currentTime = timelocal($sec,$min,$hour,$mday,$mon,$year);
+ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processing_id) AS (
              SELECT wr.workflow_run_id, p.processing_id from workflow_run wr JOIN processing p
               ON (p.workflow_run_id is not null and wr.workflow_run_id = p.workflow_run_id)
               or (p.workflow_run_id is null and wr.workflow_run_id = p.ancestor_workflow_run_id)
@@ -134,16 +107,16 @@ my $query = "WITH RECURSIVE workflow_run_processings (workflow_run_id, processin
                 GROUP BY workflow_run_id ) AS p ON p.workflow_run_id = wr.workflow_run_id
               WHERE wr.status!='null'";
 	        
-my $sth = $dbh->prepare($query);
-$sth->execute();
+ my $sth = $dbh->prepare($query);
+ $sth->execute();
 
-my $records = &getWRData;
-print STDERR scalar(keys %{$records})." records received from webservice\n" if DEBUG;
+ my $records = $self->getWRData;
+ print STDERR scalar(keys %{$records})." records received from webservice\n" if DEBUG;
 
-warn "Query complete, processing\n";
-my %results;
-my %statushash = ();
-while(my @row = $sth->fetchrow_array) {
+ warn "Query complete, processing\n";
+ my %results;
+ my %statushash = ();
+ while(my @row = $sth->fetchrow_array) {
         my ($sampleName, $workflowName, $workflowVersion, $statusCmd) = @row; 
         next if (!$sampleName || !$workflowName || !$workflowVersion || !$statusCmd);
         next if (!$records->{$statusCmd});
@@ -176,52 +149,21 @@ while(my @row = $sth->fetchrow_array) {
 					  lmtime    => $timemode ? $lmTime->[0]*1000 : $lmTime->[1]
                                           });
         
+ }
+ print STDERR "Seen these statuses:\n" if DEBUG;
+ map{print STDERR "$_:\t$statushash{$_}\n"} (keys %statushash) if DEBUG;
+
+ $sth->finish;
+ $dbh->disconnect;
+
+ return \%results;
 }
-print STDERR "Seen these statuses:\n" if DEBUG;
-map{print STDERR "$_:\t$statushash{$_}\n"} (keys %statushash) if DEBUG;
-
-$sth->finish;
-$dbh->disconnect;
-
-# Need to know progress
-if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {
- warn "Have pending workflows, will parse ".scalar(@{$results{pending}})." runs";
- RUN:
- foreach my $run (@{$results{pending}}) {
-    if (!defined $run->{status} || $run->{status} ne $Status[RUNNING]) {
-     next RUN;
-    }
-          # FAKE STATUS IF NO PROGRESS AVAILABLE
-          my $progress = "".int rand(100); 
-          if (defined $run->{wrun_id} && $run->{wrun_id}=~/oozie/) {
-             # Create a request
-             my $url = join(":",($webservice,$web_basedir)).$run->{wrun_id}."?";
-             my $steps = countActions($url.$web_defi,XML);
-             my $done  = countActions($url.$web_info,JSN);
-             $progress = int($done/$steps*100);
-             print STDERR "Got real Progress value $progress\n" if DEBUG; 
-          }
-          $run->{progress} = $progress;
-  } 
-}
-
-my $json = JSON->new();
-$json = encode_json \%results;
-
-# Atomic update
-$outdir.="/" if $outdir !~m!/$!;
-my $tmppath = $outdir."tmp.json_$$";
-open(TEMP,">$tmppath") or die "Couldn't write to a temporary file";
-print TEMP "$json\n";
-close TEMP;
-
-my $outpath =$outdir.$outfile;
-`mv $tmppath $outpath`;
 
 #================================================================================================
 # Subroutine for converting oozie time (i.e. Thu, 01 Jan 2009 02:00:00 GMT) to localtime (in sec)
 #================================================================================================
 sub parse_timestamp_oozie {
+ my $self = shift;
  my $tmpstmp = shift @_;
  if ($tmpstmp =~ /^(...),\s+(..)\s+(...)\s+(\d+)\s+(\d\d):(\d\d):(\d\d)\s+(\S+)/) {
                 my $time = Time::Piece->strptime($tmpstmp, "%a, %d %b %Y %T %Z");
@@ -248,8 +190,8 @@ sub parse_timestamp_oozie {
 #    or steps done so far from a webservice
 #================================================
 sub countActions {
-
- my($url,$mime) = @_;
+ 
+ my($self,$url,$mime) = @_;
  my $req;
 
  if ($url && $mime) {
@@ -306,7 +248,8 @@ sub countActions {
 # Function for getting data from webservice, we get lmtime, crtime and status
 #============================================================================
 sub getWRData {
- my $url = join(":",($webservice,$web_bulkdir))."5"; # Initial request is to get the total number of entries
+ my $self = shift;
+ my $url = join(":",($self->webservice,$web_bulkdir))."5"; # Initial request is to get the total number of entries
  my $req;
 
  print STDERR "Requesting $url\n" if DEBUG;
@@ -335,7 +278,7 @@ sub getWRData {
  }
 
  # If we have more than 0 records, get the data
- $url = join(":",($webservice,$web_bulkdir)).$total_records;
+ $url = join(":",($self->webservice,$web_bulkdir)).$total_records;
  print STDERR "Requesting $url\n" if DEBUG;
  $req = HTTP::Request->new(GET=>$url);
  $req->content_type(JSN);
@@ -361,3 +304,5 @@ sub getWRData {
 
  return $datachunks;
 }
+
+1;

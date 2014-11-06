@@ -1,0 +1,11 @@
+To install the scripts you will need to set up apache directory for cgi-bi and html files
+(usually it would be /var/www or $HOME/public_html)
+Pass this dir as a parameter to installation script during interactive setup:
+
+perl Build.PL
+./Build
+./Build test
+./Build install
+
+(To reconfigure the base dir run ./Build reconfig)
+
