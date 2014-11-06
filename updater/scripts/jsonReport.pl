@@ -84,7 +84,7 @@ warn "Connecting to meta_db\n";
 
 
 my $jr = new jsonReporter($dbhost,$dbname,$username,$password,$webservice);
-my %results = %{$jr->getSWData};
+my %results = %{$jr->getSWData()};
 
 # Need to know progress
 if (defined $results{pending} && scalar(@{$results{pending}}) > 0) {

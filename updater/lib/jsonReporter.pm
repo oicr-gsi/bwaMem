@@ -70,9 +70,9 @@ sub new {
 
 sub getSWData {
  my $self = shift;
- my $dsn = "DBI:Pg:dbname=$self->dbname;host=$self->dbhost";
- my $dbh=DBI->connect($dsn, $self->user, $self->password, {RaiseError => 1});
- warn "connected to $self->dbname\n";
+ my $dsn = "DBI:Pg:dbname=$self->{dbname};host=$self->{dbhost}";
+ my $dbh=DBI->connect($dsn, $self->{user}, $self->{password}, {RaiseError => 1});
+ warn "connected to $self->{dbname}\n";
 
  my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
  my $currentTime = timelocal($sec,$min,$hour,$mday,$mon,$year);
@@ -110,7 +110,7 @@ sub getSWData {
  my $sth = $dbh->prepare($query);
  $sth->execute();
 
- my $records = $self->getWRData;
+ my $records = $self->getWRData();
  print STDERR scalar(keys %{$records})." records received from webservice\n" if DEBUG;
 
  warn "Query complete, processing\n";
@@ -249,7 +249,7 @@ sub countActions {
 #============================================================================
 sub getWRData {
  my $self = shift;
- my $url = join(":",($self->webservice,$web_bulkdir))."5"; # Initial request is to get the total number of entries
+ my $url = join(":",($self->{webservice},$web_bulkdir))."5"; # Initial request is to get the total number of entries
  my $req;
 
  print STDERR "Requesting $url\n" if DEBUG;
@@ -278,7 +278,7 @@ sub getWRData {
  }
 
  # If we have more than 0 records, get the data
- $url = join(":",($self->webservice,$web_bulkdir)).$total_records;
+ $url = join(":",($self->{webservice},$web_bulkdir)).$total_records;
  print STDERR "Requesting $url\n" if DEBUG;
  $req = HTTP::Request->new(GET=>$url);
  $req->content_type(JSN);
