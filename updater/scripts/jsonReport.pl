@@ -27,8 +27,8 @@ my $recentCutoffTime = "week";
 # query the seqware metadb
 my $username = jsonReporter::ConfigData->config('username');
 my $password = jsonReporter::ConfigData->config('password');
-my $dbhost = jsonReporter::ConfigData->config('dbhost');
-my $dbname = jsonReporter::ConfigData->config('dbname');
+my $dbhost   = jsonReporter::ConfigData->config('dbhost');
+my $dbname   = jsonReporter::ConfigData->config('dbname');
 my $devmode = 0;
 my $timemode= 0;
 my $outfile;

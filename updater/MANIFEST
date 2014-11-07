@@ -3,5 +3,8 @@ cgi-bin/getReport.pl
 scripts/jsonReport.pl
 install_util/jsonReportInstall.pm
 install_util/install_files.pl
-t/00test_json.t
+INSTALL
+lib/jsonReporter.pm
+t/00test_metadb.t
+t/01test_webservice.t
 MANIFEST			This list of files

@@ -6,7 +6,8 @@ use warnings;
 use ExtUtils::MakeMaker 'prompt';
 
 my %MY_PROPS = (basedir       => 'Directory for cgi-bin and html files for spbreporter ?',
-                user          => 'user name for connecting to SeqWare DB',
+                scriptdir     => 'Directory for data-retrieving script (running as a cronjob) ?',
+                username      => 'user name for connecting to SeqWare DB',
                 password      => 'password for SeqWare DB',
                 dbhost        => 'Host for SeqWare DB',
                 dbname        => 'SeqWare DB name',
@@ -83,7 +84,7 @@ sub ACTION_install {
 
     $self->depends_on('config_data');
     $self->install_path->{basedir}    ||= $self->config_data('basedir');
-    system("perl","install_util/install_files.pl",$self->install_path->{basedir});
+    system("perl","install_util/install_files.pl",$self->install_path->{basedir},$self->config_data('scriptdir'));
 
     print STDERR "\n***INSTALLATION COMPLETE***\n";
 }
@@ -108,6 +109,6 @@ sub my_props {
     return \%MY_PROPS;
 }
 
-sub asString { return 'SwapReporter installer' }
+sub asString { return 'jsonReporter installer' }
 
 1;

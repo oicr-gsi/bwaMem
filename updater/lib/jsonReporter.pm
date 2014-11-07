@@ -2,7 +2,7 @@
 
 package jsonReporter;
 
-our $VERSION="1.0a";
+our $VERSION="1.0";
 
 use strict;
 use warnings;
@@ -47,11 +47,27 @@ my $web_defi    = "show=definition";
 
 =head2 SUMMARY
  
- jsonReporter module is a placeholder for parameters used by seqprod_reporter web scripts which produce workflow run data in json format
+ jsonReporter module is a module for parameters used by seqprod_reporter web scripts which produce workflow run data in json format
+ it also defines subroutines for data retrieval, formatting time string and interaction with webservice
 
 =head2 USAGE
  
- To be updates soon
+ my $jr = new jsonReporter($dbhost,$dbname,$username,$password,$webservice,$devmode,$timemode);
+ my %results = %{$jr->getSWData()}; 
+ 
+ Do something with %results which have the following structure:
+ $results{pending} = [{sample    => 'HALT_002_Blah_2333,
+                       workflow  => 'BamQC',
+                       version   => '1.0',
+                       status    => 'RUNNING',
+                       wrun_id   => '0026414-140703102330454-oozie-oozi-W',
+                       crtime    => 1415121640000,  (msec, human-readable format is also supported)
+                       lmtime    => 1415334504000
+                       },
+
+                       ...
+
+                      ]); (hash of anonymous arrays of hashes)
  
 =cut
 
