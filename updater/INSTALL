@@ -7,5 +7,5 @@ perl Build.PL
 ./Build test
 ./Build install
 
-(To reconfigure the base dir run ./Build reconfig)
+(To reconfigure run ./Build reconfig)
 
