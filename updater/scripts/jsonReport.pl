@@ -83,7 +83,7 @@ $outfile ||= "week.json";
 warn "Connecting to meta_db\n";
 
 
-my $jr = new jsonReporter($dbhost,$dbname,$username,$password,$webservice);
+my $jr = new jsonReporter($dbhost,$dbname,$username,$password,$webservice,$devmode,$timemode);
 my %results = %{$jr->getSWData()};
 
 # Need to know progress

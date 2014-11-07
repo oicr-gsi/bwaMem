@@ -8,6 +8,7 @@ use strict;
 use warnings;
 use DBI;
 use LWP;
+use JSON;
 use XML::Simple;
 use Data::Dumper;
 use Time::Local;
@@ -35,8 +36,6 @@ use constant AGENT=>"SeqprodApp/0.1beta";
 my $recentCutoff = 7 * 24 * 60 * 60; # week
 my $recentCutoffTime = "week";
 # query the seqware metadb
-my $devmode = 0;
-my $timemode= 0;
 my $outfile;
 my $outdir;
 
@@ -65,6 +64,8 @@ sub new {
                        username  => $args[2],
                        password  => $args[3],
                        webservice=> $args[4],
+                       devmode   => $args[5],
+                       timemode  => $args[6]
                        }, ref $class || $class;    # will set finfiles flag to 1 if we have it (and if we do, genotype file and fingerprint popup will be created)
 }
 
@@ -139,14 +140,14 @@ sub getSWData {
         $statushash{$records->{$statusCmd}->{status}}++;
         if (!$results{$currentStatus}){$results{$currentStatus}=[];}
         $statusCmd = (defined $statusCmd && $statusCmd=~/^\W*/) ? $' : ""; 
-        push(@{$results{$currentStatus}},{sample    => $devmode ? $sampleName."[$records->{$statusCmd}->{status}]" : $sampleName,
+        push(@{$results{$currentStatus}},{sample    => $self->{devmode} ? $sampleName."[$records->{$statusCmd}->{status}]" : $sampleName,
                                           workflow  => $workflowName,
                                           version   => $workflowVersion,
                                           status    => $records->{$statusCmd}->{status}, #$status,
                                           #status_cmd=> $statusCmd, # will completely retire in a future
                 	                  wrun_id   => $statusCmd, 
-					  crtime    => $timemode ? $crTime->[0]*1000 : $crTime->[1],
-					  lmtime    => $timemode ? $lmTime->[0]*1000 : $lmTime->[1]
+					  crtime    => $self->{timemode} ? $crTime->[0]*1000 : $crTime->[1],
+					  lmtime    => $self->{timemode} ? $lmTime->[0]*1000 : $lmTime->[1]
                                           });
         
  }
@@ -163,7 +164,6 @@ sub getSWData {
 # Subroutine for converting oozie time (i.e. Thu, 01 Jan 2009 02:00:00 GMT) to localtime (in sec)
 #================================================================================================
 sub parse_timestamp_oozie {
- my $self = shift;
  my $tmpstmp = shift @_;
  if ($tmpstmp =~ /^(...),\s+(..)\s+(...)\s+(\d+)\s+(\d\d):(\d\d):(\d\d)\s+(\S+)/) {
                 my $time = Time::Piece->strptime($tmpstmp, "%a, %d %b %Y %T %Z");
