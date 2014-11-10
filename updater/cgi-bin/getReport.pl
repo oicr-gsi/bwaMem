@@ -5,7 +5,7 @@ use CGI qw(:standard -debug escape);
 use JSON;
 use constant DEBUG=>0;
 
-my $fileDir = "/.mounts/labs/PDE/web/html/spbreporter/";
+my $fileDir = "_FILEDIR_"; 
 my %files   = (week   => "week.json",
                month  => "month.json",
                year   => "year.json",

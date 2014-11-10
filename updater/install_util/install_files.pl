@@ -37,8 +37,8 @@ print STDERR <<END
 ***********************************************************************
 Don't forget to do set up cronjobs for jsonReport.pl script (crontab -e) :
 
-*/5 * * * * /u/pruzanov/seqprod_reporter/jsonReport.pl week /.mounts/labs/PDE/web/html/spbreporter/ 2> /dev/null
-0 1 * * 0 /u/pruzanov/seqprod_reporter/jsonReport.pl month /.mounts/labs/PDE/web/html/spbreporter/ 2> /dev/null
+*/5 * * * * $scriptdir/$ROOTDIR/jsonReport.pl week $basedir/html/$ROOTDIR/ 2> /dev/null
+0 1 * * 0 $scriptdir/$ROOTDIR/jsonReport.pl month $basedir/html/$ROOTDIR/ 2> /dev/null
 
 ***********************************************************************
 END
@@ -55,8 +55,13 @@ sub copy_dir {
    close DIR;
 
    foreach my $file (@files) {
+     if ($src =~ /cgi.bin/) {
+      `sed s!_FILEDIR_!$basedir/html/$ROOTDIR/! $src/$file > $dest/$file`;
+      next;
+     }
      `cp $src/$file $dest/`;
    }
+
  } else {
    warn "Something wrong with the directories, cannot copy from $src";
  }
