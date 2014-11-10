@@ -11,6 +11,12 @@ import android.preference.PreferenceFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.webkit.URLUtil;
 
+/**
+ * An extended PreferenceFragment that is used to display the preferences that a user will set.
+ *
+ * @see PreferenceFragment
+ *
+ */
 public class SeqprodPreferencesFragment extends PreferenceFragment 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
 	private boolean prefsChanged;

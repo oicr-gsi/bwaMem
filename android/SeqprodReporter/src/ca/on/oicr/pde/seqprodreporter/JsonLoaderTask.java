@@ -16,6 +16,22 @@ import android.text.format.Time;
 import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
+/**
+ * An asynchronous task that is used to query the database for certain workflow data while updating
+ * the contents of the corresponding referenced parent ReportListFragment with the queried results.
+ * This task is ran on a background thread. The task will query the database based on the parameters that
+ * is supplied when the task is executed from the parent ReportListFragment. The task will convert the
+ * queried results into Report form, and once the task is finished it will update the parent ReportListFragment
+ * with the queried list of 'Reports'.
+ * The two execute variables supplied are a query string and an update range.
+ * This class is instantiated when the contents of the corresponding ReportListFragment either are to be updated with
+ * the most recent downloaded data or when Reports are being filtered by the user.
+ *
+ *
+ *@see AsyncTask
+ *@see ReportListFragment
+ *@see Report
+ */
 public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 
 	private WeakReference<ReportListFragment> mParent;
@@ -27,6 +43,20 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 		                                           365 * 24 * 3600 * 1000L,		//YEAR
 		                                           10 * 365 * 24 * 3600 * 1000L};//DECADE
 
+	
+	/**
+	 * Constructs a JsonLoaderTask with the calling parent ReportListFragment, the type of workflows
+	 * that belong to the calling ReportListFragment, and the most recent modification time for any
+	 * Report in the calling ReportListFragment's list. The type parameter can have any of the following
+	 * values: 'completed', 'failed' and 'pending'.
+	 * The lastUpdate variable is used in the implementation of the highlighting feature.
+	 *
+	 * @param parent the calling ReportListFragment that is to have it's content changed
+	 * @param type the workflow status that the parent ReportListFragment represents
+	 * @param lastUpdate
+	 * @see Report
+	 * @see ReportListFragment
+	 */
 	public JsonLoaderTask(ReportListFragment parent, String type,
 			Time lastUpdate) {
 		super();

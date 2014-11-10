@@ -41,7 +41,18 @@ import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
-
+/**
+ * The launcher Activity for the App. This Activity contains three ReportListFragments as well as a
+ * ViewPager that allows the user to navigate between the three ReportListFragments. This extended
+ * ActionBarActivity class also implements a ActionBar.TabListener, which allows the user to see the
+ * corresponding ReportListFragment on select of a tab. Three tabs exist at the moment
+ * ("completed", "failed", "pending"), the TabListener is implemented in such a way so that on select of a tab
+ * the user will be navigated to the ReportListFragment that contains the list of workflows that are of the type
+ * represented by the selected tab.
+ *
+ * @see ActionBarActivity
+ * @see ViewPager
+ */
 public class ReporterActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
 

@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+/**
+ * A Fragment that contains and shows a list of Reports.
+ *
+ */
 public class ReportListFragment extends Fragment {
 
 	/**

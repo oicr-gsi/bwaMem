@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.Time;
 import android.view.Gravity;
@@ -14,6 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * The class that provides a View that corresponds to each Report object that is found in the
+ * list of the ReportListFragment. This class takes care of linking the underlying data for each
+ * Report with a view that is within the ReportListFragment.
+ * 
+ * @see ReportListFragment
+ * @see ArrayAdapter
+ */
 public class ReportAdapter extends ArrayAdapter<Report> {
 
 	private Context mContext;
@@ -22,6 +31,11 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 	
 	private static final String ESTIMATED_TIME_REMAINING_FILLER = "HH:MM";
 
+	/**
+	 * Constructor for the ReportAdapter
+	 * @param context the context for the parent container of the Report views
+	 * @param resource the integer that represents the resource layout where the Report views will be placed in
+	 */
 	public ReportAdapter(Context context, int resource) {
 		super(context, resource);
 		this.mContext = context;
@@ -43,6 +57,7 @@ public class ReportAdapter extends ArrayAdapter<Report> {
 		return position;
 	}
 
+	@SuppressLint("InflateParams")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 

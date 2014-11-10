@@ -20,6 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * A Fragment that displays three histograms, each representing a type of workflow. This class is not used at the
+ * moment, but it can be integrated within the WorkflowStatsDetailActivity.
+ *
+ * @author benreyhani15
+ *
+ */
 public class WorkflowStatsDetailHistogramFragment extends Fragment {
 	private XYPlot completedPlot;
 	private XYPlot pendingPlot;
@@ -146,6 +153,12 @@ public class WorkflowStatsDetailHistogramFragment extends Fragment {
 		return output;
 	}*/
 	
+	/**
+	 * Returns the fill color type for the chart based on the integer passed in.
+	 *
+	 * @param workflowType an integer that represents the type of workflow passed in
+	 * @return the resource id of the color that will be used to fill the background of the chart
+	 */
 	public int getTypeFillColor(int workflowType){
 		int fillColor;
 		switch(workflowType){

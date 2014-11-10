@@ -6,6 +6,12 @@ import android.text.format.Time;
 import android.util.Log;
 import android.util.TimeFormatException;
 
+/**
+ * Object class that is used to represents a row in the App's SQLite database.
+ * A ReportListFragment object will have it's list consist of Report objects.
+ *
+ *@see ReportListFragment
+ */
 public class Report {
 
 	private String rSampleName;
@@ -175,6 +181,13 @@ public class Report {
 		this.rLastModTime = rLastModTime;
 	}
 
+	/**
+	 * Converts the fields of a given Report object into a ContentValues object which will
+	 * be used to interact with the SQLite database.
+	 * @param report the Report instance that is having it's fields placed into a ContentValues object
+	 * @return will return a ContentValues object that consists of the member variable values of the passed in Report parameter
+	 * @see ContentValues
+	 */
 	public static ContentValues convertToCV(Report report) {
 		if (null != report) {
 			ContentValues values = new ContentValues();

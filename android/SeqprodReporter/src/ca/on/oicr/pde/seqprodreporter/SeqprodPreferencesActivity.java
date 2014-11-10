@@ -3,6 +3,11 @@ package ca.on.oicr.pde.seqprodreporter;
 import android.app.Activity;
 import android.os.Bundle;
 
+/**
+ * The Activity that contains the SeqprodPreferencesFragment
+ *
+ * @see SeqprodPreferencesFragment
+ */
 public class SeqprodPreferencesActivity extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {

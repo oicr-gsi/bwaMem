@@ -20,6 +20,14 @@ import android.text.format.Time;
 import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
+/**
+ * An asynchronous task that is invoked to download the Worklow data into the application's SQLite database
+ * from the JSON script. This task is done on a background thread.
+ * Once the task is finished it will send a notification to the user indicating that a
+ * data update has finished. The form of the notification will vary depending on the state of the App.
+ * 
+ *@see JsonLoaderTask
+ */
 public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private final String URL;
 	private final String Range;
@@ -31,6 +39,17 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private boolean isFailedModified;
 	private String updateTime;
 
+	/**
+	 * Constructs an instance of getreportHTTP with the application context, the host URL to download
+	 * the data from, and the date range to date back to when receiving workflow reports. The workflow
+	 * data that is being downloaded will depend on what updateRange value is being passed in. The different
+	 * values that could be passed in as the updateRange parameter are: 'week', 'month', 'year' and 'decade'.
+	 * For example, if updateRange has the value 'week'; that instance of getreportHTTP will download only
+	 * the data of workflows that have been updated within the last week.
+	 * @param context the application context of the calling application
+	 * @param hostURL the host URL of the JSON script which will be used to download the data from
+	 * @param updateRange specifies the range to date back to when getting workflow data
+	 */
 	public getreportHTTP(Context context, String hostURL, String updateRange) {
 
 		this.URL = hostURL;
