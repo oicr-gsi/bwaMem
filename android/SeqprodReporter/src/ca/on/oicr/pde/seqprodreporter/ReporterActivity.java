@@ -219,7 +219,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 		this.isVisible = true;
-		updateLUT(sp.getString("updateTime", ""));
+		updateLMT(sp.getString("updateTime", ""));
 		// update fragments when searching for a query (Device orientation
 		// change handled elsewhere)
 		if (!mSectionsPagerAdapter.fragments.isEmpty()) {
@@ -354,6 +354,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				long INTERVAL = this.updateFrequency * 60 * 1000L;
 				this.timer.cancel();
 				this.timer = new Timer();
+				//TODO record LUT here (regardless of visibility)
 				this.timer.schedule(new TimedHttpTask(), 0, INTERVAL);
 			} else {
 				// Instance where if either updateHost and updateRange are not
@@ -608,7 +609,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * Update Last Modified Time in UI
 	 * @param updateTime
 	 */
-	private void updateLUT(String updateTime) {
+	private void updateLMT(String updateTime) {
 		if (!updateTime.equals("")) {
 			TextView updateView = (TextView) findViewById(R.id.updateTimeView);
 			updateView.setVisibility(View.VISIBLE);
@@ -725,7 +726,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					if (ReporterActivity.this.isVisible) {
 						Toast.makeText(ReporterActivity.this,
 								"Update Received", Toast.LENGTH_SHORT).show();
-						updateLUT(intent.getStringExtra("updateTime"));
+						updateLMT(intent.getStringExtra("updateTime"));
 					} else {
 						if (!notificationSetting.equals(NOTIFICATIONS_OFF)) {
 							Notification.Builder notificationBuilder = setUpNotificationBuilder(context);
