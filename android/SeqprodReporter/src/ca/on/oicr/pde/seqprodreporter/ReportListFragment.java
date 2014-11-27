@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,7 @@ public class ReportListFragment extends Fragment {
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
 	public final Comparator<Report> SAMPLECOMPARATOR = new ReportNameComparator();
 	public final Comparator<Report> NAMECOMPARATOR = new ReportWorkflowComparator();
-
+    onTimeUpdateListener mCallback;
 	/**
 	 * Returns a new instance of this fragment for the given section number.
 	 * 
@@ -57,6 +58,10 @@ public class ReportListFragment extends Fragment {
 
 	public String getSearchFilter() {
 		return searchFilter;
+	}
+	
+	public interface onTimeUpdateListener {
+		public void onUpdate(Time updatedTime); 
 	}
 
 	/**
@@ -116,6 +121,7 @@ public class ReportListFragment extends Fragment {
 				}
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
+				
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
 						.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
@@ -130,14 +136,27 @@ public class ReportListFragment extends Fragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mCallback = (onTimeUpdateListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnTimeUpdateListener");
+		}
+	}
+	
+	@Override
 	public void onDestroyView() {
 		if (this.lastUpdateTime != null) {
 			SharedPreferences sp = getActivity().getSharedPreferences(
 					ReporterActivity.PREFERENCE_FILE,
 					ReporterActivity.MODE_PRIVATE);
 			// TODO this should not be here
-			sp.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
-					            this.lastUpdateTime.toMillis(false)).apply();
+			//sp.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
+			//		            this.lastUpdateTime.toMillis(false)).apply();
 			sp.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
 		            this.firstUpdateTime.toMillis(false)).apply();
 
@@ -209,6 +228,7 @@ public class ReportListFragment extends Fragment {
 	public void setLastUpdateTime(Time t) {
 		if (this.lastUpdateTime == null || this.lastUpdateTime.before(t)) {
 			this.lastUpdateTime = t;
+			this.mCallback.onUpdate(t);
 		}
 	}
 

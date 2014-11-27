@@ -34,6 +34,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.TimeFormatException;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,20 +42,23 @@ import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
+
 /**
- * The launcher Activity for the App. This Activity contains three ReportListFragments as well as a
- * ViewPager that allows the user to navigate between the three ReportListFragments. This extended
- * ActionBarActivity class also implements a ActionBar.TabListener, which allows the user to see the
- * corresponding ReportListFragment on select of a tab. Three tabs exist at the moment
- * ("completed", "failed", "pending"), the TabListener is implemented in such a way so that on select of a tab
- * the user will be navigated to the ReportListFragment that contains the list of workflows that are of the type
+ * The launcher Activity for the App. This Activity contains three
+ * ReportListFragments as well as a ViewPager that allows the user to navigate
+ * between the three ReportListFragments. This extended ActionBarActivity class
+ * also implements a ActionBar.TabListener, which allows the user to see the
+ * corresponding ReportListFragment on select of a tab. Three tabs exist at the
+ * moment ("completed", "failed", "pending"), the TabListener is implemented in
+ * such a way so that on select of a tab the user will be navigated to the
+ * ReportListFragment that contains the list of workflows that are of the type
  * represented by the selected tab.
  *
  * @see ActionBarActivity
  * @see ViewPager
  */
 public class ReporterActivity extends ActionBarActivity implements
-		ActionBar.TabListener {
+		ActionBar.TabListener, ReportListFragment.onTimeUpdateListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -96,10 +100,11 @@ public class ReporterActivity extends ActionBarActivity implements
 	private int updateFrequency; // in minutes
 	private boolean timerScheduled = false;
 	private boolean isVisible;
-	private boolean [] dataRangeRequested;
+	private boolean[] dataRangeRequested;
 	private boolean refreshEnabled = true;
 	private int sortIndex;
 	private Time lastModifiedFailedTime;
+	private Time lastModifiedCachedTime;
 	private int mCurrentTabIndex;
 	private String mSearchQuery;
 
@@ -212,6 +217,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onPause() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(false);
 		this.isVisible = false;
+		// TODO store cachedLastModTime in sp
+
 		super.onPause();
 	}
 
@@ -219,6 +226,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 		this.isVisible = true;
+		//TODO restore time stored in 
 		updateUiLMT(sp.getString("updateTime", ""));
 		// update fragments when searching for a query (Device orientation
 		// change handled elsewhere)
@@ -234,13 +242,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		super.onResume();
 	}
-	
-
-	protected void updateLMMT (Time updated, int section) { 
-		// TODO Auto-generated method stub
-		Log.d(TAG,"Activity Destroyed");
-		super.onDestroy();
-	};
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -249,7 +250,8 @@ public class ReporterActivity extends ActionBarActivity implements
 			outState.putString("lastModifiedFailedTime",
 					lastModifiedFailedTime.format2445());
 		if (null != this.dataRangeRequested)
-		    outState.putBooleanArray("dataRangeRequested", this.dataRangeRequested);
+			outState.putBooleanArray("dataRangeRequested",
+					this.dataRangeRequested);
 		outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
@@ -348,7 +350,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else if (id == R.id.action_refresh) {
 			if (!this.refreshEnabled) {
 				Log.d(TAG, "Refresh disabled, won't send request...");
-			    return true;
+				return true;
 			}
 			this.refreshEnabled = false;
 			// Instance where a timer is set with automatic updates
@@ -361,7 +363,9 @@ public class ReporterActivity extends ActionBarActivity implements
 				long INTERVAL = this.updateFrequency * 60 * 1000L;
 				this.timer.cancel();
 				this.timer = new Timer();
-				//TODO record LUT here (regardless of visibility)
+				// TODO record LUT here (regardless of visibility)
+				this.lastModifiedCachedTime = new Time();
+				this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 				this.timer.schedule(new TimedHttpTask(), 0, INTERVAL);
 			} else {
 				// Instance where if either updateHost and updateRange are not
@@ -490,7 +494,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	/**
 	 * A function that returns a formatted user-friendly Time representation.
 	 * 
-	 * @param Time time
+	 * @param Time
+	 *            time
 	 */
 	public static String timeToStringConverter(Time time) {
 		return time.format("%Y-%m-%d %H:%M:%S");
@@ -596,24 +601,26 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else {
 			this.updateFrequency = 0;
 		}
-				
+
 		// PDE-650 handle time ranges other than 'week' here
 		this.updateRange = sp.getString("pref_summaryScope", null);
 		if (null == this.updateRange || null == this.updateHost)
 			return;
-		
-		if (!this.updateRange.equals(getResources().getStringArray(R.array.pref_summaryScope_entries)[0]) && this.updateFrequency != 0) 
+
+		if (!this.updateRange.equals(getResources().getStringArray(
+				R.array.pref_summaryScope_entries)[0])
+				&& this.updateFrequency != 0)
 			requestLargeUpdate();
-				
+
 		this.notificationSetting = sp.getString("pref_notificationSettings",
 				NOTIFICATIONS_WEB_UPDATES);
 
-		
 		scheduleUpdate();
 	}
 
 	/**
 	 * Update Last Modified Time in UI
+	 * 
 	 * @param updateTime
 	 */
 	private void updateUiLMT(String updateTime) {
@@ -627,47 +634,52 @@ public class ReporterActivity extends ActionBarActivity implements
 			updateView.invalidate();
 		}
 	}
-	
+
 	/**
-	 * Function for sending HTTP requests for data range other than 'week' 
+	 * Function for sending HTTP requests for data range other than 'week'
 	 */
 	private void requestLargeUpdate() {
 		// check dataRangeRequested flag
-		String [] ranges = getResources().getStringArray(R.array.pref_summaryScope_entries);
+		String[] ranges = getResources().getStringArray(
+				R.array.pref_summaryScope_entries);
 		int rangeIndex = 0;
-		for (int i = 1; i < ranges.length; i++) { // we don't check 'week' which is the element with index 0
-		     if (this.updateRange.equals(ranges[i]))
-		    	 rangeIndex = i;
+		for (int i = 1; i < ranges.length; i++) { // we don't check 'week' which
+													// is the element with index
+													// 0
+			if (this.updateRange.equals(ranges[i]))
+				rangeIndex = i;
 		}
 		if (rangeIndex == 0)
 			return;
-		Log.d(TAG,"Update range longer than a week chosen");
+		Log.d(TAG, "Update range longer than a week chosen");
 		if (null == this.dataRangeRequested)
-			this.dataRangeRequested = new boolean [ranges.length];
+			this.dataRangeRequested = new boolean[ranges.length];
 		else if (this.dataRangeRequested[rangeIndex])
 			return;
 
 		// check the oldest (completed) fragments' firstUpdated value
 		Time now = new Time();
 		now.setToNow();
-		Log.d(TAG,"Checking if we already have data in requested range...");
-		long rangeLimit = now.toMillis(false) - JsonLoaderTask.updateRanges[rangeIndex];
-		
+		Log.d(TAG, "Checking if we already have data in requested range...");
+		long rangeLimit = now.toMillis(false)
+				- JsonLoaderTask.updateRanges[rangeIndex];
+
 		try {
-		ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter.getItem(0);
-		if (null == f.getFirstUpdateTime() || f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
+			ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter
+					.getItem(0);
+			if (null == f.getFirstUpdateTime()
+					|| f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
+				this.dataRangeRequested[rangeIndex] = true;
+				return;
+			}
+			// if all checks negative, launch http request
+			Log.d(TAG, "Requesting a large update...");
+			new getreportHTTP(getApplicationContext(), this.updateHost,
+					this.updateRange).execute();
+			// update dataRangeRequested
 			this.dataRangeRequested[rangeIndex] = true;
-			return;	
-		}
-		//if all checks negative, launch http request
-		Log.d(TAG,"Requesting a large update...");
-		new getreportHTTP(getApplicationContext(), 
-		          this.updateHost,
-		          this.updateRange).execute();
-		//update dataRangeRequested
-		this.dataRangeRequested[rangeIndex] = true;
 		} catch (NullPointerException npe) {
-			Log.e(TAG,"Error getting first update time, won't request data");
+			Log.e(TAG, "Error getting first update time, won't request data");
 		}
 	}
 
@@ -709,14 +721,11 @@ public class ReporterActivity extends ActionBarActivity implements
 						Toast.makeText(ReporterActivity.this,
 								"Error: No New Reports Could be Loaded",
 								Toast.LENGTH_LONG).show();
-					}
-					else if (!notificationSetting.equals(NOTIFICATIONS_OFF)) {
+					} else if (!notificationSetting.equals(NOTIFICATIONS_OFF)) {
 						Notification.Builder notificationBuilder = setUpNotificationBuilder(context);
 						notificationBuilder
-								.setTicker(
-										"Error: No New Reports Could be Loaded")
-								.setContentText(
-										"An Error Occured While Loading The Reports");
+								.setTicker("Error: No New Reports Could be Loaded")
+								.setContentText("An Error Occured While Loading The Reports");
 						passNotificationBuildertoManager(context,
 								notificationBuilder);
 					}
@@ -724,11 +733,9 @@ public class ReporterActivity extends ActionBarActivity implements
 
 				else {
 					sp.edit()
-							.putString("updateTime",
-									intent.getStringExtra("updateTime"))
+							.putString("updateTime", intent.getStringExtra("updateTime"))
 							.apply();
-					Log.d(TAG,
-							"Entered onReceive for DataUpdate, Broadcast received");
+					Log.d(TAG, "Entered onReceive for DataUpdate, Broadcast received");
 
 					if (ReporterActivity.this.isVisible) {
 						Toast.makeText(ReporterActivity.this,
@@ -817,13 +824,42 @@ public class ReporterActivity extends ActionBarActivity implements
 					.getisCurrentActivityVisible()) {
 				timer.cancel();
 			} else {
-				Log.d(TAG, "Entered TimedHttpTask, here we need to launch HTTP request");
+				Log.d(TAG,
+						"Entered TimedHttpTask, here we need to launch HTTP request");
+				//Cache update time before launching HTTP update
+				long storedMillis = sp.getLong("updateLastTime", 0L);
+				
+				if (storedMillis > 0)
+					lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 				// We ask for 'week' update here and launch getreportHTTP
-				// Need to use something like Reentrant Lock here
-				new getreportHTTP(getApplicationContext(), 
-						          sp.getString("pref_hostName", null),
-						          getResources().getStringArray(R.array.pref_summaryScope_entries)[0]).execute(lastModifiedFailedTime);
+				new getreportHTTP(getApplicationContext(), sp.getString(
+						"pref_hostName", null), getResources().getStringArray(
+						R.array.pref_summaryScope_entries)[0])
+						.execute(lastModifiedFailedTime);
 			}
+		}
+
+	}
+
+	@Override
+	public synchronized void onUpdate(Time updatedTime) {
+
+		if (!((MainApplication) getApplication()).getisCurrentActivityVisible())
+			return;
+
+		// this function will update sp-stored time if it is after the
+		// stored value DO NOT touch cached time here!
+		long upTime = sp.getLong("updateLastTime", 0L);
+		Time restoredTime = new Time();
+		try {
+			restoredTime.set(upTime);
+			if (updatedTime.after(restoredTime)) {
+				this.sp.edit()
+						.putLong("updateLastTime", updatedTime.toMillis(false))
+						.apply();
+			}
+		} catch (TimeFormatException tfe) {
+			Log.d(TAG, "LMT wasn't updated b/c the value is wrong...");
 		}
 
 	}
