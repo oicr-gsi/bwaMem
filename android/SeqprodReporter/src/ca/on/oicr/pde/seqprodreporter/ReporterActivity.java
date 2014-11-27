@@ -219,7 +219,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 		this.isVisible = true;
-		updateLMT(sp.getString("updateTime", ""));
+		updateUiLMT(sp.getString("updateTime", ""));
 		// update fragments when searching for a query (Device orientation
 		// change handled elsewhere)
 		if (!mSectionsPagerAdapter.fragments.isEmpty()) {
@@ -234,6 +234,13 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		super.onResume();
 	}
+	
+
+	protected void updateLMMT (Time updated, int section) { 
+		// TODO Auto-generated method stub
+		Log.d(TAG,"Activity Destroyed");
+		super.onDestroy();
+	};
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -609,7 +616,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * Update Last Modified Time in UI
 	 * @param updateTime
 	 */
-	private void updateLMT(String updateTime) {
+	private void updateUiLMT(String updateTime) {
 		if (!updateTime.equals("")) {
 			TextView updateView = (TextView) findViewById(R.id.updateTimeView);
 			updateView.setVisibility(View.VISIBLE);
@@ -726,7 +733,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					if (ReporterActivity.this.isVisible) {
 						Toast.makeText(ReporterActivity.this,
 								"Update Received", Toast.LENGTH_SHORT).show();
-						updateLMT(intent.getStringExtra("updateTime"));
+						updateUiLMT(intent.getStringExtra("updateTime"));
 					} else {
 						if (!notificationSetting.equals(NOTIFICATIONS_OFF)) {
 							Notification.Builder notificationBuilder = setUpNotificationBuilder(context);

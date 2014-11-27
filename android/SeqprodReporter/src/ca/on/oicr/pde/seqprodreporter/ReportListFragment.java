@@ -88,6 +88,7 @@ public class ReportListFragment extends Fragment {
 		this.firstUpdateTime = new Time();
 		this.lastUpdateTime.setToNow();
 		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE);
+		// TODO need to have just one UpdateTime
 		long upTime = sp.getLong("updateLastTime" + ReporterActivity.getType(index), 0L);
 		long crTime = sp.getLong("updateFirstTime" + ReporterActivity.getType(index), 0L);
 		String timeRange = sp.getString("pref_summaryScope", "week");
@@ -134,6 +135,7 @@ public class ReportListFragment extends Fragment {
 			SharedPreferences sp = getActivity().getSharedPreferences(
 					ReporterActivity.PREFERENCE_FILE,
 					ReporterActivity.MODE_PRIVATE);
+			// TODO this should not be here
 			sp.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
 					            this.lastUpdateTime.toMillis(false)).apply();
 			sp.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
