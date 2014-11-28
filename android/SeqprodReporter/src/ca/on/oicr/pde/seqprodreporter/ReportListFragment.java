@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.util.TimeFormatException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +34,9 @@ public class ReportListFragment extends Fragment {
 	private int sortingType;
 	private String searchFilter;
 
-	static final int SORT_BY_MODTIME = 0;
+	static final int SORT_BY_MODTIME  = 0;
 	static final int SORT_BY_WORKFLOW = 1;
-	static final int SORT_BY_SAMPLE = 2;
+	static final int SORT_BY_SAMPLE   = 2;
 	// May want to move these comparator's code into a separate class for easy
 	// maintenance
 	public final Comparator<Report> TIMECOMPARATOR = new ReportTimeComparator();
@@ -86,15 +87,16 @@ public class ReportListFragment extends Fragment {
 
 		int index = this.getSectionNumber() - 1;
 		this.mAdapter = new ReportAdapter(container.getContext(),
-				R.layout.fragment_reporter);
+				                          R.layout.fragment_reporter);
 		this.mAdapter.setNotifyOnChange(false);
 		// Restoring last update time, if available:
 		this.lastUpdateTime  = new Time();
 		this.firstUpdateTime = new Time();
 		this.lastUpdateTime.setToNow();
-		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE);
-		// TODO need to have just one UpdateTime
-		long upTime = sp.getLong("updateLastTime" + ReporterActivity.getType(index), 0L);
+		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, 
+				                                                  ReporterActivity.MODE_PRIVATE);
+		// need to have just one UpdateTime
+		long upTime = sp.getLong("updateLastTime", 0L); // + ReporterActivity.getType(index)
 		long crTime = sp.getLong("updateFirstTime" + ReporterActivity.getType(index), 0L);
 		String timeRange = sp.getString("pref_summaryScope", "week");
 		
@@ -106,8 +108,8 @@ public class ReportListFragment extends Fragment {
 				}
 			} catch (TimeFormatException tfe) {
 				// In case we have a corrupted value, it will be reset in shared preferences
-				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
-						.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
+				Log.e(ReporterActivity.TAG, "Time format exception, setting LMT to now...");
+				this.lastUpdateTime.setToNow();
 			}
 		} else {
 			this.lastUpdateTime.setToNow();
@@ -120,8 +122,7 @@ public class ReportListFragment extends Fragment {
 					this.firstUpdateTime.setToNow(); // Prevent passing value created with Time() constructor
 				}
 			} catch (TimeFormatException tfe) {
-				// In case we have a corrupted value, it will be reset in shared preferences
-				
+				// In case we have a corrupted value, it will be reset in shared preferences				
 				getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE,ReporterActivity.MODE_PRIVATE)
 						.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1), 0).apply();
 			}
@@ -154,14 +155,12 @@ public class ReportListFragment extends Fragment {
 			SharedPreferences sp = getActivity().getSharedPreferences(
 					ReporterActivity.PREFERENCE_FILE,
 					ReporterActivity.MODE_PRIVATE);
-			// TODO this should not be here
-			//sp.edit().putLong("updateLastTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
-			//		            this.lastUpdateTime.toMillis(false)).apply();
+
 			sp.edit().putLong("updateFirstTime" + ReporterActivity.getType(this.getSectionNumber() - 1),
 		            this.firstUpdateTime.toMillis(false)).apply();
 
 		}
-		// Auto-generated method stub
+
 		super.onDestroyView();
 	}
 
@@ -187,7 +186,8 @@ public class ReportListFragment extends Fragment {
 		}
 		else {
 			String type = ReporterActivity.getType(this.sectionNumber-1);
-			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type, Report.EMPTY_REPORT, "", 0, 0, "", "", "", false);
+			Report emptyReport = new Report(getString(R.string.empty_message) + " " + type, 
+					                        Report.EMPTY_REPORT, "", 0, 0, "", "", "", false);
 			this.mAdapter.add(emptyReport);
 			this.emptyList = true;
 		}

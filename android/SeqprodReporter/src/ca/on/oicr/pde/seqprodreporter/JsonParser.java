@@ -15,8 +15,6 @@ import android.util.TimeFormatException;
 /**
  * JsonParser class is for parsing JSON strings
  * 
- * @author pruzanov
- * 
  */
 public class JsonParser {
 
@@ -84,7 +82,7 @@ public class JsonParser {
 			}
 		} catch (JSONException e) {
 			Log.e(ReporterActivity.TAG,
-					"No JSON data could be retrieved from Http Response");
+			"No JSON data could be retrieved from Http Response");
 		}
 	}
 

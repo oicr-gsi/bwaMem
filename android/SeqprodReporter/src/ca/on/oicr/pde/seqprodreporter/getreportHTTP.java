@@ -33,6 +33,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private final String Range;
 	private Context mContext;
 	private AndroidHttpClient mClient;
+	//TODO this needs to be moved to strings.xml
 	private static final String SCRIPT = "/getReport.pl?range=";
 	
 	private Time failedTime;
@@ -93,10 +94,8 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 		public Boolean handleResponse(HttpResponse response)
 				throws ClientProtocolException, IOException {
 			Log.d(ReporterActivity.TAG,"Http response received...");
-			String dbResponse = new BasicResponseHandler()
-					.handleResponse(response);
-			byte[] byteArray = dbResponse.getBytes();
-			String JsonString = new String(byteArray, "UTF-8");
+			String dbResponse = new BasicResponseHandler().handleResponse(response);	
+			String JsonString = new String(dbResponse.getBytes(), "UTF-8");
 			JsonParser jp = new JsonParser(JsonString, ReporterActivity.types, null);
 			List <Report> results = jp.getParsedJSON();
 
@@ -109,14 +108,12 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 			//Insert data into db
 			if (null != results) {
 			    ContentResolver cr = mContext.getApplicationContext().getContentResolver();
-			    Log.d(ReporterActivity.TAG,"Started loading entries in DB...");
 				//We use bulk insert instead of incremental insert
 			    ContentValues[] dataChunks = new ContentValues[results.size()];
 			    for (int r = 0; r < results.size(); r++) {
 			      dataChunks[r] = Report.convertToCV(results.get(r));
 			    }
 			    cr.bulkInsert(DataContract.CONTENT_URI, dataChunks);
-				Log.d(ReporterActivity.TAG,"Done loading entries in DB...");
 				return Boolean.TRUE;
 			}
 
@@ -134,8 +131,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 				intent.putExtra("modifiedFailedTime", failedTime.format2445());
 			}
 		}
-		 LocalBroadcastManager.getInstance(mContext).sendBroadcast(
-					intent);
+		LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
 	}
 	
 }

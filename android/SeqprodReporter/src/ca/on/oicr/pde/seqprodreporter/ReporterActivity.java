@@ -97,16 +97,16 @@ public class ReporterActivity extends ActionBarActivity implements
 	private String updateHost;
 	private String updateRange;
 	private String notificationSetting;
-	private int updateFrequency; // in minutes
+	private String mSearchQuery;
 	private boolean timerScheduled = false;
 	private boolean isVisible;
 	private boolean[] dataRangeRequested;
 	private boolean refreshEnabled = true;
-	private int sortIndex;
 	private Time lastModifiedFailedTime;
 	private Time lastModifiedCachedTime;
+	private int sortIndex;
 	private int mCurrentTabIndex;
-	private String mSearchQuery;
+	private int updateFrequency; // in minutes
 
 	private SharedPreferences sp;
 	private Timer timer;
@@ -201,6 +201,8 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
+		if (null == lastModifiedCachedTime)
+			lastModifiedCachedTime = new Time();
 
 	}
 
@@ -217,17 +219,20 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected void onPause() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(false);
 		this.isVisible = false;
-		// TODO store cachedLastModTime in sp
-
+		// store cachedLastModTime in sp
+		Log.d(TAG,"Setting on pause, overwriting LMT in SharedPreferences with cached value...");
+		sp.edit().putLong("updateLastTime", 
+				          this.lastModifiedCachedTime.toMillis(false)).apply();
 		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
-		this.isVisible = true;
-		//TODO restore time stored in 
+		// restore time stored in 
 		updateUiLMT(sp.getString("updateTime", ""));
+		this.isVisible = true;
+		this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 		// update fragments when searching for a query (Device orientation
 		// change handled elsewhere)
 		if (!mSectionsPagerAdapter.fragments.isEmpty()) {
@@ -363,8 +368,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				long INTERVAL = this.updateFrequency * 60 * 1000L;
 				this.timer.cancel();
 				this.timer = new Timer();
-				// TODO record LUT here (regardless of visibility)
-				this.lastModifiedCachedTime = new Time();
+				// record LUT here (regardless of visibility)
 				this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 				this.timer.schedule(new TimedHttpTask(), 0, INTERVAL);
 			} else {
@@ -825,7 +829,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				timer.cancel();
 			} else {
 				Log.d(TAG,
-						"Entered TimedHttpTask, here we need to launch HTTP request");
+						"Entered TimedHttpTask, about to launch HTTP request, caching LMT...");
 				//Cache update time before launching HTTP update
 				long storedMillis = sp.getLong("updateLastTime", 0L);
 				
@@ -847,6 +851,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (!((MainApplication) getApplication()).getisCurrentActivityVisible())
 			return;
 
+		Log.d(TAG, "LMT is getting checked against the stored value...");
 		// this function will update sp-stored time if it is after the
 		// stored value DO NOT touch cached time here!
 		long upTime = sp.getLong("updateLastTime", 0L);
@@ -854,9 +859,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		try {
 			restoredTime.set(upTime);
 			if (updatedTime.after(restoredTime)) {
+				Log.d(TAG, "Updating...");
 				this.sp.edit()
-						.putLong("updateLastTime", updatedTime.toMillis(false))
-						.apply();
+					   .putLong("updateLastTime", updatedTime.toMillis(false))
+					   .apply();
 			}
 		} catch (TimeFormatException tfe) {
 			Log.d(TAG, "LMT wasn't updated b/c the value is wrong...");

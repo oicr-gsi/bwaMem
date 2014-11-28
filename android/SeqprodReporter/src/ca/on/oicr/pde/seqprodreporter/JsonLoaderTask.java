@@ -261,7 +261,6 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 					.getActivity().getActionBar().getSelectedNavigationIndex()) {
 
 				this.mParent.get().setLastUpdateTime(newLatest);
-				Log.d(ReporterActivity.TAG, "Updated last update time for "	+ TYPE);
 			}
 		}
 
