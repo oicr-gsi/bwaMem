@@ -29,12 +29,14 @@
             <version>1.2.1</version>
             <classifier>compiled</classifier>
             <type>tar.gz</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>Python-artifactory.tar</groupId>
             <artifactId>Python-artifactory.tar</artifactId>
             <version>Python-artifactory.tar</version>
             <type>gz</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>bwa</groupId>
@@ -42,18 +44,21 @@
             <version>${bwa-version}</version>
             <classifier>compiled</classifier>
             <type>tar.gz</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>samtools</groupId>
             <artifactId>samtools</artifactId>
             <version>${samtools-version}</version>
             <type>zip</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>picard</groupId>
             <artifactId>picard-tools</artifactId>
             <version>${picard-version}</version>
             <type>zip</type>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
