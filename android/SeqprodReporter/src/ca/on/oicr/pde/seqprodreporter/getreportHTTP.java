@@ -104,10 +104,21 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 				isFailedModified = true;
 			}
 			updateTime = ReporterActivity.timeToStringConverter(jp.getNewUpdateTime());
+			
 
 			//Insert data into db
 			if (null != results) {
-			    ContentResolver cr = mContext.getApplicationContext().getContentResolver();
+				ContentResolver cr = mContext.getApplicationContext().getContentResolver();
+				// Removing all entries for 'pending' entries, but...
+				// if we don't have any results - don't do it
+				String[] pendingWRuns = {ReporterActivity.types[2]};
+				int deletedWRs = cr.delete(DataContract.CONTENT_URI,
+						                   DataContract.WR_TYPE + "=?",
+						                   pendingWRuns);
+				if (deletedWRs > 0) {
+					Log.d(ReporterActivity.TAG, "Deleted " + deletedWRs + " Old Pending Runs");
+				}
+			    
 				//We use bulk insert instead of incremental insert
 			    ContentValues[] dataChunks = new ContentValues[results.size()];
 			    for (int r = 0; r < results.size(); r++) {

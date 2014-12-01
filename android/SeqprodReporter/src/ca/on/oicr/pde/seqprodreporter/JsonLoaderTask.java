@@ -101,22 +101,22 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 	private ArrayList<Report> queryReportData(String filterWord, String timeRange) {
 		
 		Cursor result;
-		long earliest =  Long.valueOf(System.currentTimeMillis());
+		long latest =  Long.valueOf(System.currentTimeMillis());
 		
 		if (null != timeRange && !timeRange.isEmpty()) {	    
 		    // Not clear at this point what is the best way to handle this other than
 		    // by using long if-else block
 		    if (timeRange.equals("decade")) {
-		      earliest -= updateRanges[3];		    	
+		      latest -= updateRanges[3];		    	
 		    } else if (timeRange.equals("year")) {
-		      earliest -= updateRanges[2];
+		      latest -= updateRanges[2];
 		    } else if (timeRange.equals("month")) {
-		      earliest -= updateRanges[1];
+		      latest -= updateRanges[1];
 		    } else { // default to 'week'
-		      earliest -= updateRanges[0];
+		      latest -= updateRanges[0];
 		    }	    
 		} else {
-			earliest -= updateRanges[0];
+			latest -= updateRanges[0];
 		}
 		
 		if (null != filterWord && !filterWord.isEmpty()) {
@@ -127,11 +127,13 @@ public class JsonLoaderTask extends AsyncTask<String, Void, List<Report>> {
 						 DataContract.WR_TYPE + "= ? AND " + 
 				         DataContract.LM_TIME + "> ? " + " AND (" + 
 						 DataContract.SAMPLE + " LIKE ? OR " + 
-				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE, "" + earliest, filterWord, filterWord}, null);
+				         DataContract.WORKFLOW + " LIKE ? )", new String[]{TYPE, "" + latest, filterWord, filterWord}, null);
 		} else {
 		  result = mParent.get().getActivity().getApplication()
 				  .getContentResolver()
-				  .query(DataContract.CONTENT_URI, null, DataContract.WR_TYPE + "=?", new String[]{TYPE}, null);
+				  .query(DataContract.CONTENT_URI, null,
+						 DataContract.WR_TYPE + "=? AND " + 
+				         DataContract.LM_TIME + "> ? ", new String[]{TYPE, "" + latest}, null);
 	    }
 		ArrayList<Report> rValue = new ArrayList<Report>();
 
