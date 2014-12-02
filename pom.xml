@@ -27,23 +27,21 @@
             <groupId>cutadapt</groupId>
             <artifactId>cutadapt</artifactId>
             <version>1.2.1</version>
-            <classifier>compiled</classifier>
-            <type>tar.gz</type>
+            <type>zip</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>Python-artifactory.tar</groupId>
-            <artifactId>Python-artifactory.tar</artifactId>
-            <version>Python-artifactory.tar</version>
-            <type>gz</type>
+            <groupId>python</groupId>
+            <artifactId>python</artifactId>
+            <version>2.7.5</version>
+            <type>zip</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>bwa</groupId>
             <artifactId>bwa</artifactId>
             <version>${bwa-version}</version>
-            <classifier>compiled</classifier>
-            <type>tar.gz</type>
+            <type>zip</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
