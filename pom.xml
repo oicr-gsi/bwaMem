@@ -29,7 +29,6 @@
             <version>1.2.1</version>
             <type>zip</type>
             <scope>provided</scope>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>python</groupId>
@@ -43,7 +42,6 @@
             <artifactId>bwa</artifactId>
             <version>${bwa-version}</version>
             <type>zip</type>
-            <scope>provided</scope>
             <scope>provided</scope>
         </dependency>
         <dependency>
