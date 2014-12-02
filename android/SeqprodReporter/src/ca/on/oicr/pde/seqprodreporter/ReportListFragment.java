@@ -98,7 +98,8 @@ public class ReportListFragment extends Fragment {
 		// need to have just one UpdateTime
 		long upTime = sp.getLong("updateLastTime", 0L); // + ReporterActivity.getType(index)
 		long crTime = sp.getLong("updateFirstTime" + ReporterActivity.getType(index), 0L);
-		String timeRange = sp.getString("pref_summaryScope", "week");
+		String timeRange = sp.getString("pref_summaryScope", 
+				                        getResources().getStringArray(R.array.pref_summaryScope_entries)[0]);
 		
 		if (upTime > 0) {
 			try {
@@ -113,6 +114,7 @@ public class ReportListFragment extends Fragment {
 			}
 		} else {
 			this.lastUpdateTime.setToNow();
+			mCallback.onUpdate(this.lastUpdateTime);
 		}
 		
 		if (crTime > 0) {

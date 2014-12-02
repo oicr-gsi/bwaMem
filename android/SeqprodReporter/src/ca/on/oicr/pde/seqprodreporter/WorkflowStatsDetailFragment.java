@@ -5,6 +5,8 @@ import com.androidplot.pie.Segment;
 import com.androidplot.pie.SegmentFormatter;
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
+
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -68,15 +70,26 @@ public class WorkflowStatsDetailFragment extends Fragment  {
 	
 	private int[] getPieChartValues(){
 		int [] selectedWorkflowNumbers = new int[ReporterActivity.types.length];
-			for (int i = 0;i<ReporterActivity.types.length; ++i){
+		SharedPreferences sp = getActivity().getSharedPreferences(ReporterActivity.PREFERENCE_FILE, 
+				                                                  ReporterActivity.MODE_PRIVATE);	
+		String timeRange = sp.getString("pref_summaryScope", getResources().getStringArray(
+				R.array.pref_summaryScope_entries)[0]);
+
+		long earliest = ReporterActivity.getEarliestMillis(timeRange);
+			for (int i = 0; i < ReporterActivity.types.length; ++i){
 				Cursor c = getActivity().getContentResolver().query(
 						DataContract.CONTENT_URI,
 						new String[]{DataContract.WORKFLOW},
-						DataContract.WORKFLOW + "=? AND " + DataContract.WR_TYPE + "=?",
-						new String[]{selectedWorkflow,ReporterActivity.types[i]},
+						             DataContract.WORKFLOW + "=? AND " 
+						           + DataContract.WR_TYPE + "=? AND "
+				                   + DataContract.LM_TIME + "> ? ",
+						new String[]{selectedWorkflow,
+								     ReporterActivity.types[i],
+								     "" + earliest},
 						null);
 				
 				selectedWorkflowNumbers[i] = c.getCount();
+				c.close();
 			}
 		
 		return selectedWorkflowNumbers;

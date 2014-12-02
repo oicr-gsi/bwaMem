@@ -31,13 +31,13 @@ import android.widget.TextView;
  * selections.
  */
 public class WorkflowStatsListActivity extends FragmentActivity implements
-				WorkflowStatsListFragment.Callbacks{
+		WorkflowStatsListFragment.Callbacks {
 	private TextView completedTextView;
 	private TextView failedTextView;
 	private TextView pendingTextView;
 	private WorkflowStatsListFragment listFragment;
-	
-	private int [] workflowTypesTotal;
+
+	private int[] workflowTypesTotal;
 	private LinkedHashMap<String, int[]> workflowStatsHash;
 
 	public static final String WORKFLOW_PIE_CHART_VALUES = "WorkflowTypeTotals";
@@ -55,92 +55,109 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		workflowTypesTotal = new int[ReporterActivity.types.length];
-		
+
 		setUpTextViews();
-		listFragment = (WorkflowStatsListFragment)getSupportFragmentManager().findFragmentById(R.id.workflowstats_list);
+		listFragment = (WorkflowStatsListFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.workflowstats_list);
 		if (findViewById(R.id.workflowstats_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
 			mTwoPane = true;
-			
-			workflowStatsHash = getWorkflowStats(
-					(ArrayAdapter<String>) listFragment.getArrayAdapter());
-			
+
+			workflowStatsHash = getWorkflowStats((ArrayAdapter<String>) listFragment
+					.getArrayAdapter());
+
 			Bundle arguments = new Bundle();
-			
-			if (null != savedInstanceState && savedInstanceState.containsKey(WORKFLOW_PIE_CHART_VALUES)){
-				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, savedInstanceState.getIntArray(WORKFLOW_PIE_CHART_VALUES));
+
+			if (null != savedInstanceState
+					&& savedInstanceState
+							.containsKey(WORKFLOW_PIE_CHART_VALUES)) {
+				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES,
+						savedInstanceState
+								.getIntArray(WORKFLOW_PIE_CHART_VALUES));
+			} else {
+				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES,
+						workflowTypesTotal);
 			}
-			else {
-				arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
-			}
-			
-			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, WorkflowStatsListFragment.ALL_WORKFLOWS);			
+
+			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID,
+					WorkflowStatsListFragment.ALL_WORKFLOWS);
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.workflowstats_detail_container, fragment)
 					.commit();
-			
+
 			/*
-			WorkflowStatsDetailHistogramFragment histogramFragment = 
-					new WorkflowStatsDetailHistogramFragment();
-			histogramFragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
-				.commit();
-			*/
-					
+			 * WorkflowStatsDetailHistogramFragment histogramFragment = new
+			 * WorkflowStatsDetailHistogramFragment();
+			 * histogramFragment.setArguments(arguments);
+			 * getSupportFragmentManager().beginTransaction()
+			 * .replace(R.id.workflowstats_detail_histograms, histogramFragment)
+			 * .commit();
+			 */
+
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			
+
 			listFragment.setActivateOnItemClick(true);
 			listFragment.getListView().setItemChecked(0, true);
-					
+
 		}
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		if (mTwoPane) {
-			WorkflowStatsDetailFragment detailFragment = (WorkflowStatsDetailFragment) 
-					getSupportFragmentManager().findFragmentById(R.id.workflowstats_detail_container);
-			outState.putIntArray(WORKFLOW_PIE_CHART_VALUES, detailFragment.getSelectedWorkflowValues());
+			WorkflowStatsDetailFragment detailFragment = (WorkflowStatsDetailFragment) getSupportFragmentManager()
+					.findFragmentById(R.id.workflowstats_detail_container);
+			outState.putIntArray(WORKFLOW_PIE_CHART_VALUES,
+					detailFragment.getSelectedWorkflowValues());
 		}
 		super.onSaveInstanceState(outState);
 	}
-	
-	private OnClickListener onTextViewClick = new OnClickListener(){
+
+	private OnClickListener onTextViewClick = new OnClickListener() {
 		@Override
-		public void onClick(View textView){
-			Intent intent = new Intent(WorkflowStatsListActivity.this, ReporterActivity.class);
+		public void onClick(View textView) {
+			Intent intent = new Intent(WorkflowStatsListActivity.this,
+					ReporterActivity.class);
 			intent.setAction(Intent.ACTION_RUN);
-			if (textView.equals(completedTextView)){
-				intent.putExtra("selectedTab", ReporterActivity.COMPLETED_WORKFLOW_TAB_INDEX);
-			}
-			else if (textView.equals(failedTextView)){
-				intent.putExtra("selectedTab", ReporterActivity.FAILED_WORKFLOW_TAB_INDEX);
-			}
-			else if (textView.equals(pendingTextView)){
-				intent.putExtra("selectedTab", ReporterActivity.PENDING_WORKFLOW_TAB_INDEX);
+			if (textView.equals(completedTextView)) {
+				intent.putExtra("selectedTab",
+						ReporterActivity.COMPLETED_WORKFLOW_TAB_INDEX);
+			} else if (textView.equals(failedTextView)) {
+				intent.putExtra("selectedTab",
+						ReporterActivity.FAILED_WORKFLOW_TAB_INDEX);
+			} else if (textView.equals(pendingTextView)) {
+				intent.putExtra("selectedTab",
+						ReporterActivity.PENDING_WORKFLOW_TAB_INDEX);
 			}
 			startActivity(intent);
-		} 
-	};
-		
-	private void setUpTextViews(){
-		for (int i = 0; i<ReporterActivity.types.length;++i){
-			Cursor c = this.getContentResolver()
-					 .query(DataContract.CONTENT_URI, 
-							 new String[]{DataContract.WR_TYPE}, 
-							 DataContract.WR_TYPE + "=?", 
-							 new String[]{ReporterActivity.types[i]} , null);
-			workflowTypesTotal[i] = c.getCount();
 		}
-		
+	};
+
+	private void setUpTextViews() {
+		String timeRange = getSharedPreferences(
+				ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE)
+				.getString("pref_summaryScope",	getResources().getStringArray(
+								                R.array.pref_summaryScope_entries)[0]);
+		long earliest = ReporterActivity.getEarliestMillis(timeRange);
+		for (int i = 0; i < ReporterActivity.types.length; ++i) {
+			Cursor c = this.getContentResolver().query(
+					               DataContract.CONTENT_URI,
+					               new String[] { DataContract.WR_TYPE },
+					               DataContract.WR_TYPE + "=? AND " 
+					             + DataContract.LM_TIME	+ "> ? ",
+					               new String[] { ReporterActivity.types[i], "" + earliest },
+					               null);
+			workflowTypesTotal[i] = c.getCount();
+			c.close();
+		}
+
 		this.completedTextView = (TextView) findViewById(R.id.total_number_of_completed);
 		completedTextView.setText("Completed: " + workflowTypesTotal[0]);
 		completedTextView.setOnClickListener(onTextViewClick);
@@ -148,10 +165,10 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 		this.failedTextView = (TextView) findViewById(R.id.total_number_of_failed);
 		failedTextView.setText("Failed: " + workflowTypesTotal[1]);
 		failedTextView.setOnClickListener(onTextViewClick);
-		
+
 		this.pendingTextView = (TextView) findViewById(R.id.total_number_of_pending);
 		pendingTextView.setText("Pending: " + workflowTypesTotal[2]);
-		pendingTextView.setOnClickListener(onTextViewClick);	
+		pendingTextView.setOnClickListener(onTextViewClick);
 	}
 
 	@Override
@@ -175,7 +192,7 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 	 * Callback method from {@link WorkflowStatsListFragment.Callbacks}
 	 * indicating that the item with the given ID was selected.
 	 */
-	
+
 	@Override
 	public void onItemSelected(String id) {
 
@@ -184,24 +201,24 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			
-			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES, workflowStatsHash.get(id));
+
+			arguments.putIntArray(WORKFLOW_PIE_CHART_VALUES,
+					workflowStatsHash.get(id));
 			arguments.putString(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
-			
+
 			WorkflowStatsDetailFragment fragment = new WorkflowStatsDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.workflowstats_detail_container, fragment)
 					.commit();
 			/*
-			WorkflowStatsDetailHistogramFragment histogramFragment = 
-					new WorkflowStatsDetailHistogramFragment();
-			histogramFragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-				.replace(R.id.workflowstats_detail_histograms, histogramFragment)
-				.commit();
-			*/
-			
+			 * WorkflowStatsDetailHistogramFragment histogramFragment = new
+			 * WorkflowStatsDetailHistogramFragment();
+			 * histogramFragment.setArguments(arguments);
+			 * getSupportFragmentManager().beginTransaction()
+			 * .replace(R.id.workflowstats_detail_histograms, histogramFragment)
+			 * .commit();
+			 */
 
 		} else {
 			// In single-pane mode, simply start the detail activity
@@ -209,40 +226,55 @@ public class WorkflowStatsListActivity extends FragmentActivity implements
 			Intent detailIntent = new Intent(this,
 					WorkflowStatsDetailActivity.class);
 			detailIntent.putExtra(WorkflowStatsDetailFragment.ARG_ITEM_ID, id);
-			if (id.equals(WorkflowStatsListFragment.ALL_WORKFLOWS)){
-				detailIntent.putExtra(WORKFLOW_PIE_CHART_VALUES, workflowTypesTotal);
+			if (id.equals(WorkflowStatsListFragment.ALL_WORKFLOWS)) {
+				detailIntent.putExtra(WORKFLOW_PIE_CHART_VALUES,
+						workflowTypesTotal);
 			}
 			startActivity(detailIntent);
 		}
-	}	
-	
-	private LinkedHashMap<String, int[]> getWorkflowStats(ArrayAdapter<String> adapter){
-		LinkedHashMap<String, int[]> workflowStatsHash = 
-				 new LinkedHashMap<String, int[]>();
-		
-		    workflowStatsHash.put(WorkflowStatsListFragment.ALL_WORKFLOWS, workflowTypesTotal);
-			for (int b = 1; b < adapter.getCount(); ++b){
-				int [] tmpWorkflowNumbers = new int[ReporterActivity.types.length];
-				String workflowName = adapter.getItem(b);
-
-				for (int i = 0; i<ReporterActivity.types.length; ++i){
-					Cursor tmp = getContentResolver()
-							.query(DataContract.CONTENT_URI, new String[]{DataContract.WR_TYPE}, 
-									DataContract.WR_TYPE + "=? AND " + DataContract.WORKFLOW + "=? ",
-									new String[]{ReporterActivity.types[i],workflowName}, null);
-					tmpWorkflowNumbers[i] = tmp.getCount();
-				}
-
-				workflowStatsHash.put(workflowName, tmpWorkflowNumbers);
-			}
-			return workflowStatsHash;
 	}
-	
-	public LinkedHashMap<String, int[]> getWorkflowStatsHash(){
+
+	private LinkedHashMap<String, int[]> getWorkflowStats(
+			ArrayAdapter<String> adapter) {
+		LinkedHashMap<String, int[]> workflowStatsHash = new LinkedHashMap<String, int[]>();
+
+		String timeRange = getSharedPreferences(
+				ReporterActivity.PREFERENCE_FILE, ReporterActivity.MODE_PRIVATE)
+				.getString(
+						"pref_summaryScope",
+						getResources().getStringArray(
+								R.array.pref_summaryScope_entries)[0]);
+		long earliest = ReporterActivity.getEarliestMillis(timeRange);
+
+		workflowStatsHash.put(WorkflowStatsListFragment.ALL_WORKFLOWS,
+				workflowTypesTotal);
+		for (int b = 1; b < adapter.getCount(); ++b) {
+			int[] tmpWorkflowNumbers = new int[ReporterActivity.types.length];
+			String workflowName = adapter.getItem(b);
+
+			for (int i = 0; i < ReporterActivity.types.length; ++i) {
+				Cursor tmp = getContentResolver().query(
+						DataContract.CONTENT_URI,
+						new String[] { DataContract.WR_TYPE },
+						DataContract.WR_TYPE + "=? AND "
+								+ DataContract.WORKFLOW + "=? AND "
+								+ DataContract.LM_TIME + "> ? ",
+						new String[] { ReporterActivity.types[i], workflowName,
+								"" + earliest }, null);
+				tmpWorkflowNumbers[i] = tmp.getCount();
+				tmp.close();
+			}
+
+			workflowStatsHash.put(workflowName, tmpWorkflowNumbers);
+		}
 		return workflowStatsHash;
 	}
-	
-	public int[] getWorkflowTypesTotal(){
+
+	public LinkedHashMap<String, int[]> getWorkflowStatsHash() {
+		return workflowStatsHash;
+	}
+
+	public int[] getWorkflowTypesTotal() {
 		return workflowTypesTotal;
 	}
 }

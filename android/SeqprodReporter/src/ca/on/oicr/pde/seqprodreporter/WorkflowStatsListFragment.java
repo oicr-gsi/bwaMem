@@ -72,11 +72,13 @@ public class WorkflowStatsListFragment extends ListFragment {
 	@Override 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		
-		Cursor c = getActivity().getContentResolver().query(DataContract.CONTENT_URI,
-					new String[]{"DISTINCT " + DataContract.WORKFLOW},
-					null, null,
-					DataContract.WORKFLOW + " ASC");
+		// TODO move to Activity, this seems redundant
+		Cursor c = getActivity().getContentResolver()
+				  .query(DataContract.CONTENT_URI,
+					     new String[]{"DISTINCT " + DataContract.WORKFLOW},
+					     null, 
+					     null,
+					     DataContract.WORKFLOW + " ASC");
 		
 		String [] workflowNames = new String[c.getCount() + 1];
 		workflowNames[0] = ALL_WORKFLOWS;
@@ -87,7 +89,7 @@ public class WorkflowStatsListFragment extends ListFragment {
 				++index;
 			} while (c.moveToNext());
 		}
-		
+		c.close();
 		mAdapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_activated_1, workflowNames);
 		setListAdapter(mAdapter);

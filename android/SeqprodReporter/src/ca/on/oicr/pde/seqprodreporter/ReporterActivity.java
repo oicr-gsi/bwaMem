@@ -93,6 +93,10 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
+		                                           30 * 24 * 3600 * 1000L,		//MONTH
+                                                   365 * 24 * 3600 * 1000L,		//YEAR
+                                                   10 * 365 * 24 * 3600 * 1000L};//DECADE
 
 	private String updateHost;
 	private String updateRange;
@@ -142,7 +146,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
-
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -426,7 +429,9 @@ public class ReporterActivity extends ActionBarActivity implements
 	private boolean isDatabaseEmpty() {
 		Cursor c = this.getContentResolver().query(DataContract.CONTENT_URI,
 				new String[] { DataContract.WORKFLOW }, null, null, null);
-		return !c.moveToFirst();
+		boolean isEmpty = !c.moveToFirst();
+		c.close();
+		return isEmpty;
 	}
 
 	@Override
@@ -504,6 +509,33 @@ public class ReporterActivity extends ActionBarActivity implements
 	public static String timeToStringConverter(Time time) {
 		return time.format("%Y-%m-%d %H:%M:%S");
 	}
+	
+	
+	/**
+	 *  A function for getting earliest record's time in milliseconds
+	 *  for a specified time range (week, month etc)
+	 */
+	protected static long getEarliestMillis(String timeRange) {
+
+		long earliest =  Long.valueOf(System.currentTimeMillis());	
+		if (null != timeRange && !timeRange.isEmpty()) {	    
+		    // Not clear at this point what is the best way to handle this other than
+		    // by using long if-else block
+		    if (timeRange.equals("decade")) {
+		      earliest -= updateRanges[3];		    	
+		    } else if (timeRange.equals("year")) {
+		      earliest -= updateRanges[2];
+		    } else if (timeRange.equals("month")) {
+		      earliest -= updateRanges[1];
+		    } else { // default to 'week'
+		      earliest -= updateRanges[0];
+		    }	    
+		} else {
+			earliest -= updateRanges[0];
+		}
+		
+		return earliest;
+     }
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -655,18 +687,17 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 		if (rangeIndex == 0)
 			return;
+		
 		Log.d(TAG, "Update range longer than a week chosen");
+		
 		if (null == this.dataRangeRequested)
 			this.dataRangeRequested = new boolean[ranges.length];
 		else if (this.dataRangeRequested[rangeIndex])
 			return;
 
 		// check the oldest (completed) fragments' firstUpdated value
-		Time now = new Time();
-		now.setToNow();
 		Log.d(TAG, "Checking if we already have data in requested range...");
-		long rangeLimit = now.toMillis(false)
-				- JsonLoaderTask.updateRanges[rangeIndex];
+		long rangeLimit = getEarliestMillis(this.updateRange); 
 
 		try {
 			ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter
