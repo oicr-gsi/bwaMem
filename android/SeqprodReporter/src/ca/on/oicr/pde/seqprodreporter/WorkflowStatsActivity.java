@@ -41,4 +41,7 @@ public class WorkflowStatsActivity extends Activity {
 		return findViewById(R.id.fragment_pager) == null;
 	}
 	
+	//TODO functions for populating text views and list view,
+	//function for updating piechart (all MySQL code needs to be here)
+	
 }
