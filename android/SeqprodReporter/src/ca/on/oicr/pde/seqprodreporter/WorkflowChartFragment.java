@@ -2,6 +2,6 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import android.app.Fragment;
 
-public class WorkflowChartContainerFragment extends Fragment {
+public class WorkflowChartFragment extends Fragment {
 
 }
