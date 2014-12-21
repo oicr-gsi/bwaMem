@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+     
+    <ca.on.oicr.pde.seqprodreporter.ChartWidget
+	   android:id="@+id/pieChart"
+	   android:layout_width="match_parent"
+	   android:layout_height="match_parent"
+	   androidPlot.graphWidget.marginTop="5dp"
+       androidPlot.graphWidget.marginLeft="5dp"
+       androidPlot.graphWidget.marginBottom="5dp"
+       androidPlot.graphWidget.marginRight="5dp"/>
+    
+</LinearLayout>

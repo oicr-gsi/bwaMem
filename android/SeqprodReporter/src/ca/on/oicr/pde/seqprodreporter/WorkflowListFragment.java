@@ -2,13 +2,11 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import android.app.Activity;
 import android.app.ListFragment;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 /**
  * A list fragment representing a list of WorkflowStats. This fragment also
@@ -39,7 +37,7 @@ public class WorkflowListFragment extends ListFragment {
 	 * The current activated item position. Only used on tablets.
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
-
+    private String[] workflowNames;
 	public static final String ALL_WORKFLOWS = "All Workflows";
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -70,29 +68,21 @@ public class WorkflowListFragment extends ListFragment {
 	public WorkflowListFragment() {
 	}
 	
+	protected void setWorkflowNames(String[] wfs) {
+		this.workflowNames = wfs;
+	}
+	
+	public WorkflowListFragment InstanceOf(String[] workflows) {
+		WorkflowListFragment fragment = new WorkflowListFragment();
+		fragment.setWorkflowNames(workflows);
+		return fragment;
+	}
+	
 	@Override 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		// TODO move to Activity, this seems redundant
-		Cursor c = getActivity().getContentResolver()
-				  .query(DataContract.CONTENT_URI,
-					     new String[]{"DISTINCT " + DataContract.WORKFLOW},
-					     null, 
-					     null,
-					     DataContract.WORKFLOW + " ASC");
-		
-		String [] workflowNames = new String[c.getCount() + 1];
-		workflowNames[0] = ALL_WORKFLOWS;
-		int index = 1;
-		if (c.moveToFirst()){
-			do {
-				workflowNames[index] = c.getString(c.getColumnIndex(DataContract.WORKFLOW));
-				++index;
-			} while (c.moveToNext());
-		}
-		c.close();
 		mAdapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_activated_1, workflowNames);
+				android.R.layout.simple_list_item_activated_1, this.workflowNames);
 		setListAdapter(mAdapter);
 	}
 
@@ -121,7 +111,6 @@ public class WorkflowListFragment extends ListFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		// Reset the active callbacks interface to the dummy implementation.
 		mCallbacks = sDummyCallbacks;
 	}

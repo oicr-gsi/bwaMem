@@ -20,8 +20,7 @@ public class WorkflowStatsActivity extends Activity implements
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO get values from saved instance, if there are no values-
-		// get them from db
+		// TODO get values from db
 		super.onCreate(savedInstanceState);
 		
 		Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
