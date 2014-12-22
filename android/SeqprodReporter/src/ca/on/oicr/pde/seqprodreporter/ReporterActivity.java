@@ -416,6 +416,7 @@ public class ReporterActivity extends ActionBarActivity implements
 						}).show();
 			} else {
 				Intent intent = new Intent(this,
+						//WorkflowStatsActivity.class);
 						WorkflowStatsListActivity.class);
 				startActivity(intent);
 				return true;

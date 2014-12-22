@@ -18,6 +18,12 @@ import android.widget.TextView;
  * interface.
  */
 
+/**
+ * @author pruzanov
+ * 
+ * Re-structuring modules for more rational code organisation
+ */
+
 public class WorkflowListFragment extends ListFragment {
 	
 	private ArrayAdapter<String> mAdapter;
@@ -72,7 +78,8 @@ public class WorkflowListFragment extends ListFragment {
 		this.workflowNames = wfs;
 	}
 	
-	public WorkflowListFragment InstanceOf(String[] workflows) {
+	//TODO add grand totals
+	public static WorkflowListFragment InstanceOf(String[] workflows) {
 		WorkflowListFragment fragment = new WorkflowListFragment();
 		fragment.setWorkflowNames(workflows);
 		return fragment;

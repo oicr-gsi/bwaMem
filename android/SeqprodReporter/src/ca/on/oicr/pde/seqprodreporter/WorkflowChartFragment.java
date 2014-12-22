@@ -6,6 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * @author pruzanov
+ * 
+ * Re-structuring modules for more rational code organisation
+ */
+
 public class WorkflowChartFragment extends Fragment {
 	private int [] workflowTotals;
 	protected int[] getWorkflowTotals() {
@@ -32,7 +38,7 @@ public class WorkflowChartFragment extends Fragment {
 	public WorkflowChartFragment() {
 	}
 	
-	public WorkflowChartFragment InstanceOf(int[] totals) {
+	public static WorkflowChartFragment InstanceOf(int[] totals) {
 		WorkflowChartFragment fragment = new WorkflowChartFragment();
 		fragment.setWorkflowTotals(totals);
 		return fragment;
