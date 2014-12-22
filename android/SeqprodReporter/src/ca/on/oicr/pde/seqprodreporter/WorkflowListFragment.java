@@ -88,9 +88,6 @@ public class WorkflowListFragment extends ListFragment {
 	@Override 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		mAdapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_activated_1, this.workflowNames);
-		setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -101,6 +98,10 @@ public class WorkflowListFragment extends ListFragment {
 			setActivatedPosition(savedInstanceState
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
+		this.getListView().setHeaderDividersEnabled(true);
+		mAdapter = new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_activated_1, this.workflowNames);
+		setListAdapter(mAdapter);
 	}
 
 	@Override

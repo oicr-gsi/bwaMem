@@ -33,15 +33,22 @@ public class WorkflowStatsActivity extends Activity implements
 		Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		setContentView(R.layout.activity_workflow_stats);
         // TODO get values from db
+		this.activeWorkflows = this.getWorkflows();
+		this.selectedTotals  = this.getPieChartValues(null);
+		
 		this.mFragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = mFragmentManager
 				.beginTransaction();
 		if (this.isLayoutLarge()) {
 			fragmentTransaction.add(R.id.piechart_container,
 					WorkflowChartFragment.InstanceOf(this.selectedTotals));
-			fragmentTransaction.add(R.id.workflow_list_container,
-					//TODO add grand totals
-					WorkflowListFragment.InstanceOf(this.activeWorkflows));
+			//TODO add grand totals via listFragment
+			WorkflowListFragment listFragment =  WorkflowListFragment.InstanceOf(this.activeWorkflows);
+			//ListView lv = (ListView) listFragment.getView();
+			//lv.addHeaderView(new GrandTotalFragment(this, this.grandTotals));
+			
+			fragmentTransaction.add(R.id.workflow_list_container,				
+					listFragment);
 		} else {	
 			fragmentTransaction.add(R.id.fragment_pager,
 				new WorkflowListFragment());
@@ -54,6 +61,28 @@ public class WorkflowStatsActivity extends Activity implements
 		return findViewById(R.id.fragment_pager) == null;
 	}
 
+	
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		if (null != savedInstanceState) {
+			try {
+				this.selectedTotals = savedInstanceState
+						.getIntArray("workflowTotals");
+			} catch (Exception e) {
+				Log.d(ReporterActivity.TAG, "Workflow totals could not be retrieved");
+			}
+		}
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		if (null != this.selectedTotals)
+			outState.putIntArray("workflowTotals",
+					this.selectedTotals);
+	}
+	
 	@Override
 	public void onItemSelected(String id) {
 		// TODO Auto-generated method stub
@@ -126,4 +155,11 @@ public class WorkflowStatsActivity extends Activity implements
 		
 		return selectedWorkflowNumbers;
 	}
+	
+	/*class GrandTotalFragment extends Fragment {
+
+		private int[] grandTotals;
+			
+		
+	}*/
 }

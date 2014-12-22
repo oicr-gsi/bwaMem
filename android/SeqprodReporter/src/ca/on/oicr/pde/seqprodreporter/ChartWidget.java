@@ -22,7 +22,7 @@ public class ChartWidget extends View {
     private int[] totals;
     private float PADDING = 150.0f;
     private static final String TAG = "ChartWidget";
-    private static final String DEFAULT_NAME = "TEST WORKFLOW";
+    private static final String DEFAULT_NAME = "ALL";
 	
 	public ChartWidget(Context context) {
 		super(context);
@@ -110,7 +110,7 @@ public class ChartWidget extends View {
 		
 		//Paint name
 		if (!this.getmName().isEmpty()) {
-			this.tPaint.setTextSize(PADDING/2.0f);
+			this.tPaint.setTextSize(PADDING/2.5f);
 			canvas.drawText(this.getmName(), PADDING/2, PADDING, this.tPaint);
 			this.tPaint.setTextSize(PADDING/3.0f);
 		}
@@ -127,8 +127,10 @@ public class ChartWidget extends View {
 	public void updateTypeData (int[] totals, String name) {
 		this.setmName(name);
 		this.totals = totals;
-		this.calculateAngles();	
-		this.invalidate();
+		if (null != this.totals) {
+		 this.calculateAngles();	
+		 this.invalidate();
+		}
 	}
 	
 	//Set angles proportionally to totals

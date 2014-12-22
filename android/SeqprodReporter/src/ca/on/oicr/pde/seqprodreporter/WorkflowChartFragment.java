@@ -2,9 +2,11 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 /**
  * @author pruzanov
@@ -48,7 +50,7 @@ public class WorkflowChartFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Bundle arguments = getArguments();
-		if (arguments.containsKey(ARG_ITEM_ID)) {
+		if (null != arguments && arguments.containsKey(ARG_ITEM_ID)) {
 			selectedWorkflow = arguments.getString(ARG_ITEM_ID);
  
 			getActivity().setTitle(selectedWorkflow);
@@ -63,17 +65,18 @@ public class WorkflowChartFragment extends Fragment {
 		}
 	}
 	
-	
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(
 				R.layout.fragment_workflowstats_piechart, container, false);
-		
-		workflowPieChart = (ChartWidget) rootView.findViewById(R.id.pieChart);
-		workflowPieChart.updateTypeData(this.getWorkflowTotals(), null);
-		//setUpPieChart();
+
+		this.workflowPieChart = new ChartWidget(container.getContext());
+		FrameLayout main = (FrameLayout) rootView.findViewById(R.id.pieChart_container);
+		main.addView(this.workflowPieChart);
+		this.workflowPieChart.updateTypeData(this.getWorkflowTotals(), null);
+
 		return rootView;
 	}
 	
