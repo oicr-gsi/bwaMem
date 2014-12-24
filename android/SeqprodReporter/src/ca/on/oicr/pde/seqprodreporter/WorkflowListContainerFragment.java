@@ -1,6 +1,7 @@
 package ca.on.oicr.pde.seqprodreporter;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,10 +31,19 @@ public class WorkflowListContainerFragment extends Fragment {
 	private TextView completedTextView;
 	private TextView failedTextView;
 	private TextView pendingTextView;
-	private WorkflowStatsListFragment listFragment;
+	//private WorkflowStatsListFragment listFragment;
     private int[] workflowTypesTotal;
+    private String[] activeWorkflows;
 	
-    private int getWorkflowTypesTotal(int index) {
+    private String[] getActiveWorkflows() {
+		return activeWorkflows;
+	}
+
+	private void setActiveWorkflows(String[] activeWorkflows) {
+		this.activeWorkflows = activeWorkflows;
+	}
+
+	private int getWorkflowTypesTotal(int index) {
     	if (index >= 0 && index <= this.workflowTypesTotal.length - 1)
 		    return workflowTypesTotal[index];
     	else
@@ -71,9 +81,10 @@ public class WorkflowListContainerFragment extends Fragment {
 		}
 	};
 
-	public static WorkflowListContainerFragment InstanceOf(int[] typesTotal) {
+	public static WorkflowListContainerFragment InstanceOf(int[] typesTotal, String[] workflows) {
 		WorkflowListContainerFragment fragment = new WorkflowListContainerFragment();
 		fragment.setWorkflowTypesTotal(typesTotal);
+		fragment.setActiveWorkflows(workflows);
 		return fragment;
 	}
 	
@@ -87,7 +98,7 @@ public class WorkflowListContainerFragment extends Fragment {
 			Bundle savedInstanceState) {
 	
 		View rootView = inflater.inflate(
-				R.layout.fragment_workflowstats_list, container, false);
+				R.layout.fragment_workflowstats_container, container, false);
 		
 		//Setup Text fields
 		this.completedTextView = (TextView) rootView.findViewById(R.id.total_number_of_completed);
@@ -103,6 +114,12 @@ public class WorkflowListContainerFragment extends Fragment {
 		pendingTextView.setOnClickListener(onTextViewClick);
 		
 		//TODO setup list fragment
+		FragmentTransaction fragmentTransaction = getFragmentManager()
+				.beginTransaction();
+
+		fragmentTransaction.add(R.id.workflow_list_container,
+					            WorkflowListFragment.InstanceOf(this.getActiveWorkflows()));
+		fragmentTransaction.commit();
 		return rootView;
 	}
 
