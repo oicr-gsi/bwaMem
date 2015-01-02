@@ -32,29 +32,25 @@ public class WorkflowStatsActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, getClass().getSimpleName() + ":entered onCreate()");
 		setContentView(R.layout.activity_workflow_stats);
-        // TODO get values from db
+		
 		this.activeWorkflows = this.getWorkflows();
 		this.selectedTotals  = this.getPieChartValues(null);
 		
 		this.mFragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = mFragmentManager
 				.beginTransaction();
+		WorkflowListFragment listFragment =  WorkflowListFragment.InstanceOf(this.selectedTotals, this.activeWorkflows);
+		
 		if (this.isLayoutLarge()) {
 			fragmentTransaction.add(R.id.piechart_container,
 					WorkflowChartFragment.InstanceOf(this.selectedTotals));
-			//TODO add grand totals via listFragment
-			WorkflowListFragment listFragment =  WorkflowListFragment.InstanceOf(this.activeWorkflows);
-			//ListView lv = (ListView) listFragment.getView();
-			//lv.addHeaderView(new GrandTotalFragment(this, this.grandTotals));
-			
 			fragmentTransaction.add(R.id.workflow_list_container,				
-					listFragment);
+					                listFragment);
 		} else {	
 			fragmentTransaction.add(R.id.fragment_pager,
-				new WorkflowListFragment());
+					                listFragment);
 		}
 		fragmentTransaction.commit();
-
 	}
 
 	private boolean isLayoutLarge() {
@@ -89,6 +85,7 @@ public class WorkflowStatsActivity extends Activity implements
 		// React on list item selected
 		// chart.updateTypeData(newValues, wfName);
 		// OR replace fragment and update
+		Log.d(TAG, "Received Click from " + id);
 		
 	}
 	

@@ -83,4 +83,8 @@ public class WorkflowChartFragment extends Fragment {
 	public int[] getSelectedWorkflowValues(){
 		return workflowTotals;
 	}
+	
+	protected void updatePieChartValues() {
+		
+	}
 }

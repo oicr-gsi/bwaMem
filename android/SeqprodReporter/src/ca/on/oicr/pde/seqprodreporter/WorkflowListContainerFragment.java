@@ -118,7 +118,7 @@ public class WorkflowListContainerFragment extends Fragment {
 				.beginTransaction();
 
 		fragmentTransaction.add(R.id.workflow_list_container,
-					            WorkflowListFragment.InstanceOf(this.getActiveWorkflows()));
+					            WorkflowListFragment.InstanceOf(this.workflowTypesTotal, this.getActiveWorkflows()));
 		fragmentTransaction.commit();
 		return rootView;
 	}
