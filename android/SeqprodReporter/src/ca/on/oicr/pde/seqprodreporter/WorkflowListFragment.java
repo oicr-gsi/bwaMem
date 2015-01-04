@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,27 +36,18 @@ public class WorkflowListFragment extends ListFragment {
 	private TextView pendingTextView;
 
 	private int[] workflowTypesTotal;
-	private String[] activeWorkflows;
-
+	private String[] workflowNames;
 	private ArrayAdapter<String> mAdapter;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
 	 */
-	private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
+    public static final String ALL_WORKFLOWS = "All Workflows";
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
 	private OnItemSelectedListener mCallbacks = sDummyCallbacks;
-
-	/**
-	 * The current activated item position. Only used on tablets.
-	 */
-	private int mActivatedPosition = ListView.INVALID_POSITION;
-	private String[] workflowNames;
-	public static final String ALL_WORKFLOWS = "All Workflows";
 
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -86,6 +77,8 @@ public class WorkflowListFragment extends ListFragment {
 						ReporterActivity.PENDING_WORKFLOW_TAB_INDEX);
 			}
 			startActivity(intent);
+			Log.v(ReporterActivity.TAG, "Clicked on text "
+					+ ((TextView) textView).getText());
 		}
 	};
 
@@ -111,15 +104,14 @@ public class WorkflowListFragment extends ListFragment {
 		this.workflowTypesTotal = workflowTypesTotal;
 	}
 
+	private void setWorkflowNames(String[] workflowNames) {
+		this.workflowNames = workflowNames;
+	}
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
 	public WorkflowListFragment() {
-	}
-
-	protected void setWorkflowNames(String[] wfs) {
-		this.workflowNames = wfs;
 	}
 
 	// TODO add grand totals
@@ -134,6 +126,10 @@ public class WorkflowListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mAdapter = new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_list_item_activated_1,
+				this.workflowNames);
+		setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -147,39 +143,16 @@ public class WorkflowListFragment extends ListFragment {
 		this.completedTextView = (TextView) rootView.findViewById(R.id.total_number_of_completed);
 		completedTextView.setText("Completed: " + getWorkflowTypesTotal(0));
 		completedTextView.setOnClickListener(onTextViewClick);
-		completedTextView.setFocusable(false);
 
 		this.failedTextView = (TextView) rootView.findViewById(R.id.total_number_of_failed);
 		failedTextView.setText("Failed: " + getWorkflowTypesTotal(1));
 		failedTextView.setOnClickListener(onTextViewClick);
-		failedTextView.setFocusable(false);
 
 		this.pendingTextView = (TextView) rootView.findViewById(R.id.total_number_of_pending);
 		pendingTextView.setText("Pending: " + getWorkflowTypesTotal(2));
 		pendingTextView.setOnClickListener(onTextViewClick);
-        pendingTextView.setFocusable(false);
-		
-		ListView listView = (ListView) rootView.findViewById(R.id.workflow_list);
-		listView.setFocusable(true);
-
-		mAdapter = new ArrayAdapter<String>(getActivity(),
-				                            android.R.layout.simple_list_item_activated_1,
-				                            this.workflowNames);
-		this.mAdapter.setNotifyOnChange(false);
-		listView.setAdapter(mAdapter);
 
 		return rootView;
-	}
-
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		// Restore the previously serialized activated item position.
-		if (savedInstanceState != null
-				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-			setActivatedPosition(savedInstanceState
-					.getInt(STATE_ACTIVATED_POSITION));
-		}
-
 	}
 
 	@Override
@@ -204,48 +177,9 @@ public class WorkflowListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		//super.onListItemClick(listView, view, position, id);
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected
-		
+
 		String workflowName = (String) ((TextView) view).getText();
-		Log.d(WorkflowStatsActivity.TAG, "Clicked List item " + workflowName);
 		mCallbacks.onItemSelected(workflowName);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
-			// Serialize and persist the activated item position.
-			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-		}
-	}
-
-	/**
-	 * Turns on activate-on-click mode. When this mode is on, list items will be
-	 * given the 'activated' state when touched.
-	 */
-	public void setActivateOnItemClick(boolean activateOnItemClick) {
-		// When setting CHOICE_MODE_SINGLE, ListView will automatically
-		// give items the 'activated' state when touched.
-		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
-	}
-
-	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
-			getListView().setItemChecked(mActivatedPosition, false);
-		} else {
-			getListView().setItemChecked(position, true);
-		}
-
-		mActivatedPosition = position;
-	}
-
-	public ArrayAdapter<String> getArrayAdapter() {
-		return mAdapter;
 	}
 
 }

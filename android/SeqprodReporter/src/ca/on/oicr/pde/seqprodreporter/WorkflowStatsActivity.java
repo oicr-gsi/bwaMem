@@ -21,7 +21,7 @@ public class WorkflowStatsActivity extends Activity implements
 	private FragmentManager mFragmentManager;
 	protected final static String ALL_WORKFLOWS = "All Workflows";
 	protected final static String TAG = "Reporter Stats";
-	// List/Chart values, may be requested multiple times
+	
 	protected String[] activeWorkflows;
 	protected int[] selectedTotals;
 	protected int[] grandTotals;
@@ -69,6 +69,8 @@ public class WorkflowStatsActivity extends Activity implements
 				Log.d(ReporterActivity.TAG, "Workflow totals could not be retrieved");
 			}
 		}
+		//TODO restore current workflow name (or all workflow)
+		//and view mode for small layout (piechart or list)
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -77,6 +79,8 @@ public class WorkflowStatsActivity extends Activity implements
 		if (null != this.selectedTotals)
 			outState.putIntArray("workflowTotals",
 					this.selectedTotals);
+		//TODO save current workflow name (or all workflow)
+		//and view mode for small layout (piechart or list)
 	}
 	
 	@Override
@@ -89,7 +93,10 @@ public class WorkflowStatsActivity extends Activity implements
 		
 	}
 	
-	// function for updating pie chart (all MySQL code needs to be here)
+	/** function for updating pie chart (all MySQL code needs to be here)
+	 * 
+	 * @return workflow names as String array
+	 */
 	private String[] getWorkflows() {
 		Cursor c = this.getContentResolver()
 				  .query(DataContract.CONTENT_URI,
@@ -111,8 +118,11 @@ public class WorkflowStatsActivity extends Activity implements
 		return workflowNames;
 	}
 	
-	// function for updating totals to be used with ChartWidget
-	// can have null as argument to get totals for list of all wfs
+	/** function for updating totals to be used with ChartWidget
+	  * can have null as argument to get totals for list of all wfs
+	  * @param selectedWorkflow
+	  * @return
+	  */
 	private int[] getPieChartValues(String selectedWorkflow){
 		int [] selectedWorkflowNumbers = new int[ReporterActivity.types.length];
 		SharedPreferences sp = getSharedPreferences(ReporterActivity.PREFERENCE_FILE, 
@@ -153,10 +163,4 @@ public class WorkflowStatsActivity extends Activity implements
 		return selectedWorkflowNumbers;
 	}
 	
-	/*class GrandTotalFragment extends Fragment {
-
-		private int[] grandTotals;
-			
-		
-	}*/
 }

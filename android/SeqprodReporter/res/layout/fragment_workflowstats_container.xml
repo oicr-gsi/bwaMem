@@ -12,6 +12,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
+        android:focusable="false"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -22,6 +23,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="10dp"
         android:clickable="true"
+        android:focusable="false"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -32,16 +34,16 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="10dp"
         android:clickable="true"
+        android:focusable="false"
         android:textSize="20sp"
         android:textStyle="bold" />
 
      <ListView
-        android:id="@+id/workflow_list"
+        android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginLeft="10dp"
         android:background="@android:color/transparent"
-        android:fitsSystemWindows="true" />
+        android:drawSelectorOnTop="false" />
 
 </LinearLayout>
