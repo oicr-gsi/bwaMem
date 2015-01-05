@@ -13,6 +13,7 @@
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="false"
+        android:textColor="@color/title_blue"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -24,6 +25,7 @@
         android:layout_marginLeft="10dp"
         android:clickable="true"
         android:focusable="false"
+        android:textColor="@color/title_blue"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -35,6 +37,7 @@
         android:layout_marginLeft="10dp"
         android:clickable="true"
         android:focusable="false"
+        android:textColor="@color/title_blue"
         android:textSize="20sp"
         android:textStyle="bold" />
 

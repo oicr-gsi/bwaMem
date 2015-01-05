@@ -57,6 +57,5 @@
     <string name="authority">ca.on.oicr.pde.seqprodprovider</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Sample or Workflow...</string>
-    <string name="title_workflowstats_list">Workflows</string>
-    <string name="title_workflowstats_detail">Workflow Statistics</string>
+    <string name="title_workflowstats">Workflow Statistics</string>
 </resources>

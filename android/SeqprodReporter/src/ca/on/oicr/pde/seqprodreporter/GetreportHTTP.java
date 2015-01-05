@@ -28,7 +28,7 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  * 
  *@see JsonLoaderTask
  */
-public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
+public class GetreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	private final String URL;
 	private final String Range;
 	private Context mContext;
@@ -51,7 +51,7 @@ public class getreportHTTP extends AsyncTask<Time, Void, Boolean> {
 	 * @param hostURL the host URL of the JSON script which will be used to download the data from
 	 * @param updateRange specifies the range to date back to when getting workflow data
 	 */
-	public getreportHTTP(Context context, String hostURL, String updateRange) {
+	public GetreportHTTP(Context context, String hostURL, String updateRange) {
 
 		this.URL = hostURL;
 		this.Range = updateRange;

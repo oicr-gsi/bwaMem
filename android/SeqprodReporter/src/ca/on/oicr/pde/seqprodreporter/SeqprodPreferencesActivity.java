@@ -13,7 +13,7 @@ public class SeqprodPreferencesActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//startWithFragment("Preferences",savedInstanceState, new SeqprodPreferencesFragment(), 0);
-		setContentView(R.layout.pref_fragment_container);
+		setContentView(R.layout.fragment_prefs_container);
 		
 		getFragmentManager().beginTransaction()
 		 .replace(android.R.id.content, new SeqprodPreferencesFragment())

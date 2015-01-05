@@ -37,28 +37,12 @@
         </activity>
         
         <activity
-        	android:name=".WorkflowStatsListActivity"
-            android:label="@string/title_workflowstats_list"
-            android:parentActivityName=".ReporterActivity" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-           		android:value=".ReporterActivity" />
-        </activity>
-        
-        <activity
         	android:name=".WorkflowStatsActivity"
-            android:label="@string/title_workflowstats_list"
+            android:label="@string/title_workflowstats"
             android:parentActivityName=".ReporterActivity" >
             <meta-data android:name="android.support.PARENT_ACTIVITY"
            		android:value=".ReporterActivity" />
         </activity>
-
-        <activity
-            android:name=".WorkflowStatsDetailActivity"
-            android:label="@string/title_workflowstats_detail"
-            android:parentActivityName=".WorkflowStatsListActivity" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".WorkflowStatsListActivity" />
-         </activity>
         
         <provider
             android:name="ca.on.oicr.pde.seqprodprovider.ReportProvider"

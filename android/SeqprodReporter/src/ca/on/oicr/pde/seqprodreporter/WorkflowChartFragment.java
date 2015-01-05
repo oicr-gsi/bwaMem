@@ -2,7 +2,6 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,16 @@ import android.widget.FrameLayout;
 
 public class WorkflowChartFragment extends Fragment {
 	private int [] workflowTotals;
+	private String workflowName;
+	
+	private String getWorkflowName() {
+		return workflowName;
+	}
+
+	private void setWorkflowName(String workflowName) {
+		this.workflowName = workflowName;
+	}
+
 	protected int[] getWorkflowTotals() {
 		return workflowTotals;
 	}
@@ -40,9 +49,10 @@ public class WorkflowChartFragment extends Fragment {
 	public WorkflowChartFragment() {
 	}
 	
-	public static WorkflowChartFragment InstanceOf(int[] totals) {
+	public static WorkflowChartFragment InstanceOf(int[] totals, String name) {
 		WorkflowChartFragment fragment = new WorkflowChartFragment();
 		fragment.setWorkflowTotals(totals);
+		fragment.setWorkflowName(name);
 		return fragment;
 	}
 
@@ -55,13 +65,10 @@ public class WorkflowChartFragment extends Fragment {
  
 			getActivity().setTitle(selectedWorkflow);
 			
-			if (arguments.containsKey(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES)){
+			if (arguments.containsKey(WorkflowStatsActivity.WORKFLOW_PIE_CHART_VALUES)){
 				workflowTotals = arguments
-						.getIntArray(WorkflowStatsListActivity.WORKFLOW_PIE_CHART_VALUES);
+						.getIntArray(WorkflowStatsActivity.WORKFLOW_PIE_CHART_VALUES);
 			}
-			//else if (!selectedWorkflow.equals(WorkflowStatsListFragment.ALL_WORKFLOWS)){
-			//	workflowTotals = getPieChartValues();
-			//}
 		}
 	}
 	
@@ -75,7 +82,7 @@ public class WorkflowChartFragment extends Fragment {
 		this.workflowPieChart = new ChartWidget(container.getContext());
 		FrameLayout main = (FrameLayout) rootView.findViewById(R.id.pieChart_container);
 		main.addView(this.workflowPieChart);
-		this.workflowPieChart.updateTypeData(this.getWorkflowTotals(), null);
+		this.updatePieChart();
 
 		return rootView;
 	}
@@ -84,7 +91,13 @@ public class WorkflowChartFragment extends Fragment {
 		return workflowTotals;
 	}
 	
-	protected void updatePieChartValues() {
-		
+	protected void updatePieChart() {
+		this.workflowPieChart.updateTypeData(this.getWorkflowTotals(), this.getWorkflowName());
+	}
+	
+	protected void updatePieChartValues(int[] totals, String name) {
+		this.setWorkflowTotals(totals);
+		this.setWorkflowName(name);
+		this.updatePieChart();
 	}
 }

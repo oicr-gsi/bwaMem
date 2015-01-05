@@ -22,7 +22,6 @@ public class ChartWidget extends View {
     private int[] totals;
     private float PADDING = 150.0f;
     private static final String TAG = "ChartWidget";
-    private static final String DEFAULT_NAME = "ALL";
 	
 	public ChartWidget(Context context) {
 		super(context);
@@ -45,7 +44,7 @@ public class ChartWidget extends View {
 	
 	protected String getmName() {
 		if (null == this.mName || this.mName.isEmpty()) {
-			return DEFAULT_NAME;
+			return WorkflowStatsActivity.ALL_WORKFLOWS;
 		} else {
 		    return mName;
 		}
@@ -111,7 +110,7 @@ public class ChartWidget extends View {
 		//Paint name
 		if (!this.getmName().isEmpty()) {
 			this.tPaint.setTextSize(PADDING/2.5f);
-			canvas.drawText(this.getmName(), PADDING/2, PADDING, this.tPaint);
+			canvas.drawText(this.getmName(), PADDING/2, PADDING/1.5f, this.tPaint);
 			this.tPaint.setTextSize(PADDING/3.0f);
 		}
 	}

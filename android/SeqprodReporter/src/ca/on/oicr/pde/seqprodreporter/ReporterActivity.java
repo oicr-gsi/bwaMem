@@ -417,7 +417,6 @@ public class ReporterActivity extends ActionBarActivity implements
 			} else {
 				Intent intent = new Intent(this,
 						WorkflowStatsActivity.class);
-						//WorkflowStatsListActivity.class);
 				startActivity(intent);
 				return true;
 			}
@@ -710,7 +709,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 			// if all checks negative, launch http request
 			Log.d(TAG, "Requesting a large update...");
-			new getreportHTTP(getApplicationContext(), this.updateHost,
+			new GetreportHTTP(getApplicationContext(), this.updateHost,
 					this.updateRange).execute();
 			// update dataRangeRequested
 			this.dataRangeRequested[rangeIndex] = true;
@@ -868,7 +867,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				if (storedMillis > 0)
 					lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 				// We ask for 'week' update here and launch getreportHTTP
-				new getreportHTTP(getApplicationContext(), sp.getString(
+				new GetreportHTTP(getApplicationContext(), sp.getString(
 						"pref_hostName", null), getResources().getStringArray(
 						R.array.pref_summaryScope_entries)[0])
 						.execute(lastModifiedFailedTime);
