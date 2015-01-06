@@ -10,9 +10,9 @@ import android.util.Log;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
 
 /**
- * @author pruzanov
+ * @author pruzanov@oicr.on.ca
  * 
- *         Re-structuring modules for more rational code organisation
+ * Re-structuring modules for more rational code organization
  */
 
 public class WorkflowStatsActivity extends Activity implements
@@ -23,12 +23,14 @@ public class WorkflowStatsActivity extends Activity implements
 	protected final static String ALL_WORKFLOWS = "All Workflows";
 	protected final static String WORKFLOW_PIE_CHART_VALUES = "WorkflowTypeTotals";
 	protected final static String WORKFLOW_SELECTED = "SelectedWorkflow";
+	protected final static String CHART_SHOWN = "ChartViewActive";
 	protected final static String TAG = "Reporter Stats";
 
 	protected String[] activeWorkflows;
 	protected int[] selectedTotals;
 	protected int[] grandTotals;
 	private String selectedWorkflow;
+	private boolean chartViewActive;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,8 @@ public class WorkflowStatsActivity extends Activity implements
 		setContentView(R.layout.activity_workflow_stats);
 
 		this.activeWorkflows = this.getWorkflows();
-		this.selectedTotals = this.getPieChartValues(null);
+		this.selectedTotals  = this.getPieChartValues(this.selectedWorkflow);
+		this.chartViewActive = false;
 
 		this.mFragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = mFragmentManager
@@ -70,12 +73,14 @@ public class WorkflowStatsActivity extends Activity implements
 						.getIntArray(WORKFLOW_PIE_CHART_VALUES);
 				this.selectedWorkflow = savedInstanceState
 						.getString(WORKFLOW_SELECTED);
+				this.chartViewActive = savedInstanceState.getBoolean(
+						CHART_SHOWN, false);
+				this.refreshChartView();
 			} catch (Exception e) {
 				Log.d(ReporterActivity.TAG,
 						"Workflow totals could not be retrieved");
 			}
 		}
-		// TODO restore view mode for small layout (piechart or list)
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 
@@ -84,7 +89,7 @@ public class WorkflowStatsActivity extends Activity implements
 		if (null != this.selectedTotals)
 			outState.putIntArray(WORKFLOW_PIE_CHART_VALUES, this.selectedTotals);
 		outState.putString(WORKFLOW_SELECTED, this.selectedWorkflow);
-		// TODO save view mode for small layout (piechart or list)
+		outState.putBoolean(CHART_SHOWN, this.chartViewActive);
 	}
 
 	@Override
@@ -93,21 +98,30 @@ public class WorkflowStatsActivity extends Activity implements
 		Log.d(TAG, "Received Click from " + id);
 		this.selectedWorkflow = id;
 		this.selectedTotals = this.getPieChartValues(id);
+		this.chartViewActive = true;
+		this.refreshChartView();
+
+	}
+
+	private void refreshChartView() {
 
 		if (this.isLayoutLarge()) {
-			// Just update piechart
-			this.pieChartFragment.updatePieChartValues(this.selectedTotals, id);
+			// Just update pie chart
+			this.pieChartFragment.updatePieChartValues(this.selectedTotals,
+					                                   this.selectedWorkflow);
 		} else {
-			// We received a click, which means piechart is not visible. Need to
-			// create new piechart fragment and replace the currently shown one
-			FragmentTransaction pieChartShowTransaction = mFragmentManager
-					.beginTransaction()
-					.addToBackStack("PieChartShown")
-					.replace(
-							R.id.fragment_pager,
-							WorkflowChartFragment.InstanceOf(
-									this.selectedTotals, id), "Chart");
-			pieChartShowTransaction.commit();
+			// We received a click, which means pie chart is not visible. Need to
+			// create new pie chart fragment and replace the currently shown one
+			if (this.chartViewActive) {
+				FragmentTransaction pieChartShowTransaction = mFragmentManager
+						.beginTransaction()
+						.addToBackStack(CHART_SHOWN)
+						.replace(R.id.fragment_pager,
+								 WorkflowChartFragment.InstanceOf(this.selectedTotals,
+										                          this.selectedWorkflow),
+						         "Chart");
+				pieChartShowTransaction.commit();
+			}
 		}
 	}
 
@@ -123,11 +137,9 @@ public class WorkflowStatsActivity extends Activity implements
 				.getStringArray(R.array.pref_summaryScope_entries)[0]);
 
 		long earliest = ReporterActivity.getEarliestMillis(timeRange);
-		Cursor c = this.getContentResolver().query(
-				DataContract.CONTENT_URI,
-				new String[] { "DISTINCT " + DataContract.WORKFLOW }, 
-				DataContract.LM_TIME + "> ? ",
-				new String[] {earliest + ""},
+		Cursor c = this.getContentResolver().query(DataContract.CONTENT_URI,
+				new String[] { "DISTINCT " + DataContract.WORKFLOW },
+				DataContract.LM_TIME + "> ? ", new String[] { earliest + "" },
 				DataContract.WORKFLOW + " ASC");
 
 		String[] workflowNames = new String[c.getCount() + 1];
@@ -135,8 +147,8 @@ public class WorkflowStatsActivity extends Activity implements
 		int index = 1;
 		if (c.moveToFirst()) {
 			do {
-				workflowNames[index] = c.getString(c
-						.getColumnIndex(DataContract.WORKFLOW));
+				workflowNames[index] = c.getString(
+						c.getColumnIndex(DataContract.WORKFLOW));
 				++index;
 			} while (c.moveToNext());
 		}

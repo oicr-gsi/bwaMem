@@ -24,9 +24,9 @@ import android.widget.TextView;
  */
 
 /**
- * @author pruzanov
+ * @author pruzanov@oicr.on.ca
  * 
- *         Re-structuring modules for more rational code organisation
+ * Re-structuring modules for more rational code organization
  */
 
 public class WorkflowListFragment extends ListFragment {

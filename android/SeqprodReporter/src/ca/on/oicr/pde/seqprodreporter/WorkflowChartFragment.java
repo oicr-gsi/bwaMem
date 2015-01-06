@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * @author pruzanov
+ * @author pruzanov@oicr.on.ca
  * 
- * Re-structuring modules for more rational code organisation
+ * Re-structuring modules for more rational code organization
  */
 
 public class WorkflowChartFragment extends Fragment {
