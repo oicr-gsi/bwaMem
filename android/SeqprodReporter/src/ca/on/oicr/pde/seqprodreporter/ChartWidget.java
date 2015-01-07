@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Style;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View;
 
 public class ChartWidget extends View {
@@ -21,7 +21,7 @@ public class ChartWidget extends View {
     private int[] angles;
     private int[] totals;
     private float PADDING = 150.0f;
-    private static final String TAG = "ChartWidget";
+    //private static final String TAG = "ChartWidget";
 	
 	public ChartWidget(Context context) {
 		super(context);
@@ -92,7 +92,7 @@ public class ChartWidget extends View {
 			if (currentStop == currentStart) {
 				continue;
 			}
-			Log.d(TAG,"Painting sector between " + currentStart + " and " + currentStop);
+			//Log.d(TAG,"Painting sector between " + currentStart + " and " + currentStop);
 			//Sector
 			this.mPaint.setColor(this.getTypeFillColor(t));
 			canvas.drawArc(this.bBox, currentStart, this.angles[t], true, this.mPaint);

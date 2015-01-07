@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -39,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.OnHierarchyChangeListener;
+import android.webkit.URLUtil;
 import android.widget.TextView;
 import android.widget.Toast;
 import ca.on.oicr.pde.seqprodprovider.DataContract;
@@ -58,7 +61,9 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  * @see ViewPager
  */
 public class ReporterActivity extends ActionBarActivity implements
-		ActionBar.TabListener, ReportListFragment.onTimeUpdateListener {
+		ActionBar.TabListener, 
+		ReportListFragment.onTimeUpdateListener,
+		PrefDialogFragment.PrefDialogListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -68,7 +73,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	SectionsPagerAdapter mSectionsPagerAdapter;
-	private final PreferenceUpdateReceiver prefUpdateReceiver = new PreferenceUpdateReceiver();
+	//private final PreferenceUpdateReceiver prefUpdateReceiver = new PreferenceUpdateReceiver();
 	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -86,12 +91,17 @@ public class ReporterActivity extends ActionBarActivity implements
 	private static final String NOTIFICATIONS_OFF = "Off";
 	private static final String NOTIFICATIONS_WEB_UPDATES = "Web Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
-	private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound";
+
+	protected static final String PREF_SYNC_FREQ     = "pref_syncFreq";
+	protected static final String PREF_SUMMARY_SCOPE = "pref_summaryScope";
+	protected static final String PREF_NOTIFICATIONS = "pref_notificationSettings";
+	protected static final String PREF_HOSTNAME      = "pref_hostName";
+	//private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound";
 	protected static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
 	protected static final int FAILED_WORKFLOW_TAB_INDEX = 1;
 	protected static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
-	static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
+	//static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
 	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
 		                                           30 * 24 * 3600 * 1000L,		//MONTH
@@ -128,8 +138,8 @@ public class ReporterActivity extends ActionBarActivity implements
 
 		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
-		IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
-		lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
+		//IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
+		//lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
 
@@ -331,8 +341,10 @@ public class ReporterActivity extends ActionBarActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
-			startActivity(setPrefs);
+			//Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
+			//startActivity(setPrefs);
+			PrefDialogFragment confFragment = new PrefDialogFragment();
+		    confFragment.show(getFragmentManager(), "config");
 			return true;
 		}
 		// An alert dialog is invoked for the user to select the sorting method
@@ -623,8 +635,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		Log.v(TAG, "Entered updateActivityPrefs");
 		if (null == this.sp) // This check may be not needed
 			return;
-		this.updateHost = sp.getString("pref_hostName", null);
-		String uf = sp.getString("pref_syncFreq", SYNC_OFF);
+		this.updateHost = sp.getString(PREF_HOSTNAME, null);
+		String uf = sp.getString(PREF_SYNC_FREQ, SYNC_OFF);
 		if (!uf.equals(SYNC_OFF)) {
 			try {
 				this.updateFrequency = Integer.parseInt(uf.substring(0,
@@ -639,7 +651,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 
 		// PDE-650 handle time ranges other than 'week' here
-		this.updateRange = sp.getString("pref_summaryScope", null);
+		this.updateRange = sp.getString(PREF_SUMMARY_SCOPE, null);
 		if (null == this.updateRange || null == this.updateHost)
 			return;
 
@@ -648,7 +660,7 @@ public class ReporterActivity extends ActionBarActivity implements
 				&& this.updateFrequency != 0)
 			requestLargeUpdate();
 
-		this.notificationSetting = sp.getString("pref_notificationSettings",
+		this.notificationSetting = sp.getString(PREF_NOTIFICATIONS,
 				NOTIFICATIONS_WEB_UPDATES);
 
 		scheduleUpdate();
@@ -722,13 +734,44 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * Broadcast Receiver for Preference Update Broadcast, updates variables
 	 * with preference values
 	 */
-	class PreferenceUpdateReceiver extends BroadcastReceiver {
+	/*class PreferenceUpdateReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.d(TAG, "Entered onReceive for PreferenceUpdateReceiver");
 			updateActivityPrefs();
 		}
 
+	}*/
+	
+	@Override
+	public void onDialogPositiveClick(PrefDialogFragment dialog) {
+		
+		String hostUrl          = dialog.getHostUrl();
+		if (!URLUtil.isValidUrl(hostUrl) && !hostUrl.isEmpty()) {
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					this);
+			builder.setMessage(R.string.url_invalid).setTitle("Error");
+			builder.setNegativeButton("Close", new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					getSharedPreferences(PREFERENCE_FILE, Activity.MODE_PRIVATE)
+							.edit().remove(PREF_HOSTNAME).commit();
+				}
+			});
+			builder.create().show();
+		} else {
+		  SharedPreferences sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
+		  sp.edit().putString(PREF_HOSTNAME, hostUrl)
+		           .putString(PREF_NOTIFICATIONS, dialog.getNotificationType())
+		           .putString(PREF_SUMMARY_SCOPE, dialog.getTimeRange())
+		           .putString(PREF_SYNC_FREQ, dialog.getUpdateFrequency())
+		           .commit();
+		  updateActivityPrefs();
+		  mSectionsPagerAdapter.notifyDataSetChanged();
+			
+		}
 	}
 
 	@SuppressLint("NewApi")
@@ -789,21 +832,18 @@ public class ReporterActivity extends ActionBarActivity implements
 							} else if (!Time.isEpoch(lastModifiedFailedTime)
 									&& isFailedModified(intent)
 									&& (notificationSetting
-											.equals(NOTIFICATIONS_CRITICAL_UPDATES) || notificationSetting
-											.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND))) {
+											.equals(NOTIFICATIONS_CRITICAL_UPDATES))) {
 								notificationBuilder
 										.setTicker("Critical Update Received")
 										.setContentText(
 												"Critical Update Received")
 										.setLights(Color.RED, 500, 1000);
-								if (notificationSetting
-										.equals(NOTIFICATIONS_CRITICAL_UPDATES_SOUND)) {
 									// May need to change the notification sound
 									// type
 									notificationBuilder
 											.setSound(RingtoneManager
 													.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-								}
+								
 							}
 							// Pass the Notification to the NotificationManager:
 							passNotificationBuildertoManager(context,

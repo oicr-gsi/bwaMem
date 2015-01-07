@@ -2,6 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">SpbReporter</string>
+    <string name="image_type">image/png</string>
+    <string name="ok">OK</string>
     <string name="sort_by">Sort By</string>
     <string name="sort_dialog">Sort By:</string>
     <string name="stats_error_title">Error: No available data</string>
@@ -20,8 +22,10 @@
     <string name="stats">Statistics</string>
     <string name="action_update">Update</string>
     <string name="action_refresh">Refresh</string>
-    <string name="pref_summaryScope">Time Span</string>
-
+    
+    <string name="pref_summaryScope">Time Range</string>
+    <string name="pref_summaryScope_short">Time Range</string>
+    <string name="pref_summaryScope_default">Define the time range for the report</string>
     <string-array name="pref_summaryScope_entries">
         <item>week</item>
         <item>month</item>
@@ -29,10 +33,9 @@
         <item>decade</item>
     </string-array>
 
-    <string name="pref_summaryScope_default">Define the time range for the report</string>
-    <string name="title_pref_activity">Preferences</string>
     <string name="pref_automaticUpdates">Automatic Updates</string>
-
+    <string name="pref_automaticUpdates_short">Updates</string>
+    <string name="pref_automaticUpdates_default">Off</string>
     <string-array name="pref_automaticUpdates_entries">
         <item>Off</item>
         <item>5 min</item>
@@ -40,22 +43,22 @@
         <item>60 min</item>
     </string-array>
 
-    <string name="pref_automaticUpdates_default">Off</string>
+    
     <string name="pref_notificationSettings">Notification Settings</string>
-
+    <string name="pref_notificationSettings_short">Alerts</string>
+    <string name="pref_notificationSettings_default">Web Updates</string>
     <string-array name="pref_notificationSettings_entries">
         <item>Off</item>
         <item>Web Updates</item>
         <item>Critical Updates</item>
-        <item>Critical Updates With Sound</item>
     </string-array>
 
-    <string name="pref_notificationSettings_default">Web Updates</string>
     <string name="pref_hostName">Host URL</string>
-    <string name="url_invalid">This URL is not valid!</string>
     <string name="pref_hostName_default">Specify host name for updates</string>
+       
+    <string name="url_invalid">This URL is not valid!</string>
     <string name="authority">ca.on.oicr.pde.seqprodprovider</string>
     <string name="action_search">Search</string>
-    <string name="search_hint">Sample or Workflow...</string>
+    <string name="search_hint">Sample or Workflow</string>
     <string name="title_workflowstats">Workflow Statistics</string>
 </resources>
