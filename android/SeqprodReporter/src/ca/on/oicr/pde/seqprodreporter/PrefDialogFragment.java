@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -133,8 +134,10 @@ public class PrefDialogFragment extends DialogFragment implements AdapterView.On
 				}
 			}});
     	
-    	
-        return builder.create();
+    	hostText.setActivated(false);
+    	Dialog settingsDialog = builder.create();
+    	settingsDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    	return settingsDialog;
     }
 
 	private void toggleSpinners(Spinner[] spinners, boolean enable) {
