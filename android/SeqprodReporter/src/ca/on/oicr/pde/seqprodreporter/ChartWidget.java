@@ -8,7 +8,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Style;
-//import android.util.Log;
 import android.view.View;
 
 public class ChartWidget extends View {
@@ -21,7 +20,6 @@ public class ChartWidget extends View {
     private int[] angles;
     private int[] totals;
     private float PADDING = 150.0f;
-    //private static final String TAG = "ChartWidget";
 	
 	public ChartWidget(Context context) {
 		super(context);
@@ -92,15 +90,13 @@ public class ChartWidget extends View {
 			if (currentStop == currentStart) {
 				continue;
 			}
-			//Log.d(TAG,"Painting sector between " + currentStart + " and " + currentStop);
 			//Sector
 			this.mPaint.setColor(this.getTypeFillColor(t));
 			canvas.drawArc(this.bBox, currentStart, this.angles[t], true, this.mPaint);
 			//Text Label
-			int textPadding = this.angles[t] > 20 ? 5 : 0; 
 			this.tArc.reset();
-		    this.tArc.addArc(this.bBox, currentStart + textPadding, 20);
-		    canvas.drawTextOnPath("" + this.totals[t],tArc, 10, -PADDING/3, this.tPaint);
+		    this.tArc.addArc(this.bBox, (currentStart + currentStop)/2, 20);
+		    canvas.drawTextOnPath("" + this.totals[t],tArc, 0, -this.tPaint.getTextSize(), this.tPaint);
 			currentStart = currentStop;
 		}
         //Inner circle (doughnut hole)

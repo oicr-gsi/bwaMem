@@ -20,9 +20,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 /**
- * This is the dialog that takes care of setting parameters such as 
- * User Name and the state of in-game sounds (enabled or disabled)
- * 
+ * This is a dialog that takes care of setting parameters such as 
+ * Update Frequency, Time Range, Notification type and host URL 
  */
 public class PrefDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
@@ -192,7 +191,7 @@ public class PrefDialogFragment extends DialogFragment implements AdapterView.On
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		
 	}
 

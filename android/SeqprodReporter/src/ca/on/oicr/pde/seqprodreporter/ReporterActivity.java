@@ -135,11 +135,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_reporter);
 
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
-
-		// Register receivers for preference and data updates
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
-		//IntentFilter prefchangeFilter = new IntentFilter(PREFCHANGE_INTENT);
-		//lmb.registerReceiver(prefUpdateReceiver, prefchangeFilter);
+
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
 
@@ -341,9 +338,10 @@ public class ReporterActivity extends ActionBarActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
-			//Intent setPrefs = new Intent(this, SeqprodPreferencesActivity.class);
-			//startActivity(setPrefs);
+
 			PrefDialogFragment confFragment = new PrefDialogFragment();
+			sp.edit().putLong("updateLastTime", 
+			          this.lastModifiedCachedTime.toMillis(false)).apply();
 		    confFragment.show(getFragmentManager(), "config");
 			return true;
 		}
@@ -650,7 +648,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			this.updateFrequency = 0;
 		}
 
-		// PDE-650 handle time ranges other than 'week' here
+		// Handle time ranges other than 'week' here
 		this.updateRange = sp.getString(PREF_SUMMARY_SCOPE, null);
 		if (null == this.updateRange || null == this.updateHost)
 			return;
@@ -730,19 +728,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 
-	/*
-	 * Broadcast Receiver for Preference Update Broadcast, updates variables
-	 * with preference values
-	 */
-	/*class PreferenceUpdateReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "Entered onReceive for PreferenceUpdateReceiver");
-			updateActivityPrefs();
-		}
-
-	}*/
-	
 	@Override
 	public void onDialogPositiveClick(PrefDialogFragment dialog) {
 		
