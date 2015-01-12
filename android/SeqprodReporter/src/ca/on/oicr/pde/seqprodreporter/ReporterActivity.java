@@ -25,6 +25,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -61,25 +62,11 @@ import ca.on.oicr.pde.seqprodprovider.DataContract;
  * @see ViewPager
  */
 public class ReporterActivity extends ActionBarActivity implements
-		ActionBar.TabListener, 
 		ReportListFragment.onTimeUpdateListener,
 		PrefDialogFragment.PrefDialogListener {
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-	 * derivative, which will keep every loaded fragment in memory. If this
-	 * becomes too memory intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	//private final PreferenceUpdateReceiver prefUpdateReceiver = new PreferenceUpdateReceiver();
-	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	ViewPager mViewPager;
 
+	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
 	public static final String TAG = "Seqprodbio Reporter";
 
 	protected static String[] types = { "completed", "failed", "pending" };
@@ -96,12 +83,10 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected static final String PREF_SUMMARY_SCOPE = "pref_summaryScope";
 	protected static final String PREF_NOTIFICATIONS = "pref_notificationSettings";
 	protected static final String PREF_HOSTNAME      = "pref_hostName";
-	//private static final String NOTIFICATIONS_CRITICAL_UPDATES_SOUND = "Critical Updates With Sound";
 	protected static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
 	protected static final int FAILED_WORKFLOW_TAB_INDEX = 1;
 	protected static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
-	//static final String PREFCHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.prefsChanged";
 	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
 	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
 		                                           30 * 24 * 3600 * 1000L,		//MONTH
@@ -124,7 +109,8 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	private SharedPreferences sp;
 	private Timer timer;
-
+    private SlidingTabsBasicFragment mSlideingTabFragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -132,8 +118,17 @@ public class ReporterActivity extends ActionBarActivity implements
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
 
-		setContentView(R.layout.activity_reporter);
+		//setContentView(R.layout.activity_reporter);
 
+		setContentView(R.layout.activity_main);
+
+       
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            this.mSlideingTabFragment = SlidingTabsBasicFragment.newInstance(this.mSearchQuery);
+            transaction.replace(R.id.sample_content_fragment, this.mSlideingTabFragment);
+            transaction.commit();
+        //}
+		
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 
@@ -144,30 +139,30 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Read preferences
 		this.updateActivityPrefs();
 		// Set up the action bar.
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(true);
+		//final ActionBar actionBar = getSupportActionBar();
+		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		//actionBar.setDisplayShowHomeEnabled(true);
+		//actionBar.setDisplayShowTitleEnabled(true);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the activity.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+		//mSectionsPagerAdapter = new SectionsPagerAdapter(
+		//		getSupportFragmentManager());
 		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+		//mViewPager = (ViewPager) findViewById(R.id.pager);
+		//mViewPager.setAdapter(mSectionsPagerAdapter);
 
 		// Allows the 2 other tab's fragments that are in idle state to be
 		// loaded
 		// alongside the current selected tab's fragment
-		mViewPager.setOffscreenPageLimit(types.length - 1);
+		//mViewPager.setOffscreenPageLimit(types.length - 1);
 
 		/*
 		 * When swiping between different sections, select the corresponding
 		 * tab. We can also use ActionBar.Tab#select() to do this if we have a
 		 * reference to the Tab.
 		 */
-		mViewPager
+		/*mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
@@ -180,7 +175,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		 * returning from Stats activity - it takes care of selecting tab as it
 		 * gets added (May be done differently, perhaps)
 		 */
-		mViewPager
+		/* mViewPager
 				.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
 					@Override
@@ -207,7 +202,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
-		}
+		} */
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
@@ -245,7 +240,10 @@ public class ReporterActivity extends ActionBarActivity implements
 		this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
 		// update fragments when searching for a query (Device orientation
 		// change handled elsewhere)
-		if (!mSectionsPagerAdapter.fragments.isEmpty()) {
+		
+		// TODO update search filter on new UI
+		this.mSlideingTabFragment.setSearchFilter(this.mSearchQuery);
+		/* if (!mSectionsPagerAdapter.fragments.isEmpty()) {
 			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
 			for (int i = 0; i < fragments.size(); i++) {
 				ReportListFragment tmp = fragments.get(i);
@@ -254,7 +252,9 @@ public class ReporterActivity extends ActionBarActivity implements
 			}
 
 			mSectionsPagerAdapter.notifyDataSetChanged();
-		}
+		} */
+		this.mSlideingTabFragment.setSearchFilter(this.mSearchQuery);
+		
 		super.onResume();
 	}
 
@@ -353,17 +353,22 @@ public class ReporterActivity extends ActionBarActivity implements
 					R.array.sorting_method_types, sortIndex,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int selected) {
-							List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+							
+							//TODO implement sorting on new UI
+							mSlideingTabFragment.setSortIndex(selected);
 							sortIndex = selected;
+							/*List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
+							
 							for (int i = 0; i < fragments.size(); ++i) {
 								ReportListFragment tmp = fragments.get(i);
 								tmp.setSortIndex(selected);
 								tmp.sortFragment();
 								tmp.getAdapter().notifyDataSetChanged();
-							}
+							} */
 							dialog.dismiss();
 						}
 					});
+			
 			builder.show();
 		} else if (id == R.id.action_refresh) {
 			if (!this.refreshEnabled) {
@@ -444,7 +449,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		return isEmpty;
 	}
 
-	@Override
+	/*@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		// When the given tab is selected, switch to the corresponding page in
@@ -461,7 +466,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
+	} */
 
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -551,7 +556,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
 	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	/* public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		private List<ReportListFragment> fragments;
 
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -592,7 +597,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			return POSITION_NONE;
 		}
 
-	}
+	} */
 
 	/*
 	 * This function sets the Timer, but DOES NOT launches Http task
@@ -710,13 +715,13 @@ public class ReporterActivity extends ActionBarActivity implements
 		long rangeLimit = getEarliestMillis(this.updateRange); 
 
 		try {
-			ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter
+			/*ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter
 					.getItem(0);
 			if (null == f.getFirstUpdateTime()
 					|| f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
 				this.dataRangeRequested[rangeIndex] = true;
 				return;
-			}
+			} */
 			// if all checks negative, launch http request
 			Log.d(TAG, "Requesting a large update...");
 			new GetreportHTTP(getApplicationContext(), this.updateHost,
@@ -754,7 +759,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		           .putString(PREF_SYNC_FREQ, dialog.getUpdateFrequency())
 		           .commit();
 		  updateActivityPrefs();
-		  mSectionsPagerAdapter.notifyDataSetChanged();
+		  this.mSlideingTabFragment.updateUI();
 			
 		}
 	}
@@ -842,7 +847,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 
 					if (ReporterActivity.this.isVisible)
-						mSectionsPagerAdapter.notifyDataSetChanged();
+						mSlideingTabFragment.updateUI();
 
 				}
 			}

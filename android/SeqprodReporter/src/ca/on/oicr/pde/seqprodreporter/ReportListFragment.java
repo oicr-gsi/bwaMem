@@ -52,7 +52,7 @@ public class ReportListFragment extends Fragment {
 	public static ReportListFragment newInstance(int sectionNumber,
 			String searchFilter) {
 		ReportListFragment fragment = new ReportListFragment();
-		fragment.setSectionNumber(sectionNumber);
+		fragment.setSectionNumber(sectionNumber + 1);
 		fragment.setSearchFilter(searchFilter);
 		return fragment;
 	}

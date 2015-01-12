@@ -61,7 +61,7 @@ public class WorkflowListFragment extends ListFragment {
 		public void onItemSelected(String id);
 	}
 
-	private OnClickListener onTextViewClick = new OnClickListener() {
+	/*private OnClickListener onTextViewClick = new OnClickListener() {
 		@Override
 		public void onClick(View textView) {
 			Intent intent = new Intent(getActivity(), ReporterActivity.class);
@@ -80,7 +80,7 @@ public class WorkflowListFragment extends ListFragment {
 			Log.v(ReporterActivity.TAG, "Clicked on text "
 					+ ((TextView) textView).getText());
 		}
-	};
+	};*/
 
 	/**
 	 * A dummy implementation of the {@link OnItemSelectedListener} interface
@@ -114,7 +114,6 @@ public class WorkflowListFragment extends ListFragment {
 	public WorkflowListFragment() {
 	}
 
-	// TODO add grand totals
 	public static WorkflowListFragment InstanceOf(int[] totals,
 			String[] workflows) {
 		WorkflowListFragment fragment = new WorkflowListFragment();
@@ -142,15 +141,15 @@ public class WorkflowListFragment extends ListFragment {
 		// Setup Text fields
 		this.completedTextView = (TextView) rootView.findViewById(R.id.total_number_of_completed);
 		completedTextView.setText("Completed: " + getWorkflowTypesTotal(0));
-		completedTextView.setOnClickListener(onTextViewClick);
+		//completedTextView.setOnClickListener(onTextViewClick);
 
 		this.failedTextView = (TextView) rootView.findViewById(R.id.total_number_of_failed);
 		failedTextView.setText("Failed: " + getWorkflowTypesTotal(1));
-		failedTextView.setOnClickListener(onTextViewClick);
+		//failedTextView.setOnClickListener(onTextViewClick);
 
 		this.pendingTextView = (TextView) rootView.findViewById(R.id.total_number_of_pending);
 		pendingTextView.setText("Pending: " + getWorkflowTypesTotal(2));
-		pendingTextView.setOnClickListener(onTextViewClick);
+		//pendingTextView.setOnClickListener(onTextViewClick);
 
 		return rootView;
 	}
