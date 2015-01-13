@@ -16,9 +16,12 @@
 
 package ca.on.oicr.pde.seqprodreporter.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -28,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import ca.on.oicr.pde.seqprodreporter.ReporterActivity;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -64,16 +68,14 @@ public class SlidingTabLayout extends HorizontalScrollView {
         int getDividerColor(int position);
 
     }
-
+    
     private static final int TITLE_OFFSET_DIPS = 24;
     private static final int TAB_VIEW_PADDING_DIPS = 16;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 16;
 
     private int mTitleOffset;
-
     private int mTabViewLayoutId;
-    private int mTabViewTextViewId;
-
+    private int mTabViewTextViewId;  
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
@@ -159,7 +161,19 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         mViewPager = viewPager;
         if (viewPager != null) {
-            viewPager.setOnPageChangeListener(new InternalViewPagerListener());
+            viewPager.setOnPageChangeListener(new InternalViewPagerListener() {
+
+				@Override
+				public void onPageSelected(int position) {
+
+					super.onPageSelected(position);
+					//Log.d(ReporterActivity.TAG, "Tab " + position + " clicked");
+					Intent intent = new Intent(ReporterActivity.TAB_SELECT_INTENT);
+					intent.putExtra("selectedTab", position);
+					LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+				}
+            	
+            });
             populateTabStrip();
         }
     }
@@ -168,7 +182,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
      * Create a default view to be used for tabs. This is called if a custom tab view is not set via
      * {@link #setCustomTabView(int, int)}.
      */
-    protected TextView createDefaultTabView(Context context) {
+    @SuppressLint("NewApi")
+	protected TextView createDefaultTabView(Context context) {
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);

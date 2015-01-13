@@ -23,9 +23,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.OnHierarchyChangeListener;
 import ca.on.oicr.pde.seqprodreporter.ui.SlidingTabLayout;
 
 
@@ -38,11 +41,11 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
     static final String[] tabTypes = {"COMPLETED", " FAILED ", " PENDING"}; 
     
     private String searchFilter;
-    //private int mCurrentTabIndex;
+    private int mCurrentTabIndex;
 
-	//protected void setCurrentTabIndex(int index) {
-	//	this.mCurrentTabIndex = index;
-	//}
+	protected void setCurrentTabIndex(int index) {
+		this.mCurrentTabIndex = index;
+	}
 
 	/**
      * A custom {@link ViewPager} title strip which looks much like Tabs present in Android v4.0 and
@@ -70,9 +73,9 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
         return inflater.inflate(R.layout.fragment_tab, container, false);
     }
     
-    public static SlidingTabsBasicFragment newInstance(String searchFilter) {
+    public static SlidingTabsBasicFragment newInstance(int selectedTab, String searchFilter) {
     	SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
-		//fragment.setCurrentTabIndex(selectedTab);
+		fragment.setCurrentTabIndex(selectedTab);
 		fragment.setSearchFilter(searchFilter);
 		return fragment;
 	}
@@ -101,6 +104,16 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
     protected void updateUI() {
     	this.mFragmentAdapter.notifyDataSetChanged();
     }
+    
+    protected Time getFirstUpdateTime() {
+    	try {
+    	    ReportListFragment f = (ReportListFragment) this.mFragmentAdapter.getItem(0);
+    	    return f.getFirstUpdateTime();
+    	} catch (Exception e) {
+    		Log.e(ReporterActivity.TAG, "Error retrieving First Update Time");
+    		return null;
+    	}
+    }
 
     // BEGIN_INCLUDE (fragment_onviewcreated)
     /**
@@ -117,12 +130,13 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
 
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mFragmentAdapter = new SamplePagerAdapter(getFragmentManager(), SlidingTabsBasicFragment.this.searchFilter);
+        mViewPager.setOffscreenPageLimit(ReporterActivity.types.length - 1);
         mViewPager.setAdapter(mFragmentAdapter);
         
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
         
-        /*mViewPager.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
+        mViewPager.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
 
 			@Override
 			public void onChildViewAdded(View parent, View child) {
@@ -137,8 +151,8 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
 			public void onChildViewRemoved(View parent, View child) {
 				// Do nothing, this is not supposed to happen
 			}
-		});*/
-
+		});
+        
     }
     
     

@@ -1,8 +1,5 @@
 package ca.on.oicr.pde.seqprodreporter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,23 +13,17 @@ import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.text.format.Time;
@@ -41,7 +32,6 @@ import android.util.TimeFormatException;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.webkit.URLUtil;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +57,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 
 	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
+	private final TabSelectReceiver  tabSelectReceiver  = new TabSelectReceiver();
 	public static final String TAG = "Seqprodbio Reporter";
 
 	protected static String[] types = { "completed", "failed", "pending" };
@@ -87,7 +78,8 @@ public class ReporterActivity extends ActionBarActivity implements
 	protected static final int FAILED_WORKFLOW_TAB_INDEX = 1;
 	protected static final int PENDING_WORKFLOW_TAB_INDEX = 2;
 
-	static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	public static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	public static final String TAB_SELECT_INTENT = "ca.on.oicr.pde.seqprodreporter.tabSelected";
 	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
 		                                           30 * 24 * 3600 * 1000L,		//MONTH
                                                    365 * 24 * 3600 * 1000L,		//YEAR
@@ -117,92 +109,23 @@ public class ReporterActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
-
-		//setContentView(R.layout.activity_reporter);
-
 		setContentView(R.layout.activity_main);
 
-       
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            this.mSlideingTabFragment = SlidingTabsBasicFragment.newInstance(this.mSearchQuery);
-            transaction.replace(R.id.sample_content_fragment, this.mSlideingTabFragment);
-            transaction.commit();
-        //}
-		
+        this.mSlideingTabFragment = SlidingTabsBasicFragment.newInstance(this.mCurrentTabIndex, this.mSearchQuery);
+        getSupportFragmentManager().beginTransaction()
+                                   .replace(R.id.sample_content_fragment, this.mSlideingTabFragment)
+                                   .commit();
+
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
 		LocalBroadcastManager lmb = LocalBroadcastManager.getInstance(this);
 
 		IntentFilter datachangeFilter = new IntentFilter(DATACHANGE_INTENT);
+		IntentFilter tabselectFilter  = new IntentFilter(TAB_SELECT_INTENT);
 		lmb.registerReceiver(dataUpdateReceiver, datachangeFilter);
+		lmb.registerReceiver(tabSelectReceiver, tabselectFilter);
 
 		this.sp = getSharedPreferences(PREFERENCE_FILE, MODE_PRIVATE);
-		// Read preferences
 		this.updateActivityPrefs();
-		// Set up the action bar.
-		//final ActionBar actionBar = getSupportActionBar();
-		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		//actionBar.setDisplayShowHomeEnabled(true);
-		//actionBar.setDisplayShowTitleEnabled(true);
-
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the activity.
-		//mSectionsPagerAdapter = new SectionsPagerAdapter(
-		//		getSupportFragmentManager());
-		// Set up the ViewPager with the sections adapter.
-		//mViewPager = (ViewPager) findViewById(R.id.pager);
-		//mViewPager.setAdapter(mSectionsPagerAdapter);
-
-		// Allows the 2 other tab's fragments that are in idle state to be
-		// loaded
-		// alongside the current selected tab's fragment
-		//mViewPager.setOffscreenPageLimit(types.length - 1);
-
-		/*
-		 * When swiping between different sections, select the corresponding
-		 * tab. We can also use ActionBar.Tab#select() to do this if we have a
-		 * reference to the Tab.
-		 */
-		/*mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
-
-		/*
-		 * This is needed for selecting proper tab when restoring activity or
-		 * returning from Stats activity - it takes care of selecting tab as it
-		 * gets added (May be done differently, perhaps)
-		 */
-		/* mViewPager
-				.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
-
-					@Override
-					public void onChildViewAdded(View parent, View child) {
-						if (mCurrentTabIndex != 0
-								&& mViewPager.getChildCount() >= mCurrentTabIndex
-								&& mCurrentTabIndex != mViewPager
-										.getCurrentItem())
-							mViewPager.setCurrentItem(mCurrentTabIndex);
-					}
-
-					@Override
-					public void onChildViewRemoved(View parent, View child) {
-						// Do nothing, this is not supposed to happen
-					}
-				});
-
-		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
-		} */
 
 		if (null == lastModifiedFailedTime)
 			lastModifiedFailedTime = new Time();
@@ -237,22 +160,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		// restore time stored in 
 		updateUiLMT(sp.getString("updateTime", ""));
 		this.isVisible = true;
-		this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));
-		// update fragments when searching for a query (Device orientation
-		// change handled elsewhere)
-		
-		// TODO update search filter on new UI
-		this.mSlideingTabFragment.setSearchFilter(this.mSearchQuery);
-		/* if (!mSectionsPagerAdapter.fragments.isEmpty()) {
-			List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-			for (int i = 0; i < fragments.size(); i++) {
-				ReportListFragment tmp = fragments.get(i);
-				if (null != tmp)
-					tmp.setSearchFilter(this.mSearchQuery);
-			}
-
-			mSectionsPagerAdapter.notifyDataSetChanged();
-		} */
+		this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));	
+		Log.d(TAG, "Setting search filter on Resume");
 		this.mSlideingTabFragment.setSearchFilter(this.mSearchQuery);
 		
 		super.onResume();
@@ -293,6 +202,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		} else {
 			this.mCurrentTabIndex = 0;
 		}
+
+		this.mSlideingTabFragment.setCurrentTabIndex(this.mCurrentTabIndex);
 	}
 
 	@Override
@@ -353,18 +264,10 @@ public class ReporterActivity extends ActionBarActivity implements
 					R.array.sorting_method_types, sortIndex,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int selected) {
-							
-							//TODO implement sorting on new UI
+							sp.edit().putLong("updateLastTime", 
+							          lastModifiedCachedTime.toMillis(false)).apply();
 							mSlideingTabFragment.setSortIndex(selected);
 							sortIndex = selected;
-							/*List<ReportListFragment> fragments = mSectionsPagerAdapter.fragments;
-							
-							for (int i = 0; i < fragments.size(); ++i) {
-								ReportListFragment tmp = fragments.get(i);
-								tmp.setSortIndex(selected);
-								tmp.sortFragment();
-								tmp.getAdapter().notifyDataSetChanged();
-							} */
 							dialog.dismiss();
 						}
 					});
@@ -449,25 +352,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		return isEmpty;
 	}
 
-	/*@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
-		mCurrentTabIndex = tab.getPosition();
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	} */
-
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
@@ -518,8 +402,7 @@ public class ReporterActivity extends ActionBarActivity implements
 	/**
 	 * A function that returns a formatted user-friendly Time representation.
 	 * 
-	 * @param Time
-	 *            time
+	 * @param Time time
 	 */
 	public static String timeToStringConverter(Time time) {
 		return time.format("%Y-%m-%d %H:%M:%S");
@@ -551,53 +434,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		
 		return earliest;
      }
-
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	/* public class SectionsPagerAdapter extends FragmentPagerAdapter {
-		private List<ReportListFragment> fragments;
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-			fragments = new ArrayList<ReportListFragment>();
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			if (position >= this.fragments.size() || this.fragments.size() == 0
-					|| null == this.fragments.get(position)) {
-
-				fragments.add(position, ReportListFragment.newInstance(
-						position + 1, mSearchQuery));
-			}
-			return fragments.get(position);
-		}
-
-		@Override
-		public int getCount() {
-			return types.length;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			if (position >= 0 && position < types.length)
-				return types[position].toUpperCase(l);
-			return null;
-		}
-
-		// Forces each Item in the list to be re-created which allows the lists
-		// to be updated dynamically
-
-		@Override
-		public int getItemPosition(Object object) {
-			return POSITION_NONE;
-		}
-
-	} */
 
 	/*
 	 * This function sets the Timer, but DOES NOT launches Http task
@@ -710,18 +546,15 @@ public class ReporterActivity extends ActionBarActivity implements
 		else if (this.dataRangeRequested[rangeIndex])
 			return;
 
-		// check the oldest (completed) fragments' firstUpdated value
 		Log.d(TAG, "Checking if we already have data in requested range...");
 		long rangeLimit = getEarliestMillis(this.updateRange); 
 
 		try {
-			/*ReportListFragment f = (ReportListFragment) mSectionsPagerAdapter
-					.getItem(0);
-			if (null == f.getFirstUpdateTime()
-					|| f.getFirstUpdateTime().toMillis(false) <= rangeLimit) {
+			Time fut = this.mSlideingTabFragment.getFirstUpdateTime();
+			if (null == fut	|| fut.toMillis(false) <= rangeLimit) {
 				this.dataRangeRequested[rangeIndex] = true;
 				return;
-			} */
+			} 
 			// if all checks negative, launch http request
 			Log.d(TAG, "Requesting a large update...");
 			new GetreportHTTP(getApplicationContext(), this.updateHost,
@@ -764,6 +597,19 @@ public class ReporterActivity extends ActionBarActivity implements
 		}
 	}
 
+	/*
+	 * Broadcast Receiver for Tab Selection (Updates current Tab index)
+	 */
+	class TabSelectReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//Log.d(TAG, "Activity received " + intent.getIntExtra("selectedTab", 0) + " for selected Tab");
+			mCurrentTabIndex = intent.getIntExtra("selectedTab", 0);
+		}
+		
+	}
+	
 	@SuppressLint("NewApi")
 	/*
 	 * Broadcast Receiver for Data Update Broadcast
