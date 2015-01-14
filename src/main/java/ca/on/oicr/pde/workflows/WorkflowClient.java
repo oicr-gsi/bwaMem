@@ -148,8 +148,6 @@ public class WorkflowClient extends OicrWorkflow {
             trimJob = doTrim(r1,r2,trim1,trim2);
             r1=trim1;
             r2=trim2;
-	    trimJob.addFile(read1);
-	    trimJob.addFile(read2);
         }
 
         Job job01 = this.getWorkflow().createBashJob("bwa_align1");
@@ -164,12 +162,10 @@ public class WorkflowClient extends OicrWorkflow {
                 + " > " + this.dataDir + "aligned_1.sai 2> aligned_1.err");
         job01.setMaxMemory(getProperty("bwa_aln_mem_mb"));
         job01.setQueue(queue);
-
         if (trimJob != null) {
             job01.addParent(trimJob);
-	    job01.addFile(read1);
         }
-
+        
         job02.getCommand().addArgument(bwa + " aln ");
         job02.getCommand().addArgument((this.parameters("aln") == null ? " " : this.parameters("aln"))
                 + reference_path + (" ")
@@ -179,7 +175,6 @@ public class WorkflowClient extends OicrWorkflow {
         job02.setQueue(queue);
         if (trimJob != null) {
             job02.addParent(trimJob);
-	    job02.addFile(read2);
         }
 
 
