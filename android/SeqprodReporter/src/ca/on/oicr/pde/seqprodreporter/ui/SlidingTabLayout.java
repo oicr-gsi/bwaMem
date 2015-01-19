@@ -160,6 +160,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabStrip.removeAllViews();
 
         mViewPager = viewPager;
+        mViewPager.setOffscreenPageLimit(ReporterActivity.types.length);
         if (viewPager != null) {
             viewPager.setOnPageChangeListener(new InternalViewPagerListener() {
 

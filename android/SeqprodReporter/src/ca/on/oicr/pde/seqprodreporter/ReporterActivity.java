@@ -55,36 +55,34 @@ public class ReporterActivity extends ActionBarActivity implements
 		ReportListFragment.onTimeUpdateListener,
 		PrefDialogFragment.PrefDialogListener {
 
-
 	private final DataUpdateReceiver dataUpdateReceiver = new DataUpdateReceiver();
 	private final TabSelectReceiver  tabSelectReceiver  = new TabSelectReceiver();
-	public static final String TAG = "Seqprodbio Reporter";
-
-	protected static String[] types = { "completed", "failed", "pending" };
-	protected static String SYNC_OFF;
-	protected static final String TIMER_NAME = "Seqprodbio Timer";
-	protected static final String PREFERENCE_FILE = "seqprod.conf";
 	private static final long INITIAL_TIMER_DELAY = 5 * 1000L;
-
 	private static final String NOTIFICATIONS_OFF = "Off";
 	private static final String NOTIFICATIONS_WEB_UPDATES = "Web Updates";
 	private static final String NOTIFICATIONS_CRITICAL_UPDATES = "Critical Updates";
-
+    
 	protected static final String PREF_SYNC_FREQ     = "pref_syncFreq";
 	protected static final String PREF_SUMMARY_SCOPE = "pref_summaryScope";
 	protected static final String PREF_NOTIFICATIONS = "pref_notificationSettings";
 	protected static final String PREF_HOSTNAME      = "pref_hostName";
+	protected static final String TIMER_NAME = "Seqprodbio Timer";
+	protected static final String PREFERENCE_FILE = "seqprod.conf";
+	
 	protected static final int COMPLETED_WORKFLOW_TAB_INDEX = 0;
 	protected static final int FAILED_WORKFLOW_TAB_INDEX = 1;
 	protected static final int PENDING_WORKFLOW_TAB_INDEX = 2;
-
-	public static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
-	public static final String TAB_SELECT_INTENT = "ca.on.oicr.pde.seqprodreporter.tabSelected";
-	protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
+    protected static final long [] updateRanges = {7 * 24 * 3600 * 1000L,		//WEEK
 		                                           30 * 24 * 3600 * 1000L,		//MONTH
                                                    365 * 24 * 3600 * 1000L,		//YEAR
                                                    10 * 365 * 24 * 3600 * 1000L};//DECADE
-
+    
+    public static final String TAG = "Seqprodbio Reporter";
+	public static String[] types = { "completed", "failed", "pending" };
+	public static final String DATACHANGE_INTENT = "ca.on.oicr.pde.seqprodreporter.updateLoaded";
+	public static final String TAB_SELECT_INTENT = "ca.on.oicr.pde.seqprodreporter.tabSelected";
+	
+    private String SYNC_OFF;
 	private String updateHost;
 	private String updateRange;
 	private String notificationSetting;
@@ -101,7 +99,7 @@ public class ReporterActivity extends ActionBarActivity implements
 
 	private SharedPreferences sp;
 	private Timer timer;
-    private SlidingTabsBasicFragment mSlideingTabFragment;
+    private SlidingTabsBasicFragment mSlidingTabFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,10 +108,13 @@ public class ReporterActivity extends ActionBarActivity implements
 		SYNC_OFF = getResources().getString(
 				R.string.pref_automaticUpdates_default);
 		setContentView(R.layout.activity_main);
-
-        this.mSlideingTabFragment = SlidingTabsBasicFragment.newInstance(this.mCurrentTabIndex, this.mSearchQuery);
+		if (savedInstanceState != null)
+			this.sortIndex = savedInstanceState.getInt("currentSortIndex", 0);
+        this.mSlidingTabFragment = SlidingTabsBasicFragment.newInstance(this.mCurrentTabIndex, 
+        		                                                        this.sortIndex,
+        		                                                        this.mSearchQuery);
         getSupportFragmentManager().beginTransaction()
-                                   .replace(R.id.sample_content_fragment, this.mSlideingTabFragment)
+                                   .replace(R.id.sample_content_fragment, this.mSlidingTabFragment)
                                    .commit();
 
 		((MainApplication) getApplication()).setisCurrentActivityVisible(true);
@@ -139,8 +140,9 @@ public class ReporterActivity extends ActionBarActivity implements
 		super.onPostCreate(savedInstanceState);
 		// Handle intent that comes from Statistics Activity
 		Intent startIntent = this.getIntent();
-		if (null != startIntent)
+		if (null != startIntent) {
 			handleIntent(startIntent);
+		}
 	}
 
 	@Override
@@ -161,8 +163,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		updateUiLMT(sp.getString("updateTime", ""));
 		this.isVisible = true;
 		this.lastModifiedCachedTime.set(sp.getLong("updateLastTime", 0L));	
-		Log.d(TAG, "Setting search filter on Resume");
-		this.mSlideingTabFragment.setSearchFilter(this.mSearchQuery);
+		Log.d(TAG, "Setting search filter on Resume, Search index " + this.sortIndex);
+		this.mSlidingTabFragment.updateSearchFilter(this.mSearchQuery);
 		
 		super.onResume();
 	}
@@ -176,6 +178,8 @@ public class ReporterActivity extends ActionBarActivity implements
 		if (null != this.dataRangeRequested)
 			outState.putBooleanArray("dataRangeRequested",
 					this.dataRangeRequested);
+		if (this.sortIndex > 0)
+			outState.putInt("currentSortIndex", this.sortIndex);
 		outState.putInt("currentlySelectedTab", this.mCurrentTabIndex);
 		if (null != this.mSearchQuery && !this.mSearchQuery.isEmpty())
 			outState.putString("currentSearchQuery", this.mSearchQuery);
@@ -194,6 +198,8 @@ public class ReporterActivity extends ActionBarActivity implements
 						.getInt("currentlySelectedTab");
 				this.mSearchQuery = savedInstanceState
 						.getString("currentSearchQuery");
+				this.sortIndex = savedInstanceState
+						.getInt("currentSortIndex", 0);
 				this.dataRangeRequested = savedInstanceState
 						.getBooleanArray("dataRangeRequested");
 			} catch (Exception e) {
@@ -203,7 +209,7 @@ public class ReporterActivity extends ActionBarActivity implements
 			this.mCurrentTabIndex = 0;
 		}
 
-		this.mSlideingTabFragment.setCurrentTabIndex(this.mCurrentTabIndex);
+		this.mSlidingTabFragment.setCurrentTabIndex(this.mCurrentTabIndex);
 	}
 
 	@Override
@@ -266,7 +272,7 @@ public class ReporterActivity extends ActionBarActivity implements
 						public void onClick(DialogInterface dialog, int selected) {
 							sp.edit().putLong("updateLastTime", 
 							          lastModifiedCachedTime.toMillis(false)).apply();
-							mSlideingTabFragment.setSortIndex(selected);
+							mSlidingTabFragment.updateSortIndex(selected);
 							sortIndex = selected;
 							dialog.dismiss();
 						}
@@ -374,7 +380,6 @@ public class ReporterActivity extends ActionBarActivity implements
 		// Search widget intent
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			this.isVisible = true;
-			Log.d(TAG, "Calling Search/Filter code...");
 			this.mSearchQuery = intent.getStringExtra(SearchManager.QUERY);
 			// Statistics Activity event
 		} else if (Intent.ACTION_RUN.equals(intent.getAction())) {
@@ -550,7 +555,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		long rangeLimit = getEarliestMillis(this.updateRange); 
 
 		try {
-			Time fut = this.mSlideingTabFragment.getFirstUpdateTime();
+			Time fut = this.mSlidingTabFragment.getFirstUpdateTime();
 			if (null == fut	|| fut.toMillis(false) <= rangeLimit) {
 				this.dataRangeRequested[rangeIndex] = true;
 				return;
@@ -592,7 +597,7 @@ public class ReporterActivity extends ActionBarActivity implements
 		           .putString(PREF_SYNC_FREQ, dialog.getUpdateFrequency())
 		           .commit();
 		  updateActivityPrefs();
-		  this.mSlideingTabFragment.updateUI();
+		  this.mSlidingTabFragment.updateUI();
 			
 		}
 	}
@@ -693,7 +698,7 @@ public class ReporterActivity extends ActionBarActivity implements
 					}
 
 					if (ReporterActivity.this.isVisible)
-						mSlideingTabFragment.updateUI();
+						mSlidingTabFragment.updateUI();
 
 				}
 			}

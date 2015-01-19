@@ -18,6 +18,7 @@ package ca.on.oicr.pde.seqprodreporter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,10 +39,15 @@ import ca.on.oicr.pde.seqprodreporter.ui.SlidingTabLayout;
 public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
 
     static final String LOG_TAG = "SlidingTabsBasicFragment";
-    static final String[] tabTypes = {"COMPLETED", " FAILED ", " PENDING"}; 
+    //static final String[] tabTypes = {"COMPLETED", " FAILED ", " PENDING"}; 
     
     private String searchFilter;
     private int mCurrentTabIndex;
+    private int mSortIndex;
+
+	private void setSortIndex(int index) {
+		this.mSortIndex = index;
+	}
 
 	protected void setCurrentTabIndex(int index) {
 		this.mCurrentTabIndex = index;
@@ -73,32 +79,34 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
         return inflater.inflate(R.layout.fragment_tab, container, false);
     }
     
-    public static SlidingTabsBasicFragment newInstance(int selectedTab, String searchFilter) {
+    public static SlidingTabsBasicFragment newInstance(int selectedTab, int sortIndex, String searchFilter) {
     	SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
 		fragment.setCurrentTabIndex(selectedTab);
-		fragment.setSearchFilter(searchFilter);
+		fragment.updateSearchFilter(searchFilter);
+		fragment.setSortIndex(sortIndex);
 		return fragment;
 	}
     
     /**
      * Service method for updating search filter
      */
-    public void setSearchFilter(String filter) {
+    public void updateSearchFilter(String filter) {
     	this.searchFilter = filter;
     	if (null != this.mViewPager) {
     		this.mFragmentAdapter.updateFilter(filter);
-    		this.mFragmentAdapter.notifyDataSetChanged();
+    		this.updateUI();
     	}
     }
     
     /**
      * Service method for updating sort index
      */
-    public void setSortIndex(int sortIndex) {
+    public void updateSortIndex(int sortIndex) {
+    	this.setSortIndex(sortIndex);   	
     	if (null != this.mViewPager) {
     		this.mFragmentAdapter.sortLists(sortIndex);
-    		this.mFragmentAdapter.notifyDataSetChanged();
-    	}
+    		this.updateUI();
+    	} 
     }
     
     protected void updateUI() {
@@ -128,8 +136,10 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        
         mFragmentAdapter = new SamplePagerAdapter(getFragmentManager(), SlidingTabsBasicFragment.this.searchFilter);
+
+        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mViewPager.setOffscreenPageLimit(ReporterActivity.types.length - 1);
         mViewPager.setAdapter(mFragmentAdapter);
         
@@ -204,7 +214,7 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabTypes[position];
+            return ReporterActivity.types[position].toUpperCase(Locale.CANADA);
         }
         
 
@@ -219,6 +229,9 @@ public class SlidingTabsBasicFragment extends android.support.v4.app.Fragment {
 
 			ReportListFragment fragment = fragments.get(position);
 			fragment.setSearchFilter(this.searchFilter);
+			if (mSortIndex >= 0) {
+				fragment.setSortIndex(mSortIndex);
+			}
             return fragments.get(position);
 		}
 		
