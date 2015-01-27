@@ -10,11 +10,11 @@ html
 		- 	most_recent_modification_date = most_recent_modification_date > failed_reports[0].last_modified_date ? most_recent_modification_date : failed_reports[0].last_modified_date;
 		- 	most_recent_modification_date = most_recent_modification_date > pending_reports[0].last_modified_date ? most_recent_modification_date : pending_reports[0].last_modified_date;
 		- }
-		- var months = {'Jan':'01','Feb':'02','Mar':'03','Apr':'04','May':'05','Jun':'06','Jul':'07','Aug':'08','Sep':'09','Oct':'10','Nov':'11','Dec':'12'};
-		- var convert_date = function (str) {
-		-	return str.substring(11,15) + '/' + months[str.substring(4,7)] + '/' + str.substring(8,10) + ' ' + str.substring(16,18) + ':' + str.substring(19,21) + ':' + str.substring(22,24);
-		- }
-
+		-  Date.prototype.convert_date = function () {
+		-  	if (this.toString() === "Invalid Date") throw "Invalid Date";
+		-	var double_digit = function (n){ return n > 9 ? "" + n: "0" + n; };
+		-	return  this.getFullYear() + '/' + double_digit((this.getMonth() + 1)) + '/' + double_digit(this.getDate()) + ' ' + double_digit(this.getHours()) + ':' +double_digit(this.getMinutes()) + ':' + double_digit(this.getSeconds());
+		- };
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
 		script(src='/webapp-utils/SpbReporterWebApp/public/javascripts/index.js')
@@ -72,7 +72,7 @@ html
 					li.pending.tabs
 						a.tabs(href="#pending") Pending
 				.update_time
-					p Last update: #{convert_date(JSONdownloadTime.toString().substring(0, JSONdownloadTime.toString().lastIndexOf("G")))}
+					p Last update: #{JSONdownloadTime.convert_date()}
 			.content
 				ul.reportsList#completedReports
 					if completed_reports.length == 0
@@ -87,9 +87,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 							else
 								li.report
 									p.sampleName
@@ -97,9 +97,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 				ul.reportsList#failedReports
 					if failed_reports.length == 0
 						li.emptyReport
@@ -113,9 +113,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 							else
 								li.report
 									p.sampleName
@@ -123,9 +123,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 				ul.reportsList#pendingReports
 					if pending_reports.length == 0
 						li.emptyReport
@@ -139,9 +139,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 									.progress
 										if reports.progress!== undefined
 											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
@@ -153,9 +153,9 @@ html
 									p.workflowName
 										b #{reports.workflow_name} #{reports.workflow_version}
 									p
-										i Created: #{convert_date(reports.create_date.toString().substring(0, reports.create_date.toString().lastIndexOf("G")))}
+										i Created: #{reports.create_date.convert_date()}
 									p.modified
-										i Modified: #{convert_date(reports.last_modified_date.toString().substring(0, reports.last_modified_date.toString().lastIndexOf("G")))}
+										i Modified: #{reports.last_modified_date.convert_date()}
 									.progress
 										if reports.progress!== undefined
 											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
