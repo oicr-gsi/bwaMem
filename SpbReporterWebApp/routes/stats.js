@@ -1,5 +1,20 @@
-//This file retrieves the data acquired from Mongodb. As Mongodb functions need
-//time to proceed and Javascript is synchronous, we need to use async module in JS.
+/*This file retrieves the data acquired from Mongodb. As Mongodb functions need
+  time to proceed and Javascript is synchronous, we need to use async module in JS.
+  The structure to represent data of the table is a nested object. Three objects 
+  will be generated and sent to the presentation side as table for completed, failed
+  and pending workflows. Three array of short project code will also be rendered in 
+  client side to maintain the order of data
+  Example:
+  table
+  {'A' : { 'a' : 1,
+  	   'b' : 0 },
+   'B' : { 'a' : 3,
+   	   'b' : 2 }}
+  where 'A', 'B' are workflow names and 'a', 'b' are short project codes
+  short project code array
+  ['a','b']
+  
+*/
 
 var express = require('express');
 var router = express.Router();
@@ -54,33 +69,28 @@ router.get('/', function(req, res) {
 						console.log(sbuffer);
 						//generates the function objects that retrieves data for each combination of workflows and short project codes
 						//by looping through the arrays of them
-						async.each(workflows, 
-							function(wf, callback) {	// wf is the string of a workflow name
-								tbuffer[wf] = {};	//initialise the property that stores data of wf
-								async.each(sbuffer, 
-									function (sp, callback1) {	//sp is the string of a short project code
-										tbuffer[wf][sp] = 0;	//initialise the property that stores the count of wf and sp
+						workflows.forEach( function(wf) {	// wf is the string of a workflow name
+							tbuffer[wf] = {};	//initialise the property that stores data of wf
+							sbuffer.forEach( 
+								function (sp) {	//sp is the string of a short project code
+									tbuffer[wf][sp] = 0;	//initialise the property that stores the count of wf and sp
 										
-										//RegExp is used to find all workflows whose sample_names begin with sp
-										var re = new RegExp('^' + sp);
+									//RegExp is used to find all workflows whose sample_names begin with sp
+									var re = new RegExp('^' + sp);
 										
-										//query is the function object which does the counting job and returns the number 
-										//and corresponding workflow name and short project code as an array of three elements
-										//to the callback of async.parallel below. wf and sp are to identified the location 
-										//of the number in table
-										var query = function(callback) {
-											Report.count({workflow_name:wf, sample_name:{ $regex : re }, workflow_run_type:type},
-												function (err, count) { callback(err, [wf,sp,count]); });
-										};
-										tasks.push(query);
-										
-										//call the callback of inner async.each(), do nothing
-										callback1(); },
-									function (err) { if (err) console.error(err); });
-								
-								//call callback of outer async.each, do nothing
-								callback(); },	
-							function(err) { if (err)  console.error(err); });
+									//query is the function object which does the counting job and returns the number 
+									//and corresponding workflow name and short project code as an array of three elements
+									//to the callback of async.parallel below. wf and sp are to identified the location 
+									//of the number in table
+									var query = function(callback) {
+										Report.count({workflow_name:wf, sample_name:{ $regex : re }, workflow_run_type:type},
+											function (err, count) { callback(err, [wf,sp,count]); });
+									};
+
+									//push the function to task array
+									tasks.push(query);
+							});
+						});
 						
 						//execute the functions that do the counting job in parallel, the results will be returned to the callback as an array 
 						async.parallel(tasks,function (err, count) {
