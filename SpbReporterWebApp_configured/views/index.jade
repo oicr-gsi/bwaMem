@@ -1,0 +1,161 @@
+doctype html
+html
+	head
+		title SpbReporter
+		link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+		link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+		link(rel='stylesheet', href='/webapp-utils/SpbReporterWebApp/public/stylesheets/style.css')
+		- var getMostRecentModDate = function(){
+		- 	var most_recent_modification_date = completed_reports[0].last_modified_date;
+		- 	most_recent_modification_date = most_recent_modification_date > failed_reports[0].last_modified_date ? most_recent_modification_date : failed_reports[0].last_modified_date;
+		- 	most_recent_modification_date = most_recent_modification_date > pending_reports[0].last_modified_date ? most_recent_modification_date : pending_reports[0].last_modified_date;
+		- }
+		-  Date.prototype.convert_date = function () {
+		-  	if (this.toString() === "Invalid Date") throw "Invalid Date";
+		-	var double_digit = function (n){ return n > 9 ? "" + n: "0" + n; };
+		-	return  this.getFullYear() + '/' + double_digit((this.getMonth() + 1)) + '/' + double_digit(this.getDate()) + ' ' + double_digit(this.getHours()) + ':' +double_digit(this.getMinutes()) + ':' + double_digit(this.getSeconds());
+		- };
+	body.SpbReporter
+		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
+		script(src='/webapp-utils/SpbReporterWebApp/public/javascripts/index.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		.app
+			header.headerContainer
+				ul.topHeader
+					li.headerItem
+						h3.titleheader.text-muted.homepage-title
+							a(href="/stats") SpbReporter
+					li.headerItem
+						form.searching(style="display:none", id="search_form")
+							.form-group(style="margin-bottom:0")
+								input.search-div(type="search",placeholder="Search")
+								input.submit-button(type="submit")
+					li.headerItem
+						.btn-group.sorting
+							button.btn.btn-default.btn-xs.dropdown-toggle(data-toggle="dropdown")
+								span.glyphicon.glyphicon-sort
+								span.caret
+							ul.dropdown-menu.dropdown-menu-right(role="menu")
+								li
+									h5.dropdown-title
+										b Sort by:
+								li.divider
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortByWorkflow",value="workflow")
+											p Workflow
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortByDate",value="date", checked)
+											p Date
+								li.dropdown-row
+									.radio
+										label
+											input(type="radio",name="sortingRadios",id="sortBySample",value="sample")
+											p Sample
+					li.headerItem
+						button.btn.btn-default.btn-xs.search_button
+							span.glyphicon.glyphicon-search
+					li.headerItem
+						button.btn.btn-default.btn-xs.stats_button
+							span.glyphicon.glyphicon-stats
+					li.headerItem
+						button.btn.btn-default.btn-xs.refresh_button
+							span.glyphicon.glyphicon-refresh
+				ul.nav.nav-tabs
+					li.completed.tabs
+						a.tabs(href="#completed") Completed
+					li.failed.tabs
+						a.tabs(href="#failed") Failed
+					li.pending.tabs
+						a.tabs(href="#pending") Pending
+				.update_time
+					p Last update: #{JSONdownloadTime.convert_date()}
+			.content
+				ul.reportsList#completedReports
+					if completed_reports.length == 0
+						li.emptyReport
+							p There are currently no completed workflows.
+					else
+						for reports in completed_reports
+							if reports.recently_modified == true
+								li.report(style="background-color :orange")
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+							else
+								li.report
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+				ul.reportsList#failedReports
+					if failed_reports.length == 0
+						li.emptyReport
+							p There are currently no failed workflows.
+					else
+						for reports in failed_reports
+							if reports.recently_modified == true
+								li.report(style="background-color:orange")
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+							else
+								li.report
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+				ul.reportsList#pendingReports
+					if pending_reports.length == 0
+						li.emptyReport
+							p There are currently no pending workflows.
+					else
+						for reports in pending_reports
+							if reports.recently_modified == true
+								li.report(style="background-color:orange")
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+									.progress
+										if reports.progress!== undefined
+											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")
+
+							else
+								li.report
+									p.sampleName
+										b #{reports.sample_name}
+									p.workflowName
+										b #{reports.workflow_name} #{reports.workflow_version}
+									p
+										i Created: #{reports.create_date.convert_date()}
+									p.modified
+										i Modified: #{reports.last_modified_date.convert_date()}
+									.progress
+										if reports.progress!== undefined
+											.progress-bar(role="progressbar", aria-valuemin="0", aria-valuemax="100", aria-valuenow="#{reports.progress}" style="width: #{reports.progress}%;")

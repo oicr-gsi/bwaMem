@@ -1,0 +1,43 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/.mounts/labs/PDE/web/Node/bin/node',
+1 verbose cli   '/.mounts/labs/PDE/web/Node/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'forever',
+1 verbose cli   '-g' ]
+2 info using npm@1.4.21
+3 info using node@v0.10.30
+4 verbose cache add [ 'forever', null ]
+5 verbose cache add name=undefined spec="forever" args=["forever",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'forever',
+6 verbose parsed url   path: 'forever',
+6 verbose parsed url   href: 'forever' }
+7 silly lockFile e07f8c4a-forever forever
+8 error Error: Attempt to unlock forever, which hasn't been locked
+8 error     at unlock (/.mounts/labs/PDE/web/Node/lib/node_modules/npm/lib/utils/locker.js:44:11)
+8 error     at cb (/.mounts/labs/PDE/web/Node/lib/node_modules/npm/lib/cache/add-local.js:30:5)
+8 error     at /.mounts/labs/PDE/web/Node/lib/node_modules/npm/lib/cache/add-local.js:47:20
+8 error     at /.mounts/labs/PDE/web/Node/lib/node_modules/npm/lib/utils/locker.js:22:20
+8 error     at /.mounts/labs/PDE/web/Node/lib/node_modules/npm/node_modules/inflight/inflight.js:22:7
+8 error     at Array.forEach (native)
+8 error     at res (/.mounts/labs/PDE/web/Node/lib/node_modules/npm/node_modules/inflight/inflight.js:21:9)
+8 error     at f (/.mounts/labs/PDE/web/Node/lib/node_modules/npm/node_modules/once/once.js:16:25)
+8 error     at afterMkdir (/.mounts/labs/PDE/web/Node/lib/node_modules/npm/lib/cache/get-stat.js:53:14)
+8 error     at /.mounts/labs/PDE/web/Node/lib/node_modules/npm/node_modules/mkdirp/index.js:25:29
+9 error If you need help, you may report this *entire* log,
+9 error including the npm and node versions, at:
+9 error     <http://github.com/npm/npm/issues>
+10 error System Linux 3.2.0-4-amd64
+11 error command "/.mounts/labs/PDE/web/Node/bin/node" "/.mounts/labs/PDE/web/Node/bin/npm" "install" "forever" "-g"
+12 error cwd /.mounts/labs/PDE/web/webapp-utils/SpbReporterWebApp
+13 error node -v v0.10.30
+14 error npm -v 1.4.21
+15 verbose exit [ 1, true ]
