@@ -2,95 +2,99 @@ doctype html
 html
 	head
 	title Statistics
-	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
-	link(rel='stylesheet', href='/webapp-utils/SpbReporterWebApp/public/stylesheets/style.css')
+	meta(name='viewport', content='width=device-width, initial-scale=1.0')
+	link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+	link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+	link(rel='stylesheet', href='http://127.0.0.1/style.css')
 
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
-		script(src='/webapp-utils/SpbReporterWebApp/public/javascripts/index.js')
-		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		script(src='http://127.0.0.1/index.js')
+		script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		.app
 			header.headerContainer
 				ul.topHeader
 					li.headerItem
 						h3.titleheader.text-muted
-							a(href="/spbreporter") SpbReporter
+							a(href="http://127.0.0.1/dev/spbreporter") SpbReporter
 								span.glyphicon.glyphicon-home(style="float:left")
 					li.headerItem
 						button.btn.btn-default.btn-xs.refresh_button
 							span.glyphicon.glyphicon-refresh
 			.content(style="overflow:scroll")
+				div(class="table-responsive")
 				table.table.table-hover
-					thead
-						tr
-							th Workflow Name
-							th
-								a(href="/spbreporter#completed") Completed
-							th
-								a(href="/spbreporter#failed") Failed
-							th
-								a(href="/spbreporter#pending") Pending
-					tbody
-						tr
-							td All Workflows
-							td #{all[0]}
-							td #{all[1]}
-							td #{all[2]}
-
-						for stat in stats
+						thead
 							tr
-								td #{stat.workflow}
-								td #{stat.stats[0]}
-								td #{stat.stats[1]}
-								td #{stat.stats[2]}
+								th Workflow Name
+								th
+									a(href="/spbreporter#completed") Completed
+								th
+									a(href="/spbreporter#failed") Failed
+								th
+									a(href="/spbreporter#pending") Pending
+						tbody
+							tr
+								td All Workflows
+								td #{all[0]}
+								td #{all[1]}
+								td #{all[2]}
+							for stat in stats
+								tr
+									td #{stat.workflow}
+									td #{stat.stats[0]}
+									td #{stat.stats[1]}
+									td #{stat.stats[2]}
 				if complete_samples.length === 0
 					h4 No recent completed workflows.
 				else
 					h4 Completed Workflows
-					table.table.table-hover
-						thead
-							tr
-								th Workflow Name
-								each x in complete_samples
-									th #{x}
-						tbody
-							each x,y in complete_table
+					div(class="table-responsive")
+						table.table.table-hover
+							thead
 								tr
-									td #{y}
-									each a in complete_samples
-										td #{x[a]}
+									th Workflow Name
+									each x in complete_samples
+										th #{x}
+							tbody
+								each x,y in complete_table
+									tr
+										td #{y}
+										each a in complete_samples
+											td #{x[a]}
 				br
 				if failed_samples.length === 0
 					h4 No recent failed workflows.
 				else
 					h4 Failed Workflows
-					table.table.table-hover
-						thead
-							tr
-								th Workflow Name
-								each x in failed_samples
-									th #{x}
-						tbody
-							each x,y in failed_table
+					div(class="table-responsive")
+						table.table.table-hover
+							thead
 								tr
-									td #{y}
-									each a in failed_samples
-										td #{x[a]}
+									th Workflow Name
+									each x in failed_samples
+										th #{x}
+							tbody
+								each x,y in failed_table
+									tr
+										td #{y}
+										each a in failed_samples
+											td #{x[a]}
 				br
 				if pending_samples.length === 0
 					h4 No recent pending workflows.
 				else
 					h4 Pending Workflows
-					table.table.table-hover
-						thead
-							tr
-								th Workflow Name
-								each x in pending_samples
-									th #{x}
-						tbody
-							each x,y in pending_table
+					div(class="table-responsive")
+						table.table.table-hover
+							thead
 								tr
-									td #{y}
-									each a in pending_samples
-										td #{x[a]}
+									th Workflow Name
+									each x in pending_samples
+										th #{x}
+							tbody
+								each x,y in pending_table
+									tr
+										td #{y}
+										each a in pending_samples
+											td #{x[a]}
