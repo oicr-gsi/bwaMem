@@ -2,26 +2,25 @@ doctype html
 html
 	head
 	title Statistics
-	link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
-	link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
-	link(rel='stylesheet', href='http://127.0.0.1/style.css')
+	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+	link(rel='stylesheet',href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+	link(rel='stylesheet', href='/webapp-utils/SpbReporterWebApp/public/stylesheets/style.css')
 
 	body.SpbReporter
 		script(type='text/javascript', src='http://code.jquery.com/jquery-1.9.1.js')
-		script(src='http://127.0.0.1/index.js')
-		script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+		script(src='/webapp-utils/SpbReporterWebApp/public/javascripts/index.js')
+		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 		.app
 			header.headerContainer
 				ul.topHeader
 					li.headerItem
 						h3.titleheader.text-muted
-							a(href="http://127.0.0.1/dev/spbreporter") SpbReporter
+							a(href="/spbreporter") SpbReporter
 								span.glyphicon.glyphicon-home(style="float:left")
 					li.headerItem
 						button.btn.btn-default.btn-xs.refresh_button
 							span.glyphicon.glyphicon-refresh
 			.content(style="overflow:scroll")
-				p #{l}
 				table.table.table-hover
 					thead
 						tr
