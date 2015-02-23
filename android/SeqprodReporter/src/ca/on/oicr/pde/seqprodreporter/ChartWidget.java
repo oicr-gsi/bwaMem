@@ -95,7 +95,8 @@ public class ChartWidget extends View {
 			canvas.drawArc(this.bBox, currentStart, this.angles[t], true, this.mPaint);
 			//Text Label
 			this.tArc.reset();
-		    this.tArc.addArc(this.bBox, (currentStart + currentStop)/2, 20);
+			int arcStart = this.angles[t] > 10 ? (currentStart + currentStop)/2 : currentStart;
+		    this.tArc.addArc(this.bBox, arcStart, 20);
 		    canvas.drawTextOnPath("" + this.totals[t],tArc, 0, -this.tPaint.getTextSize(), this.tPaint);
 			currentStart = currentStop;
 		}
@@ -142,24 +143,26 @@ public class ChartWidget extends View {
 		
 		gradePerCount = (float) 360/sum;
 		int angleSum = 0;
+		int indexOfMax = 0;
+		int max = 0;
 		for (int t = 0; t < this.totals.length; t++) {
 			if (this.totals[t] == 0) {
 			  this.angles[t] = 0;
 			} else {
 			  this.angles[t] = Math.round(this.totals[t] * gradePerCount);
-			}
+			  if (this.totals[t] > max) {
+				  max = this.totals[t];
+			      indexOfMax = t;
+			  }
+			  if (this.totals[t] > 0 && this.angles[t] == 0)
+				  this.angles[t] = 1;
 			angleSum += this.angles[t];
+			}
 		}
 		
 		//Make sure we have sum of angles 360 degrees
-		if (angleSum < 360) {
-			for (int t = this.totals.length -1; t >= 0 ; t--) {
-				if (this.angles[t] > 0) {
-					this.angles[t] += (360 - angleSum);
-					break;
-				}
-			}
-		}
+		int angleDiff = angleSum - 360;
+		this.angles[indexOfMax] -= angleDiff;
 	}
 
     //Get colour for a certain type
