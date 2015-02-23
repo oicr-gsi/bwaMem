@@ -10,6 +10,13 @@ import android.graphics.Typeface;
 import android.graphics.Paint.Style;
 import android.view.View;
 
+/**
+ * Class designed for drawing 3-sector pie chart 
+ * captions may not be rendered without overlap 
+ * with a larger number of sectors
+ */
+
+
 public class ChartWidget extends View {
 	private RectF bBox;
 	private RectF inBox;
@@ -19,8 +26,10 @@ public class ChartWidget extends View {
     private String mName = "";
     private int[] angles;
     private int[] totals;
+    private boolean[] sqwueezed; //with just three sectors
     private float PADDING = 150.0f;
-	
+    private static final int SQWEEZE_ANGLE = 10;
+    
 	public ChartWidget(Context context) {
 		super(context);
 
@@ -30,6 +39,7 @@ public class ChartWidget extends View {
 		this.tPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.tArc   = new Path();
         this.angles = new int []{0, 0, 0};
+        this.sqwueezed = new boolean []{false,false,false};
 		
 		this.mPaint.setColor(Color.WHITE);
 		this.mPaint.setStyle(Style.FILL);
@@ -95,8 +105,25 @@ public class ChartWidget extends View {
 			canvas.drawArc(this.bBox, currentStart, this.angles[t], true, this.mPaint);
 			//Text Label
 			this.tArc.reset();
-		    this.tArc.addArc(this.bBox, (currentStart + currentStop)/2, 20);
-		    canvas.drawTextOnPath("" + this.totals[t],tArc, 0, -this.tPaint.getTextSize(), this.tPaint);
+			int arcStart = this.angles[t] > SQWEEZE_ANGLE ? (currentStart + currentStop)/2 
+					                                      : currentStart;
+			
+			//Check for squeezed sectors
+			if (this.sqwueezed[t]) {
+				Log.d(TAG, "Moving sqweezed labels");
+				int leftIndex  = t == 0 ? this.angles.length - 1 : t - 1;
+				int rightIndex = t == this.angles.length - 1 ? 0 : t + 1;
+				//Look left
+				if (this.sqwueezed[leftIndex]) {
+					arcStart = (currentStart + currentStop)/2 + 5;
+				//Look right
+				} else if (this.sqwueezed[rightIndex]) {
+					arcStart = (currentStart + currentStop)/2 - 5;
+				}
+			}
+
+			this.tArc.addArc(this.bBox, arcStart, 20);
+		    canvas.drawTextOnPath("" + this.totals[t],tArc, 0, -this.tPaint.getTextSize()*2, this.tPaint);
 			currentStart = currentStop;
 		}
         //Inner circle (doughnut hole)
@@ -142,24 +169,27 @@ public class ChartWidget extends View {
 		
 		gradePerCount = (float) 360/sum;
 		int angleSum = 0;
+		int indexOfMax = 0;
+		int max = 0;
 		for (int t = 0; t < this.totals.length; t++) {
 			if (this.totals[t] == 0) {
 			  this.angles[t] = 0;
 			} else {
 			  this.angles[t] = Math.round(this.totals[t] * gradePerCount);
-			}
+			  if (this.totals[t] > max) {
+				  max = this.totals[t];
+			      indexOfMax = t;
+			  }
+			  if (this.totals[t] > 0 && this.angles[t] == 0)
+				  this.angles[t] = 1;
+			this.sqwueezed[t] = this.angles[t] <= SQWEEZE_ANGLE;
 			angleSum += this.angles[t];
+			}
 		}
 		
 		//Make sure we have sum of angles 360 degrees
-		if (angleSum < 360) {
-			for (int t = this.totals.length -1; t >= 0 ; t--) {
-				if (this.angles[t] > 0) {
-					this.angles[t] += (360 - angleSum);
-					break;
-				}
-			}
-		}
+		int angleDiff = angleSum - 360;
+		this.angles[indexOfMax] -= angleDiff;
 	}
 
     //Get colour for a certain type
