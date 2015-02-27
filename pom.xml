@@ -17,6 +17,7 @@
     <name>${display-name}</name>
 
     <properties>
+        <workflow-name>BWA</workflow-name>
         <samtools-version>0.1.19</samtools-version>
 	<bwa-version>0.6.2</bwa-version>
 	<picard-version>1.89</picard-version>
