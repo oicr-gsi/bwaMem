@@ -138,7 +138,7 @@ public class WorkflowClient extends OicrWorkflow {
     public void buildWorkflow() {
         String r1 = read1.getProvisionedPath();
         String r2 = read2.getProvisionedPath();
-        String basename1 = r1.substring(r1.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
+        String basename1 = r1.substring(r1.lastIndexOf("/")+1,r1.lastIndexOf(".fastq.gz"));
         String basename2 = r2.substring(r2.lastIndexOf("/")+1,r2.lastIndexOf(".fastq.gz"));
 
 	Job trimJob=null;
