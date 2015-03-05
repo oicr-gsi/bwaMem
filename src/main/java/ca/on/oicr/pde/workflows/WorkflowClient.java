@@ -67,7 +67,7 @@ public class WorkflowClient extends OicrWorkflow {
 
             queue = getOptionalProperty("queue", "");
 
-            if (hasPropertyAndNotNull("outputFileName")) {
+            if (hasPropertyAndNotNull("outputFileName") && !getProperty("outputFileName").isEmpty()) {
                 outputFileName = getProperty("outputFileName");
             } else {
 		outputFileName = "SWID_" + getProperty("ius_accession") + "_" 
@@ -222,27 +222,27 @@ public class WorkflowClient extends OicrWorkflow {
         try {
             if (setup.equals("aln")) {
 
-                if (hasPropertyAndNotNull("readTrimming")) {
+                if (hasPropertyAndNotNull("readTrimming") && !getProperty("readTrimming").isEmpty()) {
                     readTrimming = Integer.parseInt(getProperty("readTrimming"));
                     a.append(" -q ");
                     a.append(readTrimming);
                     a.append(" ");
                 }
 
-                if (hasPropertyAndNotNull("numOfThreads")) {
+                if (hasPropertyAndNotNull("numOfThreads") && !getProperty("numOfThreads").isEmpty()) {
                     numOfThreads = Integer.parseInt(getProperty("numOfThreads"));
                     a.append(" -t ");
                     a.append(numOfThreads);
                     a.append(" ");
                 }
 
-                if (hasPropertyAndNotNull("pairingAccuracy")) {
+                if (hasPropertyAndNotNull("pairingAccuracy")&& !getProperty("pairingAccuracy").isEmpty()) {
                     pairingAccuracy = Integer.parseInt(getProperty("pairingAccuracy"));
                     a.append(" -R ");
                     a.append(pairingAccuracy);
                     a.append(" ");
                 }
-                if (hasPropertyAndNotNull("bwa_aln_params")) {
+                if (hasPropertyAndNotNull("bwa_aln_params") && !getProperty("bwa_aln_params").isEmpty()) {
                     bwa_aln_params = getProperty("bwa_aln_params");
                     a.append(" ");
                     a.append(bwa_aln_params);
@@ -254,20 +254,20 @@ public class WorkflowClient extends OicrWorkflow {
 
             if (setup.equals("sampe")) {
 
-                if (hasPropertyAndNotNull("maxInsertSize")) {
+                if (hasPropertyAndNotNull("maxInsertSize") && !getProperty("maxInsertSize").isEmpty()) {
                     maxInsertSize = Integer.parseInt(getProperty("maxInsertSize"));
                     a.append(" -a ");
                     a.append(maxInsertSize);
                     a.append(" ");
                 }
 
-                if (hasPropertyAndNotNull("readGroup")) {
+                if (hasPropertyAndNotNull("readGroup") && !getProperty("readGroup").isEmpty()) {
                     a.append(" -r ");
                     a.append(readGroup);
                     a.append(" ");
                 }
 
-                if (hasPropertyAndNotNull("bwa_sampe_params")) {
+                if (hasPropertyAndNotNull("bwa_sampe_params") && !getProperty("bwa_sampe_params").isEmpty()) {
                     bwa_sampe_params = getProperty("bwa_sampe_params");
                     a.append(" ");
                     a.append(bwa_sampe_params);
