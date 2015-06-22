@@ -2,8 +2,6 @@ package ca.on.oicr.pde.workflows;
 
 import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Command;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
@@ -24,7 +22,6 @@ public class WorkflowClient extends OicrWorkflow {
 	
 	private void init() {
 		final String binDir = getWorkflowBaseDir() + "/bin/";
-//		cutadapt = binDir + getProperty("cutadapt");
 		bwa = binDir + getProperty("bwa");
 		samtools = binDir + getProperty("samtools");
 		jre = binDir + getProperty("bundled_jre") + "/bin/java";
@@ -93,76 +90,25 @@ public class WorkflowClient extends OicrWorkflow {
 		
 		// cutadapt (optional)
 		Job trimJob01=null;
-//		Job trimJob02=null;
 		if (Boolean.valueOf(getProperty("do_trim"))) {
 			String trim1=this.dataDir+basename1+".trim.fastq.gz";
 			String trim2=this.dataDir+basename2+".trim.fastq.gz";
 			
 			trimJob01 = getCutAdaptJob(r1, r2, trim1, trim2);
-//			trimJob01 = getCutAdaptJob("cutAdapt1", r1, trim1, getProperty("r1_adapter_trim"), getPropertyOrNull("trim_r1_other_params"));
 			trimJob01.setQueue(queue);
-//			trimJob02 = getCutAdaptJob("cutAdapt2", r2, trim2, getProperty("r2_adapter_trim"), getPropertyOrNull("trim_r2_other_params"));
-//			trimJob02.setQueue(queue);
 			
 			r1=trim1;
 			r2=trim2;
 		}
 		
 		
-		// Create bam (bwa mem | samtools view -bS)
+		// Create bam and index
 		Job bamJob = getBamJob(r1, r2);
 		if (trimJob01 != null) {
 			bamJob.addParent(trimJob01);
-//			bamJob.addParent(trimJob02);
 		}
 		bamJob.setQueue(queue);
-		
-		
-		// Create bai (samtools index)
-//		Job indexJob = getIndexJob();
-//		indexJob.addParent(bamJob);
-//		indexJob.setQueue(queue);
 	}
-	
-//	/**
-//	 * Creates a job to run CutAdapt on a read
-//	 * 
-//	 * @param jobName
-//	 * @param readPath input file
-//	 * @param readTrimmedPath output file
-//	 * @param adapterSequence
-//	 * @param additionalParams a String to add onto the command line formatted like "-arg val -arg val..." May be null
-//	 * 
-//	 * @return the job
-//	 */
-//	private Job getCutAdaptJob(String jobName, String readPath, String readTrimmedPath, String adapterSequence, String additionalParams) {
-//		Job job = this.getWorkflow().createBashJob(jobName);
-//		
-//		Command command = job.getCommand();
-//		command.addArgument(cutadapt);
-//		command.addArgument("-a " + adapterSequence);
-//		
-//		String minLength = getPropertyOrNull("trim_min_length");
-//		if (minLength != null) {
-//			command.addArgument("-m " + minLength); // minimum read length (after trimming) to keep
-//		}
-//		
-//		String minQuality = getPropertyOrNull("trim_min_quality") ;
-//		if (minQuality != null) {
-//			command.addArgument("-q " + minQuality); // trim ends below this quality before adapter removal
-//		}
-//		
-//		if (additionalParams != null) {
-//			command.addArgument(additionalParams);
-//		}
-//		
-//		command.addArgument("-o " + readTrimmedPath); // output
-//		command.addArgument(readPath); // input
-//		
-//		job.setMaxMemory(getProperty("trim_mem_mb"));
-//		
-//		return job;
-//	}
 	
 	private Job getCutAdaptJob(String read1Path, String read2Path, String read1TrimmedPath, String read2TrimmedPath) {
 		Job cutAdaptJob = this.getWorkflow().createBashJob("cutAdapt");
@@ -260,24 +206,6 @@ public class WorkflowClient extends OicrWorkflow {
 		
 		return sb.toString();
 	}
-	
-	/**
-	 * Creates a job to create the BAM index (.bai) via samtools
-	 * 
-	 * @return the job
-	 */
-//	private Job getIndexJob() {
-//		Job job = this.getWorkflow().createBashJob("samtools_index");
-//		
-//		Command command = job.getCommand();
-//		command.addArgument(samtools + " index");
-//		command.addArgument(outputBamPath);
-//		
-//		job.addFile(outputBai);
-//		job.setMaxMemory(getProperty("index_mem_mb"));
-//		
-//		return job;
-//	}
 	
 	/**
 	 * Convenience method. Checks for an optional property in the INI and returns either the non-empty 

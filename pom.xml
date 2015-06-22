@@ -18,20 +18,12 @@
 
     <properties>
         <workflow-name>BwaMem</workflow-name>
-        <cutadapt-version>1.2.1</cutadapt-version>
         <bwa-version>0.7.12</bwa-version>
         <picard-version>1.72</picard-version>
         <samtools-version>0.1.19</samtools-version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>cutadapt</groupId>
-            <artifactId>cutadapt</artifactId>
-            <version>${cutadapt-version}</version>
-            <type>zip</type>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>bwa</groupId>
             <artifactId>bwa.kit</artifactId>
@@ -57,14 +49,6 @@
 
     <build>
         <plugins>
-        	<plugin>
-        		<artifactId>maven-compiler-plugin</artifactId>
-        		<version>3.3</version>
-        		<configuration>
-        			<source>1.7</source>
-        			<target>1.7</target>
-        		</configuration>
-        	</plugin>
             <plugin>
                 <groupId>com.pyx4j</groupId>
                 <artifactId>maven-junction-plugin</artifactId>

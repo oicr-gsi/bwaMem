@@ -5,13 +5,8 @@ set -o pipefail
 
 cd $1
 
-qrsh -l h_vmem=8G -cwd -now n "\
-. /oicr/local/Modules/default/init/bash ; \
-module load samtools 2>/dev/null; \
-find . -regex '.*\.bam$' -exec sh -c \" samtools view -H {} | grep '^@RG' |  tr '\n' '\t'; echo \" \; \
-| sort | uniq | tr '\t' '\n'"
-qrsh -l h_vmem=8G -cwd -now n "\
-. /oicr/local/Modules/default/init/bash ; \
-module load samtools 2>/dev/null; \
-find . -regex '.*\.bam$' -exec sh -c \" samtools flagstat {} | tr '\n' '\t'; echo \" \; \
-| sort | uniq | tr '\t' '\n'"
+ls | sort
+
+/oicr/local/analysis/sw//samtools/samtools-0.1.19/bin/samtools view -H *.bam | grep '^@RG' | sort
+
+/oicr/local/analysis/sw//samtools/samtools-0.1.19/bin/samtools flagstat *.bam | sort
