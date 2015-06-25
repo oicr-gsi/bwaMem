@@ -169,7 +169,7 @@ public class WorkflowClient extends OicrWorkflow {
 		
 		// pipe to picard to sort and index
 		command.addArgument(jre);
-		command.addArgument("-Xmx" + getProperty("picard_memory")+"M");
+		command.addArgument("-Xmx" + getProperty("picard_mem_mb")+"M");
 		command.addArgument("-jar " +  picardSort);
 		command.addArgument("INPUT=/dev/stdin");
 		command.addArgument("OUTPUT=" + outputBamPath);

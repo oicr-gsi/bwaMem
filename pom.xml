@@ -14,7 +14,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>${display-name}</name>
+    <name>workflow-bwa-mem</name>
 
     <properties>
         <workflow-name>BwaMem</workflow-name>
