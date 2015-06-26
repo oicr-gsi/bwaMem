@@ -1,7 +1,9 @@
 package ca.on.oicr.pde.workflows;
 
 import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
+
 import java.util.Map;
+
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Command;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
@@ -148,6 +150,7 @@ public class WorkflowClient extends OicrWorkflow {
 		Command command = job.getCommand();
 		command.addArgument("set -e; set -o pipefail;");
 		command.addArgument(bwa + " mem");
+		command.addArgument(getBwaSpecialMode());
 		String threads = getPropertyOrNull("bwa_threads");
 		if (threads != null) {
 			command.addArgument("-t " + threads);
@@ -181,6 +184,25 @@ public class WorkflowClient extends OicrWorkflow {
 		job.setMaxMemory(getProperty("bwa_mem_mb"));
 		
 		return job;
+	}
+	
+	/**
+	 * Checks settings for BWA modes
+	 * 
+	 * @return the BWA parameter to append (e.g. "-x pacbio" if pacbio mode is set to true) or an empty String if none 
+	 */
+	private String getBwaSpecialMode() {
+		String modeParam = null;
+		if (Boolean.valueOf(getPropertyOrNull("bwa_pacbio_mode"))) {
+			modeParam = "-x pacbio";
+		}
+		if (Boolean.valueOf(getPropertyOrNull("bwa_ont_mode"))) {
+			if (modeParam != null) {
+				throw new IllegalArgumentException("bwa_pacbio_mode and bwa_ont_mode cannot both be used.");
+			}
+			modeParam = "-x ont2d";
+		}
+		return modeParam == null ? "" : modeParam;
 	}
 	
 	/**
