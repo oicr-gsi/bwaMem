@@ -6,8 +6,6 @@ import ca.on.oicr.pde.deciders.OicrDecider;
 
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles.Header;
 import net.sourceforge.seqware.common.module.FileMetadata;
 import net.sourceforge.seqware.common.module.ReturnValue;
@@ -28,10 +26,9 @@ public class BwaMemDecider extends OicrDecider {
 	private String outputDir = "seqware-results";
 	private String outputFileName = "";
 	private String iusAccession = "";
-	private String library = "";
 	private String runName = "";
 	private String lane = "";
-	private String barcode = "NoIndex"; // TODO: this never changes. Should it?
+	private String barcode = "NoIndex";
 	private boolean manualOutput = false;
 	
 	// CutAdapt
@@ -45,38 +42,33 @@ public class BwaMemDecider extends OicrDecider {
 	// BWA
 	private int bwaMemoryMb = 16384;
 	private int bwaThreads = 8;
+	private boolean bwaPacbioMode = false;
+	private boolean bwaOntMode = false;
 	private String bwaAdditionalParams = "";
 	
 	// Picard
 	private int picardMemoryMb = 3072;
 	
 	// Read group header (BWA), pulled from file metadata
-	private String RGLB = "";
-	private String RGPL = "";
-	private String RGPU = "";
-	private String RGSM = "";
+	private String rgLibrary = "";
+	private String rgPlatform = "";
+	private String rgPlatformUnit = "";
+	private String rgSample = "";
 	
 	
 	public BwaMemDecider() {
 		super();
-		// Input
+		// Input args
 		parser.accepts("reference", "indexed reference genome").withRequiredArg();
         
-		// Output
+		// Output args
 		parser.accepts("verbose", "Optional: Log all SeqWare information.");
 		parser.accepts("output-prefix", "Optional: Path where the files should be copied to after analysis.").withRequiredArg();
 		parser.accepts("output-dir", "Optional: Folder to put the output into relative to the output-prefix.").withRequiredArg();
-		parser.accepts("output-filename", "Optional: Template type for grouping samples.").withRequiredArg();
-		
-		parser.accepts("ius-accession", "Optional: Used in filename IF output-filename is not specified").withRequiredArg();
-		parser.accepts("library", "Optional: Used in filename IF output-filename is not specified").withRequiredArg();
-		parser.accepts("sequencer-run-name", "Optional: Used in filename IF output-filename is not specified").withRequiredArg();
-		parser.accepts("barcode", "Optional: Used in filename IF output-filename is not specified").withRequiredArg();
-		parser.accepts("lane", "Optional: Used in filename IF output-filename is not specified").withRequiredArg();
-		
+		parser.accepts("output-filename", "Optional: Default filename is created from the IUS accession, library, run name, barcode, and lane.").withRequiredArg();
 		parser.accepts("manual-output", "Optional: Set output path manually.");
 		
-		// CutAdapt
+		// CutAdapt args
 		parser.accepts("adapter-trimming");
 		parser.accepts("trim-memory", "Optional: Memory (MB) to allocate for cutadapt (default: 16384)");
 		parser.accepts("read1-adapter-trim", "Adapter sequence to trim from read 1.").withRequiredArg();
@@ -84,19 +76,20 @@ public class BwaMemDecider extends OicrDecider {
 		parser.accepts("read1-trim-params", "Optional: Additional cutadapt parameters for read 1.").withRequiredArg();
 		parser.accepts("read2-trim-params", "Optional: Additional cutadapt parameters for read 2.").withRequiredArg();
 		
-		// BWA
+		// BWA args
 		parser.accepts("bwa-memory", "Optional: Memory (MB) to allocate for bwa mem (default: 16384)");
 		parser.accepts("bwa-threads", "Optional: Threads to use for bwa mem (default: 8).").withRequiredArg();
+		parser.accepts("bwa-pacbio", "Optional: Execute BWA in PacBio mode.");
+		parser.accepts("bwa-ont2d", "Optional: Execute BWA in ONT mode.");
 		parser.accepts("bwa-params", "Optional: Additional bwa mem parameters.").withRequiredArg();
 		
-		// Picard
+		// Picard args
 		parser.accepts("picard-memory", "Optional: Memory (MB) to allocate for Picard (default: 3072)");
 	}
 	
 	@Override
 	public ReturnValue init() {
 		// Parse, test, and store command-line parameters. Runs through once per decider invocation (all files)
-		// Return super.init() or new ReturnValue with non-success exit code;
 		if (this.options.has("verbose")) {
 			Log.setVerbose(true);
 		}
@@ -124,23 +117,6 @@ public class BwaMemDecider extends OicrDecider {
 		}
 		if (this.options.has("output-filename")) {
 			outputFileName = options.valueOf("output-filename").toString();
-		}
-		else {
-			if (this.options.has("ius-accession")) {
-				iusAccession = options.valueOf("ius_accession").toString();
-			}
-			if (this.options.has("library")) {
-				library = options.valueOf("library").toString();
-			}
-			if (this.options.has("sequencer-run-name")) {
-				runName = options.valueOf("sequencer-run-name").toString();
-			}
-			if (this.options.has("barcode")) {
-				barcode = options.valueOf("barcode").toString();
-			}
-			if (this.options.has("lane")) {
-				lane = options.valueOf("lane").toString();
-			}
 		}
 		
 		if (this.options.has("set-manual-path")) {
@@ -177,6 +153,12 @@ public class BwaMemDecider extends OicrDecider {
 		if (this.options.has("bwa-params")) {
 			this.bwaAdditionalParams = options.valueOf("bwa-params").toString();
 		}
+		if (this.options.has("bwa-pacbio")) {
+			this.bwaPacbioMode = Boolean.valueOf(options.valueOf("bwa-pacbio").toString());
+		}
+		if (this.options.has("bwa-ont2d")) {
+			this.bwaOntMode = Boolean.valueOf(options.valueOf("bwa-ont2d").toString());
+		}
 		
 		// Picard
 		if (this.options.has("picard-memory")) {
@@ -205,23 +187,31 @@ public class BwaMemDecider extends OicrDecider {
 
 	@Override
 	protected boolean checkFileDetails(ReturnValue returnValue, FileMetadata fm) {
+		// Validate individual files and read metadata
 		Log.debug("CHECK FILE DETAILS:" + fm);
 		if (!super.checkFileDetails(returnValue, fm)) return false;
 		
-		 //Get additional metadata
+		FileAttributes attribs = new FileAttributes(returnValue, returnValue.getFiles().get(0));
+		
+		// If xenograft, check if it's a Xenome output
+		String filePath = fm.getFilePath();
+		if (attribs.getLimsValue(Lims.TISSUE_TYPE).equals("X") && !filePath.contains("xenome")) {
+			Log.debug("Skipping "+filePath+" because it is not a Xenome output.");
+			return false;
+		}
+		
+		//Get additional metadata
 		this.iusAccession = returnValue.getAttribute(Header.IUS_SWA.getTitle());
 		this.runName = returnValue.getAttribute(Header.SEQUENCER_RUN_NAME.getTitle());
 		this.lane = returnValue.getAttribute(Header.LANE_NUM.getTitle());
-
-		FileAttributes rv = new FileAttributes(returnValue, returnValue.getFiles().get(0));
-		String groupId = StringUtils.defaultIfBlank(rv.getLimsValue(Lims.GROUP_ID), "");
-		this.RGLB = rv.getLibrarySample() + groupId;
-		this.RGPL = "illumina";
-		this.RGSM = rv.getDonor() + groupId;
-        
-		this.RGPU = rv.getSequencerRun() 
+		
+		this.barcode = attribs.getBarcode();
+		this.rgLibrary = attribs.getLibrarySample();
+		this.rgPlatform = returnValue.getAttribute("Sequencer Run Platform Name");
+		this.rgSample = attribs.getDonor();
+		this.rgPlatformUnit = this.runName 
 				+ "-" 
-				+ rv.getBarcode() 
+				+ this.barcode
 				+ "_" 
 				+ this.lane;
 		
@@ -255,7 +245,7 @@ public class BwaMemDecider extends OicrDecider {
 					this.inputFile2 = file;
 					break;
 				default:
-					Log.error("Cannot identify "+file+" end (read 1 or 2).");
+					Log.error("Cannot identify "+file+" end (read 1 or 2)");
 					return new ReturnValue(ExitStatus.INVALIDFILE);
 				}
 			}
@@ -286,7 +276,6 @@ public class BwaMemDecider extends OicrDecider {
 		
 		iniFileMap.put("outputFileName", this.outputFileName);
 		iniFileMap.put("ius_accession", this.iusAccession);
-		iniFileMap.put("rg_library", this.library);
 		iniFileMap.put("sequencer_run_name", this.runName);
 		iniFileMap.put("barcode", this.barcode);
 		iniFileMap.put("lane", this.lane);
@@ -303,12 +292,14 @@ public class BwaMemDecider extends OicrDecider {
 		iniFileMap.put("bwa_mem_mb", String.valueOf(this.bwaMemoryMb));
 		iniFileMap.put("bwa_threads", String.valueOf(this.bwaThreads));
 		iniFileMap.put("bwa_other_params", this.bwaAdditionalParams);
+		iniFileMap.put("bwa_pacbio_mode", String.valueOf(this.bwaPacbioMode));
+		iniFileMap.put("bwa_ont_mode", String.valueOf(this.bwaOntMode));
 		
 		// Read Group Header (added by BWA)
-		iniFileMap.put("rg_library", this.RGLB);
-		iniFileMap.put("rg_platform", this.RGPL);
-		iniFileMap.put("rg_platform_unit", this.RGPU);
-		iniFileMap.put("rg_sample_name", this.RGSM);
+		iniFileMap.put("rg_library", this.rgLibrary);
+		iniFileMap.put("rg_platform", this.rgPlatform);
+		iniFileMap.put("rg_platform_unit", this.rgPlatformUnit);
+		iniFileMap.put("rg_sample_name", this.rgSample);
 		
 		// Picard
 		iniFileMap.put("picard_mem_mb", String.valueOf(this.picardMemoryMb));
