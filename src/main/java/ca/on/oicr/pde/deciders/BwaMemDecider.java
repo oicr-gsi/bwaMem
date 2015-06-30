@@ -274,7 +274,7 @@ public class BwaMemDecider extends OicrDecider {
 		iniFileMap.put("output_prefix",this.outputPrefix);
 		iniFileMap.put("output_dir", this.outputDir);
 		
-		iniFileMap.put("outputFileName", this.outputFileName);
+		iniFileMap.put("output_file_name", this.outputFileName);
 		iniFileMap.put("ius_accession", this.iusAccession);
 		iniFileMap.put("sequencer_run_name", this.runName);
 		iniFileMap.put("barcode", this.barcode);
