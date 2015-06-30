@@ -31,20 +31,13 @@
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>picard</groupId>
             <artifactId>picard-tools</artifactId>
             <version>${picard-version}</version>
             <type>zip</type>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>samtools</groupId>
-            <artifactId>samtools</artifactId>
-            <version>${samtools-version}</version>
-            <type>zip</type>
-            <scope>provided</scope>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <build>

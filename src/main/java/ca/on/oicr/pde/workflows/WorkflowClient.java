@@ -10,17 +10,41 @@ import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 
 public class WorkflowClient extends OicrWorkflow {
 
+	private static enum AlignmentFormat {
+		SAM(".sam", "application/sam", null, null), 
+		BAM(".bam", "application/bam", ".bai", "application/bam-index"), 
+		CRAM(".cram", "application/cram", ".crai", "application/cram-index");
+		
+		private final String fileExtension;
+		private final String mimeType;
+		private final String indexExtension;
+		private final String indexType;
+		
+		AlignmentFormat(String fileExtension, String mimeType, String indexExtension, String indexType) {
+			this.fileExtension = fileExtension;
+			this.mimeType = mimeType;
+			this.indexExtension = indexExtension;
+			this.indexType = indexType;
+		};
+		
+		public String getFileExtension() {return fileExtension;}
+		public String getMimeType() {return mimeType;}
+		public String getIndexExtension() {return indexExtension;}
+		public String getindexType() {return indexType;}
+	}
+	
 	private String dataDir = null;
 	private String reference_path = null;
 	private SqwFile read1;
 	private SqwFile read2;
 	private String bwa, samtools, jre, picardSort;
-	private String outputBamPath = null;
+	private String outputFilePath = null;
 	private String outputIndexPath = null;
-	private SqwFile outputBam;
-	private SqwFile outputBai;
+	private SqwFile outputFile;
+	private SqwFile outputIndex;
+	private AlignmentFormat outputFormat;
 	
-	String queue;
+	private String queue; // TODO: add ini setting
 	
 	private void init() {
 		final String binDir = getWorkflowBaseDir() + "/bin/";
@@ -28,6 +52,7 @@ public class WorkflowClient extends OicrWorkflow {
 		samtools = binDir + getProperty("samtools");
 		jre = binDir + getProperty("bundled_jre") + "/bin/java";
 		picardSort = binDir + getProperty("picardsort");
+		outputFormat = AlignmentFormat.valueOf(getProperty("output_format"));
 	}
 	
 
@@ -37,7 +62,7 @@ public class WorkflowClient extends OicrWorkflow {
 		init();
 		
 		// creates the final output
-		dataDir = getPropertyOrNull("data_dir");
+		dataDir = getPropertyOrNull("data_dir"); //TODO: default?
 		if (!dataDir.endsWith("/")) dataDir += "/";
 		this.addDirectory(dataDir);
 	} 
@@ -53,15 +78,14 @@ public class WorkflowClient extends OicrWorkflow {
 
 		queue = getOptionalProperty("queue", "");
 
-		String outputBamName = getPropertyOrNull("outputBamPath");
-		if (outputBamName == null) {
-			outputBamName = "SWID_" + getProperty("ius_accession") + "_" 
+		String outputFileName = getPropertyOrNull("output_file_name");
+		if (outputFileName == null) {
+			outputFileName = "SWID_" + getProperty("ius_accession") + "_" 
 					+ getProperty("rg_library") + "_" + getProperty("sequencer_run_name") + "_" + getProperty("barcode") 
-					+ "_L00" + getProperty("lane") + "_001.annotated.bam";
+					+ "_L00" + getProperty("lane") + "_001.annotated" + outputFormat.getFileExtension();
 		}
 		
-		outputBamPath = dataDir + outputBamName;
-		outputIndexPath = outputBamPath.substring(0,outputBamPath.lastIndexOf("bam"))+"bai";
+		outputFilePath = dataDir + outputFileName;
 		
 		// register input files
 		read1 = this.createFile("file_in_0");
@@ -75,8 +99,12 @@ public class WorkflowClient extends OicrWorkflow {
 		read2.setIsInput(true);
 		
 		// register output files
-		outputBam = createOutputFile(outputBamPath, "application/bam", Boolean.valueOf(getProperty("manual_output")));
-		outputBai = createOutputFile(outputIndexPath, "application/bam-index", Boolean.valueOf(getProperty("manual_output")));
+		outputFile = createOutputFile(outputFilePath, outputFormat.getMimeType(), Boolean.valueOf(getProperty("manual_output")));
+		if (outputFormat != AlignmentFormat.SAM) {
+//			outputIndexPath = outputFilePath.substring(0,outputFilePath.lastIndexOf("bam"))+"bai";
+			outputIndexPath = outputFilePath + outputFormat.getIndexExtension();
+			outputIndex = createOutputFile(outputIndexPath, outputFormat.getindexType(), Boolean.valueOf(getProperty("manual_output")));
+		}
 		
 		return this.getFiles();
 	}
@@ -103,13 +131,19 @@ public class WorkflowClient extends OicrWorkflow {
 			r2=trim2;
 		}
 		
-		
-		// Create bam and index
-		Job bamJob = getBamJob(r1, r2);
+		// Align
+		Job alignJob = getAlignJob(r1, r2);
 		if (trimJob01 != null) {
-			bamJob.addParent(trimJob01);
+			alignJob.addParent(trimJob01);
 		}
-		bamJob.setQueue(queue);
+		alignJob.setQueue(queue);
+		
+		// Index
+		if (outputFormat != AlignmentFormat.SAM) {
+			Job indexJob = getIndexJob();
+			indexJob.addParent(alignJob);
+			indexJob.setQueue(queue);
+		}
 	}
 	
 	private Job getCutAdaptJob(String read1Path, String read2Path, String read1TrimmedPath, String read2TrimmedPath) {
@@ -136,15 +170,65 @@ public class WorkflowClient extends OicrWorkflow {
 		return cutAdaptJob;	
 	}
 	
+//	/**
+//	 * Creates a job to run bwa mem | samtools view | SortSam (Picard), creating a .bam and .bai
+//	 * 
+//	 * @param read1
+//	 * @param read2
+//	 * 
+//	 * @return the job
+//	 */
+//	private Job getAlignJob(String read1, String read2) {
+//		Job job = this.getWorkflow().createBashJob("bwa_mem");
+//		
+//		Command command = job.getCommand();
+//		command.addArgument("set -e; set -o pipefail;");
+//		command.addArgument(bwa + " mem");
+//		command.addArgument(getBwaSpecialMode());
+//		String threads = getPropertyOrNull("bwa_threads");
+//		if (threads != null) {
+//			command.addArgument("-t " + threads);
+//		}
+//		String otherParams = getPropertyOrNull("bwa_other_params");
+//		if (otherParams != null) {
+//			command.addArgument(otherParams);
+//		}
+//		command.addArgument("-R " + getReadGroupHeader());
+//		command.addArgument(reference_path);
+//		command.addArgument(read1);
+//		command.addArgument(read2);
+//		command.addArgument("|");
+//		
+//		// pipe to samtools view (create .bam; don't write .sam to disk)
+//		command.addArgument(samtools + " view");
+//		command.addArgument("-bS");
+//		command.addArgument("- |");
+//		
+//		// pipe to picard to sort and index
+//		command.addArgument(jre);
+//		command.addArgument("-Xmx" + getProperty("picard_mem_mb")+"M");
+//		command.addArgument("-jar " +  picardSort);
+//		command.addArgument("INPUT=/dev/stdin");
+//		command.addArgument("OUTPUT=" + outputFilePath);
+//		command.addArgument("SORT_ORDER=coordinate VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true");
+//		command.addArgument("TMP_DIR=" + getProperty("tmp_dir"));
+//		
+//		job.addFile(outputFile);
+//		job.addFile(outputIndex);
+//		job.setMaxMemory(getProperty("bwa_mem_mb"));
+//		
+//		return job;
+//	}
+	
 	/**
-	 * Creates a job to run bwa mem | samtools view | SortSam (Picard), creating a .bam and .bai
+	 * Creates a job to run bwa mem | samtools sort | samtools view (if necessary)
 	 * 
 	 * @param read1
 	 * @param read2
 	 * 
 	 * @return the job
 	 */
-	private Job getBamJob(String read1, String read2) {
+	private Job getAlignJob(String read1, String read2) {
 		Job job = this.getWorkflow().createBashJob("bwa_mem");
 		
 		Command command = job.getCommand();
@@ -163,26 +247,44 @@ public class WorkflowClient extends OicrWorkflow {
 		command.addArgument(reference_path);
 		command.addArgument(read1);
 		command.addArgument(read2);
+		
+		// pipe to samtools sort
 		command.addArgument("|");
+		command.addArgument(samtools + " sort");
+		String tempDir = "tmp/"; // TODO: temp dir
+		switch (outputFormat) {
+		case SAM:
+			command.addArgument("-O sam -T "+tempDir+" -");
+			break;
+		case BAM:
+			command.addArgument("-O bam -T "+tempDir); // TODO: compression level
+			break;
+		case CRAM:
+			command.addArgument("-O bam -l 0 -T "+tempDir+" -"); // uncompressed bam (samtools sort cannot output to cram)
+			command.addArgument("|"); // convert to CRAM
+			command.addArgument(samtools + "view");
+			command.addArgument("-T " + reference_path);
+			command.addArgument("-C");
+			break;
+		}
+		command.addArgument("-o " + outputFilePath);
+		command.addArgument("-");
 		
-		// pipe to samtools view (create .bam; don't write .sam to disk)
-		command.addArgument(samtools + " view");
-		command.addArgument("-bS");
-		command.addArgument("- |");
-		
-		// pipe to picard to sort and index
-		command.addArgument(jre);
-		command.addArgument("-Xmx" + getProperty("picard_mem_mb")+"M");
-		command.addArgument("-jar " +  picardSort);
-		command.addArgument("INPUT=/dev/stdin");
-		command.addArgument("OUTPUT=" + outputBamPath);
-		command.addArgument("SORT_ORDER=coordinate VALIDATION_STRINGENCY=SILENT CREATE_INDEX=true");
-		command.addArgument("TMP_DIR=" + getProperty("tmp_dir"));
-		
-		job.addFile(outputBam);
-		job.addFile(outputBai);
+		job.addFile(outputFile);
 		job.setMaxMemory(getProperty("bwa_mem_mb"));
 		
+		return job;
+	}
+	
+	private Job getIndexJob() {
+		Job job = this.getWorkflow().createBashJob("samtools_index");
+		
+		Command command = job.getCommand();
+		command.addArgument(samtools + " index");
+		command.addArgument(outputFilePath);
+		
+		job.addFile(outputIndex);
+		job.setMaxMemory(getProperty("samtools_index_mem_mb"));
 		return job;
 	}
 	
