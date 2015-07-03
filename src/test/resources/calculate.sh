@@ -1,12 +1,15 @@
 #!/bin/bash
 set -o nounset
-set -o errexit
 set -o pipefail
 
 cd $1
 
 ls | sort
 
-/oicr/local/analysis/sw//samtools/samtools-0.1.19/bin/samtools view -H *.bam | grep '^@RG' | sort
+find -name *.sam -exec grep '^@RG' {} \; | sort
+find -name *.bam -exec /oicr/local/analysis/sw/samtools/samtools-1.2/bin/samtools view -H {} \; | grep '^@RG' | sort
+find -name *.cram -exec /oicr/local/analysis/sw/samtools/samtools-1.2/bin/samtools view -H {} \; | grep '^@RG' | sort
 
-/oicr/local/analysis/sw//samtools/samtools-0.1.19/bin/samtools flagstat *.bam | sort
+find -name *.sam -exec /oicr/local/analysis/sw/samtools/samtools-1.2/bin/samtools flagstat {} \; | sort
+find -name *.bam -exec /oicr/local/analysis/sw/samtools/samtools-1.2/bin/samtools flagstat {} \; | sort
+find -name *.cram -exec /oicr/local/analysis/sw/samtools/samtools-1.2/bin/samtools flagstat {} \; | sort

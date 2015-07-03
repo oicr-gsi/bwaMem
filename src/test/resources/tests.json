@@ -8,12 +8,17 @@
     },
     "tests": [
         {
-	    	"description": "Runs the small PCSI_0022 C data without trimming.",
-            "input_config": "PCSI0022C_notrim.ini"
+	    	"description": "Runs the small PCSI_0022 C data without trimming, and outputs as BAM.",
+            "input_config": "PCSI0022C_notrim_bam.ini"
         },
 		{
-		    "description": "Runs the small PCSI_0022 C data with trimming.",
-		    "input_config": "PCSI0022C_trim.ini"
+		    "description": "Runs the small PCSI_0022 C data with trimming, and outputs as SAM.",
+		    "input_config": "PCSI0022C_trim_sam.ini"
+		},
+		{
+		    "description": "Runs the small PCSI_0022 C data without trimming, and outputs as CRAM.",
+		    "input_config": "PCSI0022C_notrim_cram.ini"
 		}
+		
     ]
 }

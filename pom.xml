@@ -19,8 +19,6 @@
     <properties>
         <workflow-name>BwaMem</workflow-name>
         <bwa-version>0.7.12</bwa-version>
-        <picard-version>1.72</picard-version>
-        <samtools-version>0.1.19</samtools-version>
     </properties>
 
     <dependencies>
@@ -31,13 +29,6 @@
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>picard</groupId>
-            <artifactId>picard-tools</artifactId>
-            <version>${picard-version}</version>
-            <type>zip</type>
-            <scope>provided</scope>
-        </dependency> -->
     </dependencies>
 
     <build>
