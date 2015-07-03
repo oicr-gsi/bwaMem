@@ -3,7 +3,6 @@
 	"defaultMetricsDirectory": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/decider/development",
 	"defaultParameters": {
         "--output-path": "./",
-        "--reference": "/oicr/data/reference/genomes/homo_sapiens_mc/UCSC/hg19_random/Genomic/bwa/0.7.9/hg19_random.fa",
         "--verbose": ""
     },
 	"defaultIniExclusions": ["parent-accessions", "workflow_run_accession", "workflow-run-accession",

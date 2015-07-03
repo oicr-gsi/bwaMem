@@ -12,19 +12,29 @@ import net.sourceforge.seqware.common.module.ReturnValue;
 import net.sourceforge.seqware.common.module.ReturnValue.ExitStatus;
 import net.sourceforge.seqware.common.util.Log;
 
+/**
+ * This decider finds FastQ files, groups them by IUS Accession, and schedules BWA-MEM workflow runs for each pair. 
+ * The decider performs some validation, and reads file metadata to provide details to the workflow.
+ * 
+ * @author dcooke
+ *
+ */
 public class BwaMemDecider extends OicrDecider {
 	
+	private static enum AlignmentFormat {SAM, BAM, CRAM};
+	
 	// Default INI settings here are overridden by command-line parameters in init() and then maintained for all files/groups
-	// Metadata details (read group header) are used in preference to these
+	// Details available in metadata are used in preference to both
 	
 	// Input
-	private String inputReference = "${workflow_bundle_dir}/Workflow_Bundle_BwaMem/1.0/data/reference/bwa-0.7.9/hg19_random.fa";
+	private String inputReference = null;
 	private String inputFile1, inputFile2;
 	
 	// Output
 	private String outputPrefix = "./";
 	private String outputDir = "seqware-results";
 	private String outputFileName = "";
+	private AlignmentFormat outputFormat = AlignmentFormat.BAM;
 	private String iusAccession = "";
 	private String runName = "";
 	private String lane = "";
@@ -46,8 +56,8 @@ public class BwaMemDecider extends OicrDecider {
 	private boolean bwaOntMode = false;
 	private String bwaAdditionalParams = "";
 	
-	// Picard
-	private int picardMemoryMb = 3072;
+	// samtools index
+	private int samtoolsMemoryMb = 3072;
 	
 	// Read group header (BWA), pulled from file metadata
 	private String rgLibrary = "";
@@ -67,6 +77,7 @@ public class BwaMemDecider extends OicrDecider {
 		parser.accepts("output-dir", "Optional: Folder to put the output into relative to the output-prefix.").withRequiredArg();
 		parser.accepts("output-filename", "Optional: Default filename is created from the IUS accession, library, run name, barcode, and lane.").withRequiredArg();
 		parser.accepts("manual-output", "Optional: Set output path manually.");
+		parser.accepts("output-format", "Optional: Alignment output format. Options are SAM, BAM (default), and CRAM.").withRequiredArg();
 		
 		// CutAdapt args
 		parser.accepts("adapter-trimming");
@@ -83,8 +94,8 @@ public class BwaMemDecider extends OicrDecider {
 		parser.accepts("bwa-ont2d", "Optional: Execute BWA in ONT mode.");
 		parser.accepts("bwa-params", "Optional: Additional bwa mem parameters.").withRequiredArg();
 		
-		// Picard args
-		parser.accepts("picard-memory", "Optional: Memory (MB) to allocate for Picard (default: 3072)");
+		// Samtools index args
+		parser.accepts("samtools-memory", "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
 	}
 	
 	@Override
@@ -119,8 +130,11 @@ public class BwaMemDecider extends OicrDecider {
 			outputFileName = options.valueOf("output-filename").toString();
 		}
 		
-		if (this.options.has("set-manual-path")) {
+		if (this.options.has("manual-output")) {
 			this.manualOutput = true;
+		}
+		if (this.options.has("output-format")) {
+			outputFormat = AlignmentFormat.valueOf(options.valueOf("output-format").toString());
 		}
 		
 		// CutAdapt
@@ -150,19 +164,19 @@ public class BwaMemDecider extends OicrDecider {
 		if (this.options.has("bwa-threads")) {
 			this.bwaThreads = Integer.valueOf(options.valueOf("bwa-threads").toString());
 		}
-		if (this.options.has("bwa-params")) {
-			this.bwaAdditionalParams = options.valueOf("bwa-params").toString();
-		}
 		if (this.options.has("bwa-pacbio")) {
 			this.bwaPacbioMode = Boolean.valueOf(options.valueOf("bwa-pacbio").toString());
 		}
 		if (this.options.has("bwa-ont2d")) {
 			this.bwaOntMode = Boolean.valueOf(options.valueOf("bwa-ont2d").toString());
 		}
+		if (this.options.has("bwa-params")) {
+			this.bwaAdditionalParams = options.valueOf("bwa-params").toString();
+		}
 		
-		// Picard
-		if (this.options.has("picard-memory")) {
-			this.picardMemoryMb = Integer.valueOf(options.valueOf("picard-memory").toString());
+		// Samtools index
+		if (this.options.has("samtools-memory")) {
+			this.samtoolsMemoryMb = Integer.valueOf(options.valueOf("samtools-memory").toString());
 		}
 		
 		return super.init();
@@ -196,7 +210,7 @@ public class BwaMemDecider extends OicrDecider {
 		// If xenograft, check if it's a Xenome output
 		String filePath = fm.getFilePath();
 		if (attribs.getLimsValue(Lims.TISSUE_TYPE).equals("X") && !filePath.contains("xenome")) {
-			Log.debug("Skipping "+filePath+" because it is not a Xenome output.");
+			Log.debug("Skipping "+filePath+" because it is not a Xenome output");
 			return false;
 		}
 		
@@ -232,14 +246,14 @@ public class BwaMemDecider extends OicrDecider {
 				switch (mate) {
 				case 1:
 					if (this.inputFile1 != null) {
-						Log.error("More than one file found for read 1");
+						Log.error("More than one file found for read 1: "+inputFile1+", "+file);
 						return new ReturnValue(ExitStatus.INVALIDFILE);
 					}
 					this.inputFile1 = file;
 					break;
 				case 2:
 					if (this.inputFile2 != null) {
-						Log.error("More than one file found for read 2");
+						Log.error("More than one file found for read 2: "+inputFile2+", "+file);
 						return new ReturnValue(ExitStatus.INVALIDFILE);
 					}
 					this.inputFile2 = file;
@@ -250,7 +264,7 @@ public class BwaMemDecider extends OicrDecider {
 				}
 			}
 		} else {
-			Log.error("Missing file: Two files required");
+			Log.error("Missing file: Two files required for workflow");
 			return new ReturnValue(ExitStatus.INVALIDFILE);
 		}
 		
@@ -266,13 +280,12 @@ public class BwaMemDecider extends OicrDecider {
 		// Inputs
 		iniFileMap.put("input_file_1", this.inputFile1);
 		iniFileMap.put("input_file_2", this.inputFile2);
-		iniFileMap.put("input_reference", this.inputReference);
-		iniFileMap.put("cutadapt_r1_other_params", this.cutadapt1OtherParams);
-		iniFileMap.put("cutadapt_r2_other_params", this.cutadapt2OtherParams);
+		if (this.inputReference != null) iniFileMap.put("input_reference", this.inputReference);
 		
 		// Output
 		iniFileMap.put("output_prefix",this.outputPrefix);
 		iniFileMap.put("output_dir", this.outputDir);
+		iniFileMap.put("output_format", this.outputFormat.toString());
 		
 		iniFileMap.put("output_file_name", this.outputFileName);
 		iniFileMap.put("ius_accession", this.iusAccession);
@@ -287,6 +300,8 @@ public class BwaMemDecider extends OicrDecider {
 		iniFileMap.put("trim_mem_mb", String.valueOf(this.trimMemoryMb));
 		iniFileMap.put("r1_adapter_trim", this.read1AdapterTrim);
 		iniFileMap.put("r2_adapter_trim", this.read2AdapterTrim);
+		iniFileMap.put("cutadapt_r1_other_params", this.cutadapt1OtherParams);
+		iniFileMap.put("cutadapt_r2_other_params", this.cutadapt2OtherParams);
 		
 		// BWA
 		iniFileMap.put("bwa_mem_mb", String.valueOf(this.bwaMemoryMb));
@@ -301,8 +316,8 @@ public class BwaMemDecider extends OicrDecider {
 		iniFileMap.put("rg_platform_unit", this.rgPlatformUnit);
 		iniFileMap.put("rg_sample_name", this.rgSample);
 		
-		// Picard
-		iniFileMap.put("picard_mem_mb", String.valueOf(this.picardMemoryMb));
+		// Samtools index
+		iniFileMap.put("samtools_index_mem_mb", String.valueOf(this.samtoolsMemoryMb));
 		
 		return iniFileMap;
 	}
