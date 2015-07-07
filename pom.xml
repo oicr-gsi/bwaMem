@@ -7,7 +7,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>decider-bwa</module>
+        <module>decider-bwa-mem</module>
         <module>workflow-bwa</module>
+        <module>workflow-bwa-mem</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
