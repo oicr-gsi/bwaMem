@@ -31,8 +31,6 @@ public class BwaMemDecider extends OicrDecider {
 	private String inputFile1, inputFile2;
 	
 	// Output
-	private String outputPrefix = "./";
-	private String outputDir = "seqware-results";
 	private String outputFileName = "";
 	private AlignmentFormat outputFormat = AlignmentFormat.BAM;
 	private String iusAccession = "";
@@ -73,8 +71,6 @@ public class BwaMemDecider extends OicrDecider {
         
 		// Output args
 		parser.accepts("verbose", "Optional: Log all SeqWare information.");
-		parser.accepts("output-prefix", "Optional: Path where the files should be copied to after analysis.").withRequiredArg();
-		parser.accepts("output-dir", "Optional: Folder to put the output into relative to the output-prefix.").withRequiredArg();
 		parser.accepts("output-filename", "Optional: Default filename is created from the IUS accession, library, run name, barcode, and lane.").withRequiredArg();
 		parser.accepts("manual-output", "Optional: Set output path manually.");
 		parser.accepts("output-format", "Optional: Alignment output format. Options are SAM, BAM (default), and CRAM.").withRequiredArg();
@@ -117,19 +113,9 @@ public class BwaMemDecider extends OicrDecider {
 		}
 		
 		// Output
-		if (this.options.has("output-prefix")) {
-			outputPrefix = options.valueOf("output-prefix").toString();
-			if (!outputPrefix.endsWith("/")) {
-				outputPrefix += "/";
-			}
-		}
-		if (this.options.has("output-dir")) {
-			outputDir = options.valueOf("output-dir").toString();
-		}
 		if (this.options.has("output-filename")) {
 			outputFileName = options.valueOf("output-filename").toString();
 		}
-		
 		if (this.options.has("manual-output")) {
 			this.manualOutput = true;
 		}
@@ -275,7 +261,7 @@ public class BwaMemDecider extends OicrDecider {
 	protected Map<String, String> modifyIniFile(String commaSeparatedFilePaths, String commaSeparatedParentAccessions) {
 		Log.debug("INI FILE:" + commaSeparatedFilePaths);
 		
-		Map<String, String> iniFileMap = new TreeMap<String, String>();
+		Map<String, String> iniFileMap = super.modifyIniFile(commaSeparatedFilePaths, commaSeparatedParentAccessions);
 		
 		// Inputs
 		iniFileMap.put("input_file_1", this.inputFile1);
@@ -283,8 +269,6 @@ public class BwaMemDecider extends OicrDecider {
 		if (this.inputReference != null) iniFileMap.put("input_reference", this.inputReference);
 		
 		// Output
-		iniFileMap.put("output_prefix",this.outputPrefix);
-		iniFileMap.put("output_dir", this.outputDir);
 		iniFileMap.put("output_format", this.outputFormat.toString());
 		
 		iniFileMap.put("output_file_name", this.outputFileName);
