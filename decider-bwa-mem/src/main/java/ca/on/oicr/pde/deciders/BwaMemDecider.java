@@ -208,7 +208,7 @@ public class BwaMemDecider extends OicrDecider {
 		this.barcode = attribs.getBarcode();
 		this.rgLibrary = attribs.getLibrarySample();
 		this.rgPlatform = returnValue.getAttribute("Sequencer Run Platform Name");
-		this.rgSample = attribs.getDonor();
+		this.rgSample = getRGSM(attribs);
 		this.rgPlatformUnit = this.runName 
 				+ "-" 
 				+ this.barcode
@@ -216,6 +216,22 @@ public class BwaMemDecider extends OicrDecider {
 				+ this.lane;
 		
 		return true;
+	}
+	
+	private String getRGSM(FileAttributes fa) {
+		StringBuilder sb = new StringBuilder()
+				.append(fa.getDonor())
+				.append("_")
+				.append(fa.getLimsValue(Lims.TISSUE_ORIGIN))
+				.append("_")
+				.append(fa.getLimsValue(Lims.TISSUE_TYPE));
+		
+		String groupId = fa.getLimsValue(Lims.GROUP_ID);
+		if (groupId != null) {
+			sb.append("_").append(groupId);
+		}
+		
+		return sb.toString();
 	}
 	
 	@Override
