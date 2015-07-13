@@ -91,12 +91,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
 		input2_path = getProperty("input_file_2");
 		reference_path = getProperty("input_reference");
 		
-		String outputFileName = getPropertyOrNull("output_file_name");
-		if (outputFileName == null) {
-			outputFileName = "SWID_" + getProperty("ius_accession") + "_" 
-					+ getProperty("rg_library") + "_" + getProperty("sequencer_run_name") + "_" + getProperty("barcode") 
-					+ "_L00" + getProperty("lane") + "_001.annotated" + outputFormat.getFileExtension();
-		}
+		String outputFileName = getOutputFileName();
 		
 		outputFilePath = dataDir + outputFileName;
 		
@@ -119,6 +114,32 @@ public class BwaMemWorkflow extends OicrWorkflow {
 		}
 		
 		return this.getFiles();
+	}
+	
+	
+	private String getOutputFileName() {
+		String outputFileName = getPropertyOrNull("output_file_name");
+		if (outputFileName == null) {
+			String groupId = getPropertyOrNull("group_id");
+			StringBuilder sb = new StringBuilder()
+					.append("SWID_")
+					.append(getProperty("ius_accession"))
+					.append("_")
+					.append(getProperty("rg_library"))
+					.append("_");
+			
+			if (groupId != null) sb.append(groupId).append("_");
+			
+			sb.append(getProperty("sequencer_run_name"))
+					.append("_")
+					.append(getProperty("barcode"))
+					.append("_L00")
+					.append(getProperty("lane"))
+					.append("_001.annotated")
+					.append(outputFormat.getFileExtension());
+			outputFileName = sb.toString();
+		}
+		return outputFileName;
 	}
 	
 	
