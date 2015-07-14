@@ -194,8 +194,15 @@ public class BwaMemDecider extends OicrDecider {
 		
 		FileAttributes attribs = new FileAttributes(returnValue, returnValue.getFiles().get(0));
 		
-		// If xenograft, check if it's a Xenome output
+		//  Skip if library_source_template_type isn't WG, EX, or TS
 		String filePath = fm.getFilePath();
+		String templateType = attribs.getLimsValue(Lims.LIBRARY_TEMPLATE_TYPE);
+		if (!"WG".equals(templateType) && !"EX".equals(templateType) && !"TS".equals(templateType)) {
+			Log.debug("Skipping "+filePath+" due to incompatible library template type "+templateType);
+			return false;
+		}
+		
+		// If xenograft, check if it's a Xenome output
 		String tissueType = attribs.getLimsValue(Lims.TISSUE_TYPE);
 		if (tissueType == null) {
 			Log.debug("Skipping "+filePath+" due to missing Tissue Type");
@@ -206,7 +213,7 @@ public class BwaMemDecider extends OicrDecider {
 			return false;
 		}
 		
-		//Get additional metadata
+		// Get additional metadata
 		this.iusAccession = returnValue.getAttribute(Header.IUS_SWA.getTitle());
 		this.groupId = attribs.getLimsValue(Lims.GROUP_ID);
 		if (groupId == null) groupId = "";
@@ -226,6 +233,12 @@ public class BwaMemDecider extends OicrDecider {
 		return true;
 	}
 	
+	/**
+	 * Constructs a String for use in the SAM read group header SM field
+	 * 
+	 * @param fa metadata for the sample file
+	 * @return a String in the format: {donor}_{tissue origin}_{tissue type}[_group id]
+	 */
 	private String getRGSM(FileAttributes fa) {
 		String groupId = fa.getLimsValue(Lims.GROUP_ID);
 		
