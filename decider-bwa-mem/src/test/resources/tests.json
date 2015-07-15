@@ -1,6 +1,6 @@
 {
 	"defaultDescription": "BWA-MEM decider test",
-	"defaultMetricsDirectory": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/decider/development",
+	"defaultMetricsResources": "/expected_output/development/",
 	"defaultParameters": {
         "--output-path": "./",
         "--verbose": ""
