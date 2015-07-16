@@ -34,6 +34,7 @@ public class BwaMemDecider extends OicrDecider {
 	private String outputFileName = "";
 	private AlignmentFormat outputFormat = AlignmentFormat.BAM;
 	private String iusAccession = "";
+	private String groupId = "";
 	private String runName = "";
 	private String lane = "";
 	private String barcode = "NoIndex";
@@ -193,15 +194,29 @@ public class BwaMemDecider extends OicrDecider {
 		
 		FileAttributes attribs = new FileAttributes(returnValue, returnValue.getFiles().get(0));
 		
-		// If xenograft, check if it's a Xenome output
+		//  Skip if library_source_template_type isn't WG, EX, or TS
 		String filePath = fm.getFilePath();
-		if (attribs.getLimsValue(Lims.TISSUE_TYPE).equals("X") && !filePath.contains("xenome")) {
+		String templateType = attribs.getLimsValue(Lims.LIBRARY_TEMPLATE_TYPE);
+		if (!"WG".equals(templateType) && !"EX".equals(templateType) && !"TS".equals(templateType)) {
+			Log.debug("Skipping "+filePath+" due to incompatible library template type "+templateType);
+			return false;
+		}
+		
+		// If xenograft, check if it's a Xenome output
+		String tissueType = attribs.getLimsValue(Lims.TISSUE_TYPE);
+		if (tissueType == null) {
+			Log.debug("Skipping "+filePath+" due to missing Tissue Type");
+			return false;
+		}
+		else if (tissueType.equals("X") && !filePath.contains("xenome")) {
 			Log.debug("Skipping "+filePath+" because it is not a Xenome output");
 			return false;
 		}
 		
-		//Get additional metadata
+		// Get additional metadata
 		this.iusAccession = returnValue.getAttribute(Header.IUS_SWA.getTitle());
+		this.groupId = attribs.getLimsValue(Lims.GROUP_ID);
+		if (groupId == null) groupId = "";
 		this.runName = returnValue.getAttribute(Header.SEQUENCER_RUN_NAME.getTitle());
 		this.lane = returnValue.getAttribute(Header.LANE_NUM.getTitle());
 		
@@ -218,7 +233,15 @@ public class BwaMemDecider extends OicrDecider {
 		return true;
 	}
 	
+	/**
+	 * Constructs a String for use in the SAM read group header SM field
+	 * 
+	 * @param fa metadata for the sample file
+	 * @return a String in the format: {donor}_{tissue origin}_{tissue type}[_group id]
+	 */
 	private String getRGSM(FileAttributes fa) {
+		String groupId = fa.getLimsValue(Lims.GROUP_ID);
+		
 		StringBuilder sb = new StringBuilder()
 				.append(fa.getDonor())
 				.append("_")
@@ -226,7 +249,6 @@ public class BwaMemDecider extends OicrDecider {
 				.append("_")
 				.append(fa.getLimsValue(Lims.TISSUE_TYPE));
 		
-		String groupId = fa.getLimsValue(Lims.GROUP_ID);
 		if (groupId != null) {
 			sb.append("_").append(groupId);
 		}
@@ -289,6 +311,7 @@ public class BwaMemDecider extends OicrDecider {
 		
 		iniFileMap.put("output_file_name", this.outputFileName);
 		iniFileMap.put("ius_accession", this.iusAccession);
+		iniFileMap.put("group_id", this.groupId);
 		iniFileMap.put("sequencer_run_name", this.runName);
 		iniFileMap.put("barcode", this.barcode);
 		iniFileMap.put("lane", this.lane);

@@ -1,6 +1,6 @@
 {
 	"defaultDescription": "BWA-MEM decider test",
-	"defaultMetricsDirectory": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/decider/development",
+	"defaultMetricsResources": "/expected_output/development/",
 	"defaultParameters": {
         "--output-path": "./",
         "--verbose": ""
@@ -25,9 +25,9 @@
         },
         {
             "id": "sequencer run test",
-            "sequencerRuns": ["120912_h804_0094_BD181GACXX"],
+            "sequencerRuns": ["141203_SN804_0218_AC5PCLACXX"],
             "parameters": {
-                "--before-date": "2013-11-19"
+                "--before-date": "2015-07-14"
             }
         },
         {

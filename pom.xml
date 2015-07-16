@@ -6,7 +6,6 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>decider-bwa</module>
         <module>decider-bwa-mem</module>
         <module>workflow-bwa</module>
         <module>workflow-bwa-mem</module>
