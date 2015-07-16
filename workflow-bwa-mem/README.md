@@ -1,6 +1,6 @@
 ##BWA-MEM Workflow
 
-Version 1.0
+Version 1.0, SeqWare version 1.1.0
 
 ###Overview
 
@@ -67,7 +67,7 @@ trim_min_length |  | if trimming | 10
 cutadapt_r1_other_params | Additional parameters to use for CutAdapt on read 1 | N | 
 cutadapt_r2_other_params | Additional parameters to use for CutAdapt on read 2 | N | 
 r1_adapter_trim | Adapter sequence to trim from read 1 | if trimming | AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG
-r2_adapter_trim | Adapter sequence to trim from read 2 | if trimming | AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG
+r2_adapter_trim | Adapter sequence to trim from read 2 | if trimming | AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
 
 **BWA Parameters**
 
