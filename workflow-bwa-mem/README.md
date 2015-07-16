@@ -6,7 +6,9 @@ Version 1.0
 
 This [SeqWare](http://seqware.github.io/) workflow aligns paired-end fastq files (optionally gzipped) into SAM, BAM, or CRAM files using the [BWA](http://bio-bwa.sourceforge.net) MEM algorithm.
 
-###Breakdown of steps
+###Process
+
+![BWA-MEM flowchart](docs/bwa-mem_flowchart.png)
 
 * Optionally trims adapters with CutAdapt
 * Aligns samples and adds read group header using BWA-MEM
@@ -48,10 +50,10 @@ output-prefix       | A standard SeqWare parameter specifying the root directory
 manual_output       | Whether or not to use manual output. When false, a random integer will be inserted into the path of the file in order to ensure uniqueness. When true, the output files will be moved to the location of output_prefix/output_dir | Y | false
 output_format       | Format to output. Options are SAM, BAM, and CRAM. If outputting to BAM or CRAM, the BAM or CRAM index \(.bam.bai or .cram.crai\) will also be generated | Y | BAM
 output_file_name    | If provided, this will be used as the output filename, and should include the extension \(.sam, .bam, or .cram\) | N | 
-ius_accession       | Used as part of the filename if output_file_name is not provided | Probably | 12345
-sequencer_run_name  | Used as part of the filename if output_file_name is not provided | Probably | 121005_h804_0096_AD0V4NACXX
-barcode             | Used as part of the filename if output_file_name is not provided | N | NoIndex
-lane                | Used as part of the filename if output_file_name is not provided | N | 5
+ius_accession       | Used as part of the filename if output_file_name is not provided | Usually | 12345
+sequencer_run_name  | Used as part of the filename if output_file_name is not provided | Usually | 121005_h804_0096_AD0V4NACXX
+barcode             | Used as part of the filename if output_file_name is not provided | Usually | NoIndex
+lane                | Used as part of the filename if output_file_name is not provided | Usually | 5
 group_id            | Used as part of the filename if it is provided, and output_file_name is not provided | N | 
 
 **CutAdapt**
