@@ -19,7 +19,7 @@ The following are causes for the decider to skip passing a file on to a workflow
 ###SAM Read Group Header
 
 Using file metadata, the decider will set read group header values in this format:
-* ID: runName_barcode_lane
+* ID: runName-barcode_lane
 * LB: librarySample
 * PL: sequencerRunPlatformName
 * PU: \(same as ID\)
@@ -48,6 +48,7 @@ java -jar Decider.jar --study-name \<study-name\> --wf-accession \<bwa-mem-workf
 See [basic deciders](https://seqware.github.io/docs/6-pipeline/basic_deciders) for general decider options. No additional options are strictly required.
 
 **Optional**
+
 Parameter | Type | Description \[default\]
 ----------|------|-------------
 verbose | none | Log all SeqWare (debug) information
