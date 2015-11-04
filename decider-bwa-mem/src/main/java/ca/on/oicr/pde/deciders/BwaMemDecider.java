@@ -1,10 +1,10 @@
 package ca.on.oicr.pde.deciders;
 
-import ca.on.oicr.pde.deciders.FileAttributes;
-import ca.on.oicr.pde.deciders.Lims;
-import ca.on.oicr.pde.deciders.OicrDecider;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles.Header;
 import net.sourceforge.seqware.common.module.FileMetadata;
@@ -53,6 +53,7 @@ public class BwaMemDecider extends OicrDecider {
 	private int bwaThreads = 8;
 	private boolean bwaPacbioMode = false;
 	private boolean bwaOntMode = false;
+	private boolean bwaMarkSecondaryAlignments = true;
 	private String bwaAdditionalParams = "";
 	
 	// samtools index
@@ -89,6 +90,7 @@ public class BwaMemDecider extends OicrDecider {
 		parser.accepts("bwa-threads", "Optional: Threads to use for bwa mem (default: 8).").withRequiredArg();
 		parser.accepts("bwa-pacbio", "Optional: Execute BWA in PacBio mode.");
 		parser.accepts("bwa-ont2d", "Optional: Execute BWA in ONT mode.");
+		parser.accepts("bwa-no-mark-secondary", "Optional: Disable marking of supplementary alignments as secondary. This will break compatibility with Picard");
 		parser.accepts("bwa-params", "Optional: Additional bwa mem parameters.").withRequiredArg();
 		
 		// Samtools index args
@@ -156,6 +158,9 @@ public class BwaMemDecider extends OicrDecider {
 		}
 		if (this.options.has("bwa-ont2d")) {
 			this.bwaOntMode = Boolean.valueOf(options.valueOf("bwa-ont2d").toString());
+		}
+		if (this.options.has("bwa-no-mark-secondary")) {
+		  this.bwaMarkSecondaryAlignments = false;
 		}
 		if (this.options.has("bwa-params")) {
 			this.bwaAdditionalParams = options.valueOf("bwa-params").toString();
@@ -332,6 +337,7 @@ public class BwaMemDecider extends OicrDecider {
 		iniFileMap.put("bwa_other_params", this.bwaAdditionalParams);
 		iniFileMap.put("bwa_pacbio_mode", String.valueOf(this.bwaPacbioMode));
 		iniFileMap.put("bwa_ont_mode", String.valueOf(this.bwaOntMode));
+		iniFileMap.put("bwa_mark_secondary_alignments", String.valueOf(bwaMarkSecondaryAlignments));
 		
 		// Read Group Header (added by BWA)
 		iniFileMap.put("rg_library", this.rgLibrary);
