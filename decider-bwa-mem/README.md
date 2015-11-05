@@ -1,6 +1,6 @@
 ##BWA-MEM Decider
 
-Version 1.0, SeqWare version 1.1.0
+Version 1.1, SeqWare version 1.1.0
 
 ###Overview
 
