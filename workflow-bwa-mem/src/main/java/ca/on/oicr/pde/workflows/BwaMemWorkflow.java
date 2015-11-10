@@ -1,12 +1,11 @@
 package ca.on.oicr.pde.workflows;
 
-import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
-
 import java.util.Map;
 
-import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Command;
+import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
+import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
 
 /**
  * This workflow takes paired-end FastQ input files and performs alignment, sorting, conversion, 
@@ -229,6 +228,9 @@ public class BwaMemWorkflow extends OicrWorkflow {
 		Command cmd = job.getCommand();
 		cmd.addArgument("set -e; set -o pipefail;");
 		cmd.addArgument(bwa + " mem");
+		if (Boolean.valueOf(getProperty("bwa_mark_secondary_alignments"))) {
+		  cmd.addArgument("-M");
+		}
 		cmd.addArgument(getBwaSpecialMode());
 		String threads = getPropertyOrNull("bwa_threads");
 		if (threads != null) {

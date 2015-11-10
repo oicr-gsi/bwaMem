@@ -1,6 +1,6 @@
 ##BWA-MEM Workflow
 
-Version 1.0, SeqWare version 1.1.0
+Version 1.1, SeqWare version 1.1.0
 
 ###Overview
 
@@ -77,6 +77,7 @@ bwa_mem_mb | Amount of RAM to allocate for the alignment job | Y | 16384
 bwa_threads | Threads to use for for BWA-MEM | N | 8
 bwa_pacbio_mode | May be set to true or false. Enables BWA-MEM's PacBio mode, and should be enabled for PacBio data | N | false
 bwa_ont_mode | May be set to true or false. Enables BWA-MEM's ONT mode, and should be enabled for Oxford nanopore data | N | false
+bwa_mark_secondary_alignments | May be set to true or false. Marks supplementary alignments as secondary for compatibility with Picard | N | true
 bwa-other-params | Additional parameters to use for BWA-MEM command | N | 
 rg_library | Data to include in read group header | Y | library
 rg_platform | Data to include in read group header | Y | illumina
