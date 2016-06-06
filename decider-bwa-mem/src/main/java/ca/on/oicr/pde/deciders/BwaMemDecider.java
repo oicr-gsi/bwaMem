@@ -20,6 +20,27 @@ import net.sourceforge.seqware.common.util.Log;
  *
  */
 public class BwaMemDecider extends OicrDecider {
+
+  private static final String ARG_REFERENCE = "reference";
+  private static final String ARG_VERBOSE = "verbose";
+  private static final String ARG_OUT_FILE = "output-filename";
+  private static final String ARG_MANUAL_OUT = "manual-output";
+  private static final String ARG_ALIGN_FORMAT = "output-format";
+  private static final String ARG_USE_CUTADAPT = "adapter-trimming";
+  private static final String ARG_CUTADAPT_MEMORY = "trim-memory";
+  private static final String ARG_CUTADAPT_MIN_LENGTH = "trim-min-length";
+  private static final String ARG_CUTADAPT_MIN_QUALITY = "trim-min-quality";
+  private static final String ARG_CUTADAPT_R1 = "read1-adapter-trim";
+  private static final String ARG_CUTADAPT_R2 = "read2-adapter-trim";
+  private static final String ARG_CUTADAPT_R1_PARAMS = "read1-trim-params";
+  private static final String ARG_CUTADAPT_R2_PARAMS = "read2-trim-params";
+  private static final String ARG_BWA_MEMORY = "bwa-memory";
+  private static final String ARG_BWA_THREADS = "bwa-threads";
+  private static final String ARG_BWA_PACBIO_MODE = "bwa-pacbio";
+  private static final String ARG_BWA_ONT2D_MODE = "bwa-ont2d";
+  private static final String ARG_BWA_NO_MARK_SECONDARY = "bwa-no-mark-secondary";
+  private static final String ARG_BWA_PARAMS = "bwa-params";
+  private static final String ARG_SAMTOOLS_MEMORY = "samtools-memory";
 	
 	private static enum AlignmentFormat {SAM, BAM, CRAM};
 	
@@ -43,6 +64,8 @@ public class BwaMemDecider extends OicrDecider {
 	// CutAdapt
 	private boolean doTrim = false;
 	private int trimMemoryMb = 16384;
+	private int trimMinLength = 0;
+	private int trimMinQuality = 0;
 	private String read1AdapterTrim = "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG";
 	private String read2AdapterTrim = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT";
 	private String cutadapt1OtherParams = "";
@@ -65,42 +88,43 @@ public class BwaMemDecider extends OicrDecider {
 	private String rgPlatformUnit = "";
 	private String rgSample = "";
 	
-	
 	public BwaMemDecider() {
 		super();
 		// Input args
-		parser.accepts("reference", "indexed reference genome").withRequiredArg();
+		parser.accepts(ARG_REFERENCE, "indexed reference genome").withRequiredArg();
         
 		// Output args
-		parser.accepts("verbose", "Optional: Log all SeqWare information.");
-		parser.accepts("output-filename", "Optional: Default filename is created from the IUS accession, library, run name, barcode, and lane.").withRequiredArg();
-		parser.accepts("manual-output", "Optional: Set output path manually.");
-		parser.accepts("output-format", "Optional: Alignment output format. Options are SAM, BAM (default), and CRAM.").withRequiredArg();
+		parser.accepts(ARG_VERBOSE, "Optional: Log all SeqWare information.");
+		parser.accepts(ARG_OUT_FILE, "Optional: Default filename is created from the IUS accession, library, run name, barcode, and lane.").withRequiredArg();
+		parser.accepts(ARG_MANUAL_OUT, "Optional: Set output path manually.");
+		parser.accepts(ARG_ALIGN_FORMAT, "Optional: Alignment output format. Options are SAM, BAM (default), and CRAM.").withRequiredArg();
 		
 		// CutAdapt args
-		parser.accepts("adapter-trimming");
-		parser.accepts("trim-memory", "Optional: Memory (MB) to allocate for cutadapt (default: 16384)");
-		parser.accepts("read1-adapter-trim", "Adapter sequence to trim from read 1.").withRequiredArg();
-		parser.accepts("read2-adapter-trim", "Adapter sequence to trim from read 2.").withRequiredArg();
-		parser.accepts("read1-trim-params", "Optional: Additional cutadapt parameters for read 1.").withRequiredArg();
-		parser.accepts("read2-trim-params", "Optional: Additional cutadapt parameters for read 2.").withRequiredArg();
+		parser.accepts(ARG_USE_CUTADAPT);
+		parser.accepts(ARG_CUTADAPT_MEMORY, "Optional: Memory (MB) to allocate for cutadapt (default: 16384)");
+		parser.accepts(ARG_CUTADAPT_MIN_LENGTH, "Optional: Minimum length of reads to keep (default: 0)").withRequiredArg();
+		parser.accepts(ARG_CUTADAPT_MIN_QUALITY, "Optional: Minimum quality of read ends to keep (default: 0)").withRequiredArg();
+		parser.accepts(ARG_CUTADAPT_R1, "Adapter sequence to trim from read 1.").withRequiredArg();
+		parser.accepts(ARG_CUTADAPT_R2, "Adapter sequence to trim from read 2.").withRequiredArg();
+		parser.accepts(ARG_CUTADAPT_R1_PARAMS, "Optional: Additional cutadapt parameters for read 1.").withRequiredArg();
+		parser.accepts(ARG_CUTADAPT_R2_PARAMS, "Optional: Additional cutadapt parameters for read 2.").withRequiredArg();
 		
 		// BWA args
-		parser.accepts("bwa-memory", "Optional: Memory (MB) to allocate for bwa mem (default: 16384)");
-		parser.accepts("bwa-threads", "Optional: Threads to use for bwa mem (default: 8).").withRequiredArg();
-		parser.accepts("bwa-pacbio", "Optional: Execute BWA in PacBio mode.");
-		parser.accepts("bwa-ont2d", "Optional: Execute BWA in ONT mode.");
-		parser.accepts("bwa-no-mark-secondary", "Optional: Disable marking of supplementary alignments as secondary. This will break compatibility with Picard");
-		parser.accepts("bwa-params", "Optional: Additional bwa mem parameters.").withRequiredArg();
+		parser.accepts(ARG_BWA_MEMORY, "Optional: Memory (MB) to allocate for bwa mem (default: 16384)");
+		parser.accepts(ARG_BWA_THREADS, "Optional: Threads to use for bwa mem (default: 8).").withRequiredArg();
+		parser.accepts(ARG_BWA_PACBIO_MODE, "Optional: Execute BWA in PacBio mode.");
+		parser.accepts(ARG_BWA_ONT2D_MODE, "Optional: Execute BWA in ONT mode.");
+		parser.accepts(ARG_BWA_NO_MARK_SECONDARY, "Optional: Disable marking of supplementary alignments as secondary. This will break compatibility with Picard");
+		parser.accepts(ARG_BWA_PARAMS, "Optional: Additional bwa mem parameters.").withRequiredArg();
 		
 		// Samtools index args
-		parser.accepts("samtools-memory", "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
+		parser.accepts(ARG_SAMTOOLS_MEMORY, "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
 	}
 	
 	@Override
 	public ReturnValue init() {
 		// Parse, test, and store command-line parameters. Runs through once per decider invocation (all files)
-		if (this.options.has("verbose")) {
+		if (this.options.has(ARG_VERBOSE)) {
 			Log.setVerbose(true);
 		}
 		Log.debug("INIT");
@@ -111,64 +135,70 @@ public class BwaMemDecider extends OicrDecider {
         }
 		
 		// Input
-		if (this.options.has("reference")){
-			this.inputReference = options.valueOf("reference").toString();
+		if (this.options.has(ARG_REFERENCE)){
+			this.inputReference = options.valueOf(ARG_REFERENCE).toString();
 		}
 		
 		// Output
-		if (this.options.has("output-filename")) {
-			outputFileName = options.valueOf("output-filename").toString();
+		if (this.options.has(ARG_OUT_FILE)) {
+			outputFileName = options.valueOf(ARG_OUT_FILE).toString();
 		}
-		if (this.options.has("manual-output")) {
+		if (this.options.has(ARG_MANUAL_OUT)) {
 			this.manualOutput = true;
 		}
-		if (this.options.has("output-format")) {
-			outputFormat = AlignmentFormat.valueOf(options.valueOf("output-format").toString());
+		if (this.options.has(ARG_ALIGN_FORMAT)) {
+			outputFormat = AlignmentFormat.valueOf(options.valueOf(ARG_ALIGN_FORMAT).toString());
 		}
 		
 		// CutAdapt
-		if (this.options.has("adapter-trimming")) {
+		if (this.options.has(ARG_USE_CUTADAPT)) {
 			this.doTrim = true;
 		}
-		if (this.options.has("trim-memory")) {
-			this.trimMemoryMb = Integer.valueOf(options.valueOf("trim-memory").toString());
+		if (this.options.has(ARG_CUTADAPT_MEMORY)) {
+      this.trimMemoryMb = Integer.valueOf(options.valueOf(ARG_CUTADAPT_MEMORY).toString());
+    }
+		if (this.options.has(ARG_CUTADAPT_MIN_LENGTH)) {
+      this.trimMinLength = Integer.valueOf(options.valueOf(ARG_CUTADAPT_MIN_LENGTH).toString());
+    }
+		if (this.options.has(ARG_CUTADAPT_MIN_QUALITY)) {
+      this.trimMinQuality = Integer.valueOf(options.valueOf(ARG_CUTADAPT_MIN_QUALITY).toString());
+    }
+    if (this.options.has(ARG_CUTADAPT_R1)) {
+			this.read1AdapterTrim = options.valueOf(ARG_CUTADAPT_R1).toString();
 		}
-		if (this.options.has("read1-adapter-trim")) {
-			this.read1AdapterTrim = options.valueOf("read1-adapter-trim").toString();
+		if (this.options.has(ARG_CUTADAPT_R2)) {
+			this.read2AdapterTrim = options.valueOf(ARG_CUTADAPT_R2).toString();
 		}
-		if (this.options.has("read2-adapter-trim")) {
-			this.read2AdapterTrim = options.valueOf("read2-adapter-trim").toString();
+		if (this.options.has(ARG_CUTADAPT_R1_PARAMS)) {
+			this.cutadapt1OtherParams = options.valueOf(ARG_CUTADAPT_R1_PARAMS).toString();
 		}
-		if (this.options.has("read1-trim-params")) {
-			this.cutadapt1OtherParams = options.valueOf("read1-trim-params").toString();
-		}
-		if (this.options.has("read2-trim-params")) {
-			this.cutadapt2OtherParams = options.valueOf("read2-trim-params").toString();
+		if (this.options.has(ARG_CUTADAPT_R2_PARAMS)) {
+			this.cutadapt2OtherParams = options.valueOf(ARG_CUTADAPT_R2_PARAMS).toString();
 		}
 		
 		// BWA
-		if (this.options.has("bwa-memory")) {
-			this.bwaMemoryMb = Integer.valueOf(options.valueOf("bwa-memory").toString());
+		if (this.options.has(ARG_BWA_MEMORY)) {
+			this.bwaMemoryMb = Integer.valueOf(options.valueOf(ARG_BWA_MEMORY).toString());
 		}
-		if (this.options.has("bwa-threads")) {
-			this.bwaThreads = Integer.valueOf(options.valueOf("bwa-threads").toString());
+		if (this.options.has(ARG_BWA_THREADS)) {
+			this.bwaThreads = Integer.valueOf(options.valueOf(ARG_BWA_THREADS).toString());
 		}
-		if (this.options.has("bwa-pacbio")) {
-			this.bwaPacbioMode = Boolean.valueOf(options.valueOf("bwa-pacbio").toString());
+		if (this.options.has(ARG_BWA_PACBIO_MODE)) {
+			this.bwaPacbioMode = Boolean.valueOf(options.valueOf(ARG_BWA_PACBIO_MODE).toString());
 		}
-		if (this.options.has("bwa-ont2d")) {
-			this.bwaOntMode = Boolean.valueOf(options.valueOf("bwa-ont2d").toString());
+		if (this.options.has(ARG_BWA_ONT2D_MODE)) {
+			this.bwaOntMode = Boolean.valueOf(options.valueOf(ARG_BWA_ONT2D_MODE).toString());
 		}
-		if (this.options.has("bwa-no-mark-secondary")) {
+		if (this.options.has(ARG_BWA_NO_MARK_SECONDARY)) {
 		  this.bwaMarkSecondaryAlignments = false;
 		}
-		if (this.options.has("bwa-params")) {
-			this.bwaAdditionalParams = options.valueOf("bwa-params").toString();
+		if (this.options.has(ARG_BWA_PARAMS)) {
+			this.bwaAdditionalParams = options.valueOf(ARG_BWA_PARAMS).toString();
 		}
 		
 		// Samtools index
-		if (this.options.has("samtools-memory")) {
-			this.samtoolsMemoryMb = Integer.valueOf(options.valueOf("samtools-memory").toString());
+		if (this.options.has(ARG_SAMTOOLS_MEMORY)) {
+			this.samtoolsMemoryMb = Integer.valueOf(options.valueOf(ARG_SAMTOOLS_MEMORY).toString());
 		}
 		
 		return super.init();
@@ -326,6 +356,8 @@ public class BwaMemDecider extends OicrDecider {
 		// CutAdapt
 		iniFileMap.put("do_trim", String.valueOf(this.doTrim));
 		iniFileMap.put("trim_mem_mb", String.valueOf(this.trimMemoryMb));
+		iniFileMap.put("trim_min_quality", String.valueOf(this.trimMinQuality));
+		iniFileMap.put("trim_min_length", String.valueOf(this.trimMinLength));
 		iniFileMap.put("r1_adapter_trim", this.read1AdapterTrim);
 		iniFileMap.put("r2_adapter_trim", this.read2AdapterTrim);
 		iniFileMap.put("cutadapt_r1_other_params", this.cutadapt1OtherParams);

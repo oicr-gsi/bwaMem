@@ -13,7 +13,9 @@
             "id": "AshPC study test",
             "studies": ["AshPC"],
             "parameters": {
-                "--before-date": "2013-11-19"
+                "--before-date": "2013-11-19",
+                "--trim-min-quality": "20",
+                "--trim-min-length": "10"
             }
         },
         {

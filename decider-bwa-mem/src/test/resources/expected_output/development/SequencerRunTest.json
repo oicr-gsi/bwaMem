@@ -50,8 +50,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -160,8 +160,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -270,8 +270,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -380,8 +380,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -490,8 +490,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -600,8 +600,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],
@@ -710,8 +710,8 @@
       "sequencer_run_name" : "141203_SN804_0218_AC5PCLACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "CPC-GENE" ],

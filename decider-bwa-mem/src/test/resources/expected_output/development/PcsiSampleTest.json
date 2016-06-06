@@ -50,8 +50,8 @@
       "sequencer_run_name" : "110310_SN393_0116_A81ML9ABXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "WGA_test" ],
@@ -164,8 +164,8 @@
       "sequencer_run_name" : "110310_SN393_0116_A81ML9ABXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "WGA_test" ],
@@ -278,8 +278,8 @@
       "sequencer_run_name" : "110401_SN393_0121_A81CGEABXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "LibInputOptimization" ],
@@ -388,8 +388,8 @@
       "sequencer_run_name" : "110401_SN393_0121_A81CGEABXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "LibInputOptimization" ],
@@ -498,8 +498,8 @@
       "sequencer_run_name" : "110401_SN393_0121_A81CGEABXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "LibInputOptimization" ],
@@ -608,8 +608,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -722,8 +722,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -836,8 +836,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -950,8 +950,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1064,8 +1064,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1178,8 +1178,8 @@
       "sequencer_run_name" : "091214_i277_61AML_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1292,8 +1292,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1402,8 +1402,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1512,8 +1512,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1622,8 +1622,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1732,8 +1732,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1842,8 +1842,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -1952,8 +1952,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2062,8 +2062,8 @@
       "sequencer_run_name" : "100720_I277_627MN_AP",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2172,8 +2172,8 @@
       "sequencer_run_name" : "091214_i278_616JH_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2286,8 +2286,8 @@
       "sequencer_run_name" : "091214_i278_616JH_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2400,8 +2400,8 @@
       "sequencer_run_name" : "091214_i278_616JH_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2514,8 +2514,8 @@
       "sequencer_run_name" : "091214_i278_616JH_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2628,8 +2628,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2740,8 +2740,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2852,8 +2852,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -2964,8 +2964,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3076,8 +3076,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3188,8 +3188,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3300,8 +3300,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3412,8 +3412,8 @@
       "sequencer_run_name" : "100129_I278_616Y3_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3524,8 +3524,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3636,8 +3636,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3748,8 +3748,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3860,8 +3860,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -3972,8 +3972,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4084,8 +4084,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4196,8 +4196,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4308,8 +4308,8 @@
       "sequencer_run_name" : "091228_i320_61AKR_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4420,8 +4420,8 @@
       "sequencer_run_name" : "100209_i320_61DEA_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4532,8 +4532,8 @@
       "sequencer_run_name" : "100209_i320_61DEA_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4644,8 +4644,8 @@
       "sequencer_run_name" : "100209_i320_61DEA_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4756,8 +4756,8 @@
       "sequencer_run_name" : "100209_i320_61DEA_AW",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "PCSI" ],
@@ -4868,8 +4868,8 @@
       "sequencer_run_name" : "090527_I581_304RJ_LT",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "McPherson" ],
