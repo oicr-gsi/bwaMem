@@ -58,6 +58,8 @@ manual-output | none | Set output path manually
 output-format | string | Alignment output format. May be SAM, BAM, or CRAM \[BAM\]
 adapter-trimming | none | Enable to trim adapters
 trim-memory | int | RAM in MB to allocate for CutAdapt job \[16384\]
+trim-min-length | int | Minimum length of reads to keep \[0\]
+trim-min-quality | int | Minimum quality of read ends to keep \[0\]
 read1-adapter-trim | string | Adapter sequence to trim from read 1 \[AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG\]
 read2-adapter-trim | string | Adapter sequence to trim from read 2 \[AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT\]
 read1-trim-params | string | Additional cutadapt parameters for read 1

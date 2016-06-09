@@ -50,8 +50,8 @@
       "sequencer_run_name" : "120106_h804_0076_AD0LFWACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "Ovarian_Brain_Colon_Exome_Seq" ],
@@ -162,8 +162,8 @@
       "sequencer_run_name" : "111212_h1080_0086_AC045BACXX",
       "tmp_dir" : "tmp",
       "trim_mem_mb" : "16384",
-      "trim_min_length" : "10",
-      "trim_min_quality" : "20"
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
     },
     "files" : [ {
       "studyTitle" : [ "Ovarian_Brain_Colon_Exome_Seq" ],
