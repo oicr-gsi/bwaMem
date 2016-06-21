@@ -14,6 +14,8 @@
 =cut
 
 use strict;
+use lib $ENV{HOME}."/lib/perl5";
+use JIRA::REST;
 use Getopt::Long;
 use File::Basename;
 use FindBin qw($Bin);
@@ -61,6 +63,7 @@ if (@reports && @reports > 0) {
  my @links = map{s!/oicr/data/!http://www.hpc.oicr.on.ca/!i;$_;} @reports;
  my $message = join("\n",@links);
  `echo \"$message\" | $MAIL -s "New RNAseq Reports expanded for $study, need to make links on OICR wiki" $email`;
+ &make_jticket($message);
 } else {
  print STDERR "Reports are empty, no email will be sent\n" if DEBUG;
 }
@@ -148,4 +151,55 @@ sub process {
  }
  close FILE;
  print STDERR $count." Lines processed\n" if DEBUG;
+}
+
+
+=head2 Posting JIRA sub-issues
+ 
+ This block is for posting JIRA sub-issues
+ depends on OICR credentials in jira.conf file
+ 
+ accepts text as an argument, checks if text contains http
+ to make sure we have something resembling URL
+
+=cut
+
+sub make_jticket {
+ 
+ my $url_text = shift @_;
+ if (!$url_text || $url_text !~/http/) { return; }
+ 
+ my $conf = "$Bin/jira.conf";
+ my($j,$user,$pass,$project,$parent,%config);
+ if (! -e $conf) { die "Couldn't find config file, it needs to be in the same directory with this script"; }
+
+ open(CONF,"<$conf") or die "Couldn't read from config file";
+ %config = map{chomp;my @temp = split("=",$_);$temp[0] => $temp[1]} (<CONF>);
+ close CONF;
+
+ $j    = $config{JIRA};
+ $user = $config{USER};
+ $pass = $config{PASS};
+ $project = $config{PROJECT};
+ $parent  = $config{PARENT};
+ 
+
+ print STDERR Dumper(%config) if DEBUG;
+
+ if (!$j || !$user || !$pass) { die "Couldn't get config data"; }
+ my $jira = JIRA::REST->new($j, $user, $pass);
+
+ # Add Subissue
+ my $issue = $jira->POST('/issue', undef, {
+   fields => {
+      project   => { key => $project },
+      parent    => { key => $parent },
+      issuetype => { name => 'New RNAseqQC reports available',
+                     id   => '5' }, # Sub-task
+      priority  => { id  =>  '3' }, # Major
+      summary     => 'New RNAseqQC reports available',
+      description => 'URL of expanded reports: '."\n".$url_text
+   }
+ });
+
 }
