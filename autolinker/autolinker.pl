@@ -11,6 +11,14 @@
  In case any new reports expanded from a zip archive the script will send an email to the specified
  address with the list of html reports for linking
 
+ for automated jira ticket creation we need file jira.conf that looks like this:
+
+ JIRA=https://jira.mydomain.com
+ USER=MyUserID
+ PASS=MyPass
+ PROJECT=TEST
+ PARENT=TEST-111 
+
 =cut
 
 use strict;
