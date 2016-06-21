@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.Paint.Style;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -110,7 +111,7 @@ public class ChartWidget extends View {
 			
 			//Check for squeezed sectors
 			if (this.sqwueezed[t]) {
-				Log.d(TAG, "Moving sqweezed labels");
+				Log.d(ReporterActivity.TAG, "Moving sqweezed labels");
 				int leftIndex  = t == 0 ? this.angles.length - 1 : t - 1;
 				int rightIndex = t == this.angles.length - 1 ? 0 : t + 1;
 				//Look left

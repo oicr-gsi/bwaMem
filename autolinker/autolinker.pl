@@ -43,18 +43,26 @@ $latest =~/\.gz$/ or die "Latest report should have .gz extension";
 $expand =~/yes|no/ or die "Expand should be set to yes or no";
 
 my $tempfile = "temp_$$";
-`zcat $latest | grep $study | grep $token | grep -i $wf | cut -f 2,8,14,47 > $tempfile`;
+my $c = "zcat $latest | grep $study | grep $token | grep -i $wf | cut -f 2,8,14,47 > $tempfile";
+
+print "Command : [$c]\n" if DEBUG;
+`$c`;
 
 &validate($tempfile);
 &process($tempfile);
 
 # Remove tmp file
-`rm $tempfile`;
+if (-e $tempfile) {`rm $tempfile`;}
 
 # email the list of links to reports
 if (@reports && @reports > 0) {
- my $message = join("\n",@reports);
+ $email or die "Email address not specified, will not send an email";
+ print "Sending email....\n" if DEBUG;
+ my @links = map{s!/oicr/data/!http://www.hpc.oicr.on.ca/!i;$_;} @reports;
+ my $message = join("\n",@links);
  `echo \"$message\" | $MAIL -s "New RNAseq Reports expanded for $study, need to make links on OICR wiki" $email`;
+} else {
+ print STDERR "Reports are empty, no email will be sent\n" if DEBUG;
 }
 
 =head2
@@ -65,19 +73,29 @@ if (@reports && @reports > 0) {
 =cut
 
 sub validate {
+ print STDERR "Validating...\n" if DEBUG;
  my $f = shift @_;
+ my $tmp = "$Bin/validate_$$";
  open(FILE,"<$f") or die "Couldn't read from file with data";
+ open(TEMP,">$tmp") or die "Couldn't write to temporary file";
+ my $count = 0;
  while(<FILE>) {
    chomp;
+   $count++;
    my @temp = split("\t");
-   @temp == 4 or die "Malformed file, won't continue";
-   $temp[0] eq $study or die "Line with unrelated study [$temp[0]]  data, aborting";
-   $temp[1]=~/^$study/ or die "Malformed donor id [$temp[1]], no study info found";
-   $temp[2]=~/^$study/ or die "Unrelated library [$temp[2]] data, aborting";
+   unless (@temp == 4) {print STDERR "Malformed file, won't continue\n"; next;}
+   unless ($temp[0] eq $study)  {print STDERR "Line with unrelated study [$temp[0]]  data, skipping\n"; next; }
+   # unless ($temp[1]=~/^$study/) {print STDERR "Malformed donor id [$temp[1]], no study info found\n"; next; }
+   # unless ($temp[2]=~/^$study/) {print STDERR "Unrelated library [$temp[2]] data, aborting\n"; next; }
    
-   ($temp[3] && -f $temp[3]) or die "Couldn't validate result file, non-existent file?"
+   ($temp[3] && -f $temp[3]) or die "Couldn't validate result file, non-existent file?";
+   print TEMP $_."\n"; 
  }
  close FILE;
+ close TEMP;
+ print STDERR $count." Lines validated\n" if DEBUG;
+
+ `mv $tmp $f`;
 }
 
 =head2
@@ -88,12 +106,16 @@ sub validate {
 =cut
 
 sub process {
+ print STDERR "Processing...\n" if DEBUG;
  my $f = shift @_;
  open(FILE,"<$f") or die "Couldn't read from file with data";
+ my $count = 0;
  while(<FILE>) {
    chomp;
+   $count++;
    my @temp = split("\t");
    my $donor = $temp[1];
+   $donor=~s/(\d+).*/$1/; # Remove everything after digits
    $donor=~s/_//g; #remove all underscores
    my $basedir = $datadir.$donor;
    my $sd = join("/",($basedir,$temp[2],$subdir));
@@ -115,13 +137,15 @@ sub process {
      print STDERR "Will link out to file [$temp[3]] in [$sd]\n" if DEBUG;
      `ln -s $temp[3] -t $sd`;
      if ($lf=~/\.zip$/ && $expand=~/yes/) {
-       print STDERR "Will expand [$filebase]\n";
-       `cd $sd && unzip $filebase && cd $Bin`;
-       my $report = `ls -lh $sd/*/*.html | cut -f 9`;
+       print STDERR "Will expand [$filebase]\n" if DEBUG;
+       `cd $sd && unzip -n $filebase`;
+       my $report = `ls --color="none" -C $sd/*/*.html`;
+       chomp($report);
        if ($report && -e $report) {push (@reports,$report);}
+       `cd -`;
      }
    }
  }
  close FILE;
-
+ print STDERR $count." Lines processed\n" if DEBUG;
 }
