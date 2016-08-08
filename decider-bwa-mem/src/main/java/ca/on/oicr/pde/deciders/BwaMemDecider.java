@@ -41,7 +41,7 @@ public class BwaMemDecider extends OicrDecider {
   private static final String ARG_BWA_NO_MARK_SECONDARY = "bwa-no-mark-secondary";
   private static final String ARG_BWA_PARAMS = "bwa-params";
   private static final String ARG_SAMTOOLS_MEMORY = "samtools-memory";
-	
+ 	
 	private static enum AlignmentFormat {SAM, BAM, CRAM};
 	
 	// Default INI settings here are overridden by command-line parameters in init() and then maintained for all files/groups
@@ -62,15 +62,16 @@ public class BwaMemDecider extends OicrDecider {
 	private boolean manualOutput = false;
 	
 	// CutAdapt
-	private boolean doTrim = false;
-	private int trimMemoryMb = 16384;
+	private boolean doForceTrim = false;
+        private boolean doTrim = false;
+        private int trimMemoryMb = 16384;
 	private int trimMinLength = 0;
 	private int trimMinQuality = 0;
-	private String read1AdapterTrim = "AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG";
-	private String read2AdapterTrim = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT";
+	private String read1AdapterTrim = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC";
+   	private String read2AdapterTrim = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT";
 	private String cutadapt1OtherParams = "";
 	private String cutadapt2OtherParams = "";
-	
+        
 	// BWA
 	private int bwaMemoryMb = 16384;
 	private int bwaThreads = 8;
@@ -108,7 +109,7 @@ public class BwaMemDecider extends OicrDecider {
 		parser.accepts(ARG_CUTADAPT_R2, "Adapter sequence to trim from read 2.").withRequiredArg();
 		parser.accepts(ARG_CUTADAPT_R1_PARAMS, "Optional: Additional cutadapt parameters for read 1.").withRequiredArg();
 		parser.accepts(ARG_CUTADAPT_R2_PARAMS, "Optional: Additional cutadapt parameters for read 2.").withRequiredArg();
-		
+	
 		// BWA args
 		parser.accepts(ARG_BWA_MEMORY, "Optional: Memory (MB) to allocate for bwa mem (default: 16384)");
 		parser.accepts(ARG_BWA_THREADS, "Optional: Threads to use for bwa mem (default: 8).").withRequiredArg();
@@ -152,7 +153,7 @@ public class BwaMemDecider extends OicrDecider {
 		
 		// CutAdapt
 		if (this.options.has(ARG_USE_CUTADAPT)) {
-			this.doTrim = true;
+                        this.doForceTrim = true;
 		}
 		if (this.options.has(ARG_CUTADAPT_MEMORY)) {
       this.trimMemoryMb = Integer.valueOf(options.valueOf(ARG_CUTADAPT_MEMORY).toString());
@@ -175,7 +176,7 @@ public class BwaMemDecider extends OicrDecider {
 		if (this.options.has(ARG_CUTADAPT_R2_PARAMS)) {
 			this.cutadapt2OtherParams = options.valueOf(ARG_CUTADAPT_R2_PARAMS).toString();
 		}
-		
+	
 		// BWA
 		if (this.options.has(ARG_BWA_MEMORY)) {
 			this.bwaMemoryMb = Integer.valueOf(options.valueOf(ARG_BWA_MEMORY).toString());
@@ -236,7 +237,13 @@ public class BwaMemDecider extends OicrDecider {
 			Log.debug("Skipping "+filePath+" due to incompatible library template type "+templateType);
 			return false;
 		}
-		
+                this.doTrim = this.doForceTrim;
+		String doTrimValue = String.valueOf(this.doTrim);
+                if (doTrimValue.equals("false")) {
+                    if (templateType.equals ("EX") || templateType.equals ("TS")) {
+                        this.doTrim = true;
+                    }
+                }
 		// If xenograft, check if it's a Xenome output
 		String tissueType = attribs.getLimsValue(Lims.TISSUE_TYPE);
 		if (tissueType == null) {
