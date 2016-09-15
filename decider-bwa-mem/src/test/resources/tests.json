@@ -1,0 +1,43 @@
+{
+	"defaultDescription": "BWA-MEM decider test",
+	"defaultMetricsResources": "/expected_output/development/",
+	"defaultParameters": {
+        "--output-path": "./",
+        "--verbose": ""
+    },
+	"defaultIniExclusions": ["parent-accessions", "workflow_run_accession", "workflow-run-accession",
+        "unique_string", "parent_accessions", "parent_accession", "input_file", "input_files", "workflow_bundle_dir",
+        "output_prefix"],
+	"tests": [
+		{
+            "id": "AshPC study test",
+            "studies": ["AshPC"],
+            "parameters": {
+                "--before-date": "2013-11-19",
+                "--trim-min-quality": "20",
+                "--trim-min-length": "10"
+            }
+        },
+        {
+            "id": "PCSI sample test",
+            "parameters": {
+                "--root-sample-name": "PCSI_0005",
+                "--before-date": "2013-11-19"
+            }
+        },
+        {
+            "id": "sequencer run test",
+            "sequencerRuns": ["141203_SN804_0218_AC5PCLACXX"],
+            "parameters": {
+                "--before-date": "2015-07-14"
+            }
+        },
+        {
+            "id": "OBC sample test",
+            "parameters": {
+                "--root-sample-name": "OBC_0001",
+                "--before-date": "2013-11-19"
+            }
+        }
+	]
+}
