@@ -6,18 +6,10 @@
  new reports produced with a specified workflow and link to the files
  in appropriate directory
 
- ./autolinker.pl --study PCSI --data-dir /.mount/labs/PDE/data --token COMP --subdir qc --expand yes --workflow RnaSeqQc
+ ./autolinker.pl --study PCSI --data-dir /.mount/labs/PDE/data --token COMP --subdir qc --expand yes --workflow RnaSeqQc --jira-conf myJira.conf
 
  In case any new reports expanded from a zip archive the script will send an email to the specified
  address with the list of html reports for linking
-
- for automated jira ticket creation we need file jira.conf that looks like this:
-
- JIRA=https://jira.mydomain.com
- USER=MyUserID
- PASS=MyPass
- PROJECT=TEST
- PARENT=TEST-111 
 
 =cut
 
@@ -30,15 +22,17 @@ use FindBin qw($Bin);
 use constant DEBUG=>0;
 
 my $MAIL = "mail";
-my($study, $outdir, $datadir, $token, $subdir, $expand, $wf, $latest, $email, @reports);
-my $USAGE = "autolinker.pl --study [study id] --data-dir [directory for linking] --token [string to use for filtering] --subdir[subdir to expand to] --workflow [name of workflow] --latest [latest report, gzipped]\n";
+my($study, $outdir, $datadir, $token, $subdir, $expand, $wf, $latest, $email, @reports, $jirafile, $splitlanes);
+my $USAGE = "autolinker.pl --study [study id] --data-dir [directory for linking] --token [string to use for filtering] --subdir[subdir to expand to] --workflow [name of workflow] --latest [latest report, gzipped] --split-lanes [optional] --jira-conf [Optional custom conf]\n";
 
 my $result = GetOptions("study=s"        => \$study,
                         "data-dir=s"     => \$datadir,
                         "token=s"        => \$token,
                         "subdir=s"       => \$subdir,
+                        "split-lanes"    => \$splitlanes, # if needed, append lane to qc subdir to avoid file collision
                         "expand=s"       => \$expand,
                         "workflow=s"     => \$wf,
+                        "jira-conf=s"    => \$jirafile,
                         "email=s"        => \$email,
                         "latest=s"       => \$latest);
 
@@ -53,7 +47,9 @@ $latest =~/\.gz$/ or die "Latest report should have .gz extension";
 $expand =~/yes|no/ or die "Expand should be set to yes or no";
 
 my $tempfile = "temp_$$";
-my $c = "zcat $latest | grep $study | grep $token | grep -i $wf | cut -f 2,8,14,47 > $tempfile";
+my $c = "zcat $latest | grep $study";
+$c.=" | grep $token " if $token;
+$c.=" | grep -i $wf | cut -f 2,8,14,47 > $tempfile";
 
 print "Command : [$c]\n" if DEBUG;
 `$c`;
@@ -71,7 +67,7 @@ if (@reports && @reports > 0) {
  my @links = map{s!/oicr/data/!http://www.hpc.oicr.on.ca/!i;$_;} @reports;
  my $message = join("\n",@links);
  `echo \"$message\" | $MAIL -s "New RNAseq Reports expanded for $study, need to make links on OICR wiki" $email`;
- &make_jticket($message);
+  &make_jticket($message);
 } else {
  print STDERR "Reports are empty, no email will be sent\n" if DEBUG;
 }
@@ -121,15 +117,18 @@ sub process {
  my $f = shift @_;
  open(FILE,"<$f") or die "Couldn't read from file with data";
  my $count = 0;
+ my %repfiles = ();
  while(<FILE>) {
    chomp;
    $count++;
    my @temp = split("\t");
    my $donor = $temp[1];
+   my $lane  = $1 if $temp[3]=~/_(L\d+)_/;
    $donor=~s/(\d+).*/$1/; # Remove everything after digits
    $donor=~s/_//g; #remove all underscores
    my $basedir = $datadir.$donor;
    my $sd = join("/",($basedir,$temp[2],$subdir));
+   if ($splitlanes && $lane) {$sd .=".$lane";}
    
    my $filebase = basename($temp[3]);
    if ($filebase =~/fastq/ && $filebase=~/_WG_/) {
@@ -150,13 +149,12 @@ sub process {
      if ($lf=~/\.zip$/ && $expand=~/yes/) {
        print STDERR "Will expand [$filebase]\n" if DEBUG;
        `cd $sd && unzip -n $filebase`;
-       my $report = `ls --color="none" -C $sd/*/*.html`;
-       chomp($report);
-       if ($report && -e $report) {push (@reports,$report);}
-       `cd -`;
+       my @reps = `ls --color="none" -C $sd/*/*.html`;
+       map {chomp;$repfiles{$_}++} @reps;
      }
    }
  }
+ map {if ($_ && -e $_) {push (@reports,$_)} } (keys %repfiles);
  close FILE;
  print STDERR $count." Lines processed\n" if DEBUG;
 }
@@ -177,7 +175,8 @@ sub make_jticket {
  my $url_text = shift @_;
  if (!$url_text || $url_text !~/http/) { return; }
  
- my $conf = "$Bin/jira.conf";
+ my $conf = $jirafile;
+ $conf ||= "$Bin/jira.conf"; #Default to jira.conf
  my($j,$user,$pass,$project,$parent,%config);
  if (! -e $conf) { die "Couldn't find config file, it needs to be in the same directory with this script"; }
 
