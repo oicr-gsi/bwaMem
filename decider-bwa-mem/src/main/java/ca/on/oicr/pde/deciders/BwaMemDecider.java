@@ -1,8 +1,8 @@
 package ca.on.oicr.pde.deciders;
 
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +89,8 @@ public class BwaMemDecider extends OicrDecider {
     private String rgPlatformUnit = "";
     private String rgSample = "";
 
+    private final Map<String, String> modelToPlatform = new HashMap<>();
+
     public BwaMemDecider() {
         super();
         // Input args
@@ -119,6 +121,18 @@ public class BwaMemDecider extends OicrDecider {
 
         // Samtools index args
         parser.accepts(ARG_SAMTOOLS_MEMORY, "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
+
+        //populate model to platform map with known sequencer run models and their corresponding platform (@RG PL)
+        //GATK expects one of: ILLUMINA,SLX,SOLEXA,SOLID,454,LS454,COMPLETE,PACBIO,IONTORRENT,CAPILLARY,HELICOS,UNKNOWN
+        modelToPlatform.put("HiSeq", "ILLUMINA");
+        modelToPlatform.put("ILLUMINA", "ILLUMINA");
+        modelToPlatform.put("Illumina HiSeq 2500", "ILLUMINA");
+        modelToPlatform.put("NextSeq 550", "ILLUMINA");
+        modelToPlatform.put("Illumina MiSeq", "ILLUMINA");
+        modelToPlatform.put("PacBio RS", "PACBIO");
+        modelToPlatform.put("454", "454");
+        modelToPlatform.put("Genome Analyzer", "ILLUMINA");
+        modelToPlatform.put("SOLiD", "SOLID");
     }
 
     @Override
@@ -318,6 +332,13 @@ public class BwaMemDecider extends OicrDecider {
         } else {
             Log.error("Missing file: Two files required for workflow");
             return new ReturnValue(ExitStatus.INVALIDFILE);
+        }
+
+        if (modelToPlatform.containsKey(this.rgPlatform)) {
+            this.rgPlatform = modelToPlatform.get(this.rgPlatform);
+        } else {
+            Log.warn("Sequencer run model = [" + this.rgPlatform + "] platform is missing");
+            return new ReturnValue(ExitStatus.FAILURE);
         }
 
         return super.doFinalCheck(commaSeparatedFilePaths, commaSeparatedParentAccessions);
