@@ -135,6 +135,7 @@ public class BwaMemDecider extends OicrDecider {
         modelToPlatform.put("SOLiD", "SOLID");
         modelToPlatform.put("Illumina_HiSeq_2500", "ILLUMINA");
         modelToPlatform.put("NextSeq_550", "ILLUMINA");
+        modelToPlatform.put("Illumina_MiSeq", "ILLUMINA");
     }
 
     @Override
