@@ -1,18 +1,21 @@
 {
-	"defaultDescription": "BWA-MEM decider test",
-	"defaultMetricsResources": "/expected_output/development/",
-	"defaultParameters": {
-        "--output-path": "./",
-        "--verbose": ""
+    "defaults": {
+        "description": "BWA-MEM decider test",
+        "metricsResources": "/expected_output/development/",
+        "parameters": {
+            "--output-path": "./",
+            "--verbose": ""
+        },
+        "iniExclusions": ["parent-accessions", "workflow_run_accession", "workflow-run-accession",
+            "unique_string", "parent_accessions", "parent_accession", "input_file", "input_files", "workflow_bundle_dir",
+            "output_prefix"]
     },
-	"defaultIniExclusions": ["parent-accessions", "workflow_run_accession", "workflow-run-accession",
-        "unique_string", "parent_accessions", "parent_accession", "input_file", "input_files", "workflow_bundle_dir",
-        "output_prefix"],
-	"tests": [
-		{
+    "tests": [
+        {
             "id": "AshPC study test",
-            "studies": ["AshPC"],
             "parameters": {
+                "--all": "",
+                "--include-study": "AshPC",
                 "--before-date": "2013-11-19",
                 "--trim-min-quality": "20",
                 "--trim-min-length": "10"
@@ -21,23 +24,35 @@
         {
             "id": "PCSI sample test",
             "parameters": {
-                "--root-sample-name": "PCSI_0005",
+                "--all": "",
+                "--include-root-sample": "PCSI_0005",
                 "--before-date": "2013-11-19"
             }
         },
         {
             "id": "sequencer run test",
-            "sequencerRuns": ["141203_SN804_0218_AC5PCLACXX"],
             "parameters": {
+                "--all": "",
+                "--include-sequencer-run": "141203_SN804_0218_AC5PCLACXX",
                 "--before-date": "2015-07-14"
             }
         },
         {
             "id": "OBC sample test",
             "parameters": {
-                "--root-sample-name": "OBC_0001",
+                "--all": "",
+                "--include-root-sample": "OBC_0001",
+                "--before-date": "2013-11-19"
+            }
+        },
+        {
+            "id": "PCSI sample test 2",
+            "parameters": {
+                "--all": "",
+                "--include-root-sample": "PCSI_0005,PCSI_0006",
+                "--exclude-root-sample": "PCSI_0006",
                 "--before-date": "2013-11-19"
             }
         }
-	]
+    ]
 }
