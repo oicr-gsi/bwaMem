@@ -1,0 +1,3096 @@
+{
+  "workflowRunCount" : 28,
+  "studies" : [ "McPherson", "PCSI" ],
+  "sequencerRuns" : [ "090527_I581_304RJ_LT", "091228_i320_61AKR_LT", "100129_I278_616Y3_AW", "100209_i320_61DEA_AW", "100720_I277_627MN_AP" ],
+  "lanes" : [ "090527_I581_304RJ_LT_lane_4", "091228_i320_61AKR_LT_lane_1", "091228_i320_61AKR_LT_lane_2", "091228_i320_61AKR_LT_lane_3", "091228_i320_61AKR_LT_lane_4", "091228_i320_61AKR_LT_lane_5", "091228_i320_61AKR_LT_lane_6", "091228_i320_61AKR_LT_lane_7", "091228_i320_61AKR_LT_lane_8", "100129_I278_616Y3_AW_lane_1", "100129_I278_616Y3_AW_lane_2", "100129_I278_616Y3_AW_lane_3", "100129_I278_616Y3_AW_lane_4", "100129_I278_616Y3_AW_lane_5", "100129_I278_616Y3_AW_lane_6", "100129_I278_616Y3_AW_lane_7", "100129_I278_616Y3_AW_lane_8", "100209_i320_61DEA_AW_lane_5", "100209_i320_61DEA_AW_lane_6", "100209_i320_61DEA_AW_lane_8", "100720_I277_627MN_AP_lane_1", "100720_I277_627MN_AP_lane_2", "100720_I277_627MN_AP_lane_3", "100720_I277_627MN_AP_lane_4", "100720_I277_627MN_AP_lane_5", "100720_I277_627MN_AP_lane_6", "100720_I277_627MN_AP_lane_7", "100720_I277_627MN_AP_lane_8" ],
+  "samples" : [ "PCSI_0005_Ly_R_PE_277_WG", "PCSI_0005_Pa_P_PE_254_WG", "PCSI_0005_Pa_P_PE_266_WG", "PCSI_0005_Pa_P_PE_401_WG", "PCSI_0005_Pa_P_PE_nn_EX" ],
+  "workflows" : [ "FileImport" ],
+  "processingAlgorithms" : [ "fileImport" ],
+  "fileMetaTypes" : [ "chemical/seq-na-fastq-gzip" ],
+  "maxInputFiles" : 2,
+  "minInputFiles" : 2,
+  "totalInputFiles" : 56,
+  "workflowRuns" : [ {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_5_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_5_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890101",
+      "lane" : "5",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Ly_R_PE_277_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100209_i320_61DEA_AW-NoIndex_5",
+      "rg_sample_name" : "PCSI_0005_Ly_R",
+      "sequencer_run_name" : "100209_i320_61DEA_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1892119219
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -538809522
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_6_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_6_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890151",
+      "lane" : "6",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Ly_R_PE_277_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100209_i320_61DEA_AW-NoIndex_6",
+      "rg_sample_name" : "PCSI_0005_Ly_R",
+      "sequencer_run_name" : "100209_i320_61DEA_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1383281393
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1558376206
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_8_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/100209_I320_615DEA_AW/Data/C1-202_Firecrest1.6.0_20-02-2010_mchan/Bustard1.6.0_20-02-2010_mchan/GERALD_16-03-2010_mchan/s_8_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890103",
+      "lane" : "8",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Ly_R_PE_277_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100209_i320_61DEA_AW-NoIndex_8",
+      "rg_sample_name" : "PCSI_0005_Ly_R",
+      "sequencer_run_name" : "100209_i320_61DEA_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -130567536
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Ly_R_PE_277_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1976", "1977", "1978", "1979" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "315_5_1", "315_6_1", "315_7_1", "315_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2104" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Ly" ] ],
+        "geo_tissue_type" : [ [ "R" ] ]
+      },
+      "sequencerRunName" : [ "100209_i320_61DEA_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "315" ] ]
+      },
+      "laneName" : [ "100209_i320_61DEA_AW_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1222742161
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_1_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_1_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890069",
+      "lane" : "1",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_1",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1052244358
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1889413241
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_2_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_2_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890071",
+      "lane" : "2",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_2",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1896716229
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1044941370
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_3_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_3_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890073",
+      "lane" : "3",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_3",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1553779196
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 200469499
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_4_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_4_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890075",
+      "lane" : "4",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_4",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -644002372
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 709307325
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_5_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_5_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890087",
+      "lane" : "5",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_5",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -135164546
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1488474243
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_6_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_6_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890091",
+      "lane" : "6",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_6",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -979636417
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1962021182
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_7_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_7_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890095",
+      "lane" : "7",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_7",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1824108288
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1117549311
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_8_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i320/091228_I320_61AKR_LT/Data/Intensities/BaseCalls/GERALD_09-01-2010_mchan/s_8_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890097",
+      "lane" : "8",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_254_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "091228_i320_61AKR_LT-NoIndex_8",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "091228_i320_61AKR_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1626387137
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_254_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1729", "1730", "1731", "1732", "1733", "1734", "1735", "1736" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "274_1_1", "274_2_1", "274_3_1", "274_4_1", "274_5_1", "274_6_1", "274_7_1", "274_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "1957" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "091228_i320_61AKR_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "274" ] ]
+      },
+      "laneName" : [ "091228_i320_61AKR_LT_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 273077440
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_1_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_1_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890227",
+      "lane" : "1",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_1",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1062561951
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1879095648
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_2_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_2_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890231",
+      "lane" : "2",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_2",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1907033822
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1034623777
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_3_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_3_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890233",
+      "lane" : "3",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_3",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1543461603
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 190151906
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_4_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_4_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890235",
+      "lane" : "4",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_4",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -654319965
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 698989732
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_5_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_5_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890237",
+      "lane" : "5",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_5",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -145482139
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1498791836
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_6_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_6_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890239",
+      "lane" : "6",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_6",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -989954010
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1951703589
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_7_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_7_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890241",
+      "lane" : "7",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_7",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1834425881
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1107231718
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_8_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i278/100129_I278_616Y3_AW2/Data/C1-165_Firecrest1.6.0_09-02-2010_mchan/Bustard1.6.0_09-02-2010_mchan/GERALD_10-02-2010_mchan/s_8_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5890243",
+      "lane" : "8",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_266_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100129_I278_616Y3_AW-NoIndex_8",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100129_I278_616Y3_AW",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1616069544
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_266_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "GA_PE" ] ],
+        "geo_reaction_id" : [ [ "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "309_1_1", "309_2_1", "309_3_1", "309_4_1", "309_5_1", "309_6_1", "309_7_1", "309_8_1" ] ],
+        "geo_template_id" : [ [ "1265", "2084" ] ],
+        "geo_template_type" : [ [ "DNA", "Identity" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100129_I278_616Y3_AW" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "309" ] ]
+      },
+      "laneName" : [ "100129_I278_616Y3_AW_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 262759847
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_1_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_1_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891409",
+      "lane" : "1",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_1",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 112716155
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_1" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "1" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1466025852
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_2_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_2_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891407",
+      "lane" : "2",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_2",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -731755716
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_2" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "2" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 621553981
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_3_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_3_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891405",
+      "lane" : "3",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_3",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1576227587
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_3" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "3" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -222917890
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_4_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_4_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891403",
+      "lane" : "4",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_4",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1067389761
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1874267838
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_5_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_5_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891401",
+      "lane" : "5",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_5",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1911861632
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_5" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "5" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1029795967
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_6_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_6_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891397",
+      "lane" : "6",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_6",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 1538633793
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_6" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "6" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 185324096
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_7_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_7_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891395",
+      "lane" : "7",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_7",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -659147775
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_7" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "7" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 694161922
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "false",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_8_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i277/100720_I277_627MN_AP/Data/Intensities/Bustard1.8.0a7_19-08-2010_rdeborja/GERALD_19-08-2010_rdeborja/s_8_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5891391",
+      "lane" : "8",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_401_WG",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "100720_I277_627MN_AP-NoIndex_8",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "100720_I277_627MN_AP",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -150309949
+    }, {
+      "studyTitle" : [ "PCSI" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "33" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_401_WG" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "2011-04-19", "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "WG" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_prep_kit" : [ [ "None" ] ],
+        "geo_purpose" : [ [ "Library" ] ],
+        "geo_reaction_id" : [ [ "2839", "2840", "2841", "2842", "2843", "2844", "2845", "2846", "2847", "2848", "2849", "2850", "2851", "2852", "2853", "2854" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "437_1_1", "437_2_1", "437_3_1", "437_4_1", "437_5_1", "437_6_1", "437_7_1", "437_8_1", "438_1_1", "438_2_1", "438_3_1", "438_4_1", "438_5_1", "438_6_1", "438_7_1", "438_8_1" ] ],
+        "geo_str_result" : [ [ "Not Submitted" ] ],
+        "geo_template_id" : [ [ "1265", "14202", "1731", "3203", "3794", "3795" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library", "Illumina PE Library Seq", "Primary Tumor Tissue", "gDNA", "gDNA_wga" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "100720_I277_627MN_AP" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "437" ] ]
+      },
+      "laneName" : [ "100720_I277_627MN_AP_lane_8" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "8" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -1503619646
+    } ]
+  }, {
+    "workflowIni" : {
+      "barcode" : "NoIndex",
+      "bundled_jre" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/jre1.7.0_51/bin/java",
+      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bwa" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/bwa-0.6.2/bwa",
+      "bwa_aln_mem_mb" : "16384",
+      "bwa_sampe_mem_mb" : "16000",
+      "cutadapt" : "/oicr/local/analysis/sw/cutadapt/cutadapt-1.3/bin/cutadapt",
+      "cutadapt_r1_other_params" : "",
+      "cutadapt_r2_other_params" : "",
+      "do_trim" : "true",
+      "group_id" : "",
+      "input_file_1" : "/oicr/data/archive/i581/090527_i581_304RJ_LT/Data/C1-152_Firecrest1.4.0_05-06-2009_mchan/Bustard1.4.0_05-06-2009_mchan/GERALD_05-06-2009_mchan/s_4_1_sequence.txt.gz",
+      "input_file_2" : "/oicr/data/archive/i581/090527_i581_304RJ_LT/Data/C1-152_Firecrest1.4.0_05-06-2009_mchan/Bustard1.4.0_05-06-2009_mchan/GERALD_05-06-2009_mchan/s_4_2_sequence.txt.gz",
+      "input_reference" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/data/reference/bwa-0.6.2/hg19_random.fa",
+      "ius_accession" : "5916751",
+      "lane" : "4",
+      "manual_output" : "false",
+      "metadata" : "metadata",
+      "numOfThreads" : "8",
+      "outputFileName" : "",
+      "output_dir" : "seqware-results",
+      "picard_addreadgroups" : "${workflow_bundle_dir}/Workflow_Bundle_bwa/1.4/bin/picard-tools-1.89/AddOrReplaceReadGroups.jar",
+      "python" : "/oicr/local/sw/Python-2.7.2/bin/python2.7",
+      "r1_adapter_trim" : "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",
+      "r2_adapter_trim" : "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+      "rg_library" : "PCSI_0005_Pa_P_PE_nn_EX",
+      "rg_platform" : "illumina",
+      "rg_platform_unit" : "090527_I581_304RJ_LT-NoIndex_4",
+      "rg_sample_name" : "PCSI_0005_Pa_P",
+      "sequencer_run_name" : "090527_I581_304RJ_LT",
+      "trim_mem_mb" : "16384",
+      "trim_min_length" : "0",
+      "trim_min_quality" : "0"
+    },
+    "files" : [ {
+      "studyTitle" : [ "McPherson" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "7" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_nn_EX" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "EX" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_reaction_id" : [ [ "852" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "117_4_1" ] ],
+        "geo_template_id" : [ [ "1265", "1266", "938" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library Seq", "Primary Tumor Tissue" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "090527_I581_304RJ_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "117" ] ]
+      },
+      "laneName" : [ "090527_I581_304RJ_LT_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : -684251873
+    }, {
+      "studyTitle" : [ "McPherson" ],
+      "studyAttributes" : {
+        "geo_lab_group_id" : [ [ "7" ] ]
+      },
+      "experimentName" : [ ],
+      "experimentAttributes" : { },
+      "sampleName" : [ "PCSI_0005_Pa_P_PE_nn_EX" ],
+      "sampleAttributes" : {
+        "geo_external_name" : [ [ "4535-1" ] ],
+        "geo_library_source_template_type" : [ [ "EX" ] ],
+        "geo_organism" : [ [ "Homo sapiens" ] ],
+        "geo_reaction_id" : [ [ "852" ] ],
+        "geo_run_id_and_position_and_slot" : [ [ "117_4_1" ] ],
+        "geo_template_id" : [ [ "1265", "1266", "938" ] ],
+        "geo_template_type" : [ [ "Identity", "Illumina PE Library Seq", "Primary Tumor Tissue" ] ],
+        "geo_tissue_origin" : [ [ "Pa" ] ],
+        "geo_tissue_type" : [ [ "P" ] ]
+      },
+      "sequencerRunName" : [ "090527_I581_304RJ_LT" ],
+      "sequencerRunAttributes" : {
+        "geo_instrument_run_id" : [ [ "117" ] ]
+      },
+      "laneName" : [ "090527_I581_304RJ_LT_lane_4" ],
+      "laneAttributes" : {
+        "geo_lane" : [ [ "4" ] ]
+      },
+      "iusTag" : [ "NoIndex" ],
+      "iusAttributes" : { },
+      "workflowName" : [ "FileImport" ],
+      "processingAlgorithm" : [ "fileImport" ],
+      "processingAttributes" : { },
+      "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
+      "fileAttributes" : { },
+      "fileId" : 669057824
+    } ]
+  } ]
+}

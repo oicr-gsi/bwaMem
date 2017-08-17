@@ -10,14 +10,14 @@
     </parent>
 
     <groupId>ca.on.oicr.pde.workflows</groupId>
-    <artifactId>BWA</artifactId>
+    <artifactId>workflow-bwa</artifactId>
     <version>1.4</version>
     <packaging>jar</packaging>
 
     <name>${display-name}</name>
 
     <properties>
-        <workflow-name>BWA</workflow-name>
+        <workflow-name>bwa</workflow-name>
         <samtools-version>0.1.19</samtools-version>
 	<bwa-version>0.6.2</bwa-version>
 	<picard-version>1.89</picard-version>
@@ -63,6 +63,7 @@
             <groupId>ca.on.oicr.pde</groupId>
             <artifactId>common-utilities</artifactId>
             <version>1.6.5</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
