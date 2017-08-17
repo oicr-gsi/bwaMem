@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BWA-MEM Decider Test Suite" parallel="methods" thread-count="20">
+<suite name="BWA Decider Test Suite" parallel="methods" thread-count="${runTestThreads}">
     <test name="Run Tests">
         <classes>
             <parameter name="testDefinition" value="/tests.json"/>

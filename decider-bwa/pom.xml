@@ -20,6 +20,8 @@
     <properties>
         <workflow-version>1.4</workflow-version>
         <main-class>ca.on.oicr.pde.deciders.BwaDecider</main-class>
+        <runTestThreads>20</runTestThreads>
+        <testSuite>target/test-classes/development.xml</testSuite>
     </properties>
 
 
