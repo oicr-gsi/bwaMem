@@ -1,16 +1,22 @@
 package ca.on.oicr.pde.deciders;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import joptsimple.OptionSpec;
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles.Header;
 import net.sourceforge.seqware.common.module.FileMetadata;
 import net.sourceforge.seqware.common.module.ReturnValue;
 import net.sourceforge.seqware.common.module.ReturnValue.ExitStatus;
 import net.sourceforge.seqware.common.util.Log;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 /**
  * This decider finds FastQ files, groups them by IUS Accession, and schedules BWA-MEM workflow runs for each pair.
@@ -40,6 +46,7 @@ public class BwaMemDecider extends OicrDecider {
     private static final String ARG_BWA_NO_MARK_SECONDARY = "bwa-no-mark-secondary";
     private static final String ARG_BWA_PARAMS = "bwa-params";
     private static final String ARG_SAMTOOLS_MEMORY = "samtools-memory";
+    private final OptionSpec<String> modelToPlatformMapFileOpt;
 
     private static enum AlignmentFormat {
         SAM, BAM, CRAM
@@ -124,18 +131,9 @@ public class BwaMemDecider extends OicrDecider {
 
         //populate model to platform map with known sequencer run models and their corresponding platform (@RG PL)
         //GATK expects one of: ILLUMINA,SLX,SOLEXA,SOLID,454,LS454,COMPLETE,PACBIO,IONTORRENT,CAPILLARY,HELICOS,UNKNOWN
-        modelToPlatform.put("HiSeq", "ILLUMINA");
-        modelToPlatform.put("ILLUMINA", "ILLUMINA");
-        modelToPlatform.put("Illumina HiSeq 2500", "ILLUMINA");
-        modelToPlatform.put("NextSeq 550", "ILLUMINA");
-        modelToPlatform.put("Illumina MiSeq", "ILLUMINA");
-        modelToPlatform.put("PacBio RS", "PACBIO");
-        modelToPlatform.put("454", "454");
-        modelToPlatform.put("Genome Analyzer", "ILLUMINA");
-        modelToPlatform.put("SOLiD", "SOLID");
-        modelToPlatform.put("Illumina_HiSeq_2500", "ILLUMINA");
-        modelToPlatform.put("NextSeq_550", "ILLUMINA");
-        modelToPlatform.put("Illumina_MiSeq", "ILLUMINA");
+        modelToPlatformMapFileOpt = parser.acceptsAll(Arrays.asList("model-to-platform-map"),
+                "Path to the model to platform map file.")
+                .withRequiredArg().ofType(String.class).required();
     }
 
     @Override
@@ -216,6 +214,21 @@ public class BwaMemDecider extends OicrDecider {
         // Samtools index
         if (this.options.has(ARG_SAMTOOLS_MEMORY)) {
             this.samtoolsMemoryMb = Integer.valueOf(options.valueOf(ARG_SAMTOOLS_MEMORY).toString());
+        }
+
+        //Load the model to platform map file
+        String modelToPlatformMapFile = options.valueOf(modelToPlatformMapFileOpt);
+        try {
+            CSVParser csvFileParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new FileReader(new File(modelToPlatformMapFile)));
+            for (CSVRecord record : csvFileParser.getRecords()) {
+                if (modelToPlatform.put(record.get("model"), record.get("platform")) != null) {
+                    Log.error("Duplicate model detected in model to platform map file");
+                    return new ReturnValue(ReturnValue.INVALIDARGUMENT);
+                }
+            }
+        } catch (IOException ie) {
+            Log.error(ie.getMessage());
+            return new ReturnValue(ReturnValue.FAILURE);
         }
 
         return super.init();

@@ -4,7 +4,8 @@
         "metricsResources": "/expected_output/development/",
         "parameters": {
             "--output-path": "./",
-            "--verbose": ""
+            "--verbose": "",
+            "--model-to-platform-map": "${project.build.directory}/test-classes/modelToPlatform.csv"
         },
         "iniExclusions": ["parent-accessions", "workflow_run_accession", "workflow-run-accession",
             "unique_string", "parent_accessions", "parent_accession", "input_file", "input_files", "workflow_bundle_dir",
