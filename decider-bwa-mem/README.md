@@ -1,6 +1,6 @@
 ##BWA-MEM Decider
 
-Version 1.1, SeqWare version 1.1.0
+Version 1.3.1, SeqWare version 1.1.1-gsi
 
 ###Overview
 
@@ -39,13 +39,30 @@ mvn clean install
 
 ###Usage
 ```
-java -jar Decider.jar --study-name \<study-name\> --wf-accession \<bwa-mem-workflow-accession\>
+java -jar Decider.jar --study-name \<study-name\> --wf-accession \<bwa-mem-workflow-accession\> --model-to-platform-map <\path to sequencer run model to platform map csv file\>
 ```
 
 ###Options
 
+#### Sequencer Run Model to Platform map file
+This file maps sequencer run models to platform. This platform value is used for the "PL" read group.
+
+For example:
+```
+model,platform
+Illumina HiSeq 2500,ILLUMINA
+NextSeq 550,ILLUMINA
+PacBio RS,PACBIO
+454,454
+SOLiD,SOLID
+```
+
 **Required**
-See [basic deciders](https://seqware.github.io/docs/6-pipeline/basic_deciders) for general decider options. No additional options are strictly required.
+See [basic deciders](https://seqware.github.io/docs/6-pipeline/basic_deciders) for general decider options.
+
+Parameter | Type | Description
+----------|------|-------------
+model-to-platform-map | string | Path to the sequencer run model to platform map csv file 
 
 **Optional**
 
