@@ -1,14 +1,14 @@
-##BWA-MEM Decider
+## BWA-MEM Decider
 
 Version 1.3.1, SeqWare version 1.1.1-gsi
 
-###Overview
+### Overview
 
 This decider launches the [BWA-MEM Workflow](../workflow-bwa-mem) on paired-end FastQ files. Pairs are identified by IUS accession, and the decider relies on hints in the filename to determine whether a file is read 1 or read 2. File details including IUS, run name, lane, barcode, library, platform, sample name, and group ID are pulled from the metadata to include in the generated INI files.
 
 Please see [basic deciders](https://seqware.github.io/docs/6-pipeline/basic_deciders) for additional information.
 
-###Validation and Filtering
+### Validation and Filtering
 
 The following are causes for the decider to skip passing a file on to a workflow run.
 * Library template type: The decider only accepts files with library template types WG, EX, and TS
@@ -16,7 +16,7 @@ The following are causes for the decider to skip passing a file on to a workflow
 * Tissue type is Xenograph, but the file doesn't appear to be a Xenome output \(the decider checks for "xenome" in the filename\)
 * Read 1 or read 2 missing: The workflow is designed for aligning paired end reads, and requires two files
 
-###SAM Read Group Header
+### SAM Read Group Header
 
 Using file metadata, the decider will set read group header values in this format:
 * ID: runName-barcode_lane
@@ -31,18 +31,18 @@ Example result:
 '@RG    ID:130110_SN804_0104_AD1NPCACXX-NoIndex_6    LB:ASHPC_0005_Pa_R_PE_700_WG    PL:ILLUMINA    PU:130110_SN804_0104_AD1NPCACXX-NoIndex_6    SM:PCSI_0350_Pa_n_2'
 ```
 
-###Compile
+### Compile
 
 ```
 mvn clean install
 ```
 
-###Usage
+### Usage
 ```
 java -jar Decider.jar --study-name \<study-name\> --wf-accession \<bwa-mem-workflow-accession\> --model-to-platform-map <\path to sequencer run model to platform map csv file\>
 ```
 
-###Options
+### Options
 
 #### Sequencer Run Model to Platform map file
 This file maps sequencer run models to platform. This platform value is used for the "PL" read group.
@@ -89,6 +89,6 @@ bwa-no-mark-secondary | none | Disable marking of supplementary alignments as se
 bwa-params | string | Additional BWA-MEM parameters
 samtools-memory | int | RAM in MB to allocate for Samtools index job if output format is BAM or CRAM
 
-##Support
+## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
