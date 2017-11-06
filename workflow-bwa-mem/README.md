@@ -1,12 +1,12 @@
-##BWA-MEM Workflow
+## BWA-MEM Workflow
 
 Version 1.1, SeqWare version 1.1.0
 
-###Overview
+### Overview
 
 This [SeqWare](http://seqware.github.io/) workflow aligns paired-end fastq files (optionally gzipped) into SAM, BAM, or CRAM files using the [BWA](http://bio-bwa.sourceforge.net) MEM algorithm.
 
-###Process
+### Process
 
 ![BWA-MEM flowchart](docs/bwa-mem_flowchart.png)
 
@@ -16,7 +16,7 @@ This [SeqWare](http://seqware.github.io/) workflow aligns paired-end fastq files
 * Optionally converts to CRAM using Samtools view
 * Indexes BAM or CRAM using Samtools index
 
-###Dependencies
+### Dependencies
 
 This workflow requires:
 
@@ -27,15 +27,15 @@ If you would like to use trimming, the following also must be installed:
 * [cutadapt](https://code.google.com/p/cutadapt/)
 * [python 2.7](https://www.python.org/download/releases/2.7/)
 
-###Compile
+### Compile
 
     mvn clean install
 
-###Usage
+### Usage
 
 After compilation, [test](http://seqware.github.io/docs/3-getting-started/developer-tutorial/#testing-the-workflow), [bundle](http://seqware.github.io/docs/3-getting-started/developer-tutorial/#packaging-the-workflow-into-a-workflow-bundle) and [install](http://seqware.github.io/docs/3-getting-started/admin-tutorial/#how-to-install-a-workflow) the workflow using the techniques described in the SeqWare documentation.
 
-####Options
+#### Options
 These parameters can be overridden either in the INI file on on the command line using `--override` when [directly scheduling workflow runs](http://seqware.github.io/docs/3-getting-started/user-tutorial/#listing-available-workflows-and-their-parameters) (not using a decider). Defaults are in [square brackets].
 
 **Input/Output**
@@ -91,10 +91,10 @@ Parameter           | Description  | Required? | Default
 samtools_index_mem_mb | Amount of RAM to allocate for the indexing jobs | Y | 16384
 
 
-###Output files
+### Output files
 
 * SAM, BAM, or CRAM file - Aligned, possibly compressed sequence, depending on output_format
 * BAM.BAI or CRAM.CRAI file - Corresponding index file if output_format is BAM or CRAM
 
-###Support
+### Support
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
