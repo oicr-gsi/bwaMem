@@ -1,6 +1,6 @@
 ## BWA-MEM Decider
 
-Version 1.3.1, SeqWare version 1.1.1-gsi
+Version 1.3.2, SeqWare version 1.1.1-gsi
 
 ### Overview
 
@@ -11,7 +11,7 @@ Please see [basic deciders](https://seqware.github.io/docs/6-pipeline/basic_deci
 ### Validation and Filtering
 
 The following are causes for the decider to skip passing a file on to a workflow run.
-* Library template type: The decider only accepts files with library template types WG, EX, and TS
+* Library template type: The decider only accepts files with library template types WG, EX, TS and NN
 * Missing tissue type value: Every fastq file should have a tissue type in LIMS \('n' for unknown is acceptable\)
 * Tissue type is Xenograph, but the file doesn't appear to be a Xenome output \(the decider checks for "xenome" in the filename\)
 * Read 1 or read 2 missing: The workflow is designed for aligning paired end reads, and requires two files

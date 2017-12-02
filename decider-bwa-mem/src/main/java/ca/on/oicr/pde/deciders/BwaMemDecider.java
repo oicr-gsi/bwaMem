@@ -244,10 +244,10 @@ public class BwaMemDecider extends OicrDecider {
 
         FileAttributes attribs = new FileAttributes(returnValue, returnValue.getFiles().get(0));
 
-        //  Skip if library_source_template_type isn't WG, EX, or TS
+        //  Skip if library_source_template_type isn't WG, EX, TS or NN
         String filePath = fm.getFilePath();
         String templateType = attribs.getLimsValue(Lims.LIBRARY_TEMPLATE_TYPE);
-        if (!"WG".equals(templateType) && !"EX".equals(templateType) && !"TS".equals(templateType)) {
+        if (!"WG".equals(templateType) && !"EX".equals(templateType) && !"TS".equals(templateType) && !"NN".equals(templateType)) {
             Log.debug("Skipping " + filePath + " due to incompatible library template type " + templateType);
             return false;
         }
