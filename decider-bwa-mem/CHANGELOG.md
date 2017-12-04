@@ -1,2 +1,2 @@
-## 1.3.1 - 2017-11-03
-- [GP-1401](https://jira.oicr.on.ca/browse/GP-1401) - Move hardcoded model to platform map to new required parameter "--model-to-platform-map"
+## 1.3.2 - 2017-12-01
+- [GP-1434](https://jira.oicr.on.ca/browse/GP-1434) - accept files with "NN" library template type
