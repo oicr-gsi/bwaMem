@@ -1,11 +1,13 @@
 package ca.on.oicr.pde.workflows;
 
+import ca.on.oicr.pde.tools.cutadapt.Cutadapt;
 import java.util.Map;
 
 import net.sourceforge.seqware.pipeline.workflowV2.model.Command;
 import net.sourceforge.seqware.pipeline.workflowV2.model.Job;
 import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
 import ca.on.oicr.pde.utilities.workflows.OicrWorkflow;
+import java.io.IOException;
 
 /**
  * This workflow takes paired-end FastQ input files and performs alignment, sorting, conversion,
@@ -101,7 +103,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
         String input2_path = null;
 
         input1_path = getProperty("input_file_1");
-        input2_path = getProperty("input_file_2");
+        input2_path = getPropertyOrNull("input_file_2");
         reference_path = getProperty("input_reference");
 
         String outputFileName = getOutputFileName();
@@ -114,10 +116,12 @@ public class BwaMemWorkflow extends OicrWorkflow {
         read1.setType(input1_path.endsWith(".gz") ? FASTQ_GZIP_MIMETYPE : FASTQ_MIMETYPE);
         read1.setIsInput(true);
 
-        read2 = this.createFile("file_in_1");
-        read2.setSourcePath(input2_path);
-        read2.setType(input1_path.endsWith(".gz") ? FASTQ_GZIP_MIMETYPE : FASTQ_MIMETYPE);
-        read2.setIsInput(true);
+        if (input2_path != null) {
+            read2 = this.createFile("file_in_1");
+            read2.setSourcePath(input2_path);
+            read2.setType(input1_path.endsWith(".gz") ? FASTQ_GZIP_MIMETYPE : FASTQ_MIMETYPE);
+            read2.setIsInput(true);
+        }
 
         // register output files
         outputFile = createOutputFile(outputFilePath, outputFormat.getMimeType(), Boolean.valueOf(getProperty("manual_output")));
@@ -159,25 +163,45 @@ public class BwaMemWorkflow extends OicrWorkflow {
     @Override
     public void buildWorkflow() {
         queue = getPropertyOrNull("queue");
+        String r1 = null;
+        String r2 = null;
+        String basename1 = null;
+        String basename2 = null;
 
-        String r1 = read1.getProvisionedPath();
-        String r2 = read2.getProvisionedPath();
-        String basename1 = r1.substring(r1.lastIndexOf("/") + 1, r1.lastIndexOf(".fastq.gz"));
-        String basename2 = r2.substring(r2.lastIndexOf("/") + 1, r2.lastIndexOf(".fastq.gz"));
+        r1 = read1.getProvisionedPath();
+        basename1 = r1.substring(r1.lastIndexOf("/") + 1, r1.lastIndexOf(".fastq.gz"));
+
+        if (read2 != null) {
+            r2 = read2.getProvisionedPath();
+            basename2 = r2.substring(r2.lastIndexOf("/") + 1, r2.lastIndexOf(".fastq.gz"));
+        }
 
         // cutadapt (optional)
         Job trimJob01 = null;
         if (Boolean.valueOf(getProperty("do_trim"))) {
-            String trim1 = this.dataDir + basename1 + ".trim.fastq.gz";
-            String trim2 = this.dataDir + basename2 + ".trim.fastq.gz";
+            if (read2 == null) {
+                Cutadapt singleEndCutadaptCmd = getCutAdaptCmd(r1);
+                trimJob01 = this.getWorkflow().createBashJob("cutAdapt");
+                trimJob01.setMaxMemory(getProperty("trim_mem_mb"));
+                if (queue != null) {
+                    trimJob01.setQueue(queue);
+                }
+                trimJob01.getCommand().setArguments(singleEndCutadaptCmd.getCommand());
 
-            trimJob01 = getCutAdaptJob(r1, r2, trim1, trim2);
-            if (queue != null) {
-                trimJob01.setQueue(queue);
+                //use trimmed r1 as input to align job
+                r1 = singleEndCutadaptCmd.getOutoutFile();
+            } else {
+                String trim1 = this.dataDir + basename1 + ".trim.fastq.gz";
+                String trim2 = this.dataDir + basename2 + ".trim.fastq.gz";
+
+                trimJob01 = getCutAdaptJob(r1, r2, trim1, trim2);
+                if (queue != null) {
+                    trimJob01.setQueue(queue);
+                }
+
+                r1 = trim1;
+                r2 = trim2;
             }
-
-            r1 = trim1;
-            r2 = trim2;
         }
 
         // Align, sort, and convert
@@ -239,6 +263,30 @@ public class BwaMemWorkflow extends OicrWorkflow {
         return job;
     }
 
+    private Cutadapt getCutAdaptCmd(String read1Path) {
+        try {
+            Cutadapt.Builder b = new Cutadapt.Builder(tempDir);
+            b.setPython(getProperty("python"));
+            b.setCutadapt(getProperty("cutadapt"));
+            if (hasProperty("trim_min_quality")) {
+                b.setMinimumQualityScore(Integer.parseInt(getProperty("trim_min_quality")));
+            }
+            if (hasProperty("trim_min_length")) {
+                b.setMinimumLength(Integer.parseInt(getProperty("trim_min_length")));
+            }
+            if (hasProperty("r1_adapter_trim")) {
+                for (String adapter : getProperty("r1_adapter_trim").split(",")) {
+                    b.addForwardAdapter(adapter);
+                }
+            }
+            b.setInputFile(read1Path);
+
+            return b.build();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     /**
      * Creates a job to run alignment, sorting, and conversion to the desired output format.
      * Runs bwa mem | samtools sort | samtools view (if necessary)
@@ -271,7 +319,9 @@ public class BwaMemWorkflow extends OicrWorkflow {
         cmd.addArgument("-R " + getReadGroupHeader());
         cmd.addArgument(reference_path);
         cmd.addArgument(read1);
-        cmd.addArgument(read2);
+        if (read2 != null) {
+            cmd.addArgument(read2);
+        }
 
         // pipe to samtools sort
         cmd.addArgument("|");

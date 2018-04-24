@@ -13,16 +13,6 @@
     },
     "tests": [
         {
-            "id": "AshPC study test",
-            "parameters": {
-                "--all": "",
-                "--include-study": "AshPC",
-                "--before-date": "2013-11-19",
-                "--trim-min-quality": "20",
-                "--trim-min-length": "10"
-            }
-        },
-        {
             "id": "PCSI sample test",
             "parameters": {
                 "--all": "",
@@ -53,6 +43,14 @@
                 "--include-root-sample": "PCSI_0005,PCSI_0006",
                 "--exclude-root-sample": "PCSI_0006",
                 "--before-date": "2013-11-19"
+            }
+        }, {
+            "id": "Single end test",
+            "parameters": {
+                "--all": "",
+                "--include-study": "ASJD",
+                "--after-date": "2018-04-01",
+                "--before-date": "2018-04-24"
             }
         }
     ]

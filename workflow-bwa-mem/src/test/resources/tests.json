@@ -3,7 +3,7 @@
         "description": "BWA-MEM workflow test",
         "metrics_calculate": "calculate.sh",
         "metrics_compare": "compare.sh",
-        "output_metrics_dir": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/output_expectation/"
+        "output_metrics_dir": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow2/output_expectation/"
     },
     "tests": [
         {
@@ -29,6 +29,8 @@
             "parameters": {
                 "input_file_1": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.1.fastq.gz",
                 "input_file_2": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.2.fastq.gz",
+                "output_format": "SAM",
+                "do_trim": "true",
                 "ius_accession": "12345",
                 "rg_library": "library",
                 "sequencer_run_name": "121005_h804_0096_AD0V4NACXX",
@@ -46,6 +48,40 @@
             "parameters": {
                 "input_file_1": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.1.fastq.gz",
                 "input_file_2": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.2.fastq.gz",
+                "output_format": "CRAM",
+                "ius_accession": "12345",
+                "rg_library": "library",
+                "sequencer_run_name": "121005_h804_0096_AD0V4NACXX",
+                "barcode": "NoIndex",
+                "lane": "6",
+                "rg_library": "library",
+                "rg_platform": "illumina",
+                "rg_platform_unit": "flowcell-barcode_lane",
+                "rg_sample_name": "sample"
+            }
+        },
+        {
+            "id": "PCSI0022C_notrim_bam_single_end",
+            "description": "Runs the small PCSI_0022 C data without trimming, outputs as BAM, single end.",
+            "parameters": {
+                "input_file_1": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.1.fastq.gz",
+                "do_trim": "false",
+                "ius_accession": "12345",
+                "rg_library": "library",
+                "sequencer_run_name": "121005_h804_0096_AD0V4NACXX",
+                "barcode": "NoIndex",
+                "lane": "6",
+                "rg_library": "library",
+                "rg_platform": "illumina",
+                "rg_platform_unit": "flowcell-barcode_lane",
+                "rg_sample_name": "sample"
+            }
+        }, {
+            "id": "PCSI0022C_trim_bam_single_end",
+            "description": "Runs the small PCSI_0022 C data with trimming, outputs as BAM, single end.",
+            "parameters": {
+                "input_file_1": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow/input_data/PCSI0022C.val.1.fastq.gz",
+                "do_trim": "true",
                 "ius_accession": "12345",
                 "rg_library": "library",
                 "sequencer_run_name": "121005_h804_0096_AD0V4NACXX",
@@ -57,6 +93,5 @@
                 "rg_sample_name": "sample"
             }
         }
-
     ]
 }
