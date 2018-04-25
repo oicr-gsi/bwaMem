@@ -39,7 +39,7 @@
         <dependency>
             <groupId>ca.on.oicr.pde.tools</groupId>
             <artifactId>cutadapt</artifactId>
-            <version>1.5</version>
+            <version>1.5.1</version>
         </dependency>
     </dependencies>
 

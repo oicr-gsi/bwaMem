@@ -279,6 +279,9 @@ public class BwaMemWorkflow extends OicrWorkflow {
                     b.addForwardAdapter(adapter);
                 }
             }
+            if (hasProperty("cutadapt_r1_other_params")) {
+                b.setExtraParameters(getProperty("cutadapt_r1_other_params"));
+            }
             b.setInputFile(read1Path);
 
             return b.build();
