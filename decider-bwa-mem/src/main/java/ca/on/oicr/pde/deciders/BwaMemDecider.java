@@ -142,7 +142,6 @@ public class BwaMemDecider extends OicrDecider {
         Log.debug("INIT");
         this.setMetaType(Arrays.asList("chemical/seq-na-fastq", "chemical/seq-na-fastq-gzip"));
         this.setHeadersToGroupBy(Arrays.asList(Header.IUS_SWA));
-        this.setNumberOfFilesPerGroup(2);
 
         if (this.options.has("group-by")) {
             Log.error("Argument --group-by is not supported");
@@ -320,34 +319,28 @@ public class BwaMemDecider extends OicrDecider {
         this.inputFile1 = null;
         this.inputFile2 = null;
 
-        if (commaSeparatedFilePaths.contains(",")) {
-            String[] fqFilesArray = commaSeparatedFilePaths.split(",");
-
-            for (String file : fqFilesArray) {
-                int mate = idMate(file);
-                switch (mate) {
-                    case 1:
-                        if (this.inputFile1 != null) {
-                            Log.error("More than one file found for read 1: " + inputFile1 + ", " + file);
-                            return new ReturnValue(ExitStatus.INVALIDFILE);
-                        }
-                        this.inputFile1 = file;
-                        break;
-                    case 2:
-                        if (this.inputFile2 != null) {
-                            Log.error("More than one file found for read 2: " + inputFile2 + ", " + file);
-                            return new ReturnValue(ExitStatus.INVALIDFILE);
-                        }
-                        this.inputFile2 = file;
-                        break;
-                    default:
-                        Log.error("Cannot identify " + file + " end (read 1 or 2)");
+        String[] fqFilesArray = commaSeparatedFilePaths.split(",");
+        for (String file : fqFilesArray) {
+            int mate = idMate(file);
+            switch (mate) {
+                case 1:
+                    if (this.inputFile1 != null) {
+                        Log.error("More than one file found for read 1: " + inputFile1 + ", " + file);
                         return new ReturnValue(ExitStatus.INVALIDFILE);
-                }
+                    }
+                    this.inputFile1 = file;
+                    break;
+                case 2:
+                    if (this.inputFile2 != null) {
+                        Log.error("More than one file found for read 2: " + inputFile2 + ", " + file);
+                        return new ReturnValue(ExitStatus.INVALIDFILE);
+                    }
+                    this.inputFile2 = file;
+                    break;
+                default:
+                    Log.error("Cannot identify " + file + " end (read 1 or 2)");
+                    return new ReturnValue(ExitStatus.INVALIDFILE);
             }
-        } else {
-            Log.error("Missing file: Two files required for workflow");
-            return new ReturnValue(ExitStatus.INVALIDFILE);
         }
 
         if (modelToPlatform.containsKey(this.rgPlatform)) {
@@ -368,7 +361,9 @@ public class BwaMemDecider extends OicrDecider {
 
         // Inputs
         iniFileMap.put("input_file_1", this.inputFile1);
-        iniFileMap.put("input_file_2", this.inputFile2);
+        if (inputFile2 != null) {
+            iniFileMap.put("input_file_2", this.inputFile2);
+        }
         if (this.inputReference != null) {
             iniFileMap.put("input_reference", this.inputReference);
         }

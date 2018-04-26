@@ -1,10 +1,10 @@
 ## BWA-MEM Workflow
 
-Version 1.1, SeqWare version 1.1.0
+Version 1.1.1, SeqWare version 1.1.0
 
 ### Overview
 
-This [SeqWare](http://seqware.github.io/) workflow aligns paired-end fastq files (optionally gzipped) into SAM, BAM, or CRAM files using the [BWA](http://bio-bwa.sourceforge.net) MEM algorithm.
+This [SeqWare](http://seqware.github.io/) workflow aligns paired-end or single-end fastq files (optionally gzipped) into SAM, BAM, or CRAM files using the [BWA](http://bio-bwa.sourceforge.net) MEM algorithm.
 
 ### Process
 
@@ -42,19 +42,19 @@ These parameters can be overridden either in the INI file on on the command line
 
 Parameter           | Description  | Required? | Default
 --------------------|--------------|--------|----------
-input_file_1        | File path to sample read 1, in FastQ or gzipped FastQ format, to be aligned | Y | \(small test file\)
-input_file_2        | File path to sample read 2, in FastQ or gzipped FastQ format, to be aligned | Y | \(small test file\)
+input_file_1        | File path to sample read 1, in FastQ or gzipped FastQ format, to be aligned | Y | 
+input_file_2        | File path to sample read 2, in FastQ or gzipped FastQ format, to be aligned | N | 
 input_reference     | File path to reference genome \(fasta\) to align the sample with | Y | \[hg19_random.fa\]
 output_dir          | A standard SeqWare parameter specifying the sub-directory where the output files will be moved | Y | seqware-results
 output-prefix       | A standard SeqWare parameter specifying the root directory where the output files will be moved | Y | ./
 manual_output       | Whether or not to use manual output. When false, a random integer will be inserted into the path of the file in order to ensure uniqueness. When true, the output files will be moved to the location of output_prefix/output_dir | Y | false
 output_format       | Format to output. Options are SAM, BAM, and CRAM. If outputting to BAM or CRAM, the BAM or CRAM index \(.bam.bai or .cram.crai\) will also be generated | Y | BAM
 output_file_name    | If provided, this will be used as the output filename, and should include the extension \(.sam, .bam, or .cram\) | N | 
-ius_accession       | Used as part of the filename if output_file_name is not provided | Usually | 12345
-sequencer_run_name  | Used as part of the filename if output_file_name is not provided | Usually | 121005_h804_0096_AD0V4NACXX
-barcode             | Used as part of the filename if output_file_name is not provided | Usually | NoIndex
-lane                | Used as part of the filename if output_file_name is not provided | Usually | 5
-group_id            | Used as part of the filename if it is provided, and output_file_name is not provided | N | 
+ius_accession       | Used as part of the filename if output_file_name is not provided | Usually | (e.g. 12345)
+sequencer_run_name  | Used as part of the filename if output_file_name is not provided | Usually | (e.g. 121005_h804_0096_AD0V4NACXX)
+barcode             | Used as part of the filename if output_file_name is not provided | Usually | (e.g. NoIndex)
+lane                | Used as part of the filename if output_file_name is not provided | Usually | (e.g. 5)
+group_id            | Used as part of the filename if it is provided, and output_file_name is not provided | N | (e.g. NoGroup)
 
 **CutAdapt**
 
@@ -79,10 +79,10 @@ bwa_pacbio_mode | May be set to true or false. Enables BWA-MEM's PacBio mode, an
 bwa_ont_mode | May be set to true or false. Enables BWA-MEM's ONT mode, and should be enabled for Oxford nanopore data | N | false
 bwa_mark_secondary_alignments | May be set to true or false. Marks supplementary alignments as secondary for compatibility with Picard | N | true
 bwa-other-params | Additional parameters to use for BWA-MEM command | N | 
-rg_library | Data to include in read group header | Y | library
-rg_platform | Data to include in read group header | Y | illumina
-rg_platform_unit | Data to include in read group header | Y | flowcell-barcode_lane
-rg_sample_name | Data to include in read group header | Y | sample
+rg_library | Data to include in read group header | Y | (e.g. library)
+rg_platform | Data to include in read group header | Y | (e.g. illumina)
+rg_platform_unit | Data to include in read group header | Y | (e.g. flowcell-barcode_lane)
+rg_sample_name | Data to include in read group header | Y | (e.g sample)
 
 **Samtools Parameters**
 
