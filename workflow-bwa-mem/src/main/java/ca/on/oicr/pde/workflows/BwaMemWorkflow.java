@@ -223,6 +223,56 @@ public class BwaMemWorkflow extends OicrWorkflow {
         }
     }
 
+        /**
+     * Creates a job to trim adapters from read1 using cutadapt, discard trimmed output and save log files
+     *
+     * @param read1Path        input file
+     *
+     * @return
+     */
+    private Job getCutadaptRead1Log(String read1Path) {
+    	Job job = this.getWorkflow().createBashJob("cutadaptLog");
+    	job.setMaxMemory(getProperty("trim_mem_mb"));
+
+        Command cmd = job.getCommand();
+        // create a command by concatenating strings
+        
+        
+    	return job;
+    }
+    
+    /**
+     * Creates a job to trim adapters from read2 using cutadapt, discard trimmed output and save log files
+     *
+     * @param read2Path        input file
+     *
+     * @return
+     */
+    private Job getCutadaptRead2Log(String read2Path) {
+    	Job job = this.getWorkflow().createBashJob("cutadaptLog");
+    	job.setMaxMemory(getProperty("trim_mem_mb"));
+
+        Command cmd = job.getCommand();
+    	return job;
+    }
+    
+    /**
+     * Creates a job to trim adapters from the reads using cutadapt, save trimmed output files
+     * Pass read1 and read2 together in one command so cutadapt will check if they match as expected
+     *
+     * @param read1Path        input file
+     * @param read2Path        input file
+     *
+     * @return
+     */
+    private Job getCutadaptJob(String read1Path, String read2Path) {
+    	Job job = this.getWorkflow().createBashJob("cutadapt");
+    	job.setMaxMemory(getProperty("trim_mem_mb"));
+
+        Command cmd = job.getCommand();
+    	return job;
+    }
+
     /**
      * Creates a job to trim adapters from the reads using CutAdapt
      *
