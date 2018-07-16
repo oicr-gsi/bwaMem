@@ -176,34 +176,6 @@ public class BwaMemWorkflow extends OicrWorkflow {
             r2 = read2.getProvisionedPath();
             basename2 = r2.substring(r2.lastIndexOf("/") + 1, r2.lastIndexOf(".fastq.gz"));
         }
-
-        // cutadapt (optional)
-/*        Job trimJob01 = null;
-        if (Boolean.valueOf(getProperty("do_trim"))) {
-            if (read2 == null) {
-                Cutadapt singleEndCutadaptCmd = getCutAdaptCmd(r1);
-                trimJob01 = this.getWorkflow().createBashJob("cutAdapt");
-                trimJob01.setMaxMemory(getProperty("trim_mem_mb"));
-                if (queue != null) {
-                    trimJob01.setQueue(queue);
-                }
-                trimJob01.getCommand().setArguments(singleEndCutadaptCmd.getCommand());
-
-                //use trimmed r1 as input to align job
-                r1 = singleEndCutadaptCmd.getOutoutFile();
-            } else {
-                String trim1 = this.dataDir + basename1 + ".trim.fastq.gz";
-                String trim2 = this.dataDir + basename2 + ".trim.fastq.gz";
-
-                trimJob01 = getCutAdaptJob(r1, r2, trim1, trim2);
-                if (queue != null) {
-                    trimJob01.setQueue(queue);
-                }
-
-                r1 = trim1;
-                r2 = trim2;
-            }
-        }*/
         
         // cutadapt - save log files
         Job trimLogJob01 = null;
@@ -252,13 +224,13 @@ public class BwaMemWorkflow extends OicrWorkflow {
         }
 
         // Index
-/*        if (outputFormat != AlignmentFormat.SAM) {
+        if (outputFormat != AlignmentFormat.SAM) {
             Job indexJob = getIndexJob();
             indexJob.addParent(alignJob);
             if (queue != null) {
                 indexJob.setQueue(queue);
             }
-        }*/
+        }
     }
     
     /**
@@ -343,73 +315,6 @@ public class BwaMemWorkflow extends OicrWorkflow {
     }
 
     /**
-     * Creates a job to trim adapters from the reads using CutAdapt
-     *
-     * @param read1Path        input file
-     * @param read2Path        input file
-     * @param read1TrimmedPath output filename for trimmed read
-     * @param read2TrimmedPath output filename for trimmed read
-     *
-     * @return
-     */
-    private Job getCutAdaptJob(String read1Path, String read2Path, String read1TrimmedPath, String read2TrimmedPath) {
-        Job job = this.getWorkflow().createBashJob("cutAdapt");
-        job.setMaxMemory(getProperty("trim_mem_mb"));
-
-        Command cmd = job.getCommand();
-        cmd.addArgument(jre);
-        cmd.addArgument("-Xmx500M");
-        cmd.addArgument("-cp " + getWorkflowBaseDir() + "/classes:" + getWorkflowBaseDir() + "/lib/" + getProperty("bundled_seqware"));
-        cmd.addArgument("net.sourceforge.seqware.pipeline.runner.PluginRunner -p net.sourceforge.seqware.pipeline.plugins.ModuleRunner -- ");
-        cmd.addArgument("--module ca.on.oicr.pde.utilities.workflows.modules.CutAdaptModule --no-metadata -- ");
-        cmd.addArgument("--fastq-read-1 " + read1Path + " --fastq-read-2 " + read2Path);
-        cmd.addArgument("--output-read-1 " + read1TrimmedPath + " --output-read-2 " + read2TrimmedPath);
-        cmd.addArgument("--cutadapt \"" + getProperty("python") + " " + getProperty("cutadapt") + "\"");
-        if (!getProperty("trim_min_quality").isEmpty()) {
-            cmd.addArgument("--quality " + getProperty("trim_min_quality"));
-        }
-        if (!getProperty("trim_min_length").isEmpty()) {
-            cmd.addArgument("--minimum-length " + getProperty("trim_min_length"));
-        }
-        cmd.addArgument("--adapters-1 " + getProperty("r1_adapter_trim") + " --adapters-2 " + getProperty("r2_adapter_trim"));
-        if (!getProperty("cutadapt_r1_other_params").isEmpty()) {
-            cmd.addArgument("--other-parameters-1 " + getProperty("cutadapt_r1_other_params"));
-        }
-        if (!getProperty("cutadapt_r2_other_params").isEmpty()) {
-            cmd.addArgument("--other-parameters-2 " + getProperty("cutadapt_r2_other_params"));
-        }
-
-        return job;
-    }
-
-    private Cutadapt getCutAdaptCmd(String read1Path) {
-        try {
-            Cutadapt.Builder b = new Cutadapt.Builder(tempDir);
-            b.setPython(getProperty("python"));
-            b.setCutadapt(getProperty("cutadapt"));
-            if (hasProperty("trim_min_quality")) {
-                b.setMinimumQualityScore(Integer.parseInt(getProperty("trim_min_quality")));
-            }
-            if (hasProperty("trim_min_length")) {
-                b.setMinimumLength(Integer.parseInt(getProperty("trim_min_length")));
-            }
-            if (hasProperty("r1_adapter_trim")) {
-                for (String adapter : getProperty("r1_adapter_trim").split(",")) {
-                    b.addForwardAdapter(adapter);
-                }
-            }
-            if (hasProperty("cutadapt_r1_other_params")) {
-                b.setExtraParameters(getProperty("cutadapt_r1_other_params"));
-            }
-            b.setInputFile(read1Path);
-
-            return b.build();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    /**
      * Creates a job to run alignment, sorting, and conversion to the desired output format.
      * Runs bwa mem | samtools sort | samtools view (if necessary)
      *
@@ -467,7 +372,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
                 break;
         }
         // Either ending - samtools sort or samtools view - requires output path and input source (stdin)
-        cmd.addArgument("-o " + reference_path);
+        cmd.addArgument("-o " + outputFilePath);
         cmd.addArgument("-");
 
         return job;
