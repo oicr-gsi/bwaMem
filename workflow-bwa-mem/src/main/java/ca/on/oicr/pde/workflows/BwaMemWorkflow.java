@@ -178,22 +178,19 @@ public class BwaMemWorkflow extends OicrWorkflow {
         }
         
         // cutadapt - save log files
-        Job trimLogJob01 = null;
-        if (Boolean.valueOf(getProperty("do_trim"))) {
-            trimLogJob01 = getCutadaptLogFiles(r1, "r1");
+        Job trimLogJob01 = getCutadaptLogFiles(r1, "r1");
             
-            if (read2 != null) {
-            	Job trimLogJob02 = null;
-            	trimLogJob02 = getCutadaptLogFiles(r2, "r2");
-            	if (queue != null) {
-                    trimLogJob02.setQueue(queue);
-                }
-            }
-            
-            if (queue != null) {
-                trimLogJob01.setQueue(queue);
-            }
+        if (queue != null) {
+            trimLogJob01.setQueue(queue);
         }
+            
+        if (read2 != null) {
+            Job trimLogJob02 = null;
+            trimLogJob02 = getCutadaptLogFiles(r2, "r2");
+            if (queue != null) {
+                trimLogJob02.setQueue(queue);
+            }
+        }    
         
         // cutadapt (optional) trim reads and pass trimmed output files to align job
         Job trimJob01 = null;
@@ -272,7 +269,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
     
     /**
      * Creates a job to trim adapters from the reads using cutadapt, save trimmed output files
-     * Pass read1 and read2 together in one command so cutadapt will check if they match as expected
+     * If read2 is not null, pass read1 and read2 together in one command so cutadapt will check if they match as expected
      *
      * @param read1Path        input file
      * @param read2Path        input file
