@@ -178,7 +178,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
         }
         
         // cutadapt - save log files
-        Job trimLogJob01 = getCutadaptLogFiles(r1, "r1");
+        Job trimLogJob01 = getCutadaptLogFile(r1, "r1");
             
         if (queue != null) {
             trimLogJob01.setQueue(queue);
@@ -186,7 +186,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
             
         if (read2 != null) {
             Job trimLogJob02 = null;
-            trimLogJob02 = getCutadaptLogFiles(r2, "r2");
+            trimLogJob02 = getCutadaptLogFile(r2, "r2");
             if (queue != null) {
                 trimLogJob02.setQueue(queue);
             }
@@ -207,8 +207,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
         	}
         	if (queue != null) {
         		trimJob01.setQueue(queue);
-        	}
-        	        	
+        	}        	
         }
 
         // Align, sort, and convert
@@ -231,28 +230,25 @@ public class BwaMemWorkflow extends OicrWorkflow {
     }
     
     /**
-     * Creates a job to trim adapters from a read (either read1 or read2) using cutadapt, discard trimmed output and save log files
+     * Creates a job to trim adapters from a read (either read1 or read2) using cutadapt, discard trimmed output but save log files
      *
      * @param readPath        input file
      * @param whichRead       r1 or r2
      *
      * @return
      */
-    private Job getCutadaptLogFiles(String readPath, String whichRead) {
+    private Job getCutadaptLogFile(String readPath, String whichRead) {
     	Job job = this.getWorkflow().createBashJob("cutadaptLog");
     	job.setMaxMemory(getProperty("trim_mem_mb"));
     	
     	String basename = readPath.substring(readPath.lastIndexOf("/") + 1, readPath.lastIndexOf(".fastq.gz"));
     	String logFilePath = this.dataDir + basename + ".log";
-    	cutadaptLogFile = createOutputFile(logFilePath, "txt/plain", Boolean.valueOf(getProperty("manual_output")));
+    	cutadaptLogFile = createOutputFile(logFilePath, "text/plain", Boolean.valueOf(getProperty("manual_output")));
     	
         Command cmd = job.getCommand();
         // Load cutadapt module
-//        cmd.addArgument("module load cutadapt/1.8.3;");
+        cmd.addArgument("module load cutadapt/1.8.3;");
         
-        // Seqtk-sample input files then pass it to cutadapt
- //       cmd.addArgument(getProperty("seqtk") + "sample -s100 " + readPath + " 10000 ");
-//        cmd.addArgument("| gzip | zcat | ");
         cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
         if (whichRead == "r1") {
         	cmd.addArgument(" -a " + getProperty("r1_adapter_trim"));
@@ -260,7 +256,6 @@ public class BwaMemWorkflow extends OicrWorkflow {
         	cmd.addArgument(" -a " + getProperty("r2_adapter_trim"));
         }
         cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length") + " -o " + "/dev/null " + readPath); 
- //       cmd.addArgument("-q " + getProperty("trim_min_quality") + "-m " + getProperty("trim_min_length") + " -o " + "/dev/null - "); 
         cmd.addArgument("> " + logFilePath);
         job.addFile(cutadaptLogFile);
         
@@ -273,6 +268,8 @@ public class BwaMemWorkflow extends OicrWorkflow {
      *
      * @param read1Path        input file
      * @param read2Path        input file
+     * @param trimmed1         output file path for read1
+     * @param trimmed2         output file path for read2
      *
      * @return
      */
@@ -282,30 +279,18 @@ public class BwaMemWorkflow extends OicrWorkflow {
     	
         Command cmd = job.getCommand();
     	if (read2Path == null) {
-//    		cmd.addArgument("module load cutadapt/1.8.3;");
-            
-            // Seqtk-sample input files then pass it to cutadapt
-//          cmd.addArgument(getProperty("seqtk") + "sample -s100 " + readPath + " 10000 ");
-//          cmd.addArgument("| gzip | zcat | ");
+    		cmd.addArgument("module load cutadapt/1.8.3;");
     		
     		cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
     		cmd.addArgument(" -a " + getProperty("r1_adapter_trim"));
-//    		cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length") + " -o " + trimmed1 + " - ");
     		cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length") + " -o " + trimmed1 + " " + read1Path); 
     	} else {
-        	String seqtkFile1 = trimmed1.replaceAll(".trim.fastq.gz", ".fastq.gz");
-    		String seqtkFile2 = trimmed2.replaceAll(".trim.fastq.gz", ".fastq.gz");
-
-    		// get seqtk-sampled input files first
-/*    		cmd.addArgument(getProperty("seqtk") + "sample -s100 " + read1Path + " 10000 | gzip > " + seqtkFile1 + ";");
-    		cmd.addArgument(getProperty("seqtk") + "sample -s100 " + read2Path + " 10000 | gzip > " + seqtkFile2 + ";");
-*/
-    		// pass to cutadapt
+    		// call cutadapt
     		cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
+    		// -A parameter is only available in cutadapt v1.8+ 
     		cmd.addArgument(" -a " + getProperty("r1_adapter_trim") + " -A " + getProperty("r2_adapter_trim"));
     		cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length"));
     		cmd.addArgument(" -o " + trimmed1 + " -p " + trimmed2 + " " + read1Path + " " + read2Path);
- //   		cmd.addArgument(" -o " + trimmed1 + " -p " + trimmed2 + " " + seqtkFile1 + " " + seqtkFile2);
     	}
     
     	return job;
