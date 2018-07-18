@@ -64,6 +64,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
     private String bwa, samtools, jre;
     private String outputFilePath = null;
     private String outputIndexPath = null;
+    private String cutadaptCmd = null;
     private SqwFile cutadaptLogFile;
     private SqwFile outputFile;
     private SqwFile outputIndex;
@@ -77,6 +78,15 @@ public class BwaMemWorkflow extends OicrWorkflow {
         samtools = binDir + getProperty("samtools");
         jre = binDir + getProperty("bundled_jre") + "/bin/java";
         outputFormat = AlignmentFormat.valueOf(getProperty("output_format"));
+        // initialize cutadaptCmd which is a command that all cutadapt jobs will use
+        if (getPropertyOrNull("module") != null) {
+        	cutadaptCmd = getProperty("module") + "; ";
+        }
+        if (cutadaptCmd != null) {
+        	cutadaptCmd += getProperty("python") + " " + getProperty("cutadapt") + " -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length");
+        } else {
+        	cutadaptCmd = getProperty("python") + " " + getProperty("cutadapt") + " -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length");
+        }
     }
 
     @Override
@@ -178,7 +188,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
         }
         
         // cutadapt - save log files
-        Job trimLogJob01 = getCutadaptLogFile(r1, "r1");
+        Job trimLogJob01 = getCutadaptLogFile(r1, "r1", basename1);
             
         if (queue != null) {
             trimLogJob01.setQueue(queue);
@@ -186,7 +196,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
             
         if (read2 != null) {
             Job trimLogJob02 = null;
-            trimLogJob02 = getCutadaptLogFile(r2, "r2");
+            trimLogJob02 = getCutadaptLogFile(r2, "r2", basename2);
             if (queue != null) {
                 trimLogJob02.setQueue(queue);
             }
@@ -234,28 +244,25 @@ public class BwaMemWorkflow extends OicrWorkflow {
      *
      * @param readPath        input file
      * @param whichRead       r1 or r2
+     * @param basename        basename in the output path
      *
      * @return
      */
-    private Job getCutadaptLogFile(String readPath, String whichRead) {
+    private Job getCutadaptLogFile(String readPath, String whichRead, String basename) {
     	Job job = this.getWorkflow().createBashJob("cutadaptLog");
-    	job.setMaxMemory(getProperty("trim_mem_mb"));
+    	job.setMaxMemory(getProperty("cutadapt_log_mem_mb"));
     	
-    	String basename = readPath.substring(readPath.lastIndexOf("/") + 1, readPath.lastIndexOf(".fastq.gz"));
     	String logFilePath = this.dataDir + basename + ".log";
     	cutadaptLogFile = createOutputFile(logFilePath, "text/plain", Boolean.valueOf(getProperty("manual_output")));
     	
         Command cmd = job.getCommand();
-        // Load cutadapt module
-        cmd.addArgument("module load cutadapt/1.8.3;");
-        
-        cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
+        cmd.addArgument(cutadaptCmd);
         if (whichRead == "r1") {
-        	cmd.addArgument(" -a " + getProperty("r1_adapter_trim"));
+        	cmd.addArgument(" -a " + getProperty("r1_adapter_trim") + " " + getProperty("cutadapt_r1_log_other_params"));
         } else {
-        	cmd.addArgument(" -a " + getProperty("r2_adapter_trim"));
+        	cmd.addArgument(" -a " + getProperty("r2_adapter_trim") + " " + getProperty("cutadapt_r2_log_other_params"));
         }
-        cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length") + " -o " + "/dev/null " + readPath); 
+        cmd.addArgument(" -o " + "/dev/null" + " " + readPath); 
         cmd.addArgument("> " + logFilePath);
         job.addFile(cutadaptLogFile);
         
@@ -276,20 +283,13 @@ public class BwaMemWorkflow extends OicrWorkflow {
     private Job getCutadaptJob(String read1Path, String read2Path, String trimmed1, String trimmed2) {
     	Job job = this.getWorkflow().createBashJob("cutadapt");
     	job.setMaxMemory(getProperty("trim_mem_mb"));
-    	
         Command cmd = job.getCommand();
-    	if (read2Path == null) {
-    		cmd.addArgument("module load cutadapt/1.8.3;");
-    		
-    		cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
-    		cmd.addArgument(" -a " + getProperty("r1_adapter_trim"));
-    		cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length") + " -o " + trimmed1 + " " + read1Path); 
+        cmd.addArgument(cutadaptCmd + " " + getProperty("cutadapt_additional_params") + " -a " + getProperty("r1_adapter_trim"));
+    	if (read2Path == null) {    		
+    		cmd.addArgument(" -o " + trimmed1 + " " + read1Path); 
     	} else {
-    		// call cutadapt
-    		cmd.addArgument(getProperty("python") + " " + getProperty("cutadapt"));
     		// -A parameter is only available in cutadapt v1.8+ 
-    		cmd.addArgument(" -a " + getProperty("r1_adapter_trim") + " -A " + getProperty("r2_adapter_trim"));
-    		cmd.addArgument(" -q " + getProperty("trim_min_quality") + " -m " + getProperty("trim_min_length"));
+    		cmd.addArgument(" -A " + getProperty("r2_adapter_trim"));
     		cmd.addArgument(" -o " + trimmed1 + " -p " + trimmed2 + " " + read1Path + " " + read2Path);
     	}
     
