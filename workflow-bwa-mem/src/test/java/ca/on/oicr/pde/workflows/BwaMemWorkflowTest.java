@@ -29,12 +29,19 @@ package ca.on.oicr.pde.workflows;
 
 import ca.on.oicr.pde.testing.workflow.DryRun;
 import ca.on.oicr.pde.testing.workflow.TestDefinition;
+import net.sourceforge.seqware.pipeline.workflowV2.AbstractWorkflowDataModel;
+import net.sourceforge.seqware.pipeline.workflowV2.model.AbstractJob;
+import net.sourceforge.seqware.pipeline.workflowV2.model.SqwFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.google.common.base.Joiner;
 
 public class BwaMemWorkflowTest {
 
@@ -47,9 +54,42 @@ public class BwaMemWorkflowTest {
         TestDefinition td = TestDefinition.buildFromJson(FileUtils.readFileToString(new File("src/test/resources/tests.json")));
         for (TestDefinition.Test t : td.getTests()) {
             Map<String, String> params = new HashMap<>(t.getParameters());
-            DryRun d = new DryRun(System.getProperty("bundleDirectory"), params, BwaMemWorkflow.class);
-            d.buildWorkflowModel();
-            //d.validateWorkflow();
+            DryRun d = new DryRun(System.getProperty("bundleDirectory"), params, BwaMemWorkflow.class) {
+            	AbstractWorkflowDataModel wfModel;
+
+            	@Override
+            	public AbstractWorkflowDataModel buildWorkflowModel() throws IllegalAccessException, Exception {
+            	   wfModel = super.buildWorkflowModel();
+            	   return wfModel;
+            	}
+
+            	@Override
+            	public void validateWorkflow() {
+
+            	  //check for null string
+            	  for (AbstractJob j : wfModel.getWorkflow().getJobs()) {
+
+            	      String c = Joiner.on(" ").useForNull("null").join(j.getCommand().getArguments());
+            	      // support piping output to /dev/null for cutadapt log files
+            	      // use with caution!
+            	      c = c.replace("/dev/null", "/tmp/junk");
+            	      //check for null string
+                      Assert.assertFalse(c.contains("null"), "Warning: command contains \"null\":\n" + c + "\n");
+            	      // check for missing spaces
+            	      Assert.assertFalse(c.matches("(.*)[^ ]--(.*)"));
+            	   }
+
+            	   //view output files
+            	   for (AbstractJob j : wfModel.getWorkflow().getJobs()) {
+            	     for (SqwFile f : j.getFiles()) {
+            	       if (f.isOutput()) {
+            	           System.out.println(f.getProvisionedPath());
+            	       }
+            	     }
+            	   }
+            	}
+            };
+            
         }
     }
 }
