@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>ca.on.oicr.pde.config</groupId>
-        <artifactId>workflows</artifactId>
-        <version>3</version>
+        <groupId>ca.on.oicr.gsi</groupId>
+        <artifactId>pipedev-workflow-parent</artifactId>
+        <version>2.4.1</version>
         <relativePath/>
     </parent>
 
@@ -59,12 +59,6 @@
             <version>${picard-version}</version>
             <type>zip</type>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>ca.on.oicr.pde</groupId>
-            <artifactId>common-utilities</artifactId>
-            <version>1.6.5</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
