@@ -113,7 +113,7 @@ public class WorkflowClient extends OicrWorkflow {
 
         command.addArgument(getProperty("bundled_jre"));
         command.addArgument("-Xmx500M");
-        command.addArgument("-cp "+getWorkflowBaseDir() + "/classes:"+getWorkflowBaseDir() + "/lib/"+getProperty("bundled_seqware"));
+        command.addArgument("-cp "+getWorkflowBaseDir() + "/classes:"+"/.mounts/labs/PDE/public/seqware-releases/seqware-distribution-1.1.0-full.jar");
         command.addArgument("net.sourceforge.seqware.pipeline.runner.PluginRunner -p net.sourceforge.seqware.pipeline.plugins.ModuleRunner -- ");
         command.addArgument("--module ca.on.oicr.pde.utilities.workflows.modules.CutAdaptModule --no-metadata -- ");
         command.addArgument("--fastq-read-1 "+read1Path+" --fastq-read-2 "+read2Path);
