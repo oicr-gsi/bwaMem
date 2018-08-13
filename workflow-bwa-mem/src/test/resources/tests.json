@@ -3,7 +3,7 @@
         "description": "BWA-MEM workflow test",
         "metrics_calculate": "calculate.sh",
         "metrics_compare": "compare.sh",
-        "output_metrics_dir": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow2/output_expectation/"
+        "output_metrics_dir": "/.mounts/labs/PDE/data/RegressionTests/BWA-MEM/workflow2/output_expectation/1.4/"
     },
     "tests": [
         {
