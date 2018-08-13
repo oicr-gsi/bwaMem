@@ -168,7 +168,9 @@ public class BwaMemWorkflow extends OicrWorkflow {
                     .append(outputFormat.getFileExtension());
             outputFileName = sb.toString();
         }
+
         return outputFileName;
+
     }
 
     @Override
