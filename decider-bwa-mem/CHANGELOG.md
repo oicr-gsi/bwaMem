@@ -1,3 +1,6 @@
+## 1.3.4 - 2018-08-31
+- [GDI-896](https://jira.oicr.on.ca/browse/GDI-896) - Update to pipedev 2.4.4 so that additional readMateFlags are supported
+- Update expected test output to include maxOutputFileProvenanceRecord counts
 ## 1.3.3 - 2018-04-24
 - [GP-1025](https://jira.oicr.on.ca/browse/GP-1025) - Support single read libraries
 ## 1.3.2 - 2017-12-01
