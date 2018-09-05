@@ -10,6 +10,9 @@
   "maxInputFiles" : 2,
   "minInputFiles" : 2,
   "totalInputFiles" : 90,
+  "maxOutputFileProvenanceRecords" : 1,
+  "minOutputFileProvenanceRecords" : 1,
+  "totalOutputFileProvenanceRecords" : 45,
   "workflowRuns" : [ {
     "workflowIni" : {
       "barcode" : "AATGTTGC",
@@ -125,7 +128,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 2125965579
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TGAAGAGA",
@@ -241,7 +245,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1570229385
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AGATCGCA",
@@ -357,7 +362,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1560822453
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AAGAGATC",
@@ -473,7 +479,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 923425421
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CAACCACA",
@@ -589,7 +596,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 680926190
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TGGAACAA",
@@ -705,7 +713,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 2037171331
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CCTCTATC",
@@ -821,7 +830,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1711446820
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "ACAGATTC",
@@ -937,7 +947,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 999475363
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CCAGTTCA",
@@ -1053,7 +1064,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 262616759
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TGGCTTCA",
@@ -1169,7 +1181,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 395957141
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CGACTGGA",
@@ -1285,7 +1298,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -753223195
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CAAGACTA",
@@ -1401,7 +1415,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 591763224
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CCTCCTGA",
@@ -1517,7 +1532,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -675492043
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TGGTGGTA",
@@ -1633,7 +1649,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 325887915
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AACAACCA",
@@ -1749,7 +1766,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 644124765
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AATCCGTC",
@@ -1865,7 +1883,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -615886585
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CAAGGAGC",
@@ -1981,7 +2000,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 61012524
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TTCACGCA",
@@ -2097,7 +2117,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1635459173
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CACCTTAC",
@@ -2213,7 +2234,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 654778647
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AAGACGGA",
@@ -2329,7 +2351,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 112604013
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "ACACAGAA",
@@ -2445,7 +2468,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 702539811
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GAACAGGC",
@@ -2561,7 +2585,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -2036614125
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "ATGCCTAA",
@@ -2677,7 +2702,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 472317321
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GAATCTGA",
@@ -2793,7 +2819,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -811705707
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AACGTGAT",
@@ -2909,7 +2936,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1836120005
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CACTTCGA",
@@ -3025,7 +3053,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1580773931
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GCCAAGAC",
@@ -3141,7 +3170,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 672890097
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GACTAGTA",
@@ -3257,7 +3287,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1764798774
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GACTAGTA",
@@ -3373,7 +3404,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1887017064
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "ATTGGCTC",
@@ -3489,7 +3521,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -807876390
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "ATTGGCTC",
@@ -3605,7 +3638,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 629387982
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GATGAATC",
@@ -3721,7 +3755,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1868583638
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GATGAATC",
@@ -3837,7 +3872,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 2114098173
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AGCAGGAA",
@@ -3953,7 +3989,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1862623036
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AGCAGGAA",
@@ -4069,7 +4106,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1794821799
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GAGCTGAA",
@@ -4185,7 +4223,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1674902038
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GAGCTGAA",
@@ -4301,7 +4340,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1982542797
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AAACATCG",
@@ -4417,7 +4457,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1988030972
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AAACATCG",
@@ -4533,7 +4574,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 844949886
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AGCCATGC",
@@ -4649,7 +4691,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 955896012
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GTACGCAA",
@@ -4765,7 +4808,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1676093015
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "AGTACAAG",
@@ -4881,7 +4925,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -835518678
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "TCTTCACA",
@@ -4997,7 +5042,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 629953493
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CCGAAGTA",
@@ -5113,7 +5159,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1707195693
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "CGCATACA",
@@ -5229,6 +5276,7 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1650380047
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   } ]
 }
