@@ -240,7 +240,7 @@ public class BwaMemWorkflow extends OicrWorkflow {
         Command cmd = job.getCommand();
         cmd.addArgument(jre);
         cmd.addArgument("-Xmx500M");
-        cmd.addArgument("-cp " + getWorkflowBaseDir() + "/classes:" + getWorkflowBaseDir() + "/lib/" + getProperty("bundled_seqware"));
+        cmd.addArgument("-cp " + getWorkflowBaseDir() + "/classes:" + "/.mounts/labs/PDE/public/seqware-releases/seqware-distribution-1.1.0-full.jar");
         cmd.addArgument("net.sourceforge.seqware.pipeline.runner.PluginRunner -p net.sourceforge.seqware.pipeline.plugins.ModuleRunner -- ");
         cmd.addArgument("--module ca.on.oicr.pde.utilities.workflows.modules.CutAdaptModule --no-metadata -- ");
         cmd.addArgument("--fastq-read-1 " + read1Path + " --fastq-read-2 " + read2Path);

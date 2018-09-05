@@ -10,11 +10,14 @@
   "maxInputFiles" : 2,
   "minInputFiles" : 2,
   "totalInputFiles" : 14,
+  "maxOutputFileProvenanceRecords" : 1,
+  "minOutputFileProvenanceRecords" : 1,
+  "totalOutputFileProvenanceRecords" : 7,
   "workflowRuns" : [ {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -131,12 +134,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 873201342
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -253,12 +257,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1892286011
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -375,12 +380,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -641417022
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -497,12 +503,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1748184583
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -619,12 +626,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 1778035300
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -741,12 +749,13 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -547913241
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "NoIndex",
-      "bundled_jre" : "jre1.7.0_51",
-      "bundled_seqware" : "seqware-distribution-1.1.0-full.jar",
+      "bundled_jre" : "jre1.8.0_45",
+      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -863,6 +872,7 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 70214447
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   } ]
 }
