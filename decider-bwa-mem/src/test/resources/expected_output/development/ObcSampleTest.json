@@ -10,6 +10,9 @@
   "maxInputFiles" : 2,
   "minInputFiles" : 2,
   "totalInputFiles" : 4,
+  "maxOutputFileProvenanceRecords" : 1,
+  "minOutputFileProvenanceRecords" : 1,
+  "totalOutputFileProvenanceRecords" : 2,
   "workflowRuns" : [ {
     "workflowIni" : {
       "barcode" : "GATCAG",
@@ -142,7 +145,8 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : 824691320
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   }, {
     "workflowIni" : {
       "barcode" : "GATCAG",
@@ -275,6 +279,7 @@
       "fileMetaType" : [ "chemical/seq-na-fastq-gzip" ],
       "fileAttributes" : { },
       "fileId" : -1586334633
-    } ]
+    } ],
+    "outputFileProvenanceRecords" : 1
   } ]
 }
