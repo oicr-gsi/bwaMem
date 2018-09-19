@@ -18,7 +18,7 @@
     <name>${display-name}</name>
 
     <properties>
-        <workflow-version>1.1.1</workflow-version>
+        <workflow-version>1.2</workflow-version>
         <main-class>ca.on.oicr.pde.deciders.BwaMemDecider</main-class>
         <runTestThreads>20</runTestThreads>
         <testSuite>target/test-classes/development.xml</testSuite>
