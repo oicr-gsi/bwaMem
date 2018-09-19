@@ -30,11 +30,6 @@
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>ca.on.oicr.pde.tools</groupId>
-            <artifactId>cutadapt</artifactId>
-            <version>1.5.1</version>
-        </dependency>
     </dependencies>
 
     <build>
