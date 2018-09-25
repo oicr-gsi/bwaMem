@@ -254,6 +254,8 @@ public class BwaMemWorkflow extends OicrWorkflow {
 
         String logFilePath = this.dataDir + basename + ".log";
         cutadaptLogFile = createOutputFile(logFilePath, "text/plain", Boolean.valueOf(getProperty("manual_output")));
+        cutadaptLogFile.getAnnotations().put("tool", getProperty("cutadapt_log_file_tool_annotation"));
+        cutadaptLogFile.getAnnotations().put("type", getProperty("cutadapt_log_file_type_annotation"));
 
         Command cmd = job.getCommand();
         cmd.addArgument(cutadaptCmd);
