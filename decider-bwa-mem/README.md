@@ -1,6 +1,6 @@
 ## BWA-MEM Decider
 
-Version 1.3.2, SeqWare version 1.1.1-gsi
+Version 1.4, Niassa version 2.0.2
 
 ### Overview
 
@@ -69,6 +69,7 @@ model-to-platform-map | string | Path to the sequencer run model to platform map
 Parameter | Type | Description \[default\]
 ----------|------|-------------
 verbose | none | Log all SeqWare (debug) information
+read-groups-generator | string | The generator to use for calculating read groups to add to the bam header \[DefaultOicrReadGroupsGenerator]
 outputPath | path | Path to store the file output files \[./\]
 output-filename | string | Specific filename to use
 manual-output | none | Set output path manually
