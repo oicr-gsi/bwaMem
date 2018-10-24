@@ -52,6 +52,16 @@
                 "--after-date": "2018-04-01",
                 "--before-date": "2018-04-24"
             }
+        }, {
+            "id": "TGL read group test",
+            "parameters": {
+                "--all": "",
+                "--include-study": "TGL12",
+                "--after-date": "2018-01-01",
+                "--before-date": "2018-03-01",
+                "--read-groups-generator": "TglReadGroupsGenerator",
+                "--parent-wf-accessions": "5300868"
+            }
         }
     ]
 }
