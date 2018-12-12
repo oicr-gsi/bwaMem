@@ -1,22 +1,19 @@
 package ca.on.oicr.pde.deciders;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import ca.on.oicr.pde.deciders.readgroups.ReadGroupsOptionParser;
+import ca.on.oicr.pde.deciders.readgroups.InvalidDataException;
+import ca.on.oicr.pde.deciders.readgroups.ReadGroups;
+import ca.on.oicr.pde.deciders.readgroups.ReadGroupsGenerator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import joptsimple.OptionSpec;
+import joptsimple.OptionException;
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles.Header;
 import net.sourceforge.seqware.common.module.FileMetadata;
 import net.sourceforge.seqware.common.module.ReturnValue;
 import net.sourceforge.seqware.common.module.ReturnValue.ExitStatus;
 import net.sourceforge.seqware.common.util.Log;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 /**
  * This decider finds FastQ files, groups them by IUS Accession, and schedules BWA-MEM workflow runs for each pair.
@@ -46,7 +43,6 @@ public class BwaMemDecider extends OicrDecider {
     private static final String ARG_BWA_NO_MARK_SECONDARY = "bwa-no-mark-secondary";
     private static final String ARG_BWA_PARAMS = "bwa-params";
     private static final String ARG_SAMTOOLS_MEMORY = "samtools-memory";
-    private final OptionSpec<String> modelToPlatformMapFileOpt;
 
     private static enum AlignmentFormat {
         SAM, BAM, CRAM
@@ -90,13 +86,11 @@ public class BwaMemDecider extends OicrDecider {
     // samtools index
     private int samtoolsMemoryMb = 3072;
 
-    // Read group header (BWA), pulled from file metadata
-    private String rgLibrary = "";
-    private String rgPlatform = "";
-    private String rgPlatformUnit = "";
-    private String rgSample = "";
-
-    private final Map<String, String> modelToPlatform = new HashMap<>();
+    //read groups
+    private ReadGroupsOptionParser readGroupOptionParser;
+    private ReadGroupsGenerator rgf;
+    private ReadGroups rg;
+    
 
     public BwaMemDecider() {
         super();
@@ -129,11 +123,7 @@ public class BwaMemDecider extends OicrDecider {
         // Samtools index args
         parser.accepts(ARG_SAMTOOLS_MEMORY, "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
 
-        //populate model to platform map with known sequencer run models and their corresponding platform (@RG PL)
-        //GATK expects one of: ILLUMINA,SLX,SOLEXA,SOLID,454,LS454,COMPLETE,PACBIO,IONTORRENT,CAPILLARY,HELICOS,UNKNOWN
-        modelToPlatformMapFileOpt = parser.acceptsAll(Arrays.asList("model-to-platform-map"),
-                "Path to the model to platform map file.")
-                .withRequiredArg().ofType(String.class).required();
+        readGroupOptionParser = new ReadGroupsOptionParser(parser);
     }
 
     @Override
@@ -214,22 +204,17 @@ public class BwaMemDecider extends OicrDecider {
         if (this.options.has(ARG_SAMTOOLS_MEMORY)) {
             this.samtoolsMemoryMb = Integer.valueOf(options.valueOf(ARG_SAMTOOLS_MEMORY).toString());
         }
-
-        //Load the model to platform map file
-        String modelToPlatformMapFile = options.valueOf(modelToPlatformMapFileOpt);
+        
+        // setup read group generator
         try {
-            CSVParser csvFileParser = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(new FileReader(new File(modelToPlatformMapFile)));
-            for (CSVRecord record : csvFileParser.getRecords()) {
-                if (modelToPlatform.put(record.get("model"), record.get("platform")) != null) {
-                    Log.error("Duplicate model detected in model to platform map file");
-                    return new ReturnValue(ReturnValue.INVALIDARGUMENT);
-                }
-            }
-        } catch (IOException ie) {
-            Log.error(ie.getMessage());
-            return new ReturnValue(ReturnValue.FAILURE);
+            rgf = readGroupOptionParser.getReadGroupGenerator(params);
+        } catch (OptionException | IllegalArgumentException e) {
+            Log.error(e.getMessage());
+            get_syntax();
+            return new ReturnValue(ReturnValue.INVALIDARGUMENT);
         }
-
+        options = parser.parse(params); // need to parse params again to capture new params added by readGroupOptionParser
+        
         return super.init();
     }
 
@@ -275,42 +260,11 @@ public class BwaMemDecider extends OicrDecider {
         }
         this.runName = returnValue.getAttribute(Header.SEQUENCER_RUN_NAME.getTitle());
         this.lane = returnValue.getAttribute(Header.LANE_NUM.getTitle());
-
         this.barcode = attribs.getBarcode();
-        this.rgLibrary = attribs.getLibrarySample();
-        this.rgPlatform = returnValue.getAttribute("Sequencer Run Platform Name");
-        this.rgSample = getRGSM(attribs);
-        this.rgPlatformUnit = this.runName
-                + "-"
-                + this.barcode
-                + "_"
-                + this.lane;
+
+        rg = rgf.getReadGroups(attribs);
 
         return true;
-    }
-
-    /**
-     * Constructs a String for use in the SAM read group header SM field
-     *
-     * @param fa metadata for the sample file
-     *
-     * @return a String in the format: {donor}_{tissue origin}_{tissue type}[_group id]
-     */
-    private String getRGSM(FileAttributes fa) {
-        String groupId = fa.getLimsValue(Lims.GROUP_ID);
-
-        StringBuilder sb = new StringBuilder()
-                .append(fa.getDonor())
-                .append("_")
-                .append(fa.getLimsValue(Lims.TISSUE_ORIGIN))
-                .append("_")
-                .append(fa.getLimsValue(Lims.TISSUE_TYPE));
-
-        if (groupId != null) {
-            sb.append("_").append(groupId);
-        }
-
-        return sb.toString();
     }
 
     @Override
@@ -341,13 +295,6 @@ public class BwaMemDecider extends OicrDecider {
                     Log.error("Cannot identify " + file + " end (read 1 or 2)");
                     return new ReturnValue(ExitStatus.INVALIDFILE);
             }
-        }
-
-        if (modelToPlatform.containsKey(this.rgPlatform)) {
-            this.rgPlatform = modelToPlatform.get(this.rgPlatform);
-        } else {
-            Log.warn("Sequencer run model = [" + this.rgPlatform + "] platform is missing");
-            return new ReturnValue(ExitStatus.FAILURE);
         }
 
         return super.doFinalCheck(commaSeparatedFilePaths, commaSeparatedParentAccessions);
@@ -399,10 +346,15 @@ public class BwaMemDecider extends OicrDecider {
         iniFileMap.put("bwa_mark_secondary_alignments", String.valueOf(bwaMarkSecondaryAlignments));
 
         // Read Group Header (added by BWA)
-        iniFileMap.put("rg_library", this.rgLibrary);
-        iniFileMap.put("rg_platform", this.rgPlatform);
-        iniFileMap.put("rg_platform_unit", this.rgPlatformUnit);
-        iniFileMap.put("rg_sample_name", this.rgSample);
+        try {
+            iniFileMap.put("rg_library", rg.getLibraryReadGroup());
+            iniFileMap.put("rg_platform", rg.getPlatformReadGroup());
+            iniFileMap.put("rg_platform_unit", rg.getPlatformUnitReadGroup());
+            iniFileMap.put("rg_sample_name", rg.getSampleReadGroup());
+        } catch (InvalidDataException ex) {
+            Log.error(ex.getMessage());
+            abortSchedulingOfCurrentWorkflowRun();
+        }
 
         // Samtools index
         iniFileMap.put("samtools_index_mem_mb", String.valueOf(this.samtoolsMemoryMb));

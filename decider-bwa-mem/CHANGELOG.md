@@ -1,3 +1,5 @@
+## 1.4 - 2018-10-24
+- [GP-1690](https://jira.oicr.on.ca/browse/GP-1690) - Support for custom read groups (via pipedev's ReadGroupsGenerator)
 ## 1.3.4 - 2018-08-31
 - [GDI-896](https://jira.oicr.on.ca/browse/GDI-896) - Update to pipedev 2.4.4 so that additional readMateFlags are supported
 - Update expected test output to include maxOutputFileProvenanceRecord counts

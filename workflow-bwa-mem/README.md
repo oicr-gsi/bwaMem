@@ -1,6 +1,6 @@
 ## BWA-MEM Workflow
 
-Version 1.1.1, SeqWare version 1.1.0
+Version 1.2, SeqWare version 2.0.2
 
 ### Overview
 
@@ -64,10 +64,13 @@ do_trim | May be set to true or false. If true, adapters will be trimmed before 
 trim_mem_mb | Amount of RAM to allocate for the CutAdapt job, in MB | if trimming | 16384
 trim_min_quality |  | if trimming | 20
 trim_min_length |  | if trimming | 10
+r1_adapter_trim | Adapter sequence to trim from read 1 | if trimming | AGATCGGAAGAGCACACGTCTGAACTCCAGTCACACGCTCGAATCTCGTA
+r2_adapter_trim | Adapter sequence to trim from read 2 | if trimming | AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
 cutadapt_r1_other_params | Additional parameters to use for CutAdapt on read 1 | N | 
 cutadapt_r2_other_params | Additional parameters to use for CutAdapt on read 2 | N | 
-r1_adapter_trim | Adapter sequence to trim from read 1 | if trimming | AGATCGGAAGAGCGGTTCAGCAGGAATGCCGAGACCG
-r2_adapter_trim | Adapter sequence to trim from read 2 | if trimming | AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
+cutadapt_r1_log_other_params | Additional parameters to use for CutAdapt log generation on read 1 | N |
+cutadapt_r2_log_other_params | Additional parameters to use for CutAdapt log generation on read 2 | N |
+cutadapt_log_mem_mb | Amount of memory for cutadapt log job | N | 16384
 
 **BWA Parameters**
 
@@ -95,6 +98,8 @@ samtools_index_mem_mb | Amount of RAM to allocate for the indexing jobs | Y | 16
 
 * SAM, BAM, or CRAM file - Aligned, possibly compressed sequence, depending on output_format
 * BAM.BAI or CRAM.CRAI file - Corresponding index file if output_format is BAM or CRAM
+* FASTQ_R1 cutadapt log - Cutadapt log file for R1
+* FASTQ_R2 cutadapt log - Cutadapt log file for R2 (if input_file_2 set)
 
 ### Support
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
