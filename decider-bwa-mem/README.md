@@ -1,6 +1,6 @@
 ## BWA-MEM Decider
 
-Version 1.4, Niassa version 2.0.2
+Version 1.4.1, Niassa version 2.0.2
 
 ### Overview
 
@@ -89,6 +89,7 @@ bwa-ont2d | none | Enable BWA ONT mode
 bwa-no-mark-secondary | none | Disable marking of supplementary alignments as secondary. This will break compatibility with Picard
 bwa-params | string | Additional BWA-MEM parameters
 samtools-memory | int | RAM in MB to allocate for Samtools index job if output format is BAM or CRAM
+allowed-template-types | string | Library template types to select for processing \[WG, EX, TS, NN, CH\]
 
 ## Support
 

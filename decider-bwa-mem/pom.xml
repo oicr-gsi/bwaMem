@@ -12,7 +12,7 @@
 	
     <groupId>ca.on.oicr.pde.deciders</groupId>
     <artifactId>BWA-MEM</artifactId>
-    <version>1.4</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
 
     <name>${display-name}</name>
@@ -22,6 +22,7 @@
         <main-class>ca.on.oicr.pde.deciders.BwaMemDecider</main-class>
         <runTestThreads>20</runTestThreads>
         <testSuite>target/test-classes/development.xml</testSuite>
+        <pinery-version>2.2.0</pinery-version>
     </properties>
 
 

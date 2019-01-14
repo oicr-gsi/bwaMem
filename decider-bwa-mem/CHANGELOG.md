@@ -1,3 +1,5 @@
+## 1.4.1 - 2019-01-14
+- [GP-1888](https://jira.oicr.on.ca/browse/GP-1888) - Configurable allowed library template types
 ## 1.4 - 2018-10-24
 - [GP-1690](https://jira.oicr.on.ca/browse/GP-1690) - Support for custom read groups (via pipedev's ReadGroupsGenerator)
 ## 1.3.4 - 2018-08-31
