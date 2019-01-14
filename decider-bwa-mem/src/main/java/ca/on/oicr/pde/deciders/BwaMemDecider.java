@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import joptsimple.OptionException;
+import joptsimple.OptionSpec;
 import net.sourceforge.seqware.common.hibernate.FindAllTheFiles.Header;
 import net.sourceforge.seqware.common.module.FileMetadata;
 import net.sourceforge.seqware.common.module.ReturnValue;
@@ -91,6 +92,9 @@ public class BwaMemDecider extends OicrDecider {
     private ReadGroupsGenerator rgf;
     private ReadGroups rg;
     
+    // Allowed template types
+    OptionSpec<String> allowedTemplateTypesOpt;
+    private List<String> allowedTemplateTypes = Arrays.asList("WG", "EX", "TS", "NN", "CH");
 
     public BwaMemDecider() {
         super();
@@ -123,7 +127,13 @@ public class BwaMemDecider extends OicrDecider {
         // Samtools index args
         parser.accepts(ARG_SAMTOOLS_MEMORY, "Optional: Memory (MB) to allocate for Samtools index (default: 16384)");
 
+        // read group generator configuration
         readGroupOptionParser = new ReadGroupsOptionParser(parser);
+
+        //allowed template types
+        allowedTemplateTypesOpt = parser.accepts("allowed-template-types", "Library template types to select for processing.")
+                .withRequiredArg().defaultsTo(allowedTemplateTypes.toArray(new String[allowedTemplateTypes.size()]))
+                .withValuesSeparatedBy(",");
     }
 
     @Override
@@ -205,6 +215,11 @@ public class BwaMemDecider extends OicrDecider {
             this.samtoolsMemoryMb = Integer.valueOf(options.valueOf(ARG_SAMTOOLS_MEMORY).toString());
         }
         
+        // allowed template types
+        if (this.options.has(allowedTemplateTypesOpt)) {
+            this.allowedTemplateTypes = options.valuesOf(allowedTemplateTypesOpt);
+        }
+
         // setup read group generator
         try {
             rgf = readGroupOptionParser.getReadGroupGenerator(params);
@@ -228,10 +243,9 @@ public class BwaMemDecider extends OicrDecider {
 
         FileAttributes attribs = new FileAttributes(returnValue, returnValue.getFiles().get(0));
 
-        //  Skip if library_source_template_type isn't WG, EX, TS or NN
         String filePath = fm.getFilePath();
         String templateType = attribs.getLimsValue(Lims.LIBRARY_TEMPLATE_TYPE);
-        if (!"WG".equals(templateType) && !"EX".equals(templateType) && !"TS".equals(templateType) && !"NN".equals(templateType)) {
+        if (!allowedTemplateTypes.contains(templateType)) {
             Log.debug("Skipping " + filePath + " due to incompatible library template type " + templateType);
             return false;
         }
