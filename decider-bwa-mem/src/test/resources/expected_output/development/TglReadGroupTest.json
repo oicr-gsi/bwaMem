@@ -17,7 +17,7 @@
     "workflowIni" : {
       "barcode" : "AATGTTGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -80,17 +80,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "67" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "AATGTTGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -116,17 +119,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "67" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "AATGTTGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -141,7 +147,7 @@
     "workflowIni" : {
       "barcode" : "TGAAGAGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -204,17 +210,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "85" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "TGAAGAGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -240,17 +249,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "85" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "TGAAGAGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -265,7 +277,7 @@
     "workflowIni" : {
       "barcode" : "AGATCGCA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -328,17 +340,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "2522" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "AGATCGCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -364,17 +379,20 @@
         "geo_run_id_and_position" : [ [ "2939_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "2522" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane1" ] ]
+      },
       "iusTag" : [ "AGATCGCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -389,7 +407,7 @@
     "workflowIni" : {
       "barcode" : "AAGAGATC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -452,17 +470,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "2965" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "AAGAGATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -488,17 +509,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "2965" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "AAGAGATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -513,7 +537,7 @@
     "workflowIni" : {
       "barcode" : "CAACCACA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -576,17 +600,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "3557" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "CAACCACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -612,17 +639,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "3557" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "CAACCACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -637,7 +667,7 @@
     "workflowIni" : {
       "barcode" : "TGGAACAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -700,17 +730,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "5529" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "TGGAACAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -736,17 +769,20 @@
         "geo_run_id_and_position" : [ [ "2939_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "5529" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane2_2of2" ] ]
+      },
       "iusTag" : [ "TGGAACAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -761,7 +797,7 @@
     "workflowIni" : {
       "barcode" : "CCTCTATC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -824,17 +860,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "6629" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "CCTCTATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -860,17 +899,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "6629" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "CCTCTATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -885,7 +927,7 @@
     "workflowIni" : {
       "barcode" : "ACAGATTC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -948,17 +990,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "6783" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "ACAGATTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -984,17 +1029,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "6783" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "ACAGATTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1009,7 +1057,7 @@
     "workflowIni" : {
       "barcode" : "CCAGTTCA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1072,17 +1120,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "7365" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "CCAGTTCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1108,17 +1159,20 @@
         "geo_run_id_and_position" : [ [ "2939_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "7365" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane3_2of2" ] ]
+      },
       "iusTag" : [ "CCAGTTCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1133,7 +1187,7 @@
     "workflowIni" : {
       "barcode" : "TGGCTTCA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1196,17 +1250,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13127" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "TGGCTTCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1232,17 +1289,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13127" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "TGGCTTCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1257,7 +1317,7 @@
     "workflowIni" : {
       "barcode" : "CGACTGGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1320,17 +1380,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13260" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "CGACTGGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1356,17 +1419,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13260" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "CGACTGGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1381,7 +1447,7 @@
     "workflowIni" : {
       "barcode" : "CAAGACTA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1444,17 +1510,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13426" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "CAAGACTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1480,17 +1549,20 @@
         "geo_run_id_and_position" : [ [ "2939_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "13426" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane4" ] ]
+      },
       "iusTag" : [ "CAAGACTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1505,7 +1577,7 @@
     "workflowIni" : {
       "barcode" : "CCTCCTGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1568,17 +1640,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "14574" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "CCTCCTGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1604,17 +1679,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "14574" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "CCTCCTGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1629,7 +1707,7 @@
     "workflowIni" : {
       "barcode" : "TGGTGGTA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1692,17 +1770,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "14830" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "TGGTGGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1728,17 +1809,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "14830" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "TGGTGGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1753,7 +1837,7 @@
     "workflowIni" : {
       "barcode" : "AACAACCA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1816,17 +1900,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "18360" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "AACAACCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1852,17 +1939,20 @@
         "geo_run_id_and_position" : [ [ "2939_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "18360" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane6" ] ]
+      },
       "iusTag" : [ "AACAACCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1877,7 +1967,7 @@
     "workflowIni" : {
       "barcode" : "AATCCGTC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1940,17 +2030,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "19654" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "AATCCGTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1976,17 +2069,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "19654" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "AATCCGTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2001,7 +2097,7 @@
     "workflowIni" : {
       "barcode" : "CAAGGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2064,17 +2160,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "20965" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CAAGGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2100,17 +2199,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "20965" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CAAGGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2125,7 +2227,7 @@
     "workflowIni" : {
       "barcode" : "TTCACGCA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2188,17 +2290,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "23193" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "TTCACGCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2224,17 +2329,20 @@
         "geo_run_id_and_position" : [ [ "2939_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "23193" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "TTCACGCA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2249,7 +2357,7 @@
     "workflowIni" : {
       "barcode" : "CACCTTAC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2312,17 +2420,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "24135" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "CACCTTAC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2348,17 +2459,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "24135" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "CACCTTAC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2373,7 +2487,7 @@
     "workflowIni" : {
       "barcode" : "AAGACGGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2436,17 +2550,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "24669" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "AAGACGGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2472,17 +2589,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "24669" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "AAGACGGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2497,7 +2617,7 @@
     "workflowIni" : {
       "barcode" : "ACACAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2560,17 +2680,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "28767" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "ACACAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2596,17 +2719,20 @@
         "geo_run_id_and_position" : [ [ "2939_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "28767" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane7" ] ]
+      },
       "iusTag" : [ "ACACAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2621,7 +2747,7 @@
     "workflowIni" : {
       "barcode" : "GAACAGGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2684,17 +2810,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "30886" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "GAACAGGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2720,17 +2849,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "30886" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "GAACAGGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2745,7 +2877,7 @@
     "workflowIni" : {
       "barcode" : "ATGCCTAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2808,17 +2940,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "3830" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "ATGCCTAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2844,17 +2979,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "3830" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "ATGCCTAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2869,7 +3007,7 @@
     "workflowIni" : {
       "barcode" : "GAATCTGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2932,17 +3070,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "20683" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "GAATCTGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2968,17 +3109,20 @@
         "geo_run_id_and_position" : [ [ "2939_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "20683" ] ]
       },
       "sequencerRunName" : [ "171215_D00343_0207_BCC1G5ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "171215_D00343_0207_BCC1G5ANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1G5ANXX_POOL_Lane8" ] ]
+      },
       "iusTag" : [ "GAATCTGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2993,7 +3137,7 @@
     "workflowIni" : {
       "barcode" : "AACGTGAT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3056,17 +3200,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "31386" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "AACGTGAT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3092,17 +3239,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "31386" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "AACGTGAT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3117,7 +3267,7 @@
     "workflowIni" : {
       "barcode" : "CACTTCGA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3180,17 +3330,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "32082" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "CACTTCGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3216,17 +3369,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "32082" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "CACTTCGA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3241,7 +3397,7 @@
     "workflowIni" : {
       "barcode" : "GCCAAGAC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3304,17 +3460,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "32696" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "GCCAAGAC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3340,17 +3499,20 @@
         "geo_run_id_and_position" : [ [ "2967_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "32696" ] ]
       },
       "sequencerRunName" : [ "180125_D00355_0208_ACC5P4ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180125_D00355_0208_ACC5P4ANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL" ] ]
+      },
       "iusTag" : [ "GCCAAGAC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3365,7 +3527,7 @@
     "workflowIni" : {
       "barcode" : "GACTAGTA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3428,17 +3590,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "33525" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "GACTAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3464,17 +3629,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "33525" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "GACTAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3489,7 +3657,7 @@
     "workflowIni" : {
       "barcode" : "GACTAGTA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3552,17 +3720,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "33525" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "GACTAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3588,17 +3759,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "33525" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "GACTAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3613,7 +3787,7 @@
     "workflowIni" : {
       "barcode" : "ATTGGCTC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3676,17 +3850,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "35449" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "ATTGGCTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3712,17 +3889,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "35449" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "ATTGGCTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3737,7 +3917,7 @@
     "workflowIni" : {
       "barcode" : "ATTGGCTC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3800,17 +3980,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "35449" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "ATTGGCTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3836,17 +4019,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "35449" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "ATTGGCTC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3861,7 +4047,7 @@
     "workflowIni" : {
       "barcode" : "GATGAATC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -3924,17 +4110,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37157" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "GATGAATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3960,17 +4149,20 @@
         "geo_run_id_and_position" : [ [ "2960_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37157" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane2" ] ]
+      },
       "iusTag" : [ "GATGAATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -3985,7 +4177,7 @@
     "workflowIni" : {
       "barcode" : "GATGAATC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4048,17 +4240,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37157" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "GATGAATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4084,17 +4279,20 @@
         "geo_run_id_and_position" : [ [ "2971_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37157" ] ]
       },
       "sequencerRunName" : [ "180126_D00331_0300_ACC761ANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180126_D00331_0300_ACC761ANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "WEB_POOL_180126" ] ]
+      },
       "iusTag" : [ "GATGAATC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4109,7 +4307,7 @@
     "workflowIni" : {
       "barcode" : "AGCAGGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4172,17 +4370,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37785" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "AGCAGGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4208,17 +4409,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37785" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "AGCAGGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4233,7 +4437,7 @@
     "workflowIni" : {
       "barcode" : "AGCAGGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4296,17 +4500,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37785" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "AGCAGGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4332,17 +4539,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37785" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "AGCAGGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4357,7 +4567,7 @@
     "workflowIni" : {
       "barcode" : "GAGCTGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4420,17 +4630,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37912" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "GAGCTGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4456,17 +4669,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37912" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "GAGCTGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4481,7 +4697,7 @@
     "workflowIni" : {
       "barcode" : "GAGCTGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4544,17 +4760,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37912" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "GAGCTGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4580,17 +4799,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "37912" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "GAGCTGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4605,7 +4827,7 @@
     "workflowIni" : {
       "barcode" : "AAACATCG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4668,17 +4890,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "41966" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "AAACATCG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4704,17 +4929,20 @@
         "geo_run_id_and_position" : [ [ "2960_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "41966" ] ]
       },
       "sequencerRunName" : [ "180112_D00343_0212_BCC1GAANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane3" ] ]
+      },
       "iusTag" : [ "AAACATCG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4729,7 +4957,7 @@
     "workflowIni" : {
       "barcode" : "AAACATCG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4792,17 +5020,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "41966" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "AAACATCG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4828,17 +5059,20 @@
         "geo_run_id_and_position" : [ [ "2979_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
-        "geo_tissue_type" : [ [ "P" ] ]
+        "geo_tissue_type" : [ [ "P" ] ],
+        "geo_tube_id" : [ [ "41966" ] ]
       },
       "sequencerRunName" : [ "180131_D00355_0210_BCC1ULANXX" ],
       "sequencerRunAttributes" : {
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane1" ] ]
+      },
       "iusTag" : [ "AAACATCG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4853,7 +5087,7 @@
     "workflowIni" : {
       "barcode" : "AGCCATGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -4916,7 +5150,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -4926,7 +5160,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "AGCCATGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4952,7 +5188,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -4962,7 +5198,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "AGCCATGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -4977,7 +5215,7 @@
     "workflowIni" : {
       "barcode" : "GTACGCAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -5040,7 +5278,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5050,7 +5288,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "GTACGCAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5076,7 +5316,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5086,7 +5326,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "GTACGCAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5101,7 +5343,7 @@
     "workflowIni" : {
       "barcode" : "AGTACAAG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -5164,7 +5406,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5174,7 +5416,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "AGTACAAG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5200,7 +5444,7 @@
         "geo_run_id_and_position" : [ [ "2979_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5210,7 +5454,9 @@
         "instrument_name" : [ [ "D00355" ] ]
       },
       "laneName" : [ "180131_D00355_0210_BCC1ULANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1ULANXX_POOL_lane2" ] ]
+      },
       "iusTag" : [ "AGTACAAG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5225,7 +5471,7 @@
     "workflowIni" : {
       "barcode" : "TCTTCACA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -5288,7 +5534,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5298,7 +5544,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "TCTTCACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5324,7 +5572,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5334,7 +5582,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "TCTTCACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5349,7 +5599,7 @@
     "workflowIni" : {
       "barcode" : "CCGAAGTA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -5412,7 +5662,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5422,7 +5672,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CCGAAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5448,7 +5700,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5458,7 +5710,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CCGAAGTA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5473,7 +5727,7 @@
     "workflowIni" : {
       "barcode" : "CGCATACA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -5536,7 +5790,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5546,7 +5800,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CGCATACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -5572,7 +5828,7 @@
         "geo_run_id_and_position" : [ [ "2960_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
         "geo_targeted_resequencing" : [ [ "Agilent SureSelect Human All Exon V6 Cosmic" ] ],
-        "geo_template_type" : [ [ "Illumina PE Library" ] ],
+        "geo_template_type" : [ [ "Illumina PE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Ov" ] ],
         "geo_tissue_preparation" : [ [ "FFPE" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
@@ -5582,7 +5838,9 @@
         "instrument_name" : [ [ "D00343" ] ]
       },
       "laneName" : [ "180112_D00343_0212_BCC1GAANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "CC1GAANXX_POOL_Lane5" ] ]
+      },
       "iusTag" : [ "CGCATACA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],

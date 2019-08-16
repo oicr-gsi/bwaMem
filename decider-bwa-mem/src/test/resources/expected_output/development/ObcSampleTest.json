@@ -17,7 +17,7 @@
     "workflowIni" : {
       "barcode" : "GATCAG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -153,7 +153,7 @@
     "workflowIni" : {
       "barcode" : "GATCAG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",

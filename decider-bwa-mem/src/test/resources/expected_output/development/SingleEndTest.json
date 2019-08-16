@@ -17,7 +17,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -77,7 +77,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -86,7 +86,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_4" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -101,7 +103,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -161,7 +163,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -170,7 +172,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_7" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -185,7 +189,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -245,7 +249,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -254,7 +258,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_2" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -269,7 +275,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -329,7 +335,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -338,7 +344,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_6" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -353,7 +361,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -413,7 +421,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -422,7 +430,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_5" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -437,7 +447,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -497,7 +507,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -506,7 +516,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_8" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -521,7 +533,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -581,7 +593,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -590,7 +602,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_3" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -605,7 +619,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -665,7 +679,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -674,7 +688,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_8" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -689,7 +705,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -749,7 +765,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -758,7 +774,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_3" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -773,7 +791,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -833,7 +851,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -842,7 +860,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_1" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -857,7 +877,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -917,7 +937,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -926,7 +946,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_7" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -941,7 +963,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1001,7 +1023,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1010,7 +1032,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_7" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1025,7 +1049,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1085,7 +1109,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1094,7 +1118,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_6" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1109,7 +1135,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1169,7 +1195,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1178,7 +1204,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_5" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1193,7 +1221,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1253,7 +1281,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1262,7 +1290,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_4" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1277,7 +1307,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1337,7 +1367,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1346,7 +1376,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_5" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1361,7 +1393,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1421,7 +1453,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_7" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1430,7 +1462,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_7" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_7" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1445,7 +1479,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1505,7 +1539,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -1514,7 +1548,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_3" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1529,7 +1565,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1589,7 +1625,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -1598,7 +1634,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_8" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1613,7 +1651,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1673,7 +1711,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -1682,7 +1720,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_6" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1697,7 +1737,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1757,7 +1797,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_8" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -1766,7 +1806,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_8" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_8" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1781,7 +1823,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1841,7 +1883,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -1850,7 +1892,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_2" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1865,7 +1909,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -1925,7 +1969,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -1934,7 +1978,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_2" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -1949,7 +1995,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2009,7 +2055,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Cb" ] ],
         "geo_tissue_type" : [ [ "R" ] ]
       },
@@ -2018,7 +2064,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_4" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2033,7 +2081,7 @@
     "workflowIni" : {
       "barcode" : "AGGCAGAA",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2093,7 +2141,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2102,7 +2150,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_1" ] ]
+      },
       "iusTag" : [ "AGGCAGAA" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2117,7 +2167,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2177,7 +2227,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2186,7 +2236,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_1" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2201,7 +2253,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2261,7 +2313,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_1" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2270,7 +2322,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_1" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_1" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2285,7 +2339,7 @@
     "workflowIni" : {
       "barcode" : "TCCTGAGC",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2345,7 +2399,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_2" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2354,7 +2408,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_2" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_2" ] ]
+      },
       "iusTag" : [ "TCCTGAGC" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2369,7 +2425,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2429,7 +2485,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_3" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2438,7 +2494,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_3" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_3" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2453,7 +2511,7 @@
     "workflowIni" : {
       "barcode" : "TAGGCATG",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2513,7 +2571,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_4" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2522,7 +2580,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_4" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_4" ] ]
+      },
       "iusTag" : [ "TAGGCATG" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2537,7 +2597,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2597,7 +2657,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_5" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2606,7 +2666,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_5" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_5" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],
@@ -2621,7 +2683,7 @@
     "workflowIni" : {
       "barcode" : "GGACTCCT",
       "bundled_jre" : "jre1.8.0_45",
-      "bundled_seqware" : "seqware-distribution-2.0.2-full.jar",
+      "bundled_seqware" : "seqware-distribution-2.0.5-full.jar",
       "bwa" : "bwa.kit-0.7.12/bwa",
       "bwa_mark_secondary_alignments" : "true",
       "bwa_mem_mb" : "16384",
@@ -2681,7 +2743,7 @@
         "geo_receive_date" : [ [ "2018-04-16" ] ],
         "geo_run_id_and_position" : [ [ "3085_6" ] ],
         "geo_str_result" : [ [ "Not Submitted" ] ],
-        "geo_template_type" : [ [ "Illumina SE Library" ] ],
+        "geo_template_type" : [ [ "Illumina SE Library Seq" ] ],
         "geo_tissue_origin" : [ [ "Pb" ] ],
         "geo_tissue_type" : [ [ "P" ] ]
       },
@@ -2690,7 +2752,9 @@
         "instrument_name" : [ [ "D00331" ] ]
       },
       "laneName" : [ "180418_D00331_0320_BCCGGPANXX_lane_6" ],
-      "laneAttributes" : { },
+      "laneAttributes" : {
+        "pool_name" : [ [ "ASJD_POOL_6" ] ]
+      },
       "iusTag" : [ "GGACTCCT" ],
       "iusAttributes" : { },
       "workflowName" : [ "CASAVA" ],

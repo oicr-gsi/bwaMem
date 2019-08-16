@@ -1,3 +1,5 @@
+## 1.4.2 - 2019-08-16
+- [GP-1951](https://jira.oicr.on.ca/browse/GP-1951) - Update to pipedev 2.5.3
 ## 1.4.1 - 2019-01-14
 - [GP-1888](https://jira.oicr.on.ca/browse/GP-1888) - Configurable allowed library template types
 ## 1.4 - 2018-10-24
