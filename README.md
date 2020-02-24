@@ -61,8 +61,8 @@ Parameter|Value|Default|Description
 ### Outputs
 Output | Type | Description
 ---|---|---
-`bwaMemBam`|File|output merged bam
-`bwaMemIndex`|File|None
+`bwaMemBam`|File|output merged bam aligned to genome
+`bwaMemIndex`|File|output index file for bam aligned to genome
 `log`|File?|a summary log file for adapter trimming
 `AllLogs`|File?|a file containing all logs for adapter trimming for each fastq chunk
 ## Niassa + Cromwell
