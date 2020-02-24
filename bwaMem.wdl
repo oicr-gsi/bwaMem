@@ -96,7 +96,7 @@ workflow bwaMem {
     meta {
         author: "Xuemei Luo"
         email: "xuemei.luo@oicr.on.ca"
-        description: "BWA 0.7.12"
+        description: "BwaMem Workflow version 2.0"
         dependencies: [
         {
             name: "bwa/0.7.12",
@@ -361,7 +361,7 @@ task bamMerge{
 
     meta {
         output_meta: {
-            outputMergedBam: "output merged bam"
+            outputMergedBam: "output merged bam aligned to genome"
         }
     }       
 }
@@ -398,7 +398,7 @@ task indexBam {
 
     meta {
         output_meta: {
-            outputMergedBam: "output index file for bam aligned to genome"
+            outputBai: "output index file for bam aligned to genome"
         }
     }
 
