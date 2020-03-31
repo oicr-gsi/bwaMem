@@ -7,7 +7,6 @@ workflow bwaMem {
         String readGroups
         String outputFileNamePrefix = "output"
         Int numChunk = 1
-        Boolean doSplit = false
         Boolean doTrim = false
         Int trimMinLength = 1
         Int trimMinQuality = 0
@@ -20,8 +19,7 @@ workflow bwaMem {
         fastqR2: "fastq file for read 2"
         readGroups: "Complete read group header line"
         outputFileNamePrefix: "Prefix for output file"
-        numChunk: "number of chunks to split fastq file"
-        doSplit: "if ture, fastq will be split"
+        numChunk: "number of chunks to split fastq file [1, no splitting]"
         doTrim: "if true, adapters will be trimmed before alignment"
         trimMinLength: "minimum length of reads to keep [1]"
         trimMinQuality: "minimum quality of read ends to keep [0]"
@@ -30,7 +28,7 @@ workflow bwaMem {
 
     }
 
-    if (doSplit) {
+    if (numChunk > 1) {
         call countChunkSize {
             input:
             fastqR1 = fastqR1,
@@ -121,7 +119,7 @@ workflow bwaMem {
         File bwaMemBam = bamMerge.outputMergedBam
         File bwaMemIndex = indexBam.outputBai
         File? log = adapterTrimmingLog.summaryLog
-        File? AllLogs = adapterTrimmingLog.allLogs
+        File? cutAdaptAllLogs = adapterTrimmingLog.allLogs
     }
 }
 
@@ -210,6 +208,7 @@ task adapterTrimming {
         Int trimMinQuality
         String adapter1
         String adapter2
+        String? addParam
         Int jobMemory = 16
         Int timeout = 48
     }
@@ -222,6 +221,7 @@ task adapterTrimming {
         adapter1: "Adapter sequence to trim from read 1"
         adapter2: "Adapter sequence to trim from read 2"
         modules: "Required environment modules"
+        addParam: "Additional cutadapt parameters"
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
     }
@@ -234,7 +234,7 @@ task adapterTrimming {
         cutadapt -q ~{trimMinQuality} \
             -m ~{trimMinLength} \
             -a ~{adapter1}  \
-            -A ~{adapter2}  \
+            -A ~{adapter2} ~{addParam} \
             -o ~{resultFastqR1} \
             -p ~{resultFastqR2} \
             ~{fastqR1} \
@@ -270,8 +270,8 @@ task runBwaMem {
         File read1s
         File read2s
         String readGroups
-        String modules = "samtools/1.9 bwa/0.7.12 hg19-bwa-index/0.7.12"
-        String bwaRef = "$HG19_BWA_INDEX_ROOT/hg19_random.fa"
+        String modules
+        String bwaRef
         String? addParam
         Int threads = 8
         Int jobMemory = 32
@@ -428,6 +428,7 @@ task adapterTrimmingLog {
         set -e
         set -o pipefail
         awk 'BEGINFILE {print "###################################\n"}{print}' ~{sep=" " inputLogs} > ~{allLog}
+
         totalRead=$(cat ~{allLog} | grep "Total read pairs processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
         adapterR1=$(cat ~{allLog} | grep " Read 1 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
         percentAdapterR1=$(awk -v A="${adapterR1}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
@@ -448,6 +449,7 @@ task adapterTrimmingLog {
         percentBPWritten=$(awk -v A="${bpTotalWritten}" -v B="${totalBP}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
         bpWrittenR1=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
         bpWrittenR2=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
         echo -e "This is a cutadapt summary from ~{numChunk} fastq chunks\n" > ~{log}
         echo -e "Total read pairs processed:\t${totalRead}" >> ~{log}
         echo -e "  Read 1 with adapter:\t${adapterR1} (${percentAdapterR1}%)" >> ~{log}
