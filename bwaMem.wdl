@@ -140,6 +140,7 @@ task countChunkSize{
     }
     
     command <<<
+        set -euo pipefail
         zcat ~{fastqR1} | wc -l
     >>>
     
@@ -178,6 +179,7 @@ task slicer {
     }
     
     command <<<
+        set -euo pipefail
         slicer -i ~{fastqR} -l ~{chunkSize} --gzip 
     >>>
     
@@ -231,6 +233,7 @@ task adapterTrimming {
     String resultLog = "~{basename(fastqR1, ".fastq.gz")}.log"
     
     command <<<
+        set -euo pipefail
         cutadapt -q ~{trimMinQuality} \
             -m ~{trimMinLength} \
             -a ~{adapter1}  \
@@ -293,6 +296,7 @@ task runBwaMem {
     String resultBam = "~{basename(read1s)}.bam"
 
     command <<<
+        set -euo pipefail
         bwa mem -M \
             -t ~{threads} ~{addParam}  \
             -R  ~{readGroups} \
@@ -343,6 +347,7 @@ task bamMerge{
     String resultMergedBam = "~{outputFileNamePrefix}.~{bwaMemSuffix}.bam"
 
     command <<<
+        set -euo pipefail
         samtools merge \
         -c -p \
         ~{resultMergedBam} \
@@ -383,6 +388,7 @@ task indexBam {
     String resultBai = "~{basename(inputBam)}.bai"
 
     command <<<
+        set -euo pipefail
         samtools index ~{inputBam} ~{resultBai}
     >>>
 
@@ -425,8 +431,7 @@ task adapterTrimmingLog {
     String log = "~{outputFileNamePrefix}.log"
 
     command <<<
-        set -e
-        set -o pipefail
+        set -euo pipefail
         awk 'BEGINFILE {print "###################################\n"}{print}' ~{sep=" " inputLogs} > ~{allLog}
 
         totalRead=$(cat ~{allLog} | grep "Total read pairs processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
