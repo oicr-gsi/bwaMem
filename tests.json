@@ -62,7 +62,7 @@
         },
         {
             "id": "PCSI0022C_notrim_split_hg19_bam",
-            "description": "Runs the small PCSI_0022 C data with trimming, with splitting, and outputs as BAM.",
+            "description": "Runs the small PCSI_0022 C data without trimming, with splitting, and outputs as BAM.",
             "parameters": {
               "wdl_inputs": {
                 "bwaMem.fastqR1": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
@@ -78,7 +78,7 @@
         },
         {
             "id": "PCSI0022C_trim_split_hg38_bam",
-            "description": "Runs the small PCSI_0022 C data with trimming, with splitting, and outputs as BAM.",
+            "description": "Runs the small PCSI_0022 C data with trimming, with splitting, with hg38, and outputs as BAM.",
             "parameters": {
               "wdl_inputs": {
                 "bwaMem.fastqR1": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
