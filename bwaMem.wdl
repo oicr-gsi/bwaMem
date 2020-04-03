@@ -297,6 +297,7 @@ task runBwaMem {
 
     command <<<
         set -euo pipefail
+        mkdir -p tmp
         bwa mem -M \
             -t ~{threads} ~{addParam}  \
             -R  ~{readGroups} \
