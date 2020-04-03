@@ -294,10 +294,11 @@ task runBwaMem {
     }
     
     String resultBam = "~{basename(read1s)}.bam"
+    String tmpDir = "tmp/"
 
     command <<<
         set -euo pipefail
-        mkdir -p tmp
+        mkdir -p ~{tmpDir}
         bwa mem -M \
             -t ~{threads} ~{addParam}  \
             -R  ~{readGroups} \
@@ -305,9 +306,9 @@ task runBwaMem {
             ~{read1s} \
             ~{read2s} \
         | \
-        samtools sort -O bam -T tmp/ -o ~{resultBam} - 
-    >>>            
-    
+        samtools sort -O bam -T ~{tmpDir} -o ~{resultBam} - 
+    >>>
+        
     runtime {
         modules: "~{modules}"
         memory:  "~{jobMemory} GB"
