@@ -308,7 +308,7 @@ task runBwaMem {
         | \
         samtools sort -O bam -T ~{tmpDir} -o ~{resultBam} - 
     >>>
-        
+
     runtime {
         modules: "~{modules}"
         memory:  "~{jobMemory} GB"
@@ -351,7 +351,7 @@ task bamMerge{
     command <<<
         set -euo pipefail
         samtools merge \
-        -c -p \
+        -c \
         ~{resultMergedBam} \
         ~{sep=" " bams} 
     >>>
