@@ -62,7 +62,6 @@ Parameter|Value|Default|Description
 `runBwaMem.threads`|Int|8|Requested CPU threads
 `runBwaMem.jobMemory`|Int|32|Memory allocated for this job
 `runBwaMem.timeout`|Int|96|Hours before task timeout
-`bamMerge.bwaMemSuffix`|String|"annotated"|Suffix for the output bam file
 `bamMerge.jobMemory`|Int|32|Memory allocated indexing job
 `bamMerge.modules`|String|"samtools/1.9"|Required environment modules
 `bamMerge.timeout`|Int|72|Hours before task timeout
