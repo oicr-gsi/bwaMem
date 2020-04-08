@@ -332,7 +332,6 @@ task bamMerge{
     input {
         Array[File] bams
         String outputFileNamePrefix
-        String bwaMemSuffix = "annotated"
         Int   jobMemory = 32
         String modules  = "samtools/1.9"
         Int timeout     = 72
@@ -340,13 +339,12 @@ task bamMerge{
     parameter_meta {
         bams:  "Input bam files"
         outputFileNamePrefix: "Prefix for output file"
-        bwaMemSuffix: "Suffix for the output bam file"
         jobMemory: "Memory allocated indexing job"
         modules:   "Required environment modules"
         timeout:   "Hours before task timeout"    
     }
 
-    String resultMergedBam = "~{outputFileNamePrefix}.~{bwaMemSuffix}.bam"
+    String resultMergedBam = "~{outputFileNamePrefix}.bam"
 
     command <<<
         set -euo pipefail
