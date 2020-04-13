@@ -141,7 +141,8 @@ task countChunkSize{
     
     command <<<
         set -euo pipefail
-        zcat ~{fastqR1} | wc -l
+        totalLines=$(zcat ~{fastqR1} | wc -l)
+        python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
     >>>
     
     runtime {
@@ -150,7 +151,7 @@ task countChunkSize{
     }
     
     output {
-        Int chunkSize = ceil((read_int(stdout())/4.0)/numChunk)*4
+        String chunkSize =read_string(stdout())
     }
 
     meta {
@@ -164,7 +165,7 @@ task countChunkSize{
 task slicer {
     input {
         File fastqR         
-        Int chunkSize
+        String chunkSize
         String modules = "slicer/0.3.0"
         Int jobMemory = 16
         Int timeout = 48
