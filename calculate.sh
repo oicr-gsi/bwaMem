@@ -12,3 +12,5 @@ find -name *.bam -exec samtools view -H {} \; | grep '^@RG' | sort
 
 find -name *.bam -exec samtools flagstat {} \; | sort
 
+find -name *.bam -exec /bin/bash -c "samtools view {} | md5sum" \; | sort
+
