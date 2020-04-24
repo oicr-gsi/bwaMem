@@ -48,12 +48,12 @@ Parameter|Value|Default|Description
 ---|---|---|---
 `countChunkSize.jobMemory`|Int|16|Memory allocated for this job
 `countChunkSize.timeout`|Int|48|Hours before task timeout
-`slicerR1.modules`|String|"slicer/0.3.0"|
-`slicerR1.jobMemory`|Int|16|
-`slicerR1.timeout`|Int|48|
-`slicerR2.modules`|String|"slicer/0.3.0"|
-`slicerR2.jobMemory`|Int|16|
-`slicerR2.timeout`|Int|48|
+`slicerR1.modules`|String|"slicer/0.3.0"|Required environment modules
+`slicerR1.jobMemory`|Int|16|Memory allocated for this job
+`slicerR1.timeout`|Int|48|Hours before task timeout
+`slicerR2.modules`|String|"slicer/0.3.0"|Required environment modules
+`slicerR2.jobMemory`|Int|16|Memory allocated for this job
+`slicerR2.timeout`|Int|48|Hours before task timeout
 `adapterTrimming.modules`|String|"cutadapt/1.8.3"|Required environment modules
 `adapterTrimming.addParam`|String?|None|Additional cutadapt parameters
 `adapterTrimming.jobMemory`|Int|16|Memory allocated for this job
@@ -110,4 +110,4 @@ mvn clean verify \
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 
-_Generated with wdl_doc_gen (https://github.com/oicr-gsi/wdl_doc_gen/)_
+_Generated with generate-markdown-readme (https://github.com/oicr-gsi/gsi-wdl-tools/)_
