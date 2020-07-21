@@ -3,7 +3,7 @@ version 1.0
 workflow bwaMem {
     input {
         File fastqR1
-        File fastqR2
+        File? fastqR2
         String readGroups
         String outputFileNamePrefix = "output"
         Int numChunk = 1
@@ -28,6 +28,8 @@ workflow bwaMem {
 
     }
 
+    Array[File] inputFastqs = select_all([fastqR1,fastqR2])
+
     if (numChunk > 1) {
         call countChunkSize {
             input:
@@ -40,23 +42,26 @@ workflow bwaMem {
             fastqR = fastqR1,
             chunkSize = countChunkSize.chunkSize
         }
-        call slicer as slicerR2 { 
-            input: 
-            fastqR = fastqR2,
-            chunkSize = countChunkSize.chunkSize
+        if (length(inputFastqs) > 1) {
+            call slicer as slicerR2 { 
+                input: 
+                fastqR = inputFastqs[1],
+                chunkSize = countChunkSize.chunkSize
+            }
         }
     }
 
     Array[File] fastq1 = select_first([slicerR1.chunkFastq, [fastqR1]])
-    Array[File] fastq2 = select_first([slicerR2.chunkFastq, [fastqR2]])
-    Array[Pair[File,File]] outputs = zip(fastq1,fastq2)
+    Array[File?] fastq2 = if (length(inputFastqs) > 1) then select_first([slicerR2.chunkFastq, [fastqR2]]) else fastq1
+
+    Array[Pair[File,File?]] outputs = zip(fastq1,fastq2)
 
     scatter (p in outputs) {
         if (doTrim) {
             call adapterTrimming { 
                 input:
                 fastqR1 = p.left,
-                fastqR2 = p.right,
+                fastqR2 = if (length(inputFastqs) > 1) then p.right else fastqR2,
                 trimMinLength = trimMinLength,
                 trimMinQuality = trimMinQuality,
                 adapter1 = adapter1,
@@ -66,7 +71,7 @@ workflow bwaMem {
         call runBwaMem  { 
                 input: 
                 read1s = select_first([adapterTrimming.resultR1, p.left]),
-                read2s = select_first([adapterTrimming.resultR2, p.right]),
+                read2s = if (length(inputFastqs) > 1) then select_first([adapterTrimming.resultR2, p.right]) else fastqR2,
                 readGroups = readGroups
         }    
     }
@@ -87,7 +92,8 @@ workflow bwaMem {
             input:
             inputLogs = select_all(adapterTrimming.log),
             outputFileNamePrefix = outputFileNamePrefix,
-            numChunk = numChunk
+            numChunk = numChunk,
+            singleEnded = if (length(inputFastqs) > 1) then false else true
         }
     }
 
@@ -205,7 +211,7 @@ task slicer {
 task adapterTrimming {
     input {
         File fastqR1
-        File fastqR2
+        File? fastqR2
         String modules = "cutadapt/1.8.3"
         Int trimMinLength
         Int trimMinQuality
@@ -228,9 +234,10 @@ task adapterTrimming {
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
     }
-    
+   
+    Array[File] inputs = select_all([fastqR1,fastqR2])
     String resultFastqR1 = "~{basename(fastqR1, ".fastq.gz")}.trim.fastq.gz"
-    String resultFastqR2 = "~{basename(fastqR2, ".fastq.gz")}.trim.fastq.gz"
+    String resultFastqR2 = if (length(inputs) > 1) then "~{basename(inputs[1], ".fastq.gz")}.trim.fastq.gz" else "None"
     String resultLog = "~{basename(fastqR1, ".fastq.gz")}.log"
     
     command <<<
@@ -238,9 +245,9 @@ task adapterTrimming {
         cutadapt -q ~{trimMinQuality} \
             -m ~{trimMinLength} \
             -a ~{adapter1}  \
-            -A ~{adapter2} ~{addParam} \
             -o ~{resultFastqR1} \
-            -p ~{resultFastqR2} \
+            ~{if (defined(fastqR2)) then "-A ~{adapter2} -p ~{resultFastqR2} " else ""} \
+            ~{addParam} \
             ~{fastqR1} \
             ~{fastqR2} > ~{resultLog}
 
@@ -254,7 +261,7 @@ task adapterTrimming {
     
     output { 
         File resultR1 = "~{resultFastqR1}"
-        File resultR2 = "~{resultFastqR2}"
+        File? resultR2 = "~{resultFastqR2}"
         File log =  "~{resultLog}"     
     }
 
@@ -272,7 +279,7 @@ task adapterTrimming {
 task runBwaMem {
     input {
         File read1s
-        File read2s
+        File? read2s
         String readGroups
         String modules
         String bwaRef
@@ -416,14 +423,17 @@ task adapterTrimmingLog {
         Array[File] inputLogs
         String outputFileNamePrefix
         Int   numChunk
+        Boolean singleEnded = false
         Int   jobMemory = 12
         Int timeout     = 48
+
 
     }
     parameter_meta {
         inputLogs:  "Input log files"
         outputFileNamePrefix: "Prefix for output file"
         numChunk: "Number of chunks to split fastq file"
+        singleEnded: "true if reads are single ended"
         jobMemory: "Memory allocated indexing job"
         timeout:   "Hours before task timeout"
     }
@@ -435,42 +445,72 @@ task adapterTrimmingLog {
         set -euo pipefail
         awk 'BEGINFILE {print "###################################\n"}{print}' ~{sep=" " inputLogs} > ~{allLog}
 
-        totalRead=$(cat ~{allLog} | grep "Total read pairs processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
-        adapterR1=$(cat ~{allLog} | grep " Read 1 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-        percentAdapterR1=$(awk -v A="${adapterR1}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-        adapterR2=$(cat ~{allLog} | grep " Read 2 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-        percentAdapterR2=$(awk -v A="${adapterR2}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-        shortPairs=$(cat ~{allLog} | grep "Pairs that were too short:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-        percentShortPairs=$(awk -v A="${shortPairs}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-        pairsWritten=$(cat ~{allLog} | grep "Pairs written (passing filters): " | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-        percentpairsWritten=$(awk -v A="${pairsWritten}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
         totalBP=$(cat ~{allLog} | grep "Total basepairs processed:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-        bpR1=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-        bpR2=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
         bpQualitytrimmed=$(cat ~{allLog} | grep "Quality-trimmed:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g; s/ (.*)//' | awk '{x+=$1}END{print x}')
         percentQualitytrimmed=$(awk -v A="${bpQualitytrimmed}" -v B="${totalBP}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-        bpQualitytrimmedR1=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-        bpQualitytrimmedR2=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
         bpTotalWritten=$(cat ~{allLog} | grep "Total written (filtered):" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g; s/ (.*)//' | awk '{x+=$1}END{print x}')
         percentBPWritten=$(awk -v A="${bpTotalWritten}" -v B="${totalBP}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-        bpWrittenR1=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-        bpWrittenR2=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
 
         echo -e "This is a cutadapt summary from ~{numChunk} fastq chunks\n" > ~{log}
-        echo -e "Total read pairs processed:\t${totalRead}" >> ~{log}
-        echo -e "  Read 1 with adapter:\t${adapterR1} (${percentAdapterR1}%)" >> ~{log}
-        echo -e "  Read 2 with adapter:\t${adapterR2} (${percentAdapterR2}%)" >> ~{log}
-        echo -e "Pairs that were too short:\t${shortPairs} (${percentShortPairs}%)" >> ~{log}
-        echo -e "Pairs written (passing filters):\t${pairsWritten} (${percentpairsWritten}%)\n\n" >> ~{log}
-        echo -e "Total basepairs processed:\t${totalBP} bp" >> ~{log}
-        echo -e "  Read 1:\t${bpR1} bp" >> ~{log}
-        echo -e "  Read 2:\t${bpR2} bp" >> ~{log}
-        echo -e "Quality-trimmed:\t${bpQualitytrimmed} bp (${percentQualitytrimmed}%)" >> ~{log}
-        echo -e "  Read 1:\t${bpQualitytrimmedR1} bp" >> ~{log}
-        echo -e "  Read 2:\t${bpQualitytrimmedR2} bp" >> ~{log}
-        echo -e "Total written (filtered):\t${bpTotalWritten} bp (${percentBPWritten}%)" >> ~{log}
-        echo -e "  Read 1:\t${bpWrittenR1} bp" >> ~{log}
-        echo -e "  Read 2:\t${bpWrittenR2} bp" >> ~{log}
+
+        if ! ~{singleEnded} ; then
+          totalRead=$(cat ~{allLog} | grep "Total read pairs processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
+          adapterR1=$(cat ~{allLog} | grep " Read 1 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentAdapterR1=$(awk -v A="${adapterR1}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+          adapterR2=$(cat ~{allLog} | grep " Read 2 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentAdapterR2=$(awk -v A="${adapterR2}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+
+          shortPairs=$(cat ~{allLog} | grep "Pairs that were too short:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentShortPairs=$(awk -v A="${shortPairs}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+
+          pairsWritten=$(cat ~{allLog} | grep "Pairs written (passing filters): " | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentpairsWritten=$(awk -v A="${pairsWritten}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+
+          bpR1=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+          bpR2=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
+          bpQualitytrimmedR1=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+          bpQualitytrimmedR2=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
+          bpWrittenR1=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+          bpWrittenR2=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
+
+          echo -e "Total read pairs processed:\t${totalRead}" >> ~{log}
+          echo -e "  Read 1 with adapter:\t${adapterR1} (${percentAdapterR1}%)" >> ~{log}
+          echo -e "  Read 2 with adapter:\t${adapterR2} (${percentAdapterR2}%)" >> ~{log}
+          echo -e "Pairs that were too short:\t${shortPairs} (${percentShortPairs}%)" >> ~{log}
+          echo -e "Pairs written (passing filters):\t${pairsWritten} (${percentpairsWritten}%)\n\n" >> ~{log}
+          echo -e "Total basepairs processed:\t${totalBP} bp" >> ~{log}
+          echo -e "  Read 1:\t${bpR1} bp" >> ~{log}
+          echo -e "  Read 2:\t${bpR2} bp" >> ~{log}
+          echo -e "Quality-trimmed:\t${bpQualitytrimmed} bp (${percentQualitytrimmed}%)" >> ~{log}
+          echo -e "  Read 1:\t${bpQualitytrimmedR1} bp" >> ~{log}
+          echo -e "  Read 2:\t${bpQualitytrimmedR2} bp" >> ~{log}
+          echo -e "Total written (filtered):\t${bpTotalWritten} bp (${percentBPWritten}%)" >> ~{log}
+          echo -e "  Read 1:\t${bpWrittenR1} bp" >> ~{log}
+          echo -e "  Read 2:\t${bpWrittenR2} bp" >> ~{log}
+
+        else 
+          totalRead=$(cat ~{allLog} | grep "Total reads processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
+          adapterR=$(cat ~{allLog} | grep "Reads with adapters:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentAdapterR=$(awk -v A="${adapterR}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+
+          shortReads=$(cat ~{allLog} | grep "Reads that were too short:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentShortReads=$(awk -v A="${shortReads}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
+
+          ReadsWritten=$(cat ~{allLog} | grep "Reads written (passing filters): " | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
+          percentreadsWritten=$(awk -v A="${ReadsWritten}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')                 
+
+          echo -e "Total reads processed:\t${totalRead}" >> ~{log}
+          echo -e "Reads with adapters:\t${adapterR} (${percentAdapterR}%)" >> ~{log}
+          echo -e "Reads that were too short:\t${shortReads} (${percentShortReads}%)" >> ~{log}
+          echo -e "Reads written (passing filters):\t${ReadsWritten} (${percentreadsWritten}%)\n\n" >> ~{log}
+          echo -e "Total basepairs processed:\t${totalBP} bp" >> ~{log}
+          echo -e "Quality-trimmed:\t${bpQualitytrimmed} bp (${percentQualitytrimmed}%)" >> ~{log}
+          echo -e "Total written (filtered):\t${bpTotalWritten} bp (${percentBPWritten}%)" >> ~{log}
+        fi
     >>>
 
     runtime {

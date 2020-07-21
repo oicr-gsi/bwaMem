@@ -1,3 +1,6 @@
+## 2.0.1 - 2020-07-21
+- [GRD-22](https://jira.oicr.on.ca/browse/GRD-22) - support single-ended reads
+
 ## 2.0 - 2020-02-24
 - [GP-2221](https://jira.oicr.on.ca/browse/GP-2221) - coverting to cromwell wdl, adding an option of splitting fastq files into chunks to speed up the alignment
 
