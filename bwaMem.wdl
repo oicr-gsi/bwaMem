@@ -28,8 +28,6 @@ workflow bwaMem {
 
     }
 
-    Array[File] inputFastqs = select_all([fastqR1,fastqR2])
-
     if (numChunk > 1) {
         call countChunkSize {
             input:
@@ -42,26 +40,36 @@ workflow bwaMem {
             fastqR = fastqR1,
             chunkSize = countChunkSize.chunkSize
         }
-        if (length(inputFastqs) > 1) {
-            call slicer as slicerR2 { 
-                input: 
-                fastqR = inputFastqs[1],
+        if (defined(fastqR2)) {
+            # workaround for converting File? to File
+            File fastqR2_ = select_all([fastqR2])[0]
+            call slicer as slicerR2 {
+                input:
+                fastqR = fastqR2_,
                 chunkSize = countChunkSize.chunkSize
             }
         }
     }
 
     Array[File] fastq1 = select_first([slicerR1.chunkFastq, [fastqR1]])
-    Array[File?] fastq2 = if (length(inputFastqs) > 1) then select_first([slicerR2.chunkFastq, [fastqR2]]) else fastq1
 
-    Array[Pair[File,File?]] outputs = zip(fastq1,fastq2)
+    if(defined(fastqR2)) {
+      Array[File?] fastq2 = select_first([slicerR2.chunkFastq, [fastqR2]])
+      Array[Pair[File,File?]] pairedFastqs = zip(fastq1,fastq2)
+    }
+
+    if(!defined(fastqR2)) {
+      Array[Pair[File,File?]] singleFastqs = cross(fastq1,[fastqR2])
+    }
+
+    Array[Pair[File,File?]] outputs = select_first([pairedFastqs, singleFastqs])
 
     scatter (p in outputs) {
         if (doTrim) {
             call adapterTrimming { 
                 input:
                 fastqR1 = p.left,
-                fastqR2 = if (length(inputFastqs) > 1) then p.right else fastqR2,
+                fastqR2 = p.right,
                 trimMinLength = trimMinLength,
                 trimMinQuality = trimMinQuality,
                 adapter1 = adapter1,
@@ -71,7 +79,7 @@ workflow bwaMem {
         call runBwaMem  { 
                 input: 
                 read1s = select_first([adapterTrimming.resultR1, p.left]),
-                read2s = if (length(inputFastqs) > 1) then select_first([adapterTrimming.resultR2, p.right]) else fastqR2,
+                read2s = if (defined(fastqR2)) then select_first([adapterTrimming.resultR2, p.right]) else fastqR2,
                 readGroups = readGroups
         }    
     }
@@ -93,7 +101,7 @@ workflow bwaMem {
             inputLogs = select_all(adapterTrimming.log),
             outputFileNamePrefix = outputFileNamePrefix,
             numChunk = numChunk,
-            singleEnded = if (length(inputFastqs) > 1) then false else true
+            singleEnded = if (defined(fastqR2)) then false else true
         }
     }
 
