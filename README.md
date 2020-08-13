@@ -25,7 +25,6 @@ java -jar cromwell.jar run bwaMem.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `fastqR1`|File|fastq file for read 1
-`fastqR2`|File|fastq file for read 2
 `readGroups`|String|Complete read group header line
 `runBwaMem.modules`|String|Required environment modules
 `runBwaMem.bwaRef`|String|The reference genome to align the sample with by BWA
@@ -34,6 +33,7 @@ Parameter|Value|Description
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
+`fastqR2`|File?|None|fastq file for read 2
 `outputFileNamePrefix`|String|"output"|Prefix for output file
 `numChunk`|Int|1|number of chunks to split fastq file [1, no splitting]
 `doTrim`|Boolean|false|if true, adapters will be trimmed before alignment
