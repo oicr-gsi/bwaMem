@@ -40,3 +40,5 @@ proguard/
 #UML diagrams
 *.mgc
 *.mgi
+v.out
+vidarrtest-regression.json
