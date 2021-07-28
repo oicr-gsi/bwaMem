@@ -82,106 +82,83 @@ Output | Type | Description
 `cutAdaptAllLogs`|File?|a file containing all logs for adapter trimming for each fastq chunk
 
 
-## Niassa + Cromwell
-
-This WDL workflow is wrapped in a Niassa workflow (https://github.com/oicr-gsi/pipedev/tree/master/pipedev-niassa-cromwell-workflow) so that it can used with the Niassa metadata tracking system (https://github.com/oicr-gsi/niassa).
-
-* Building
-```
-mvn clean install
-```
-
-* Testing
-```
-mvn clean verify \
--Djava_opts="-Xmx1g -XX:+UseG1GC -XX:+UseStringDeduplication" \
--DrunTestThreads=2 \
--DskipITs=false \
--DskipRunITs=false \
--DworkingDirectory=/path/to/tmp/ \
--DschedulingHost=niassa_oozie_host \
--DwebserviceUrl=http://niassa-url:8080 \
--DwebserviceUser=niassa_user \
--DwebservicePassword=niassa_user_password \
--Dcromwell-host=http://cromwell-url:8000
-```
-
 ## Commands
-
-This section lists command(s) run by fastqc workflow
-
-* Running BWA
-
-bwaMem workflow runs the following command (excerpt from .wdl file).
-
-* countChunkSize
-
-Depending on the file size job will be scattered in a number of chunks.
-
-```
-totalLines=$(zcat FASTQ_FILE | wc -l)
-python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
-```
-
-* slicer
-
-CHUNK_SIZE calcualted in the previous step.
-
-```
-slicer -i FASTQ_FILE -l CHUNK_SIZE --gzip
-```
-
-* adapterTrimming
-
-Optional adapter trimming
-
-```
-cutadapt -q TRIM_MIN_QUALITY \               
-            -m TRIM_MIN_LENGTH \
-            -a ADAPTER_1  \
-            -o FASTQ_FILER1_TRIMMED \
-            -A ADAPTER_2 -p FATSQ_FILER2_TRIMMED \
-            ADDITIONAL_PARAM \
-            FASTQ_R1 \
-            FASTQ_R2 > RESULT_LOG
-```
-
-* runBwaMem
-
-Main command, need to pass READ_GROUP_STRING (Read group information) and BWA_REF (directory with BWA reference files)
-
-```
-bwa mem -M \
-        -t THEADS ADDITIONAL_PARAM  \
-        -R  READ_GROUP_STRING \
-            BWA_REF \
-            FASTQ_R1 \
-            FASTQ_R2 \
-        | \
-        samtools sort -O bam -T TMP_DIR -o RESULT_BAM -
-```
-
-* bamMerge
-
-Merging chunks into final bam file.
-
-```
-
-samtools merge \
-        -c \
-        RESULT_MERGE_BAM \
-        BAM_FILE1 BAM_FILE2 ...
-```
-
-* indexBam
-
-Indexing with samtools, name of the index file is specified with INDEX_BAI
-
-```
- samtools index INPUT_BAM INDEX_BAI
-```
-
-## Support
+ 
+ This section lists command(s) run by fastqc workflow
+ 
+ * Running BWA
+ 
+ bwaMem workflow runs the following command (excerpt from .wdl file).
+ 
+ * countChunkSize
+ 
+ Depending on the file size job will be scattered in a number of chunks.
+ 
+ ```
+ totalLines=$(zcat FASTQ_FILE | wc -l)
+ python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
+ ```
+ 
+ * slicer
+ 
+ CHUNK_SIZE calcualted in the previous step.
+ 
+ ```
+  slicer -i FASTQ_FILE -l CHUNK_SIZE --gzip
+ 
+ ```
+ 
+ * adapterTrimming
+ 
+ Optional adapter trimming
+ 
+ ```
+ cutadapt -q TRIM_MIN_QUALITY
+             -m TRIM_MIN_LENGTH
+             -a ADAPTER_1
+             -o FASTQ_FILER1_TRIMMED
+             -A ADAPTER_2 -p FATSQ_FILER2_TRIMMED
+             ADDITIONAL_PARAM
+             FASTQ_R1
+             FASTQ_R2 > RESULT_LOG
+ ```
+ 
+ * run BwaMem
+ 
+ Main command, need to pass READ_GROUP_STRING (Read group information) and BWA_REF (directory with BWA reference files)
+ 
+ ```
+ bwa mem -M
+         -t THEADS ADDITIONAL_PARAM
+         -R  READ_GROUP_STRING
+             BWA_REF
+             FASTQ_R1
+             FASTQ_R2
+         |
+         samtools sort -O bam -T TMP_DIR -o RESULT_BAM -
+ ```
+ 
+ * bamMerge
+ 
+ Merging chunks into final bam file.
+ 
+ ```
+ samtools merge
+         -c
+         RESULT_MERGE_BAM
+         BAM_FILE1 BAM_FILE2 ...
+ 
+ ```
+ 
+ * indexBam
+ 
+ Indexing with samtools, name of the index file is specified with INDEX_BAI
+ 
+ ```
+  samtools index INPUT_BAM INDEX_BAI
+ 
+ ```
+ ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 
