@@ -1,3 +1,9 @@
+## 2.1.0 - 2022-10-13
+- add options for UMI adapter trimming, UMI extract; add a "reference" parameter; add default values for bwaMem_modules and bwaMem_ref based on reference
+
+## 1.0.0 - 2021-05-31
+- migrate Niassa 2.0.1 to Vidarr 1.0.0
+
 ## 2.0.1 - 2020-07-21
 - [GRD-22](https://jira.oicr.on.ca/browse/GRD-22) - support single-ended reads
 
