@@ -284,7 +284,7 @@ task extractUMIs {
 
         runtime {
             modules: "~{modules}"
-            jobMemory: "~{memory}G"
+            memory: "~{jobMemory} GB"
             timeout: "~{timeout}"
         }
 
