@@ -4,18 +4,10 @@ workflow bwaMem {
     input {
         File fastqR1
         File? fastqR2
-        String readGroups
         String outputFileNamePrefix = "output"
         Int numChunk = 1
         Boolean doUMIextract = false
-        String umiList
-        String pattern1 
-        String pattern2
         Boolean doTrim = false
-        Int trimMinLength = 1
-        Int trimMinQuality = 0
-        String adapter1 = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"
-        String adapter2 = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
         String reference
     }
 
@@ -26,14 +18,7 @@ workflow bwaMem {
         outputFileNamePrefix: "Prefix for output file"
         numChunk: "Number of chunks to split fastq file [1, no splitting]"
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
-        umiList: "Reference file with valid UMIs"
-        pattern1: "UMI pattern 1"
-        pattern2: "UMI pattern 2"        
         doTrim: "If true, adapters will be trimmed before alignment [false]"
-        trimMinLength: "Minimum length of reads to keep [1]"
-        trimMinQuality: "Minimum quality of read ends to keep [0]"
-        adapter1: "Adapter sequence to trim from read 1 [AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC]"
-        adapter2: "Adapter sequence to trim from read 2 [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT]"
         reference: "The genome reference build. For example: hg19, hg38, mm10"
     }
 
@@ -94,12 +79,8 @@ workflow bwaMem {
         if (doUMIextract) {
             call extractUMIs { 
                 input:
-                umiList = umiList,
-                outputPrefix = outputFileNamePrefix,
                 fastq1 = p.left,
                 fastq2 = p.right,
-                pattern1 = pattern1,
-                pattern2 = pattern2
             }
 
         }
@@ -109,10 +90,6 @@ workflow bwaMem {
                 input:
                 fastqR1 = select_first([extractUMIs.fastqR1, p.left]),
                 fastqR2 = if (defined(fastqR2)) then select_first([extractUMIs.fastqR2, p.right]) else fastqR2,
-                trimMinLength = trimMinLength,
-                trimMinQuality = trimMinQuality,
-                adapter1 = adapter1,
-                adapter2 = adapter2
             }
         }
 
@@ -121,7 +98,6 @@ workflow bwaMem {
                 input: 
                 read1s = select_first([adapterTrimming.resultR1, extractUMIs.fastqR1, p.left]),
                 read2s = if (defined(fastqR2)) then select_first([adapterTrimming.resultR2, extractUMIs.fastqR2, p.right]) else fastqR2,
-                readGroups = readGroups,
                 modules = bwaMem_modules,
                 bwaRef = bwaMem_ref
         }    
@@ -270,14 +246,14 @@ task slicer {
 
 task extractUMIs {
         input {
-            String umiList
-            String outputPrefix
+            String umiList = "umiList"
+            String outputPrefix = "extractUMIs_output"
             File fastq1
             File? fastq2
-            String pattern1
-            String pattern2
+            String pattern1 = "(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)"
+            String pattern2 = "(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)"
             String modules = "barcodex-rs/0.1.2 rust/1.45.1"
-            Int memory = 24
+            Int jobMemory = 24
             Int timeout = 12
         }
 
@@ -289,7 +265,7 @@ task extractUMIs {
             pattern1: "UMI RegEx pattern 1"
             pattern2: "UMI RegEx pattern 2"
             modules: "Required environment modules"
-            memory: "Memory allocated for this job"
+            jobMemory: "Memory allocated for this job"
             timeout: "Time in hours before task timeout"
         }
 
@@ -308,7 +284,7 @@ task extractUMIs {
 
         runtime {
             modules: "~{modules}"
-            memory: "~{memory}G"
+            jobMemory: "~{memory}G"
             timeout: "~{timeout}"
         }
 
@@ -345,13 +321,13 @@ task adapterTrimming {
         String modules = "cutadapt/1.8.3"
         Boolean doUMItrim = false
         Int umiLength = 5
-        Int trimMinLength
-        Int trimMinQuality
-        String adapter1
-        String adapter2
+        Int trimMinLength = 1
+        Int trimMinQuality = 0
+        String adapter1 = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"
+        String adapter2 = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT" 
         String? addParam
         Int jobMemory = 16
-        Int timeout = 48
+        Int timeout = 48  
     }
     
     parameter_meta {
