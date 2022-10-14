@@ -358,7 +358,7 @@ task adapterTrimming {
                 -a ~{adapter1} \
                 -o ~{resultFastqR1} \
                 ~{if (defined(fastqR2)) then "-A ~{adapter2} -p ~{resultFastqR2} " else ""} \
-                ~{if (doUMItrim) then "-u ~{umiLength} -U ~{umiLength} " else ""} \  
+                ~{if (doUMItrim) then "-u ~{umiLength} -U ~{umiLength} " else ""} \
                 ~{addParam} \
                 ~{fastqR1} \
                 ~{fastqR2} > ~{resultLog}
