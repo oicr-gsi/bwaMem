@@ -10,6 +10,8 @@ BwaMem Workflow version 2.0
 * [samtools 1.9](https://github.com/samtools/samtools/archive/0.1.19.tar.gz)
 * [cutadapt 1.8.3](https://cutadapt.readthedocs.io/en/v1.8.3/)
 * [slicer 0.3.0](https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz)
+* [barcodex-rs 0.1.2](https://github.com/oicr-gsi/barcodex-rs/archive/v0.1.2.tar.gz)
+* [rust 1.2](https://www.rust-lang.org/tools/install)
 
 
 ## Usage
@@ -24,23 +26,19 @@ java -jar cromwell.jar run bwaMem.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`fastqR1`|File|fastq file for read 1
-`readGroups`|String|Complete read group header line
-`runBwaMem.modules`|String|Required environment modules
-`runBwaMem.bwaRef`|String|The reference genome to align the sample with by BWA
+`fastqR1`|File|Fastq file for read 1
+`reference`|String|The genome reference build. For example: hg19, hg38, mm10
+`runBwaMem.readGroups`|String|Array of readgroup lines
 
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`fastqR2`|File?|None|fastq file for read 2
+`fastqR2`|File?|None|Fastq file for read 2
 `outputFileNamePrefix`|String|"output"|Prefix for output file
-`numChunk`|Int|1|number of chunks to split fastq file [1, no splitting]
-`doTrim`|Boolean|false|if true, adapters will be trimmed before alignment
-`trimMinLength`|Int|1|minimum length of reads to keep [1]
-`trimMinQuality`|Int|0|minimum quality of read ends to keep [0]
-`adapter1`|String|"AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"|adapter sequence to trim from read 1 [AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC]
-`adapter2`|String|"AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"|adapter sequence to trim from read 2 [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT]
+`numChunk`|Int|1|Number of chunks to split fastq file [1, no splitting]
+`doUMIextract`|Boolean|false|If true, UMI will be extracted before alignment [false]
+`doTrim`|Boolean|false|If true, adapters will be trimmed before alignment [false]
 
 
 #### Optional task parameters:
@@ -54,7 +52,20 @@ Parameter|Value|Default|Description
 `slicerR2.modules`|String|"slicer/0.3.0"|Required environment modules
 `slicerR2.jobMemory`|Int|16|Memory allocated for this job
 `slicerR2.timeout`|Int|48|Hours before task timeout
+`extractUMIs.umiList`|String|"umiList"|Reference file with valid UMIs
+`extractUMIs.outputPrefix`|String|"extractUMIs_output"|Specifies the start of the output files
+`extractUMIs.pattern1`|String|"(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)"|UMI RegEx pattern 1
+`extractUMIs.pattern2`|String|"(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)"|UMI RegEx pattern 2
+`extractUMIs.modules`|String|"barcodex-rs/0.1.2 rust/1.45.1"|Required environment modules
+`extractUMIs.jobMemory`|Int|24|Memory allocated for this job
+`extractUMIs.timeout`|Int|12|Time in hours before task timeout
 `adapterTrimming.modules`|String|"cutadapt/1.8.3"|Required environment modules
+`adapterTrimming.doUMItrim`|Boolean|false|If true, do umi trimming
+`adapterTrimming.umiLength`|Int|5|The number of bases to trim. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
+`adapterTrimming.trimMinLength`|Int|1|Minimum length of reads to keep
+`adapterTrimming.trimMinQuality`|Int|0|Minimum quality of read ends to keep
+`adapterTrimming.adapter1`|String|"AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"|Adapter sequence to trim from read 1
+`adapterTrimming.adapter2`|String|"AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"|Adapter sequence to trim from read 2
 `adapterTrimming.addParam`|String?|None|Additional cutadapt parameters
 `adapterTrimming.jobMemory`|Int|16|Memory allocated for this job
 `adapterTrimming.timeout`|Int|48|Hours before task timeout
@@ -82,83 +93,7 @@ Output | Type | Description
 `cutAdaptAllLogs`|File?|a file containing all logs for adapter trimming for each fastq chunk
 
 
-## Commands
- 
- This section lists command(s) run by fastqc workflow
- 
- * Running BWA
- 
- bwaMem workflow runs the following command (excerpt from .wdl file).
- 
- * countChunkSize
- 
- Depending on the file size job will be scattered in a number of chunks.
- 
- ```
- totalLines=$(zcat FASTQ_FILE | wc -l)
- python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
- ```
- 
- * slicer
- 
- CHUNK_SIZE calcualted in the previous step.
- 
- ```
-  slicer -i FASTQ_FILE -l CHUNK_SIZE --gzip
- 
- ```
- 
- * adapterTrimming
- 
- Optional adapter trimming
- 
- ```
- cutadapt -q TRIM_MIN_QUALITY
-             -m TRIM_MIN_LENGTH
-             -a ADAPTER_1
-             -o FASTQ_FILER1_TRIMMED
-             -A ADAPTER_2 -p FATSQ_FILER2_TRIMMED
-             ADDITIONAL_PARAM
-             FASTQ_R1
-             FASTQ_R2 > RESULT_LOG
- ```
- 
- * run BwaMem
- 
- Main command, need to pass READ_GROUP_STRING (Read group information) and BWA_REF (directory with BWA reference files)
- 
- ```
- bwa mem -M
-         -t THEADS ADDITIONAL_PARAM
-         -R  READ_GROUP_STRING
-             BWA_REF
-             FASTQ_R1
-             FASTQ_R2
-         |
-         samtools sort -O bam -T TMP_DIR -o RESULT_BAM -
- ```
- 
- * bamMerge
- 
- Merging chunks into final bam file.
- 
- ```
- samtools merge
-         -c
-         RESULT_MERGE_BAM
-         BAM_FILE1 BAM_FILE2 ...
- 
- ```
- 
- * indexBam
- 
- Indexing with samtools, name of the index file is specified with INDEX_BAI
- 
- ```
-  samtools index INPUT_BAM INDEX_BAI
- 
- ```
- ## Support
+## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 

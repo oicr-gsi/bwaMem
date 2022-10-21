@@ -270,6 +270,7 @@ task extractUMIs {
         }
 
         command <<<
+            set -euo pipefail
 
             barcodex-rs --umilist ~{umiList} --prefix ~{outputPrefix} --separator "__" inline \
             --pattern1 '~{pattern1}' --r1-in ~{fastq1} \
