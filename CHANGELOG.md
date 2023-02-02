@@ -1,3 +1,6 @@
+## 2.1.1 - 2023-02-01
+- upgrade bwa version to 0.7.17, re-organized the reference and modules parameters
+
 ## 2.1.0 - 2022-10-13
 - add options for UMI adapter trimming, UMI extract; add a "reference" parameter; add default values for bwaMem_modules and bwaMem_ref based on reference
 
