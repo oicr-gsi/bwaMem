@@ -23,12 +23,12 @@ workflow bwaMem {
     }
 
     Map[String,String] bwaMem_modules_by_genome = { 
-    "hg19": "samtools/1.9 bwa/0.7.17 hg19-bwa-index/0.7.17", 
+    "hg19": "samtools/1.9 bwa/0.7.17 hg19-bwa-index/0.7.17",
     "hg38": "samtools/1.9 bwa/0.7.17 hg38-bwa-index-with-alt/0.7.17",
     "mm10": "samtools/1.9 bwa/0.7.17 mm10-bwa-index/0.7.17"}
 
     Map[String,String] bwaMemRef_by_genome = { 
-    "hg19": "$HG19_BWA_INDEX_ROOT/hg19_random.fa", 
+    "hg19": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
     "hg38": "$$HG38_BWA_INDEX_WITH_ALT_ROOT/hg38_random.fa",
     "mm10_bwaMemRef": "$MM10_BWA_INDEX_ROOT/mm10.fa"
     }
