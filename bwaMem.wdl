@@ -29,7 +29,7 @@ workflow bwaMem {
 
     Map[String,String] bwaMemRef_by_genome = { 
     "hg19": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
-    "hg38": "$$HG38_BWA_INDEX_WITH_ALT_ROOT/hg38_random.fa",
+    "hg38": "$HG38_BWA_INDEX_WITH_ALT_ROOT/hg38_random.fa",
     "mm10_bwaMemRef": "$MM10_BWA_INDEX_ROOT/mm10.fa"
     }
 
