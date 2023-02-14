@@ -6,7 +6,7 @@ BwaMem Workflow version 2.0
 
 ## Dependencies
 
-* [bwa 0.7.12](https://github.com/lh3/bwa/archive/0.7.12.tar.gz)
+* [bwa 0.7.17](https://github.com/lh3/bwa/archive/0.7.17.tar.gz)
 * [samtools 1.9](https://github.com/samtools/samtools/archive/0.1.19.tar.gz)
 * [cutadapt 1.8.3](https://cutadapt.readthedocs.io/en/v1.8.3/)
 * [slicer 0.3.0](https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz)
@@ -61,7 +61,7 @@ Parameter|Value|Default|Description
 `extractUMIs.timeout`|Int|12|Time in hours before task timeout
 `adapterTrimming.modules`|String|"cutadapt/1.8.3"|Required environment modules
 `adapterTrimming.doUMItrim`|Boolean|false|If true, do umi trimming
-`adapterTrimming.umiLength`|Int|5|The number of bases to trim. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
+`adapterTrimming.umiLength`|Int|5|The number of bases to trim when doUMItrim is true. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
 `adapterTrimming.trimMinLength`|Int|1|Minimum length of reads to keep
 `adapterTrimming.trimMinQuality`|Int|0|Minimum quality of read ends to keep
 `adapterTrimming.adapter1`|String|"AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"|Adapter sequence to trim from read 1
