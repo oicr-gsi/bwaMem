@@ -101,6 +101,7 @@ Output | Type | Description
  This section lists command(s) run by bwaMem workflow
  
  Split the fastq files into chunks to parallelize the alignment (optional).  If requested, subsequent steps will be run on each fastq chunk
+ 
  <<<
          totalLines=$(zcat ~{fastqR1} | wc -l)
          python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
