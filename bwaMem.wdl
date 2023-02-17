@@ -126,7 +126,7 @@ workflow bwaMem {
     meta {
         author: "Xuemei Luo"
         email: "xuemei.luo@oicr.on.ca"
-        description: "BwaMem Workflow version 2.0"
+        description: "This workflow aligns sequence data provided as fastq files against a genomic reference using bwa (burrows-wheeler-aligner).  Prior to alignment, there are options to remove 5' umi sequence and to trim off 3' sequencing adapter. Readgroup information to be injected into the bam header needs to be provided.  The workflow can also split the input data into a requested number of chunks, align each separately then merge the separate alignments into a single bam file.  This decreases the workflow run time.  Optional bwa mem parameters can be provided to the workflow."
         dependencies: [
         {
             name: "bwa/0.7.17",
@@ -151,6 +151,22 @@ workflow bwaMem {
         {
             name: "rust/1.2",
             url: "https://www.rust-lang.org/tools/install"
+        },
+        { 
+          name: "gsi software modules : samtools/1.9 bwa/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        { 
+          name: "gsi hg38 modules : hg38-bwa-index-with-alt/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        {
+          name: "gsi hg19 modules : hg19-bwa-index/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        {
+          name: "gsi mm10 modules :mm10-bwa-index/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         }
       ]
     }
