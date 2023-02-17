@@ -110,7 +110,8 @@ Output | Type | Description
  
  
  Trim off the UMI bases (optional)
- <<<
+ 
+ ```
              barcodex-rs --umilist ~{umiList} --prefix ~{outputPrefix} --separator "__" inline \
              --pattern1 '~{pattern1}' --r1-in ~{fastq1} \
              ~{if (defined(fastq2)) then "--pattern2 '~{pattern2}' --r2-in ~{fastq2} " else ""}
@@ -120,11 +121,11 @@ Output | Type | Description
              tr [,] ',\n' < umiCounts.txt | sed 's/[{}]//' > tmp.txt
              echo "{$(sort -i tmp.txt)}" > new.txt
              tr '\n' ',' < new.txt | sed 's/,$//' > ~{outputPrefix}_UMI_counts.json
-         >>>
- 
+ ```
  
  Trim off adapter sequence (optional)
- <<<
+ 
+ ```
          cutadapt -q ~{trimMinQuality} \
                  -m ~{trimMinLength} \
                  -a ~{adapter1} \
@@ -134,10 +135,11 @@ Output | Type | Description
                  ~{addParam} \
                  ~{fastqR1} \
                  ~{fastqR2} > ~{resultLog}
-     >>>
+ ```
  
  Align to reference with bwa mem
- <<<
+ 
+ ```
          mkdir -p ~{tmpDir}
          bwa mem -M \
              -t ~{threads} ~{addParam}  \
@@ -147,26 +149,30 @@ Output | Type | Description
              ~{read2s} \
          | \
          samtools sort -O bam -T ~{tmpDir} -o ~{resultBam} - 
-     >>>
+ ```
+ 
  
  Merge parallelized alignments (optional, if the fastq had been split)
- <<<
+ 
+ ```
          samtools merge \
          -c \
          ~{resultMergedBam} \
          ~{sep=" " bams} 
-     >>>
+ ```
+ 
  
  Index the bam file
- <<<
-         samtools index ~{inputBam} ~{resultBai}
-     >>>
  
+ ```
+         samtools index ~{inputBam} ~{resultBai}
+ ```
  
  Merging of parallelized Adapter trimming logs
- <<<
+ 
+ ```
         COMMANDS NOT SHOWN, see WDL for details
-     >>>
+ ```
  ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
