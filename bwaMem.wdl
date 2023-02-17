@@ -419,7 +419,7 @@ task runBwaMem {
     parameter_meta {
         read1s: "Fastq file for read 1"
         read2s: "Fastq file for read 2"
-        readGroups: "Array of readgroup lines"
+        readGroups: "The readgroup information to be injected into the bam header"
         bwaRef: "The reference genome to align the sample with by BWA"
         modules: "Required environment modules"
         addParam: "Additional BWA parameters"
