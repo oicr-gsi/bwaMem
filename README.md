@@ -33,7 +33,7 @@ Parameter|Value|Description
 `fastqR1`|File|Fastq file for read 1
 `outputFileNamePrefix`|String|Prefix for output files
 `reference`|String|The genome reference build. For example: hg19, hg38, mm10
-`runBwaMem.readGroups`|String|Array of readgroup lines
+`runBwaMem.readGroups`|String|The readgroup information to be injected into the bam header
 
 
 #### Optional workflow parameters:
