@@ -100,22 +100,16 @@ Output | Type | Description
 ## Commands
  This section lists command(s) run by bwaMem workflow
  
- * Running WORKFLOW
- 
- === Description here ===.
- 
+ Split the fastq files into chunks to parallelize the alignment (optional).  If requested, subsequent steps will be run on each fastq chunk
  <<<
-         set -euo pipefail
          totalLines=$(zcat ~{fastqR1} | wc -l)
          python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
-     >>>
- <<<
-         set -euo pipefail
          slicer -i ~{fastqR} -l ~{chunkSize} --gzip 
      >>>
- <<<
-             set -euo pipefail
  
+ 
+ Trim off the UMI bases (optional)
+ <<<
              barcodex-rs --umilist ~{umiList} --prefix ~{outputPrefix} --separator "__" inline \
              --pattern1 '~{pattern1}' --r1-in ~{fastq1} \
              ~{if (defined(fastq2)) then "--pattern2 '~{pattern2}' --r2-in ~{fastq2} " else ""}
@@ -126,9 +120,10 @@ Output | Type | Description
              echo "{$(sort -i tmp.txt)}" > new.txt
              tr '\n' ',' < new.txt | sed 's/,$//' > ~{outputPrefix}_UMI_counts.json
          >>>
- <<<
-         set -euo pipefail
  
+ 
+ Trim off adapter sequence (optional)
+ <<<
          cutadapt -q ~{trimMinQuality} \
                  -m ~{trimMinLength} \
                  -a ~{adapter1} \
@@ -138,10 +133,10 @@ Output | Type | Description
                  ~{addParam} \
                  ~{fastqR1} \
                  ~{fastqR2} > ~{resultLog}
- 
      >>>
+ 
+ Align to reference with bwa mem
  <<<
-         set -euo pipefail
          mkdir -p ~{tmpDir}
          bwa mem -M \
              -t ~{threads} ~{addParam}  \
@@ -152,87 +147,24 @@ Output | Type | Description
          | \
          samtools sort -O bam -T ~{tmpDir} -o ~{resultBam} - 
      >>>
+ 
+ Merge parallelized alignments (optional, if the fastq had been split)
  <<<
-         set -euo pipefail
          samtools merge \
          -c \
          ~{resultMergedBam} \
          ~{sep=" " bams} 
      >>>
+ 
+ Index the bam file
  <<<
-         set -euo pipefail
          samtools index ~{inputBam} ~{resultBai}
      >>>
+ 
+ 
+ Merging of parallelized Adapter trimming logs
  <<<
-         set -euo pipefail
-         awk 'BEGINFILE {print "###################################\n"}{print}' ~{sep=" " inputLogs} > ~{allLog}
- 
-         totalBP=$(cat ~{allLog} | grep "Total basepairs processed:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
- 
-         bpQualitytrimmed=$(cat ~{allLog} | grep "Quality-trimmed:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g; s/ (.*)//' | awk '{x+=$1}END{print x}')
-         percentQualitytrimmed=$(awk -v A="${bpQualitytrimmed}" -v B="${totalBP}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-         bpTotalWritten=$(cat ~{allLog} | grep "Total written (filtered):" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g; s/ (.*)//' | awk '{x+=$1}END{print x}')
-         percentBPWritten=$(awk -v A="${bpTotalWritten}" -v B="${totalBP}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-         echo -e "This is a cutadapt summary from ~{numChunk} fastq chunks\n" > ~{log}
- 
-         if ! ~{singleEnded} ; then
-           totalRead=$(cat ~{allLog} | grep "Total read pairs processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
-           adapterR1=$(cat ~{allLog} | grep " Read 1 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentAdapterR1=$(awk -v A="${adapterR1}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
-           adapterR2=$(cat ~{allLog} | grep " Read 2 with adapter:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentAdapterR2=$(awk -v A="${adapterR2}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-           shortPairs=$(cat ~{allLog} | grep "Pairs that were too short:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentShortPairs=$(awk -v A="${shortPairs}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-           pairsWritten=$(cat ~{allLog} | grep "Pairs written (passing filters): " | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentpairsWritten=$(awk -v A="${pairsWritten}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-           bpR1=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-           bpR2=$(cat ~{allLog} | grep -A 2 "Total basepairs processed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
- 
-           bpQualitytrimmedR1=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-           bpQualitytrimmedR2=$(cat ~{allLog} | grep -A 2 "Quality-trimmed:" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
- 
-           bpWrittenR1=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 1:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
-           bpWrittenR2=$(cat ~{allLog} | grep -A 2 "Total written (filtered):" | grep "Read 2:" | cut -d":" -f2 | sed 's/^[ \t]*//; s/ bp//; s/,//g' | awk '{x+=$1}END{print x}')
- 
-           echo -e "Total read pairs processed:\t${totalRead}" >> ~{log}
-           echo -e "  Read 1 with adapter:\t${adapterR1} (${percentAdapterR1}%)" >> ~{log}
-           echo -e "  Read 2 with adapter:\t${adapterR2} (${percentAdapterR2}%)" >> ~{log}
-           echo -e "Pairs that were too short:\t${shortPairs} (${percentShortPairs}%)" >> ~{log}
-           echo -e "Pairs written (passing filters):\t${pairsWritten} (${percentpairsWritten}%)\n\n" >> ~{log}
-           echo -e "Total basepairs processed:\t${totalBP} bp" >> ~{log}
-           echo -e "  Read 1:\t${bpR1} bp" >> ~{log}
-           echo -e "  Read 2:\t${bpR2} bp" >> ~{log}
-           echo -e "Quality-trimmed:\t${bpQualitytrimmed} bp (${percentQualitytrimmed}%)" >> ~{log}
-           echo -e "  Read 1:\t${bpQualitytrimmedR1} bp" >> ~{log}
-           echo -e "  Read 2:\t${bpQualitytrimmedR2} bp" >> ~{log}
-           echo -e "Total written (filtered):\t${bpTotalWritten} bp (${percentBPWritten}%)" >> ~{log}
-           echo -e "  Read 1:\t${bpWrittenR1} bp" >> ~{log}
-           echo -e "  Read 2:\t${bpWrittenR2} bp" >> ~{log}
- 
-         else 
-           totalRead=$(cat ~{allLog} | grep "Total reads processed:" | cut -d":" -f2 | sed 's/ //g; s/,//g' | awk '{x+=$1}END{print x}')
-           adapterR=$(cat ~{allLog} | grep "Reads with adapters:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentAdapterR=$(awk -v A="${adapterR}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-           shortReads=$(cat ~{allLog} | grep "Reads that were too short:" | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentShortReads=$(awk -v A="${shortReads}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')
- 
-           ReadsWritten=$(cat ~{allLog} | grep "Reads written (passing filters): " | cut -d ":" -f2 | sed 's/^[ \t]*//; s/ (.*)//; s/,//g'| awk '{x+=$1}END{print x}')
-           percentreadsWritten=$(awk -v A="${ReadsWritten}" -v B="${totalRead}" 'BEGIN {printf "%0.1f\n", A*100.0/B}')                 
- 
-           echo -e "Total reads processed:\t${totalRead}" >> ~{log}
-           echo -e "Reads with adapters:\t${adapterR} (${percentAdapterR}%)" >> ~{log}
-           echo -e "Reads that were too short:\t${shortReads} (${percentShortReads}%)" >> ~{log}
-           echo -e "Reads written (passing filters):\t${ReadsWritten} (${percentreadsWritten}%)\n\n" >> ~{log}
-           echo -e "Total basepairs processed:\t${totalBP} bp" >> ~{log}
-           echo -e "Quality-trimmed:\t${bpQualitytrimmed} bp (${percentQualitytrimmed}%)" >> ~{log}
-           echo -e "Total written (filtered):\t${bpTotalWritten} bp (${percentBPWritten}%)" >> ~{log}
-         fi
+        COMMANDS NOT SHOWN, see WDL for details
      >>>
  ## Support
 
