@@ -31,6 +31,7 @@ java -jar cromwell.jar run bwaMem.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `fastqR1`|File|Fastq file for read 1
+`outputFileNamePrefix`|String|Prefix for output files
 `reference`|String|The genome reference build. For example: hg19, hg38, mm10
 `runBwaMem.readGroups`|String|Array of readgroup lines
 
@@ -39,7 +40,6 @@ Parameter|Value|Description
 Parameter|Value|Default|Description
 ---|---|---|---
 `fastqR2`|File?|None|Fastq file for read 2
-`outputFileNamePrefix`|String|"output"|Prefix for output file
 `numChunk`|Int|1|Number of chunks to split fastq file [1, no splitting]
 `doUMIextract`|Boolean|false|If true, UMI will be extracted before alignment [false]
 `doTrim`|Boolean|false|If true, adapters will be trimmed before alignment [false]
