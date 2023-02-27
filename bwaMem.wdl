@@ -14,7 +14,6 @@ workflow bwaMem {
     parameter_meta {
         fastqR1: "Fastq file for read 1"
         fastqR2: "Fastq file for read 2"
-        readGroups: "Complete read group header line"
         outputFileNamePrefix: "Prefix for output files"
         numChunk: "Number of chunks to split fastq file [1, no splitting]"
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
