@@ -1,17 +1,21 @@
 # bwaMem
 
-BwaMem Workflow version 2.0
+This workflow aligns sequence data provided as fastq files against a genomic reference using bwa (burrows-wheeler-aligner).  Prior to alignment, there are options to remove 5' umi sequence and to trim off 3' sequencing adapter. Readgroup information to be injected into the bam header needs to be provided.  The workflow can also split the input data into a requested number of chunks, align each separately then merge the separate alignments into a single bam file.  This decreases the workflow run time.  Optional bwa mem parameters can be provided to the workflow.
 
 ## Overview
 
 ## Dependencies
 
-* [bwa 0.7.12](https://github.com/lh3/bwa/archive/0.7.12.tar.gz)
+* [bwa 0.7.17](https://github.com/lh3/bwa/archive/0.7.17.tar.gz)
 * [samtools 1.9](https://github.com/samtools/samtools/archive/0.1.19.tar.gz)
 * [cutadapt 1.8.3](https://cutadapt.readthedocs.io/en/v1.8.3/)
 * [slicer 0.3.0](https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz)
 * [barcodex-rs 0.1.2](https://github.com/oicr-gsi/barcodex-rs/archive/v0.1.2.tar.gz)
 * [rust 1.2](https://www.rust-lang.org/tools/install)
+* [gsi software modules : samtools 1.9 bwa 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
+* [gsi hg38 modules : hg38-bwa-index-with-alt 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
+* [gsi hg19 modules : hg19-bwa-index 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
+* [gsi mm10 modules :mm10-bwa-index 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
 
 
 ## Usage
@@ -27,15 +31,15 @@ java -jar cromwell.jar run bwaMem.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `fastqR1`|File|Fastq file for read 1
+`outputFileNamePrefix`|String|Prefix for output files
 `reference`|String|The genome reference build. For example: hg19, hg38, mm10
-`runBwaMem.readGroups`|String|Array of readgroup lines
+`runBwaMem.readGroups`|String|The readgroup information to be injected into the bam header
 
 
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
 `fastqR2`|File?|None|Fastq file for read 2
-`outputFileNamePrefix`|String|"output"|Prefix for output file
 `numChunk`|Int|1|Number of chunks to split fastq file [1, no splitting]
 `doUMIextract`|Boolean|false|If true, UMI will be extracted before alignment [false]
 `doTrim`|Boolean|false|If true, adapters will be trimmed before alignment [false]
@@ -61,7 +65,7 @@ Parameter|Value|Default|Description
 `extractUMIs.timeout`|Int|12|Time in hours before task timeout
 `adapterTrimming.modules`|String|"cutadapt/1.8.3"|Required environment modules
 `adapterTrimming.doUMItrim`|Boolean|false|If true, do umi trimming
-`adapterTrimming.umiLength`|Int|5|The number of bases to trim. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
+`adapterTrimming.umiLength`|Int|5|The number of bases to trim when doUMItrim is true. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
 `adapterTrimming.trimMinLength`|Int|1|Minimum length of reads to keep
 `adapterTrimming.trimMinQuality`|Int|0|Minimum quality of read ends to keep
 `adapterTrimming.adapter1`|String|"AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC"|Adapter sequence to trim from read 1
@@ -93,7 +97,83 @@ Output | Type | Description
 `cutAdaptAllLogs`|File?|a file containing all logs for adapter trimming for each fastq chunk
 
 
-## Support
+## Commands
+ This section lists command(s) run by bwaMem workflow
+ 
+ Split the fastq files into chunks to parallelize the alignment (optional).  If requested, subsequent steps will be run on each fastq chunk
+ 
+ ```
+         totalLines=$(zcat ~{fastqR1} | wc -l)
+         python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
+         slicer -i ~{fastqR} -l ~{chunkSize} --gzip 
+ ```
+ 
+ 
+ Trim off the UMI bases (optional)
+ 
+ ```
+             barcodex-rs --umilist ~{umiList} --prefix ~{outputPrefix} --separator "__" inline \
+             --pattern1 '~{pattern1}' --r1-in ~{fastq1} \
+             ~{if (defined(fastq2)) then "--pattern2 '~{pattern2}' --r2-in ~{fastq2} " else ""}
+ 
+             cat ~{outputPrefix}_UMI_counts.json > umiCounts.txt
+ 
+             tr [,] ',\n' < umiCounts.txt | sed 's/[{}]//' > tmp.txt
+             echo "{$(sort -i tmp.txt)}" > new.txt
+             tr '\n' ',' < new.txt | sed 's/,$//' > ~{outputPrefix}_UMI_counts.json
+ ```
+ 
+ Trim off adapter sequence (optional)
+ 
+ ```
+         cutadapt -q ~{trimMinQuality} \
+                 -m ~{trimMinLength} \
+                 -a ~{adapter1} \
+                 -o ~{resultFastqR1} \
+                 ~{if (defined(fastqR2)) then "-A ~{adapter2} -p ~{resultFastqR2} " else ""} \
+                 ~{if (doUMItrim) then "-u ~{umiLength} -U ~{umiLength} " else ""} \
+                 ~{addParam} \
+                 ~{fastqR1} \
+                 ~{fastqR2} > ~{resultLog}
+ ```
+ 
+ Align to reference with bwa mem
+ 
+ ```
+         mkdir -p ~{tmpDir}
+         bwa mem -M \
+             -t ~{threads} ~{addParam}  \
+             -R  ~{readGroups} \
+             ~{bwaRef} \
+             ~{read1s} \
+             ~{read2s} \
+         | \
+         samtools sort -O bam -T ~{tmpDir} -o ~{resultBam} - 
+ ```
+ 
+ 
+ Merge parallelized alignments (optional, if the fastq had been split)
+ 
+ ```
+         samtools merge \
+         -c \
+         ~{resultMergedBam} \
+         ~{sep=" " bams} 
+ ```
+ 
+ 
+ Index the bam file
+ 
+ ```
+         samtools index ~{inputBam} ~{resultBai}
+ ```
+ 
+ Merging of parallelized Adapter trimming logs
+ 
+ ```
+        COMMANDS NOT SHOWN, see WDL for details
+ ```
+ ## Support
 
 For support, please file an issue on the [Github project](https://github.com/oicr-gsi) or send an email to gsi@oicr.on.ca .
 

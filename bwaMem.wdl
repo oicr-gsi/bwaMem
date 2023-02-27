@@ -4,7 +4,7 @@ workflow bwaMem {
     input {
         File fastqR1
         File? fastqR2
-        String outputFileNamePrefix = "output"
+        String outputFileNamePrefix
         Int numChunk = 1
         Boolean doUMIextract = false
         Boolean doTrim = false
@@ -14,29 +14,27 @@ workflow bwaMem {
     parameter_meta {
         fastqR1: "Fastq file for read 1"
         fastqR2: "Fastq file for read 2"
-        readGroups: "Complete read group header line"
-        outputFileNamePrefix: "Prefix for output file"
+        outputFileNamePrefix: "Prefix for output files"
         numChunk: "Number of chunks to split fastq file [1, no splitting]"
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
         doTrim: "If true, adapters will be trimmed before alignment [false]"
         reference: "The genome reference build. For example: hg19, hg38, mm10"
     }
 
-    if (reference == "hg19") {
-        String hg19bwaMem_modules = "samtools/1.9 bwa/0.7.12 hg19-bwa-index/0.7.12"
-        String hg19bwaMem_ref = "$HG19_BWA_INDEX_ROOT/hg19_random.fa"
-    }
-    if (reference == "hg38") {
-        String hg38bwaMem_modules = "samtools/1.9 bwa/0.7.12 hg38-bwa-index-with-alt/0.7.12"
-        String hg38bwaMem_ref = "$HG38_BWA_INDEX_WITH_ALT_ROOT/hg38_random.fa"
-    }
-    if (reference == "mm10") {
-        String mm10bwaMem_modules = "samtools/1.9 bwa/0.7.12 mm10-bwa-index/0.7.12"
-        String mm10bwaMem_ref = "$MM10_BWA_INDEX_ROOT/mm10.fa"
+    Map[String,String] bwaMem_modules_by_genome = { 
+    "hg19": "samtools/1.9 bwa/0.7.17 hg19-bwa-index/0.7.17",
+    "hg38": "samtools/1.9 bwa/0.7.17 hg38-bwa-index-with-alt/0.7.17",
+    "mm10": "samtools/1.9 bwa/0.7.17 mm10-bwa-index/0.7.17"}
+
+    Map[String,String] bwaMemRef_by_genome = { 
+    "hg19": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
+    "hg38": "$HG38_BWA_INDEX_WITH_ALT_ROOT/hg38_random.fa",
+    "mm10_bwaMemRef": "$MM10_BWA_INDEX_ROOT/mm10.fa"
     }
 
-    String bwaMem_modules = select_first([hg19bwaMem_modules, hg38bwaMem_modules, mm10bwaMem_modules])
-    String bwaMem_ref = select_first([hg19bwaMem_ref, hg38bwaMem_ref, mm10bwaMem_ref])
+
+    String bwaMem_modules = bwaMem_modules_by_genome [ reference ]
+    String bwaMem_ref = bwaMemRef_by_genome [ reference ]
 
     if (numChunk > 1) {
         call countChunkSize {
@@ -127,11 +125,11 @@ workflow bwaMem {
     meta {
         author: "Xuemei Luo"
         email: "xuemei.luo@oicr.on.ca"
-        description: "BwaMem Workflow version 2.0"
+        description: "This workflow aligns sequence data provided as fastq files against a genomic reference using bwa (burrows-wheeler-aligner).  Prior to alignment, there are options to remove 5' umi sequence and to trim off 3' sequencing adapter. Readgroup information to be injected into the bam header needs to be provided.  The workflow can also split the input data into a requested number of chunks, align each separately then merge the separate alignments into a single bam file.  This decreases the workflow run time.  Optional bwa mem parameters can be provided to the workflow."
         dependencies: [
         {
-            name: "bwa/0.7.12",
-            url: "https://github.com/lh3/bwa/archive/0.7.12.tar.gz"
+            name: "bwa/0.7.17",
+            url: "https://github.com/lh3/bwa/archive/0.7.17.tar.gz"
         },
         {
             name: "samtools/1.9",
@@ -152,6 +150,22 @@ workflow bwaMem {
         {
             name: "rust/1.2",
             url: "https://www.rust-lang.org/tools/install"
+        },
+        { 
+          name: "gsi software modules : samtools/1.9 bwa/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        { 
+          name: "gsi hg38 modules : hg38-bwa-index-with-alt/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        {
+          name: "gsi hg19 modules : hg19-bwa-index/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
+        },
+        {
+          name: "gsi mm10 modules :mm10-bwa-index/0.7.17",
+          url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         }
       ]
     }
@@ -335,7 +349,7 @@ task adapterTrimming {
         fastqR1: "Fastq file for read 1"
         fastqR2: "Fastq file for read 2"
         doUMItrim: "If true, do umi trimming"
-        umiLength: "The number of bases to trim. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end"
+        umiLength: "The number of bases to trim when doUMItrim is true. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end"
         trimMinLength: "Minimum length of reads to keep"
         trimMinQuality: "Minimum quality of read ends to keep"
         adapter1: "Adapter sequence to trim from read 1"
@@ -404,7 +418,7 @@ task runBwaMem {
     parameter_meta {
         read1s: "Fastq file for read 1"
         read2s: "Fastq file for read 2"
-        readGroups: "Array of readgroup lines"
+        readGroups: "The readgroup information to be injected into the bam header"
         bwaRef: "The reference genome to align the sample with by BWA"
         modules: "Required environment modules"
         addParam: "Additional BWA parameters"
