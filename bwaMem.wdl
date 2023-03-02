@@ -22,9 +22,9 @@ workflow bwaMem {
     }
 
     Map[String,String] bwaMem_modules_by_genome = { 
-    "hg19": "samtools/1.9 bwa/0.7.17 hg19-bwa-index/0.7.17",
-    "hg38": "samtools/1.9 bwa/0.7.17 hg38-bwa-index-with-alt/0.7.17",
-    "mm10": "samtools/1.9 bwa/0.7.17 mm10-bwa-index/0.7.17"}
+    "hg19": "samtools/1.9 bwa/0.7.12 hg19-bwa-index/0.7.12",
+    "hg38": "samtools/1.9 bwa/0.7.12 hg38-bwa-index-with-alt/0.7.12",
+    "mm10": "samtools/1.9 bwa/0.7.12 mm10-bwa-index/0.7.12"}
 
     Map[String,String] bwaMemRef_by_genome = { 
     "hg19": "$HG19_BWA_INDEX_ROOT/hg19_random.fa",
@@ -128,8 +128,8 @@ workflow bwaMem {
         description: "This workflow aligns sequence data provided as fastq files against a genomic reference using bwa (burrows-wheeler-aligner).  Prior to alignment, there are options to remove 5' umi sequence and to trim off 3' sequencing adapter. Readgroup information to be injected into the bam header needs to be provided.  The workflow can also split the input data into a requested number of chunks, align each separately then merge the separate alignments into a single bam file.  This decreases the workflow run time.  Optional bwa mem parameters can be provided to the workflow."
         dependencies: [
         {
-            name: "bwa/0.7.17",
-            url: "https://github.com/lh3/bwa/archive/0.7.17.tar.gz"
+            name: "bwa/0.7.12",
+            url: "https://github.com/lh3/bwa/archive/0.7.12.tar.gz"
         },
         {
             name: "samtools/1.9",
@@ -152,19 +152,19 @@ workflow bwaMem {
             url: "https://www.rust-lang.org/tools/install"
         },
         { 
-          name: "gsi software modules : samtools/1.9 bwa/0.7.17",
+          name: "gsi software modules : samtools/1.9 bwa/0.7.12",
           url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         },
         { 
-          name: "gsi hg38 modules : hg38-bwa-index-with-alt/0.7.17",
+          name: "gsi hg38 modules : hg38-bwa-index-with-alt/0.7.12",
           url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         },
         {
-          name: "gsi hg19 modules : hg19-bwa-index/0.7.17",
+          name: "gsi hg19 modules : hg19-bwa-index/0.7.12",
           url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         },
         {
-          name: "gsi mm10 modules :mm10-bwa-index/0.7.17",
+          name: "gsi mm10 modules :mm10-bwa-index/0.7.12",
           url: "https://gitlab.oicr.on.ca/ResearchIT/modulator"
         }
       ]
