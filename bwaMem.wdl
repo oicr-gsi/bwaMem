@@ -200,6 +200,7 @@ task countChunkSize{
         fastqR1: "Fastq file for read 1"
         numChunk: "Number of chunks to split fastq file"
         numReads: "Number of reads"
+        modules: "Required environment modules"
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
     }

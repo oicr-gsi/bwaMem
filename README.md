@@ -10,6 +10,7 @@ This workflow aligns sequence data provided as fastq files against a genomic ref
 * [samtools 1.9](https://github.com/samtools/samtools/archive/0.1.19.tar.gz)
 * [cutadapt 1.8.3](https://cutadapt.readthedocs.io/en/v1.8.3/)
 * [slicer 0.3.0](https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz)
+* [python 3.7](https://www.python.org)
 * [barcodex-rs 0.1.2](https://github.com/oicr-gsi/barcodex-rs/archive/v0.1.2.tar.gz)
 * [rust 1.2](https://www.rust-lang.org/tools/install)
 * [gsi software modules : samtools 1.9 bwa 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
@@ -43,11 +44,13 @@ Parameter|Value|Default|Description
 `numChunk`|Int|1|Number of chunks to split fastq file [1, no splitting]
 `doUMIextract`|Boolean|false|If true, UMI will be extracted before alignment [false]
 `doTrim`|Boolean|false|If true, adapters will be trimmed before alignment [false]
+`numReads`|Int?|None|Number of reads
 
 
 #### Optional task parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
+`countChunkSize.modules`|String|"python/3.7"|Required environment modules
 `countChunkSize.jobMemory`|Int|16|Memory allocated for this job
 `countChunkSize.timeout`|Int|48|Hours before task timeout
 `slicerR1.modules`|String|"slicer/0.3.0"|Required environment modules
@@ -103,9 +106,13 @@ Output | Type | Description
  Split the fastq files into chunks to parallelize the alignment (optional).  If requested, subsequent steps will be run on each fastq chunk
  
  ```
-         totalLines=$(zcat ~{fastqR1} | wc -l)
-         python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
-         slicer -i ~{fastqR} -l ~{chunkSize} --gzip 
+         if [ -z "~{numReads}" ]; then
+             totalLines=$(zcat ~{fastqR1} | wc -l)
+         else totalLines=$((~{numReads}*4))
+         fi
+ 
+         python3 -c "from math import ceil; print (int(ceil(($totalLines/4.0)/~{numChunk})*4))"
+ 	slicer -i ~{fastqR} -l ~{chunkSize} --gzip
  ```
  
  
