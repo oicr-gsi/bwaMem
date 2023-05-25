@@ -1,3 +1,7 @@
+## 2.2.1 - 2023-05-24
+- add optional parameter numRead
+- use python module in countChunkSize
+
 ## 2.2.0 - 2023-03-01
 - move version 2.1.2 to 2.2.0
 
