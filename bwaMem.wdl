@@ -9,7 +9,7 @@ workflow bwaMem {
         Boolean doUMIextract = false
         Boolean doTrim = false
         String reference
-        Int? numRead
+        Int? numReads
     }
 
     parameter_meta {
@@ -20,7 +20,7 @@ workflow bwaMem {
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
         doTrim: "If true, adapters will be trimmed before alignment [false]"
         reference: "The genome reference build. For example: hg19, hg38, mm10"
-        numRead: "Number of reads"
+        numReads: "Number of reads"
     }
 
     Map[String,String] bwaMem_modules_by_genome = { 
@@ -43,7 +43,7 @@ workflow bwaMem {
             input:
             fastqR1 = fastqR1,
             numChunk = numChunk,
-            numRead = numRead
+            numReads = numReads
         }
     
         call slicer as slicerR1 { 
@@ -190,7 +190,7 @@ task countChunkSize{
     input {
         File fastqR1
         Int numChunk
-        Int? numRead
+        Int? numReads
         String modules = "python/3.7"
         Int jobMemory = 16
         Int timeout = 48
@@ -199,7 +199,7 @@ task countChunkSize{
     parameter_meta {
         fastqR1: "Fastq file for read 1"
         numChunk: "Number of chunks to split fastq file"
-        numRead: "Number of reads"
+        numReads: "Number of reads"
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
     }
@@ -207,9 +207,9 @@ task countChunkSize{
     command <<<
         set -euo pipefail
 
-        if [ -z "~{numRead}" ]; then
+        if [ -z "~{numReads}" ]; then
             totalLines=$(zcat ~{fastqR1} | wc -l)
-        else totalLines=$((~{numRead}*4))
+        else totalLines=$((~{numReads}*4))
         fi
         
         python3 -c "from math import ceil; print (int(ceil(($totalLines/4.0)/~{numChunk})*4))"
