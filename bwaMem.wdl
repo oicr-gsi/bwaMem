@@ -9,6 +9,7 @@ workflow bwaMem {
         Boolean doUMIextract = false
         Boolean doTrim = false
         String reference
+        Int? numReads
     }
 
     parameter_meta {
@@ -19,6 +20,7 @@ workflow bwaMem {
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
         doTrim: "If true, adapters will be trimmed before alignment [false]"
         reference: "The genome reference build. For example: hg19, hg38, mm10"
+        numReads: "Number of reads"
     }
 
     Map[String,String] bwaMem_modules_by_genome = { 
@@ -40,7 +42,8 @@ workflow bwaMem {
         call countChunkSize {
             input:
             fastqR1 = fastqR1,
-            numChunk = numChunk
+            numChunk = numChunk,
+            numReads = numReads
         }
     
         call slicer as slicerR1 { 
@@ -144,6 +147,10 @@ workflow bwaMem {
             url: "https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz"
         },
         {
+            name: "python/3.7",
+            url: "https://www.python.org"
+        },      
+        {
             name: "barcodex-rs/0.1.2",
             url: "https://github.com/oicr-gsi/barcodex-rs/archive/v0.1.2.tar.gz"
         },
@@ -183,6 +190,8 @@ task countChunkSize{
     input {
         File fastqR1
         Int numChunk
+        Int? numReads
+        String modules = "python/3.7"
         Int jobMemory = 16
         Int timeout = 48
     }
@@ -190,18 +199,26 @@ task countChunkSize{
     parameter_meta {
         fastqR1: "Fastq file for read 1"
         numChunk: "Number of chunks to split fastq file"
+        numReads: "Number of reads"
+        modules: "Required environment modules"
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
     }
     
     command <<<
         set -euo pipefail
-        totalLines=$(zcat ~{fastqR1} | wc -l)
-        python -c "from math import ceil; print int(ceil(($totalLines/4.0)/~{numChunk})*4)"
+
+        if [ -z "~{numReads}" ]; then
+            totalLines=$(zcat ~{fastqR1} | wc -l)
+        else totalLines=$((~{numReads}*4))
+        fi
+        
+        python3 -c "from math import ceil; print (int(ceil(($totalLines/4.0)/~{numChunk})*4))"
     >>>
     
     runtime {
         memory: "~{jobMemory} GB"
+        modules: "~{modules}"
         timeout: "~{timeout}"
     }
     
