@@ -1,6 +1,27 @@
 ## Commands
 This section lists command(s) run by bwaMem workflow
 
+Validate the read group string prior to running the rest of the workflow
+
+```
+        set -euo pipefail 
+
+        # Split the string into an array 
+        IFS=$'\\t' read -ra readFields <<< ~{readGroups}
+        idPresent=false
+
+        for field in "${readFields[@]}"; do 
+            if [[ $field == ID:* ]]; then idPresent=true; break; fi
+        done 
+
+        # Confirm if string begins with '@RG' and 'ID' field is present
+        if ! [[ ~{readGroups} == @RG* ]] ; then 
+            echo "The read group line is not started with @RG" >&2; exit 1
+        fi
+        if ! $idPresent ; then echo "Missing ID within the read group line" >&2; exit 1 ; fi
+```
+
+
 Split the fastq files into chunks to parallelize the alignment (optional).  If requested, subsequent steps will be run on each fastq chunk
 
 ```

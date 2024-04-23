@@ -1,3 +1,7 @@
+## 2.2.2 - 2024-04-23
+- Added a task to validate the read group string, readGroupCheck
+- Made readGroups a workflow-level input
+
 ## 2.2.1 - 2023-05-24
 - add optional parameter numReads
 - use python module in countChunkSize
