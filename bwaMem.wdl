@@ -8,6 +8,7 @@ workflow bwaMem {
         Int numChunk = 1
         Boolean doUMIextract = false
         Boolean doTrim = false
+        String readGroups
         String reference
         Int? numReads
     }
@@ -19,6 +20,7 @@ workflow bwaMem {
         numChunk: "Number of chunks to split fastq file [1, no splitting]"
         doUMIextract: "If true, UMI will be extracted before alignment [false]"
         doTrim: "If true, adapters will be trimmed before alignment [false]"
+        readGroups: "The readgroup information to be injected into the bam header"
         reference: "The genome reference build. For example: hg19, hg38, mm10"
         numReads: "Number of reads"
     }
@@ -37,6 +39,12 @@ workflow bwaMem {
 
     String bwaMem_modules = bwaMem_modules_by_genome [ reference ]
     String bwaMem_ref = bwaMemRef_by_genome [ reference ]
+
+    # Validating the read-group information
+    call readGroupCheck {  
+        input: 
+        readGroups = readGroups 
+    }
 
     if (numChunk > 1) {
         call countChunkSize {
@@ -99,6 +107,7 @@ workflow bwaMem {
                 input: 
                 read1s = select_first([adapterTrimming.resultR1, extractUMIs.fastqR1, p.left]),
                 read2s = if (defined(fastqR2)) then select_first([adapterTrimming.resultR2, extractUMIs.fastqR2, p.right]) else fastqR2,
+                readGroups = readGroups,
                 modules = bwaMem_modules,
                 bwaRef = bwaMem_ref
         }    
@@ -184,6 +193,44 @@ workflow bwaMem {
         File? cutAdaptAllLogs = adapterTrimmingLog.allLogs
     }
 }
+
+
+task readGroupCheck { 
+    input { 
+        String readGroups 
+        Int jobMemory = 1
+        Int timeout = 1 
+    } 
+
+    parameter_meta { 
+        readGroups: "The read-group information to be validated" 
+        jobMemory: "Memory allocated for this job" 
+        timeout: "Hours before task timeout" 
+    } 
+
+    command <<< 
+        set -euo pipefail 
+
+        # Split the string into an array 
+        IFS=$'\\t' read -ra readFields <<< ~{readGroups}
+        idPresent=false
+
+        for field in "${readFields[@]}"; do 
+            if [[ $field == ID:* ]]; then idPresent=true; break; fi
+        done 
+
+        # Confirm if string begins with '@RG' and 'ID' field is present
+        if ! [[ ~{readGroups} == @RG* ]] ; then 
+            echo "The read group line is not started with @RG" >&2; exit 1
+        fi
+        if ! $idPresent ; then echo "Missing ID within the read group line" >&2; exit 1 ; fi
+    >>> 
+
+    runtime { 
+    memory: "~{jobMemory} GB" 
+    timeout: "~{timeout}" 
+    } 
+} 
 
 
 task countChunkSize{

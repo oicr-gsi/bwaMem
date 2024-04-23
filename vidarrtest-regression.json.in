@@ -58,12 +58,14 @@
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,   
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",         
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -117,7 +119,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_nosplit_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_notrim_nosplit_bam.metrics",
                 "type": "script"
             }
         ]
@@ -181,12 +183,14 @@
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -240,7 +244,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_nosplit_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_nosplit_bam.metrics",
                 "type": "script"
             }
         ]
@@ -304,12 +308,14 @@
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",   
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -363,7 +369,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_split_hg19_bam.metrics",
                 "type": "script"
             }
         ]
@@ -427,12 +433,14 @@
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001", 
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'", 
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -486,7 +494,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_notrim_split_hg19_bam.metrics",
                 "type": "script"
             }
         ]
@@ -549,13 +557,15 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001", 
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,    
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",    
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -609,7 +619,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_split_hg38_bam.metrics",
                 "type": "script"
             }
         ]
@@ -661,13 +671,15 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",     
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",   
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -721,7 +733,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_split_hg19_bam_se.metrics",
                 "type": "script"
             }
         ]
@@ -774,12 +786,14 @@
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'", 
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -833,7 +847,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_nosplit_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_nosplit_hg19_bam_se.metrics",
                 "type": "script"
             }
         ]
@@ -885,13 +899,15 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",   
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",  
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -945,7 +961,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_nosplit_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_notrim_nosplit_hg19_bam_se.metrics",
                 "type": "script"
             }
         ]
@@ -1008,13 +1024,15 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",    
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1068,7 +1086,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_umi_adapter_trim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_umi_adapter_trim_split_hg19_bam.metrics",
                 "type": "script"
             }
         ]
@@ -1131,13 +1149,15 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": 3713,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1191,7 +1211,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_numRead_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/PCSI0022C_trim_split_hg38_numRead_bam.metrics",
                 "type": "script"
             }
         ]
@@ -1255,12 +1275,14 @@
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "neat_5x_EX_hg19_golden",
+            "bwaMem.readGroupCheck.jobMemory": null,
+            "bwaMem.readGroupCheck.timeout": null,
+            "bwaMem.readGroups": "'@RG\\tID:1\\tLB:neat_5x_EX_hg19_golden\\tPL:illumina\\tPU:run_barcode\\tSM:neat_5x_EX_hg19_golden'",  
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:1\\tLB:neat_5x_EX_hg19_golden\\tPL:illumina\\tPU:run_barcode\\tSM:neat_5x_EX_hg19_golden'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1314,7 +1336,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/neat_5x_umi_extract_nosplit_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.2/output_metrics/neat_5x_umi_extract_nosplit_hg19_bam.metrics",
                 "type": "script"
             }
         ]
