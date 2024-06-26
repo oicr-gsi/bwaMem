@@ -227,9 +227,12 @@ task countChunkSize{
     }
 
     meta {
-        output_meta: {
-            chunkSize: "output number of lines per chunk"
-        }
+    output_meta: {
+    chunkSize: {
+        description: "output number of lines per chunk",
+        vidarr_label: "chunkSize"
+    }
+}
     }    
    
 }

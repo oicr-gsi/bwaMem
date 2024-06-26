@@ -1,3 +1,5 @@
+## 2.3.0 - 2024-06-25
+[GRD-797](https://jira.oicr.on.ca/browse/GRD-797) - add vidarr labels to outputs (changes to medata only)
 ## 2.2.1 - 2023-05-24
 - add optional parameter numReads
 - use python module in countChunkSize
