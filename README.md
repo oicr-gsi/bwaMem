@@ -94,10 +94,10 @@ Parameter|Value|Default|Description
 
 Output | Type | Description | Labels
 ---|---|---|---
-`bwaMemBam`|File|output merged bam aligned to genome|
-`bwaMemIndex`|File|output index file for bam aligned to genome|
-`log`|File?|a summary log file for adapter trimming|
-`cutAdaptAllLogs`|File?|a file containing all logs for adapter trimming for each fastq chunk|
+`bwaMemBam`|File|Output Alignment BAM file|vidarr_label: bwaMemBam
+`bwaMemIndex`|File|Index of the Output Alignment file, BAI|vidarr_label: bwaMemIndex
+`log`|File?|Optional log file|vidarr_label: log
+`cutAdaptAllLogs`|File?|Optional log file for cutAdapt|vidarr_label: cutAdaptAllLogs
 
 
 ## Commands
