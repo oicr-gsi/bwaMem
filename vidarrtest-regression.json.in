@@ -30,7 +30,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -42,7 +42,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -57,13 +57,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -73,17 +73,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data without trimming, without splitting, and outputs as BAM.",
+        "description": "Runs the small data without trimming, without splitting, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_notrim_nosplit_bam",
+        "id": "Test_notrim_nosplit_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -91,7 +91,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -99,7 +99,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -107,7 +107,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -117,7 +117,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_nosplit_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_01.metrics",
                 "type": "script"
             }
         ]
@@ -153,7 +153,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -165,7 +165,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -180,13 +180,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -196,17 +196,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, without splitting, and outputs as BAM.",
+        "description": "Runs the small data with trimming, without splitting, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_nosplit_bam",
+        "id": "Test_trim_nosplit_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -214,7 +214,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -222,7 +222,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -230,7 +230,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -240,7 +240,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_nosplit_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_02.metrics",
                 "type": "script"
             }
         ]
@@ -276,7 +276,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -288,7 +288,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -303,13 +303,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -319,17 +319,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_split_hg19_bam",
+        "id": "Test_trim_split_hg19_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -337,7 +337,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -345,7 +345,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -353,7 +353,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -363,7 +363,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_03.metrics",
                 "type": "script"
             }
         ]
@@ -399,7 +399,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -411,7 +411,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -426,13 +426,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001", 
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001", 
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -442,17 +442,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data without trimming, with splitting, and outputs as BAM.",
+        "description": "Runs the small data without trimming, with splitting, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_notrim_split_hg19_bam",
+        "id": "Test_notrim_split_hg19_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -460,7 +460,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -468,7 +468,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -476,7 +476,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -486,7 +486,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_04.metrics",
                 "type": "script"
             }
         ]
@@ -522,7 +522,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -534,7 +534,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -549,13 +549,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -565,17 +565,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, with hg38, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, with hg38, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_split_hg38_bam",
+        "id": "Test_trim_split_hg38_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -583,7 +583,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -591,7 +591,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -599,7 +599,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -609,7 +609,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_05.metrics",
                 "type": "script"
             }
         ]
@@ -645,7 +645,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -661,13 +661,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",     
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",     
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -677,17 +677,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, single ended, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, single ended, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_split_hg19_bam_se",
+        "id": "Test_trim_split_hg19_bam_se",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -695,7 +695,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -703,7 +703,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -711,7 +711,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -721,7 +721,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_06.metrics",
                 "type": "script"
             }
         ]
@@ -757,7 +757,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -773,13 +773,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -789,17 +789,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, single ended, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, single ended, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_nosplit_hg19_bam_se",
+        "id": "Test_trim_nosplit_hg19_bam_se",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -807,7 +807,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -815,7 +815,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -823,7 +823,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -833,7 +833,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_nosplit_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_07.metrics",
                 "type": "script"
             }
         ]
@@ -869,7 +869,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -885,13 +885,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": null,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",   
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",   
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -901,17 +901,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, single ended, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, single ended, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_notrim_nosplit_hg19_bam_se",
+        "id": "Test_notrim_nosplit_hg19_bam_se",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -919,7 +919,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -927,7 +927,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -935,7 +935,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_notrim_nosplit_hg19_bam_se_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_notrim_nosplit_hg19_bam_se_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -945,7 +945,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_notrim_nosplit_hg19_bam_se.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_08.metrics",
                 "type": "script"
             }
         ]
@@ -981,7 +981,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -993,7 +993,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1008,13 +1008,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
             "bwaMem.reference": "hg19",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1024,17 +1024,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with umi trimming and adapter trimming, with splitting, and outputs as BAM.",
+        "description": "Runs the small data with umi trimming and adapter trimming, with splitting, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_umi_adapter_trim_split_hg19_bam",
+        "id": "Test_umi_adapter_trim_split_hg19_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1042,7 +1042,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1050,7 +1050,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1058,7 +1058,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_umi_adapter_trim_split_hg19_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1068,7 +1068,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_umi_adapter_trim_split_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_09.metrics",
                 "type": "script"
             }
         ]
@@ -1104,7 +1104,7 @@
             "bwaMem.extractUMIs.umiList": null,
             "bwaMem.fastqR1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1116,7 +1116,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/PCSI0022C.val.2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1131,13 +1131,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": 3713,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1147,17 +1147,17 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small PCSI_0022 C data with trimming, with splitting, with hg38, with numRead provided, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, with hg38, with numRead provided, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "PCSI0022C_trim_split_hg38_numRead_bam",
+        "id": "Test_trim_split_hg38_numRead_bam",
         "metadata": {
             "bwaMem.bwaMemBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_numRead_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_numRead_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1165,7 +1165,7 @@
             "bwaMem.bwaMemIndex": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_numRead_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_numRead_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1173,7 +1173,7 @@
             "bwaMem.cutAdaptAllLogs": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_numRead_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_numRead_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1181,7 +1181,7 @@
             "bwaMem.log": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_PCSI0022C_trim_split_hg38_numRead_bam_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_Test_trim_split_hg38_numRead_bam_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1191,7 +1191,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_numRead_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_10.metrics",
                 "type": "script"
             }
         ]
@@ -1224,10 +1224,10 @@
             "bwaMem.extractUMIs.pattern1": "(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)",
             "bwaMem.extractUMIs.pattern2": "(?P<umi_1>^[ACGT]{3}[ACG])(?P<discard_1>T)|(?P<umi_2>^[ACGT]{3})(?P<discard_2>T)",
             "bwaMem.extractUMIs.timeout": null,
-            "bwaMem.extractUMIs.umiList": "/.mounts/labs/gsi/testdata/bwamem/input_data/IDT_true_barcodes.txt",
+            "bwaMem.extractUMIs.umiList": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/IDT_true_barcodes.txt",
             "bwaMem.fastqR1": {            
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/r1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/r1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1239,7 +1239,7 @@
             },
             "bwaMem.fastqR2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/input_data/r2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/r2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1314,7 +1314,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/neat_5x_umi_extract_nosplit_hg19_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_11.metrics",
                 "type": "script"
             }
         ]
