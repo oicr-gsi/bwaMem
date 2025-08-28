@@ -26,10 +26,11 @@ workflow bwaMem {
     Map[String,String] bwaMem_modules_by_genome = { 
     "hg19": "samtools/1.9 bwa/0.7.17 hg19-bwa-index-noalt/0.7.17",
     "hg38": "samtools/1.9 bwa/0.7.17 hg38-bwa-index-noalt/0.7.17",
+    }
 
     Map[String,String] bwaMemRef_by_genome = { 
     "hg19": "$HG19_BWA_INDEX_NOALT_ROOT/hg38_noAlt.fa",
-    "hg38": "$HG38_BWA_INDEX_NOALT_ROOT/hhg38_noAlt.fa",
+    "hg38": "$HG38_BWA_INDEX_NOALT_ROOT/hg38_noAlt.fa",
     }
 
     String bwaMem_modules = bwaMem_modules_by_genome [ reference ]
