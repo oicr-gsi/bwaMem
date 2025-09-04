@@ -550,7 +550,7 @@
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
-            "bwaMem.reference": "hg38",
+            "bwaMem.reference": "grch38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
@@ -565,7 +565,7 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small data with trimming, with splitting, with hg38, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, with grch38, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
@@ -1132,7 +1132,7 @@
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": 3713,
             "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
-            "bwaMem.reference": "hg38",
+            "bwaMem.reference": "grch38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
@@ -1147,7 +1147,7 @@
             "bwaMem.slicerR2.modules": null,
             "bwaMem.slicerR2.timeout": null
         },
-        "description": "Runs the small data with trimming, with splitting, with hg38, with numRead provided, and outputs as BAM.",
+        "description": "Runs the small data with trimming, with splitting, with grch38, with numRead provided, and outputs as BAM.",
         "engineArguments": {
             "write_to_cache": false,
             "read_from_cache": false
