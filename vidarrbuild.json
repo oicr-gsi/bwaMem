@@ -1,6 +1,6 @@
 {
     "names": [
-        "bwaMem"
+        "bwaMem-NCBI-Test"
     ],
     "wdl": "bwaMem.wdl"
 }
