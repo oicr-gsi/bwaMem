@@ -1,6 +1,6 @@
 {
     "names": [
-        "bwaMem-noAlt-Test"
+        "bwaMem_noAlt_Test"
     ],
     "wdl": "bwaMem.wdl"
 }
