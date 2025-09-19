@@ -8,9 +8,9 @@ This workflow aligns sequence data provided as fastq files against a genomic ref
 
 * [bwa 0.7.17](https://github.com/lh3/bwa/archive/0.7.17.tar.gz)
 * [samtools 1.9](https://github.com/samtools/samtools/archive/0.1.19.tar.gz)
-* [cutadapt 1.8.3](https://cutadapt.readthedocs.io/en/v1.8.3/)
+* [cutadapt 5.1](https://cutadapt.readthedocs.io/en/v5.1/)
 * [slicer 0.3.0](https://github.com/OpenGene/slicer/archive/v0.3.0.tar.gz)
-* [python 3.7](https://www.python.org)
+* [python 3.9](https://www.python.org)
 * [barcodex-rs 0.1.2](https://github.com/oicr-gsi/barcodex-rs/archive/v0.1.2.tar.gz)
 * [rust 1.2](https://www.rust-lang.org/tools/install)
 * [gsi software modules : samtools 1.9 bwa 0.7.17](https://gitlab.oicr.on.ca/ResearchIT/modulator)
@@ -50,7 +50,7 @@ Parameter|Value|Default|Description
 #### Optional task parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`countChunkSize.modules`|String|"python/3.7"|Required environment modules
+`countChunkSize.modules`|String|"python/3.9"|Required environment modules
 `countChunkSize.jobMemory`|Int|16|Memory allocated for this job
 `countChunkSize.timeout`|Int|48|Hours before task timeout
 `slicerR1.modules`|String|"slicer/0.3.0"|Required environment modules
@@ -66,7 +66,7 @@ Parameter|Value|Default|Description
 `extractUMIs.modules`|String|"barcodex-rs/0.1.2 rust/1.45.1"|Required environment modules
 `extractUMIs.jobMemory`|Int|24|Memory allocated for this job
 `extractUMIs.timeout`|Int|12|Time in hours before task timeout
-`adapterTrimming.modules`|String|"cutadapt/1.8.3"|Required environment modules
+`adapterTrimming.modules`|String|"cutadapt/5.1"|Required environment modules
 `adapterTrimming.doUMItrim`|Boolean|false|If true, do umi trimming
 `adapterTrimming.umiLength`|Int|5|The number of bases to trim when doUMItrim is true. If the given length is positive, the bases are removed from the beginning of each read. If it is negative, the bases are removed from the end
 `adapterTrimming.trimMinLength`|Int|1|Minimum length of reads to keep
@@ -76,6 +76,8 @@ Parameter|Value|Default|Description
 `adapterTrimming.addParam`|String?|None|Additional cutadapt parameters
 `adapterTrimming.jobMemory`|Int|16|Memory allocated for this job
 `adapterTrimming.timeout`|Int|48|Hours before task timeout
+`adapterTrimming.adapterTrim`|Boolean|true|f false won't do adapter trimming, flag -a will be skipped
+`adapterTrimming.polyGTrim`|Boolean|false|If true, will preform trimming of polyG areas. Important to prevent duplication & memory errors. Do not use if nextseq-trim parameter is passed in addParam
 `runBwaMem.addParam`|String?|None|Additional BWA parameters
 `runBwaMem.threads`|Int|8|Requested CPU threads
 `runBwaMem.jobMemory`|Int|32|Memory allocated for this job
@@ -137,8 +139,10 @@ Split the fastq files into chunks to parallelize the alignment (optional).  If r
                  -m ~{trimMinLength} \
                  -a ~{adapter1} \
                  -o ~{resultFastqR1} \
-                 ~{if (defined(fastqR2)) then "-A ~{adapter2} -p ~{resultFastqR2} " else ""} \
+                 ~{if (defined(fastqR2) &&  adapterTrim) then "-A ~{adapter2} " else ""} \
+                 ~{if (defined(fastqR2)) then "-p ~{resultFastqR2} " else ""} \
                  ~{if (doUMItrim) then "-u ~{umiLength} -U ~{umiLength} " else ""} \
+                 ~{if (polyGTrim) then "--nextseq-trim=0" else ""} \
                  ~{addParam} \
                  ~{fastqR1} \
                  ~{fastqR2} > ~{resultLog}
