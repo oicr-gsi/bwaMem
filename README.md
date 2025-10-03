@@ -50,7 +50,7 @@ Parameter|Value|Default|Description
 #### Optional task parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`countChunkSize.modules`|String|"python/3.9"|Required environment modules
+`countChunkSize.modules`|String|"python/3.7"|Required environment modules
 `countChunkSize.jobMemory`|Int|16|Memory allocated for this job
 `countChunkSize.timeout`|Int|48|Hours before task timeout
 `slicerR1.modules`|String|"slicer/0.3.0"|Required environment modules

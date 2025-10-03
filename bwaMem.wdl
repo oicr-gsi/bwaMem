@@ -395,7 +395,8 @@ task adapterTrimming {
         addParam: "Additional cutadapt parameters"
         jobMemory: "Memory allocated for this job"
         timeout: "Hours before task timeout"
-        polyGTrim: "If true, will trim polyG tails"
+        polyGTrim: "Number to pass to --nexseq-trim. Will address polyG trimming"
+        adapterTrim: "If false, will not preform adapter trimming"
     }
    
     Array[File] inputs = select_all([fastqR1,fastqR2])
