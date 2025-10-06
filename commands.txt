@@ -33,10 +33,11 @@ Trim off adapter sequence (optional)
 ```
         cutadapt -q ~{trimMinQuality} \
                 -m ~{trimMinLength} \
-                -a ~{adapter1} \
+                ~{if (adapterTrim) then "-a ~{adapter1} " else "" } \
                 -o ~{resultFastqR1} \
-                ~{if (defined(fastqR2)) then "-A ~{adapter2} -p ~{resultFastqR2} " else ""} \
+                ~{if (defined(fastqR2)) then (if (adapterTrim) then "-A ~{adapter2} -p ~{resultFastqR2} " else "-p ~{resultFastqR2} ")  else ""} \
                 ~{if (doUMItrim) then "-u ~{umiLength} -U ~{umiLength} " else ""} \
+                ~{if (defined(polyGTrim)) then "--nextseq-trim=~{polyGTrim} " else ""} \
                 ~{addParam} \
                 ~{fastqR1} \
                 ~{fastqR2} > ~{resultLog}
