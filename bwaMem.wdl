@@ -368,7 +368,7 @@ task adapterTrimming {
     input {
         File fastqR1
         File? fastqR2
-        String modules = "cutadapt/2.1"
+        String modules = "cutadapt/1.8.3"
         Boolean doUMItrim = false
         Int umiLength = 5
         Int trimMinLength = 1
