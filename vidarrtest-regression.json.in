@@ -7,8 +7,6 @@
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": null,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
@@ -119,7 +117,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_01.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_01.metrics",
                 "type": "script"
             }
         ]
@@ -129,8 +127,6 @@
             "bwaMem.adapterTrimming.adapter1": null,
             "bwaMem.adapterTrimming.adapter2": null,
             "bwaMem.adapterTrimming.addParam": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
@@ -244,7 +240,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_02.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_02.metrics",
                 "type": "script"
             }
         ]
@@ -253,8 +249,6 @@
         "arguments": {
             "bwaMem.adapterTrimming.adapter1": null,
             "bwaMem.adapterTrimming.adapter2": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.addParam": null,
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
@@ -369,7 +363,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_03.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_03.metrics",
                 "type": "script"
             }
         ]
@@ -381,8 +375,6 @@
             "bwaMem.adapterTrimming.addParam": null,
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": null,
             "bwaMem.adapterTrimming.modules": null,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
@@ -494,7 +486,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_04.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_04.metrics",
                 "type": "script"
             }
         ]
@@ -507,8 +499,6 @@
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
@@ -559,13 +549,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -619,7 +609,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_05.metrics",
                 "type": "script"
             }
         ]
@@ -633,8 +623,6 @@
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
             "bwaMem.adapterTrimming.timeout": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
             "bwaMem.adapterTrimmingLog.jobMemory": null,
@@ -733,7 +721,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_06.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_06.metrics",
                 "type": "script"
             }
         ]
@@ -747,8 +735,6 @@
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
             "bwaMem.adapterTrimming.timeout": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
             "bwaMem.adapterTrimmingLog.jobMemory": null,
@@ -847,7 +833,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_07.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_07.metrics",
                 "type": "script"
             }
         ]
@@ -860,8 +846,6 @@
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": null,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
@@ -961,7 +945,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_08.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_08.metrics",
                 "type": "script"
             }
         ]
@@ -974,8 +958,6 @@
             "bwaMem.adapterTrimming.doUMItrim": true,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
@@ -1086,7 +1068,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_09.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_09.metrics",
                 "type": "script"
             }
         ]
@@ -1099,8 +1081,6 @@
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
@@ -1151,13 +1131,13 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": 3713,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_Test_NoIndex_L006_001",      
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
             "bwaMem.runBwaMem.jobMemory": null,
             "bwaMem.runBwaMem.modules": null,
-            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:PCSI0022C\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:PCSI0022C'",
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tLB:Test\\tPL:ILLUMINA\\tPU:121005_h804_0096_AD0V4NACXX-NoIndex_6\\tSM:Test'",
             "bwaMem.runBwaMem.threads": null,
             "bwaMem.runBwaMem.timeout": null,
             "bwaMem.slicerR1.jobMemory": null,
@@ -1211,7 +1191,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/PCSI0022C_trim_split_hg38_numRead_bam.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_10.metrics",
                 "type": "script"
             }
         ]
@@ -1225,8 +1205,6 @@
             "bwaMem.adapterTrimming.jobMemory": null,
             "bwaMem.adapterTrimming.modules": null,
             "bwaMem.adapterTrimming.timeout": null,
-            "bwaMem.adapterTrimming.polyGTrim": null,
-            "bwaMem.adapterTrimming.adapterTrim": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
             "bwaMem.adapterTrimming.trimMinQuality": null,
             "bwaMem.adapterTrimmingLog.jobMemory": null,
@@ -1336,7 +1314,132 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.1/output_metrics/workflow_test_11.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_11.metrics",
+                "type": "script"
+            }
+        ]
+    }
+    {
+        "arguments": {
+            "bwaMem.adapterTrimming.adapter1": null,
+            "bwaMem.adapterTrimming.adapter2": null,
+            "bwaMem.adapterTrimming.addParam": null,
+            "bwaMem.adapterTrimming.doUMItrim": null,
+            "bwaMem.adapterTrimming.jobMemory": null,
+            "bwaMem.adapterTrimming.adapterTrim": true,
+            "bwaMem.adapterTrimming.polyGTrim": 0,
+            "bwaMem.adapterTrimming.modules": null,
+            "bwaMem.adapterTrimming.timeout": null,
+            "bwaMem.adapterTrimming.trimMinLength": null,
+            "bwaMem.adapterTrimming.trimMinQuality": null,
+            "bwaMem.adapterTrimmingLog.jobMemory": null,
+            "bwaMem.adapterTrimmingLog.timeout": null,
+            "bwaMem.adapterTrimming.umiLength": null,
+            "bwaMem.bamMerge.jobMemory": null,
+            "bwaMem.bamMerge.modules": null,
+            "bwaMem.bamMerge.timeout": null,
+            "bwaMem.countChunkSize.modules": null,
+            "bwaMem.countChunkSize.jobMemory": null,
+            "bwaMem.countChunkSize.timeout": null,
+            "bwaMem.doTrim": true,
+            "bwaMem.doUMIextract": null,
+            "bwaMem.extractUMIs.jobMemory": null,
+            "bwaMem.extractUMIs.modules": null,
+            "bwaMem.extractUMIs.outputPrefix": null,
+            "bwaMem.extractUMIs.pattern1": null,
+            "bwaMem.extractUMIs.pattern2": null,
+            "bwaMem.extractUMIs.timeout": null,
+            "bwaMem.extractUMIs.umiList": null,
+            "bwaMem.fastqR1": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.1.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "bwaMem.fastqR2": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/bwamem/test_inputs/Test.val.2.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "bwamem2.indexBam.jobMemory": null,
+            "bwamem2.indexBam.modules": null,
+            "bwamem2.indexBam.timeout": null,
+            "bwamem2.numChunk": null,
+            "bwamem2.numReads": null,
+            "bwamem2.outputFileNamePrefix": "polyG_trim_out",
+            "bwamem2.reference": "hg19",
+            "bwamem2.runBwamem2.addParam": null,
+            "bwamem2.runBwamem2.bwaRef": null,
+            "bwamem2.runBwamem2.jobMemory": null,
+            "bwamem2.runBwamem2.modules": null,
+            "bwamem2.runBwamem2.readGroups": "'@RG\\tID:1\\tLB:trimming_polyG_regions\\tPL:illumina\\tPU:run_barcode\\tSM:trimming_polyG_regions'",
+            "bwamem2.runBwamem2.threads": null,
+            "bwamem2.runBwamem2.timeout": null,
+            "bwamem2.slicerR1.jobMemory": null,
+            "bwamem2.slicerR1.modules": null,
+            "bwamem2.slicerR1.timeout": null,
+            "bwamem2.slicerR2.jobMemory": null,
+            "bwamem2.slicerR2.modules": null,
+            "bwamem2.slicerR2.timeout": null
+        },
+        "description": "Runs the adapter trimming and nextseq-trim",
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
+        "id": "run_polyGTrim",
+        "metadata": {
+            "bwaMem.bwaMemBam": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_polyGTrimming_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "bwaMem.bwaMemIndex": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_polyGTrimming_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "bwaMem.cutAdaptAllLogs": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_polyGTrimming_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "bwaMem.log": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_polyGTrimming_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
+                "metrics_compare": "@CHECKOUT@/tests/compare.sh",
+                "output_metrics": "/.mounts/labs/gsiprojects/gsi/gsiusers/aforbes/bwaMem_clone/bwaMem/bwaMem/OUTPUT/polyG_test.metrics",
                 "type": "script"
             }
         ]
