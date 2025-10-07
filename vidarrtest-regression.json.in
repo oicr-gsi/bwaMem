@@ -1318,7 +1318,7 @@
                 "type": "script"
             }
         ]
-    }
+    },
     {
         "arguments": {
             "bwaMem.adapterTrimming.adapter1": null,
