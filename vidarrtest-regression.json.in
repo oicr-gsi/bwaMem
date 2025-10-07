@@ -1318,7 +1318,7 @@
                 "type": "script"
             }
         ]
-    },
+    }
     {
         "arguments": {
             "bwaMem.adapterTrimming.adapter1": null,
@@ -1374,26 +1374,26 @@
                 },
                 "type": "EXTERNAL"
             },
-            "bwamem2.indexBam.jobMemory": null,
-            "bwamem2.indexBam.modules": null,
-            "bwamem2.indexBam.timeout": null,
-            "bwamem2.numChunk": null,
-            "bwamem2.numReads": null,
-            "bwamem2.outputFileNamePrefix": "polyG_trim_out",
-            "bwamem2.reference": "hg19",
-            "bwamem2.runBwamem2.addParam": null,
-            "bwamem2.runBwamem2.bwaRef": null,
-            "bwamem2.runBwamem2.jobMemory": null,
-            "bwamem2.runBwamem2.modules": null,
-            "bwamem2.runBwamem2.readGroups": "'@RG\\tID:1\\tLB:trimming_polyG_regions\\tPL:illumina\\tPU:run_barcode\\tSM:trimming_polyG_regions'",
-            "bwamem2.runBwamem2.threads": null,
-            "bwamem2.runBwamem2.timeout": null,
-            "bwamem2.slicerR1.jobMemory": null,
-            "bwamem2.slicerR1.modules": null,
-            "bwamem2.slicerR1.timeout": null,
-            "bwamem2.slicerR2.jobMemory": null,
-            "bwamem2.slicerR2.modules": null,
-            "bwamem2.slicerR2.timeout": null
+            "bwaMem.indexBam.jobMemory": null,
+            "bwaMem.indexBam.modules": null,
+            "bwaMem2.indexBam.timeout": null,
+            "bwaMem2.numChunk": null,
+            "bwaMem2.numReads": null,
+            "bwaMem2.outputFileNamePrefix": "polyG_trim_out",
+            "bwaMem2.reference": "hg19",
+            "bwaMem.runBwaMem.addParam": null,
+            "bwaMem.runBwaMem.bwaRef": null,
+            "bwaMem.runBwaMem.jobMemory": null,
+            "bwaMem.runBwaMem.modules": null,
+            "bwaMem.runBwaMem.readGroups": "'@RG\\tID:1\\tLB:trimming_polyG_regions\\tPL:illumina\\tPU:run_barcode\\tSM:trimming_polyG_regions'",
+            "bwaMem.runBwaMem.threads": null,
+            "bwaMem.runBwaMem.timeout": null,
+            "bwaMem.slicerR1.jobMemory": null,
+            "bwaMem.slicerR1.modules": null,
+            "bwaMem.slicerR1.timeout": null,
+            "bwaMem.slicerR2.jobMemory": null,
+            "bwaMem.slicerR2.modules": null,
+            "bwaMem.slicerR2.timeout": null
         },
         "description": "Runs the adapter trimming and nextseq-trim",
         "engineArguments": {
