@@ -559,7 +559,7 @@
             "bwaMem.indexBam.timeout": null,
             "bwaMem.numChunk": 4,
             "bwaMem.numReads": null,
-            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI002C_NoIndex_L006_001",      
+            "bwaMem.outputFileNamePrefix": "121005_h804_0096_AD0V4NACXX_PCSI0022C_NoIndex_L006_001",      
             "bwaMem.reference": "hg38",
             "bwaMem.runBwaMem.addParam": null,
             "bwaMem.runBwaMem.bwaRef": null,
