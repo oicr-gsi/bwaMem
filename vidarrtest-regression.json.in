@@ -1319,7 +1319,7 @@
                 "contents": [
                     {
                         "outputDirectory": "@SCRATCH@/@DATE@_Workflow_bwaMem_neat_5x_umi_extract_nosplit_hg19_bam_@JENKINSID@"
-                    }
+/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/workflow_test_11.metrics                    }
                 ],
                 "type": "ALL"
             },
@@ -1461,7 +1461,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsiprojects/gsi/gsiusers/aforbes/bwaMem_clone/bwaMem/bwaMem/OUTPUT/polyG_test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/bwamem/2.2.3/output_metrics/polyG_test.metrics",
                 "type": "script"
             }
         ]
