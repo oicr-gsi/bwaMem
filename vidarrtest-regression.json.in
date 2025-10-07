@@ -1095,6 +1095,8 @@
         "arguments": {
             "bwaMem.adapterTrimming.adapter1": null,
             "bwaMem.adapterTrimming.adapter2": null,
+            "bwaMem.adapterTrimming.polyGTrim": null,
+            "bwaMem.adapterTrimming.adapterTrim": true,
             "bwaMem.adapterTrimming.addParam": null,
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
@@ -1221,6 +1223,8 @@
             "bwaMem.adapterTrimming.addParam": null,
             "bwaMem.adapterTrimming.doUMItrim": null,
             "bwaMem.adapterTrimming.jobMemory": null,
+            "bwaMem.adapterTrimming.polyGTrim": null,
+            "bwaMem.adapterTrimming.adapterTrim": null,
             "bwaMem.adapterTrimming.modules": null,
             "bwaMem.adapterTrimming.timeout": null,
             "bwaMem.adapterTrimming.trimMinLength": null,
