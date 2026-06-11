@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.2] - 2026-06-11
+### Added
+- Proper handling of hg38_noAlt and other assemblies
+- [GRD-1175](https://jira.oicr.on.ca/browse/GRD-1175)
+
+## [2.5.1] - 2025-09-08
+### Changed
+- this is a bwaMem-NCBI-Test workflow
+
+## [2.5.0] - 2025-09-09
+### Changed
+- Modified aliases
+
+## [2.4.1] - 2025-09-04
+### Added
+- grch38 assembly support added
+
+## [2.4.0] - 2025-08-29
+### Changed
+- noAlt for hg19 enabled with hg19 handle
+
 ## [2.3.1] - 2025-05-26
 - Re-deployment to enable labels for optional outputs
 - [GRD-948](https://jira.oicr.on.ca/browse/GRD-948)
